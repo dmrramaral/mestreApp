@@ -32,9 +32,12 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/bootstrap/dist/css/bootstrap.min.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.min.js"
+            ],
             "server": "src/main.server.ts",
             "prerender": true,
             "ssr": {
@@ -105,6 +108,10 @@
     }
   },
   "cli": {
+<<<<<<< HEAD
     "analytics": "5f0f36b3-7b6c-4867-84ac-2b32ed2d76c3"
+=======
+    "analytics": "eaa7dd47-4ecd-40c1-b9b0-87db8afd9c36"
+>>>>>>> a7b361dbb8ff283e828b85c2b128b44af5302a4c
   }
 }
