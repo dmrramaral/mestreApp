@@ -1,10 +1,10 @@
 import { FaixaResultado } from "./faixa-resultado";
 
 export interface LootItens {
-    id: number;
+    id?: number;
     tipo: string;
     nome: string;
-    descricao: string;
-    imagem: string;
-    faixa: FaixaResultado;
+    descricao?: string;
+    faixa?: FaixaResultado; 
+   
 }

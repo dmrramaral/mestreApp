@@ -1,1 +1,51 @@
-<p>itens works!</p>
+<h3 class="mx-4 my-1">Sorteio de Itens</h3>
+
+<div class="row g-3 align-items-center">
+    <div class="col-auto mt-4">
+        <select class="form-select" [(ngModel)]="ObjetoItem" aria-label="Default select example">
+            <option selected>Objeto</option>
+            <option value="Bau">Baú</option>
+            <option value="Bolso">Bolso</option>
+            <option value="Gaveta">Gaveta</option>
+        </select>
+    </div>
+    <div class="col-auto">
+        <input class="form-control form-control-sm col-6 m-1" [(ngModel)]="sorteJogador" type="number" placeholder="Sorte">
+    </div>
+    <div class="col-auto">
+        <input class="form-control form-control-sm col-6 m-1" [(ngModel)]="dadoRange" type="number" placeholder="Range">
+    </div>
+
+</div>
+<div class="col-auto mt-4">
+    <button class="btn btn-primary" (click)="buscarItens()">Sortear</button>
+</div>
+<div class="col-auto mt-4">
+    <button class="btn btn-primary" (click)="acertoCritico()">Acerto Crítico</button>
+</div>
+
+
+  
+<div class="row" *ngIf="itemSorteado">
+    <div class="col-12 col-md-6 col-lg-4">
+        <div class="card mx-4 my-1">
+            <div class="card-body">
+                <h5 class="card-title">{{itemSorteado.nome}}</h5>
+                <p class="card-text">{{itemSorteado.descricao}}</p>
+                <p class="card-text">{{itemSorteado.tipo}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="row">
+    <div class="col-12 col-md-6 col-lg-4" *ngFor="let item of itens">
+        <div class="card mx-4 my-1">
+            <div class="card-body">
+                <h5 class="card-title">{{item.nome}}</h5>
+                <p class="card-text">{{item.descricao}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+ -->

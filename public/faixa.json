@@ -1,0 +1,828 @@
+[
+    {
+        "id": 1,
+        "sorte":"critico",
+        "tipo": "Bau",
+        "range": 1,
+        "nome": "Armadilha Mortal",
+        "descricao": "O jogador aciona uma armadilha mortal que causa 15 + 4d6 de dano de fogo em uma área de 3m."
+    },
+    {
+        "id": 2,
+        "sorte":"critico",
+        "tipo": "Bau",
+        "range": 2,
+        "nome": "Armadilha de Gelo",
+        "descricao": "O jogador aciona uma armadilha de gelo que causa 15 + 4d6 de dano de gelo em uma área de 3m."
+    },
+    {
+        "id": 3,
+        "sorte":"critico",
+        "tipo": "Bau",
+        "range": 3,
+        "nome": "Armadilha de Veneno",
+        "descricao": "O jogador aciona uma armadilha de veneno que causa 15 + 4d6 de dano de veneno em uma área de 3m."
+    },
+    {
+        "id": 4,
+        "sorte":"critico",
+        "tipo": "Bau",
+        "range": 4,
+        "nome": "Armadilha de Eletricidade",
+        "descricao": "O jogador aciona uma armadilha de eletricidade que causa 15 + 4d6 de dano de eletricidade em uma área de 3m."
+    },
+    {
+        "id": 5,
+        "sorte":"critico",
+        "tipo": "Bau",
+        "range": 5,
+        "nome": "Armadilha de Fogo",
+        "descricao": "O jogador aciona uma armadilha de fogo que causa 15 + 4d6 de dano de fogo em uma área de 3m."
+    },
+    {
+        "id": 6,
+        "sorte":"critico",
+        "tipo": "Bau",
+        "range": 6,
+        "nome": "Armadilha de Gelo",
+        "descricao": "O jogador aciona uma armadilha de gelo que causa 15 + 4d6 de dano de gelo em uma área de 3m."
+    },
+    {
+        "id": 7,
+        "sorte":"critico",
+        "tipo": "Bolso",
+        "range": 1,
+        "nome": "Armadilha de Contato",
+        "descricao": "O jogador aciona uma armadilha de contato que causa 2d6 de dano e destroi o corpo queestava sendo investigado."
+    },
+    {
+        "id": 8,
+        "sorte":"critico",
+        "tipo": "Bolso",
+        "range": 2,
+        "nome": "Mimico Pequeno",
+        "descricao": "O Bolso contem uma pequena criatura hostil que casua 1d6 de dano e envenenamento"
+    },
+    {
+        "id": 9,
+        "sorte":"critico",
+        "tipo": "Bolso",
+        "range": 3,
+        "nome": "Item sem valor",
+        "descricao": "O bolso contem pedaços de papel e um pouco de poeira"
+    },
+    {
+        "id": 10,
+        "sorte":"critico",
+        "tipo": "Bolso",
+        "range": 4,
+        "nome": "Veneno Pequeno",
+        "descricao": "O bolso contem um frasco de veneno que causa 1d6 de dano de veneno e fraqueza temporaria"
+    },
+    {
+        "id": 11,
+        "sorte":"critico",
+        "tipo": "Bolso",
+        "range": 5,
+        "nome": "Dispositivo Explosivo",
+        "descricao": "O bolso contem um dispositivo explosivo que causa 2d6 de dano de fogo em uma área de 3m"
+    },
+    {
+        "id": 12,
+        "sorte":"critico",
+        "tipo": "Bolso",
+        "range": 6,
+        "nome": "Confusão temporária",
+        "descricao": "O bolso contem um frasco de po que causa confusão temporaria, fazendo o jogador perder sua ação"
+    },
+
+    
+        {
+            "id": 1,
+            "sorte": "critico",
+            "tipo": "Bau",
+            "range": 1,
+            "nome": "Armadilha Mortal",
+            "descricao": "O jogador aciona uma armadilha mortal que causa 15 + 4d6 de dano de fogo em uma área de 3m."
+        },
+        {
+            "id": 2,
+            "sorte": "critico",
+            "tipo": "Bolso",
+            "range": 1,
+            "nome": "Armadilha de Contato",
+            "descricao": "Vasculhando os bolsos, o jogador encontra uma pequena armadilha que causa 2d6 de dano de fogo e destrói o corpo que estava sendo investigado."
+        },
+        {
+            "id": 3,
+            "sorte": "critico",
+            "tipo": "Gaveta",
+            "range": 1,
+            "nome": "Mecanismo Explosivo",
+            "descricao": "Investigando a gaveta, o jogador ativa um mecanismo que causa 3d6 de dano de fogo."
+        },
+        {
+            "id": 4,
+            "sorte": "critico",
+            "tipo": "Bau",
+            "range": 2,
+            "nome": "Mímico Perigoso",
+            "descricao": "O baú é um mímico disfarçado que ataca e causa 2d8 de dano antes de iniciar o combate."
+        },
+        {
+            "id": 5,
+            "sorte": "critico",
+            "tipo": "Bolso",
+            "range": 2,
+            "nome": "Mímico Pequeno",
+            "descricao": "Os bolsos contêm uma pequena criatura hostil que causa 1d6 de dano e envenenamento."
+        },
+        {
+            "id": 6,
+            "sorte": "critico",
+            "tipo": "Gaveta",
+            "range": 2,
+            "nome": "Mímico Desconhecido",
+            "descricao": "A gaveta contém um mímico que causa 1d8 de dano e tenta capturar o jogador."
+        },
+        {
+            "id": 7,
+            "sorte": "critico",
+            "tipo": "Bau",
+            "range": 3,
+            "nome": "Item Totalmente Inútil",
+            "descricao": "O baú está vazio ou contém apenas itens quebrados e inúteis."
+        },
+        {
+            "id": 8,
+            "sorte": "critico",
+            "tipo": "Bolso",
+            "range": 3,
+            "nome": "Item Sem Valor",
+            "descricao": "Os bolsos contêm apenas pedaços de tecido rasgado e objetos sem valor."
+        },
+        {
+            "id": 9,
+            "sorte": "critico",
+            "tipo": "Gaveta",
+            "range": 3,
+            "nome": "Itens Descartáveis",
+            "descricao": "A gaveta está cheia de papéis e outros itens sem uso."
+        },
+        {
+            "id": 10,
+            "sorte": "critico",
+            "tipo": "Bau",
+            "range": 4,
+            "nome": "Armadilha de Veneno",
+            "descricao": "O baú contém uma armadilha que causa 3d6 de dano e aplica um efeito de envenenamento contínuo."
+        },
+        {
+            "id": 11,
+            "sorte": "critico",
+            "tipo": "Bolso",
+            "range": 4,
+            "nome": "Veneno Pequeno",
+            "descricao": "Os bolsos contêm uma dose de veneno que causa 1d6 de dano imediato e fraqueza temporária."
+        },
+        {
+            "id": 12,
+            "sorte": "critico",
+            "tipo": "Gaveta",
+            "range": 4,
+            "nome": "Gás Tóxico",
+            "descricao": "A gaveta contém um mecanismo que libera gás tóxico, causando 2d6 de dano e um efeito debilitante."
+        },
+        {
+            "id": 13,
+            "sorte": "critico",
+            "tipo": "Bau",
+            "range": 5,
+            "nome": "Armadilha Explosiva",
+            "descricao": "O baú ativa uma armadilha explosiva que causa 2d6 de dano em uma área de 3m ao redor."
+        },
+        {
+            "id": 14,
+            "sorte": "critico",
+            "tipo": "Bolso",
+            "range": 5,
+            "nome": "Dispositivo Explosivo",
+            "descricao": "Os bolsos contêm um pequeno dispositivo explosivo que causa 2d6 de dano."
+        },
+        {
+            "id": 15,
+            "sorte": "critico",
+            "tipo": "Gaveta",
+            "range": 5,
+            "nome": "Mecanismo Explosivo",
+            "descricao": "A gaveta contém um mecanismo explosivo que causa 3d6 de dano."
+        },
+        {
+            "id": 16,
+            "sorte": "critico",
+            "tipo": "Bau",
+            "range": 6,
+            "nome": "Armadilha Psicológica",
+            "descricao": "O baú contém um dispositivo que causa um efeito psicológico negativo, resultando em uma penalidade de -2 em todos os testes por 1 hora."
+        },
+        {
+            "id": 17,
+            "sorte": "critico",
+            "tipo": "Bolso",
+            "range": 6,
+            "nome": "Confusão Temporária",
+            "descricao": "Os bolsos contêm um item que causa confusão temporária, fazendo o jogador perder sua próxima ação."
+        },
+        {
+            "id": 18,
+            "sorte": "critico",
+            "tipo": "Gaveta",
+            "range": 6,
+            "nome": "Visão Perturbadora",
+            "descricao": "A gaveta contém um item que afeta o estado mental do jogador, reduzindo a Inteligência em 2 e a concentração por 1 hora."
+        },
+        {
+            "id": 19,
+            "sorte": "Baixa",
+            "tipo": "Bau",
+            "range": 1,
+            "nome": "Armadilha Leve",
+            "descricao": "O baú contém uma armadilha que causa 1d4 de dano e pode causar um efeito desconfortante leve."
+        },
+        {
+            "id": 20,
+            "sorte": "Baixa",
+            "tipo": "Bolso",
+            "range": 1,
+            "nome": "Item Quebrado",
+            "descricao": "Os bolsos contêm um item quebrado ou inutilizável."
+        },
+        {
+            "id": 21,
+            "sorte": "Baixa",
+            "tipo": "Gaveta",
+            "range": 1,
+            "nome": "Papel Sem Valor",
+            "descricao": "A gaveta contém papéis ou anotações sem valor."
+        },
+        
+            {
+                "id": 22,
+                "sorte": "Baixa",
+                "tipo": "Bau",
+                "range": 2,
+                "nome": "Armadilha de Poeira",
+                "descricao": "O baú contém uma armadilha que libera poeira irritante, causando 1d6 de dano e dificuldade em testes de percepção por 1 hora."
+            },
+            {
+                "id": 23,
+                "sorte": "Baixa",
+                "tipo": "Bolso",
+                "range": 2,
+                "nome": "Moeda Velha",
+                "descricao": "Os bolsos contêm moedas velhas e corroídas, totalizando um pequeno montante (1d4 peças de ouro)."
+            },
+            {
+                "id": 24,
+                "sorte": "Baixa",
+                "tipo": "Gaveta",
+                "range": 2,
+                "nome": "Item Desgastado",
+                "descricao": "A gaveta contém um item desgastado e de baixo valor, como um pedaço de equipamento antigo."
+            },
+            {
+                "id": 25,
+                "sorte": "Baixa",
+                "tipo": "Bau",
+                "range": 3,
+                "nome": "Pequena Arma Danificada",
+                "descricao": "O baú contém uma arma danificada que causa dano reduzido (reduzido em 1d4)."
+            },
+            {
+                "id": 26,
+                "sorte": "Baixa",
+                "tipo": "Bolso",
+                "range": 3,
+                "nome": "Ferramenta Quebrada",
+                "descricao": "Os bolsos contêm uma ferramenta quebrada ou inutilizável."
+            },
+            {
+                "id": 27,
+                "sorte": "Baixa",
+                "tipo": "Gaveta",
+                "range": 3,
+                "nome": "Equipamento Impróprio",
+                "descricao": "A gaveta contém um item de equipamento impróprio ou fora de uso, como uma peça de armadura quebrada."
+            },
+            {
+                "id": 28,
+                "sorte": "Baixa",
+                "tipo": "Bau",
+                "range": 4,
+                "nome": "Armadilha de Gás Leve",
+                "descricao": "O baú contém uma armadilha que libera um gás irritante, causando 1d6 de dano e efeito debilitante leve."
+            },
+            {
+                "id": 29,
+                "sorte": "Baixa",
+                "tipo": "Bolso",
+                "range": 4,
+                "nome": "Moeda Amassada",
+                "descricao": "Os bolsos contêm moedas amassadas e corroídas, totalizando 1d6 peças de ouro."
+            },
+            {
+                "id": 30,
+                "sorte": "Baixa",
+                "tipo": "Gaveta",
+                "range": 4,
+                "nome": "Item Comum",
+                "descricao": "A gaveta contém um item comum e sem valor significativo, como uma peça de roupa velha ou um anel comum."
+            },
+            {
+                "id": 31,
+                "sorte": "Baixa",
+                "tipo": "Bau",
+                "range": 5,
+                "nome": "Arma Frágil",
+                "descricao": "O baú contém uma arma útil, mas muito frágil, causando dano reduzido (reduzido em 1d6)."
+            },
+            {
+                "id": 32,
+                "sorte": "Baixa",
+                "tipo": "Bolso",
+                "range": 5,
+                "nome": "Pequeno Montante de Ouro",
+                "descricao": "Os bolsos contêm um pequeno montante de ouro (2d6 peças de ouro)."
+            },
+            {
+                "id": 33,
+                "sorte": "Baixa",
+                "tipo": "Gaveta",
+                "range": 5,
+                "nome": "Material Usado",
+                "descricao": "A gaveta contém material usado e sem valor significativo, como uma corda velha."
+            },
+            {
+                "id": 34,
+                "sorte": "Baixa",
+                "tipo": "Bau",
+                "range": 6,
+                "nome": "Armadilha de Agulhas",
+                "descricao": "O baú contém uma armadilha que dispara agulhas, causando 2d6 de dano."
+            },
+            {
+                "id": 35,
+                "sorte": "Baixa",
+                "tipo": "Bolso",
+                "range": 6,
+                "nome": "Moeda Desgastada",
+                "descricao": "Os bolsos contêm moedas desgastadas e corroídas."
+            },
+            {
+                "id": 36,
+                "sorte": "Baixa",
+                "tipo": "Gaveta",
+                "range": 6,
+                "nome": "Poção Estragada",
+                "descricao": "A gaveta contém uma poção velha e estragada que não tem efeito."
+            },
+            {
+                "id": 37,
+                "sorte": "Média",
+                "tipo": "Bau",
+                "range": 1,
+                "nome": "Item Útil",
+                "descricao": "O baú contém um item útil, como uma peça de equipamento em bom estado ou uma poção de cura menor."
+            },
+            {
+                "id": 38,
+                "sorte": "Média",
+                "tipo": "Bolso",
+                "range": 1,
+                "nome": "Moeda de Valor Moderado",
+                "descricao": "Os bolsos contêm um montante moderado de ouro (1d6+2 peças de ouro)."
+            },
+            {
+                "id": 39,
+                "sorte": "Média",
+                "tipo": "Gaveta",
+                "range": 1,
+                "nome": "Item Prático",
+                "descricao": "A gaveta contém um item prático, como uma ferramenta ou um mapa em bom estado."
+            },
+            {
+                "id": 40,
+                "sorte": "Média",
+                "tipo": "Bau",
+                "range": 2,
+                "nome": "Arma Boa",
+                "descricao": "O baú contém uma arma em boas condições, causando dano normal ou com um bônus pequeno (1d4)."
+            },
+            {
+                "id": 41,
+                "sorte": "Média",
+                "tipo": "Bolso",
+                "range": 2,
+                "nome": "Joia Pequena",
+                "descricao": "Os bolsos contêm uma joia pequena ou um item de valor (3d6 peças de ouro)."
+            },
+            {
+                "id": 42,
+                "sorte": "Média",
+                "tipo": "Gaveta",
+                "range": 2,
+                "nome": "Item de Qualidade",
+                "descricao": "A gaveta contém um item de qualidade, como uma peça de armadura ligeiramente desgastada, mas útil."
+            },
+            {
+                "id": 43,
+                "sorte": "Média",
+                "tipo": "Bau",
+                "range": 3,
+                "nome": "Poção Valiosa",
+                "descricao": "O baú contém uma poção de valor, como uma poção de cura média (restaura 2d6 pontos de vida)."
+            },
+            {
+                "id": 44,
+                "sorte": "Média",
+                "tipo": "Bolso",
+                "range": 3,
+                "nome": "Moeda de Ouro",
+                "descricao": "Os bolsos contêm moedas de ouro, totalizando uma quantidade significativa (2d6+3 peças de ouro)."
+            },
+            {
+                "id": 45,
+                "sorte": "Média",
+                "tipo": "Gaveta",
+                "range": 3,
+                "nome": "Equipamento Útil",
+                "descricao": "A gaveta contém um equipamento útil, como uma peça de armadura ou um item mágico menor."
+            },
+            {
+                "id": 46,
+                "sorte": "Média",
+                "tipo": "Bau",
+                "range": 4,
+                "nome": "Item Mágico Menor",
+                "descricao": "O baú contém um item mágico menor, como uma capa com um bônus pequeno ou um anel mágico."
+            },
+            {
+                "id": 47,
+                "sorte": "Média",
+                "tipo": "Bolso",
+                "range": 4,
+                "nome": "Moeda de Valor",
+                "descricao": "Os bolsos contêm um valor razoável em ouro (3d6 peças de ouro)."
+            },
+            {
+                "id": 48,
+                "sorte": "Média",
+                "tipo": "Gaveta",
+                "range": 4,
+                "nome": "Item de Valor Moderado",
+                "descricao": "A gaveta contém um item de valor moderado, como uma peça de armadura em bom estado."
+            },
+            {
+                "id": 49,
+                "sorte": "Média",
+                "tipo": "Bau",
+                "range": 5,
+                "nome": "Arma Boa com Bônus",
+                "descricao": "O baú contém uma arma em boas condições com um bônus pequeno (como +1 ao dano)."
+            },
+            {
+                "id": 50,
+                "sorte": "Média",
+                "tipo": "Bolso",
+                "range": 5,
+                "nome": "Moeda de Valor Alto",
+                "descricao": "Os bolsos contêm um montante considerável de ouro (4d6 peças de ouro)."
+            },
+            {
+                "id": 51,
+                "sorte": "Média",
+                "tipo": "Gaveta",
+                "range": 5,
+                "nome": "Item Valioso",
+                "descricao": "A gaveta contém um item valioso, como uma peça de joalheria ou um objeto de interesse."
+            },
+            {
+                "id": 52,
+                "sorte": "Média",
+                "tipo": "Bau",
+                "range": 6,
+                "nome": "Poção Poderosa",
+                "descricao": "O baú contém uma poção poderosa, como uma poção de cura maior (restaura 4d6 pontos de vida) ou uma poção de força."
+            },
+            {
+                "id": 53,
+                "sorte": "Média",
+                "tipo": "Bolso",
+                "range": 6,
+                "nome": "Grande Quantidade de Ouro",
+                "descricao": "Os bolsos contêm uma grande quantidade de ouro (5d6 peças de ouro)."
+            },
+            {
+                "id": 54,
+                "sorte": "Média",
+                "tipo": "Gaveta",
+                "range": 6,
+                "nome": "Equipamento de Valor",
+                "descricao": "A gaveta contém um equipamento de valor, como uma peça de armadura mágica ou um item útil."
+            },
+            {
+                "id": 55,
+                "sorte": "Alta",
+                "tipo": "Bau",
+                "range": 1,
+                "nome": "Arma de Qualidade",
+                "descricao": "O baú contém uma arma de qualidade superior, com um bônus de +1 ao dano ou uma arma mágica menor."
+            },
+            {
+                "id": 56,
+                "sorte": "Alta",
+                "tipo": "Bolso",
+                "range": 1,
+                "nome": "Joia Preciosa",
+                "descricao": "Os bolsos contêm uma joia preciosa ou um item de valor significativo (2d6 peças de ouro)."
+            },
+            {
+                "id": 57,
+                "sorte": "Alta",
+                "tipo": "Gaveta",
+                "range": 1,
+                "nome": "Item Mágico",
+                "descricao": "A gaveta contém um item mágico útil, como uma capa de proteção ou um anel com uma habilidade menor."
+            },
+            {
+                "id": 58,
+                "sorte": "Alta",
+                "tipo": "Bau",
+                "range": 2,
+                "nome": "Poção Especial",
+                "descricao": "O baú contém uma poção especial, como uma poção de cura maior (restaura 4d6 pontos de vida) ou uma poção de resistência."
+            },
+            {
+                "id": 59,
+                "sorte": "Alta",
+                "tipo": "Bolso",
+                "range": 2,
+                "nome": "Ouro Significativo",
+                "descricao": "Os bolsos contêm uma quantia considerável de ouro (3d6+4 peças de ouro)."
+            },
+            {
+                "id": 60,
+                "sorte": "Alta",
+                "tipo": "Gaveta",
+                "range": 2,
+                "nome": "Equipamento Mágico",
+                "descricao": "A gaveta contém equipamento mágico de qualidade, como uma peça de armadura com bônus ou uma arma mágica menor."
+            },
+            {
+                "id": 61,
+                "sorte": "Alta",
+                "tipo": "Bau",
+                "range": 3,
+                "nome": "Item Mágico Poderoso",
+                "descricao": "O baú contém um item mágico poderoso, como uma arma mágica com bônus ou uma armadura com propriedades especiais."
+            },
+            {
+                "id": 62,
+                "sorte": "Alta",
+                "tipo": "Bolso",
+                "range": 3,
+                "nome": "Moeda de Grande Valor",
+                "descricao": "Os bolsos contêm uma grande quantidade de ouro (4d6+6 peças de ouro)."
+            },
+            {
+                "id": 63,
+                "sorte": "Alta",
+                "tipo": "Gaveta",
+                "range": 3,
+                "nome": "Item Raro",
+                "descricao": "A gaveta contém um item raro e de valor, como uma joia preciosa ou um objeto mágico menor de valor."
+            },
+            {
+                "id": 64,
+                "sorte": "Alta",
+                "tipo": "Bau",
+                "range": 4,
+                "nome": "Poção Muito Valiosa",
+                "descricao": "O baú contém uma poção muito valiosa, como uma poção de cura completa (restaura 6d6 pontos de vida) ou uma poção de força."
+            },
+            {
+                "id": 65,
+                "sorte": "Alta",
+                "tipo": "Bolso",
+                "range": 4,
+                "nome": "Grande Quantidade de Ouro",
+                "descricao": "Os bolsos contêm uma grande quantidade de ouro (5d6+8 peças de ouro)."
+            },
+            {
+                "id": 66,
+                "sorte": "Alta",
+                "tipo": "Gaveta",
+                "range": 4,
+                "nome": "Artefato Menor",
+                "descricao": "A gaveta contém um artefato menor com propriedades mágicas ou um item muito útil."
+            },
+            {
+                "id": 67,
+                "sorte": "Alta",
+                "tipo": "Bau",
+                "range": 5,
+                "nome": "Arma Mágica",
+                "descricao": "O baú contém uma arma mágica de boa qualidade, com bônus significativo ou habilidades especiais."
+            },
+            {
+                "id": 68,
+                "sorte": "Alta",
+                "tipo": "Bolso",
+                "range": 5,
+                "nome": "Ouro de Valor Alto",
+                "descricao": "Os bolsos contêm uma quantidade muito significativa de ouro (6d6+10 peças de ouro)."
+            },
+            {
+                "id": 69,
+                "sorte": "Alta",
+                "tipo": "Gaveta",
+                "range": 5,
+                "nome": "Item de Valor Alto",
+                "descricao": "A gaveta contém um item de valor alto, como uma joia de grande valor ou um equipamento mágico muito útil."
+            },
+            {
+                "id": 70,
+                "sorte": "Alta",
+                "tipo": "Bau",
+                "range": 6,
+                "nome": "Tesouro Mágico",
+                "descricao": "O baú contém um tesouro mágico, como um item com várias propriedades mágicas ou uma combinação de itens mágicos de valor."
+            },
+            {
+                "id": 71,
+                "sorte": "Alta",
+                "tipo": "Bolso",
+                "range": 6,
+                "nome": "Fortuna em Ouro",
+                "descricao": "Os bolsos contêm uma fortuna em ouro (7d6+12 peças de ouro)."
+            },
+            {
+                "id": 72,
+                "sorte": "Alta",
+                "tipo": "Gaveta",
+                "range": 6,
+                "nome": "Equipamento Raro",
+                "descricao": "A gaveta contém equipamento raro e de grande valor, como uma armadura encantada ou uma arma mágica poderosa."
+            },
+            {
+                "id": 73,
+                "sorte": "Lendária",
+                "tipo": "Bau",
+                "range": 1,
+                "nome": "Arma Lendária",
+                "descricao": "O baú contém uma arma lendária com habilidades poderosas e bônus significativos, como um bônus de +2 ao dano ou habilidades especiais únicas."
+            },
+            {
+                "id": 74,
+                "sorte": "Lendária",
+                "tipo": "Bolso",
+                "range": 1,
+                "nome": "Joia Lendária",
+                "descricao": "Os bolsos contêm uma joia lendária de grande valor (valor de 10d6+20 peças de ouro)."
+            },
+            {
+                "id": 75,
+                "sorte": "Lendária",
+                "tipo": "Gaveta",
+                "range": 1,
+                "nome": "Artefato Mágico",
+                "descricao": "A gaveta contém um artefato mágico raro e altamente valorizado, com poderes excepcionais."
+            },
+            {
+                "id": 76,
+                "sorte": "Lendária",
+                "tipo": "Bau",
+                "range": 2,
+                "nome": "Poção Incrível",
+                "descricao": "O baú contém uma poção incrivelmente poderosa, como uma poção de restauração completa (restaura todos os pontos de vida e remove todas as condições prejudiciais) ou uma poção que concede um bônus significativo por um período prolongado."
+            },
+            {
+                "id": 77,
+                "sorte": "Lendária",
+                "tipo": "Bolso",
+                "range": 2,
+                "nome": "Tesouro em Ouro",
+                "descricao": "Os bolsos contêm uma enorme quantia de ouro (10d6+20 peças de ouro)."
+            },
+            {
+                "id": 78,
+                "sorte": "Lendária",
+                "tipo": "Gaveta",
+                "range": 2,
+                "nome": "Item Lendário",
+                "descricao": "A gaveta contém um item lendário, como uma armadura encantada com várias propriedades ou um artefato de grande poder."
+            },
+            {
+                "id": 79,
+                "sorte": "Lendária",
+                "tipo": "Bau",
+                "range": 3,
+                "nome": "Conjunto Mágico",
+                "descricao": "O baú contém um conjunto completo de itens mágicos, como uma armadura e uma arma lendárias ou uma coleção de itens mágicos valiosos."
+            },
+            {
+                "id": 80,
+                "sorte": "Lendária",
+                "tipo": "Bolso",
+                "range": 3,
+                "nome": "Joia de Valor Supremo",
+                "descricao": "Os bolsos contêm uma joia de valor supremo, que pode valer uma fortuna (valor de 12d6+25 peças de ouro)."
+            },
+            {
+                "id": 81,
+                "sorte": "Lendária",
+                "tipo": "Gaveta",
+                "range": 3,
+                "nome": "Equipamento Supremo",
+                "descricao": "A gaveta contém equipamento supremo, como uma armadura lendária ou uma arma mágica com poderes únicos e poderosos."
+            },
+            {
+                "id": 82,
+                "sorte": "Lendária",
+                "tipo": "Bau",
+                "range": 4,
+                "nome": "Relíquia Poderosa",
+                "descricao": "O baú contém uma relíquia poderosa com habilidades excepcionais e bônus significativos, como um item com propriedades que afetam múltiplas áreas (magia, defesa e ataque)."
+            },
+            {
+                "id": 83,
+                "sorte": "Lendária",
+                "tipo": "Bolso",
+                "range": 4,
+                "nome": "Montante Astronômico de Ouro",
+                "descricao": "Os bolsos contêm uma quantidade astronômica de ouro (15d6+30 peças de ouro)."
+            },
+            {
+                "id": 84,
+                "sorte": "Lendária",
+                "tipo": "Gaveta",
+                "range": 4,
+                "nome": "Item Divino",
+                "descricao": "A gaveta contém um item de valor divino, como um artefato celestial com poderes únicos e extraordinários."
+            },
+            {
+                "id": 85,
+                "sorte": "Lendária",
+                "tipo": "Bau",
+                "range": 5,
+                "nome": "Tesouro Completo",
+                "descricao": "O baú contém um tesouro completo, incluindo uma variedade de itens mágicos de alto valor e uma grande quantidade de ouro."
+            },
+            {
+                "id": 86,
+                "sorte": "Lendária",
+                "tipo": "Bolso",
+                "range": 5,
+                "nome": "Fortuna em Joias e Ouro",
+                "descricao": "Os bolsos contêm uma fortuna em joias e ouro (20d6+40 peças de ouro e várias joias de grande valor)."
+            },
+            {
+                "id": 87,
+                "sorte": "Lendária",
+                "tipo": "Gaveta",
+                "range": 5,
+                "nome": "Equipamento Lendário",
+                "descricao": "A gaveta contém um conjunto de equipamento lendário, como uma armadura e uma arma com habilidades excepcionais."
+            },
+            {
+                "id": 88,
+                "sorte": "Lendária",
+                "tipo": "Bau",
+                "range": 6,
+                "nome": "Cofre de Magias",
+                "descricao": "O baú contém um cofre com pergaminhos ou tomos mágicos raros e poderosos, incluindo feitiços de alto nível e magias únicas."
+            },
+            {
+                "id": 89,
+                "sorte": "Lendária",
+                "tipo": "Bolso",
+                "range": 6,
+                "nome": "Riqueza Incalculável",
+                "descricao": "Os bolsos contêm uma riqueza incalculável, incluindo uma vasta quantidade de ouro e joias preciosas (25d6+50 peças de ouro e várias joias de alto valor)."
+            },
+            {
+                "id": 90,
+                "sorte": "Lendária",
+                "tipo": "Gaveta",
+                "range": 6,
+                "nome": "Relíquia Mágica",
+                "descricao": "A gaveta contém uma relíquia mágica de grande valor, como um artefato ancestral com poderes divinos ou extraordinários."
+            }
+        
+        
+    
+    
+
+    
+
+]
