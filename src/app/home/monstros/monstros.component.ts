@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
     FormsModule
   ],
   templateUrl: './monstros.component.html',
-  styleUrl: './monstros.component.scss'
+  styleUrls: ['./monstros.component.scss']
 })
 export class MonstrosComponent {
 
@@ -21,27 +21,30 @@ export class MonstrosComponent {
     name: '',
     alignment: '',
     size: '',
-    type: ''
+    type: '',
+    xp: ''
   };
 
   monsterTypes: any[] = [];
 
-  name: any[] = [];
+  names: any[] = [];
   alignments: any[] = [];
   sizes: any[] = [];
   types: any[] = [];
+  xp: any[] = [];
 
  
   constructor(private monstrosService : MonstrosService) { }
 
   ngOnInit() {
     this.monstrosService.getMonstros().subscribe((data: any) => {
-      console.log(data);
       this.monstros = data;
-      this.types = [...new Set(this.monstros.map((monster: any) => monster.type))];
-      this.sizes = [...new Set(this.monstros.map((monster: any) => monster.size))];
-      this.alignments = [...new Set(this.monstros.map((monster: any) => monster.alignment))];
-      this.name = [...new Set(this.monstros.map((monster: any) => monster.name))];;  
+      this.types = [...new Set(this.monstros.map((monster: any) => monster.type as string))].sort((a, b) => (a as string).localeCompare(b as string));
+      this.sizes = [...new Set(this.monstros.map((monster: any) => monster.size))].sort((a, b) => (a as string).localeCompare(b as string));
+      this.alignments = [...new Set(this.monstros.map((monster: any) => monster.alignment as string))].sort((a, b) => (a as string).localeCompare(b as string));
+      this.names = Array.from(new Set(this.monstros.map((monster: any) => monster.name as string))).sort((a, b) => (a as string).localeCompare(b as string));
+      this.xp = [...new Set(this.monstros.map((monster: any) => monster.xp))].sort((a, b) => (a as number) - (b as number));
+  
     });
   }
 

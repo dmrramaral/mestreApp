@@ -21,17 +21,5 @@ export class MonstrosService {
     return this.httpCliente.get(this.jsonDnD).pipe(take(1));
   }
 
-/*   getCaracteristicasForEachMontros() {
-    this.getMonstros().subscribe((data: any) => {
-      data.results.forEach((monstro: any) => {
-        this.httpCliente.get('https://www.dnd5eapi.co' + monstro.url).subscribe((data: any) => {
-          this.mostrosData = data;
-          console.log(data);
-        });
-      });
-    });
-
-    return this.mostrosData;
-  }  */
   
 }
