@@ -1,0 +1,56 @@
+@font-face {
+    font-family: 'Stonecross';
+    src: url('/assets/fonts/Stonecross.eot');
+    src: local('Stonecross'),
+        url('/assets/fonts/Stonecross.eot?#iefix') format('embedded-opentype'),
+        url('/assets/fonts/Stonecross.woff2') format('woff2'),
+        url('/assets/fonts/Stonecross.woff') format('woff'),
+        url('/assets/fonts/Stonecross.ttf') format('truetype'),
+        url('/assets/fonts/Stonecross.svg#Stonecross') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+.box-effect {
+	margin: 0;
+	font-family: Arial, Helvetica, sans-serif;
+	box-sizing: border-box;
+    width:  100vw;
+    height: 8vh;
+	background: radial-gradient(ellipse at 50% 50%, #a30000bb -50%, #0000 50%),
+		radial-gradient(ellipse at 25% 80%, #181315 5%, #0000 50%),
+		radial-gradient(ellipse at 66% 80%, #323232 5%, #0000 50%),
+		radial-gradient(ellipse at 66% 18%, #16040a 0%, #0000 50%),
+		radial-gradient(ellipse at 30% 18%, #1a100f 0%, #0000 50%), #000;
+		display: inline-table;
+	justify-content: center;
+	align-content: center;
+	align-items: center;
+	margin: 0;
+	padding: 0;
+}
+.effect {
+	font-family: "Stonecross", Arial Helvetica, serif;
+	font-size: 5vmin;
+	-webkit-text-stroke: 0px #0000004f;
+	-webkit-text-fill-color: #ffffff1c;
+	text-shadow: -3px -3px 3px #00000040;
+	background-repeat: repeat;
+	background-position: center center;
+	background-size: contain;
+	-webkit-text-fill-color: #002e422e;
+	-webkit-background-clip: text;
+	background-clip: text;
+	letter-spacing: 1px;
+	display: inline-flex;
+	width: 100vw;
+	height: 8vh;
+	text-align: center;
+	align-items: center;
+	justify-content: center;
+	font-weight: bold;
+}
+.fire {
+	background-image: url(https://ribeirobraga.com.br/assets/images/fire.gif);
+	-webkit-text-fill-color: #cd0e0054;
+}

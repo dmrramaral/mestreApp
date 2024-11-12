@@ -43,7 +43,7 @@ export class IniciativaComponent implements OnInit {
 
   adicionar() {
     this.listaIniciativa.push({ nome: this.nome, iniciativa: this.iniciativa });
-    this.listaIniciativa.sort((a, b) => a.iniciativa - b.iniciativa);
+    this.listaIniciativa.sort((a, b) => b.iniciativa - a.iniciativa);
     this.nome = '';
     this.iniciativa = null;
     this.localStorageServcieService.setItem('listaIniciativa', JSON.stringify(this.listaIniciativa));
