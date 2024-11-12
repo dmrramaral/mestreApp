@@ -1,38 +1,96 @@
+
+
+
 <div style="margin-top: 60px; display: flex; flex-wrap: wrap; flex-direction: row; justify-content: space-around;">
-    <div *ngFor="let monstro of monstros" class="card m-1" style="width: 20rem;">
-      <img *ngIf="monstro.image" [src]="'https://www.dnd5eapi.co'+ monstro.image" class="card-img-top" alt="{{ monstro.name }}">
-    <button (click)="monstro.showImage = !monstro.showImage" class="btn btn-link">
+
+    <div class="filter-container">
+        <select [(ngModel)]="filter.name" class="form-control mb-2">
+            <option value="">Nomes</option>
+            <option *ngFor="let name of name" [value]="name">{{ name }}</option>
+        </select>
+        <select [(ngModel)]="filter.alignment" class="form-control mb-2">
+            <option value="">Alinhamento</option>
+            <option *ngFor="let alignment of alignments" [value]="alignment">{{ alignment }}</option>
+        </select>
+        <select [(ngModel)]="filter.size" class="form-control mb-2">
+            <option value="">Tamanho</option>
+            <option *ngFor="let size of sizes" [value]="size">{{ size }}</option>
+        </select>
+        <select [(ngModel)]="filter.type" class="form-control mb-2">
+            <option value="">Tipo</option>
+            <option *ngFor="let type of types" [value]="type">{{ type }}</option>
+        </select>
+        <button (click)="applyFilters()" class="btn btn-dark btn-small">Aplicar Filtros</button>
+    </div>
+
+    <div *ngFor="let monstro of monstros; let i = index" class="card m-1" style="width: 25rem;">
+      <img *ngIf="monstro.image" [src]="'https://www.dnd5eapi.co' + monstro.image" class="card-img-top" alt="{{ monstro.name }}">
+      <button (click)="monstro.showImage = !monstro.showImage" class="btn btn-link">
         <i class="fa" [ngClass]="{'fa-eye': !monstro.showImage, 'fa-eye-slash': monstro.showImage}"></i>
-    </button>
+      </button>
       <div class="card-body">
         <h5 class="card-title">{{ monstro.name }} <small class="text-muted">({{ monstro.alignment }})</small></h5>
         <p class="card-subtitle mb-2 text-muted">{{ monstro.size }} {{ monstro.type }}</p>
-        
+  
         <!-- Atributos de Combate -->
+        <h6>Atributos de Combate:</h6>
         <ul class="list-group list-group-flush mb-2">
           <li class="list-group-item"><strong>HP:</strong> {{ monstro.hit_points }} ({{ monstro.hit_dice }})</li>
           <li class="list-group-item"><strong>CA:</strong> {{ monstro.armor_class[0].value }} ({{ monstro.armor_class[0].type }})</li>
           <li class="list-group-item"><strong>Velocidade:</strong> {{ monstro.speed.walk }}, {{ monstro.speed.swim }}</li>
         </ul>
-        
-        <!-- Atributos de Status -->
-        <div class="attributes mb-2">
-          <p><strong>Força:</strong> {{ monstro.strength }}</p>
-          <p><strong>Destreza:</strong> {{ monstro.dexterity }}</p>
-          <p><strong>Constituição:</strong> {{ monstro.constitution }}</p>
-          <p><strong>Inteligência:</strong> {{ monstro.intelligence }}</p>
-          <p><strong>Sabedoria:</strong> {{ monstro.wisdom }}</p>
-          <p><strong>Carisma:</strong> {{ monstro.charisma }}</p>
+  
+        <!-- Botão de Colapso de Atributos -->
+        <p class="d-inline-flex gap-1">
+          <button class="btn btn-dark btn-small" type="button" data-bs-toggle="collapse" 
+                  [attr.data-bs-target]="'#collapseAttributes' + i" 
+                  aria-expanded="false" [attr.aria-controls]="'collapseAttributes' + i">
+             Atributos
+          </button>
+        </p>
+  
+        <!-- Colapso de Atributos -->
+        <div class="collapse" [id]="'collapseAttributes' + i">
+          <div class="card card-body">
+            <h6>Atributos:</h6>
+            <p><strong>Força:</strong> {{ monstro.strength }}</p>
+            <p><strong>Destreza:</strong> {{ monstro.dexterity }}</p>
+            <p><strong>Constituição:</strong> {{ monstro.constitution }}</p>
+            <p><strong>Inteligência:</strong> {{ monstro.intelligence }}</p>
+            <p><strong>Sabedoria:</strong> {{ monstro.wisdom }}</p>
+            <p><strong>Carisma:</strong> {{ monstro.charisma }}</p>
+          </div>
         </div>
-        
+  
         <!-- Perícias -->
-        <div *ngIf="monstro.proficiencies.length > 0" class="mb-2">
+     <!--    <div *ngIf="monstro.proficiencies.length > 0" class="mb-2">
           <h6>Perícias:</h6>
           <ul>
             <li *ngFor="let prof of monstro.proficiencies">
               {{ prof.proficiency.name }}: +{{ prof.value }}
             </li>
           </ul>
+        </div> -->
+
+        <!-- Botão de Colapso de Perícias -->
+        <p class="d-inline-flex gap-1">
+            <button class="btn btn-dark btn-small" type="button" data-bs-toggle="collapse" 
+                            [attr.data-bs-target]="'#collapseProficiencies' + i" 
+                            aria-expanded="false" [attr.aria-controls]="'collapseProficiencies' + i">
+                 Perícias
+            </button>
+        </p>
+
+        <!-- Colapso de Perícias -->
+        <div class="collapse" [id]="'collapseProficiencies' + i">
+            <div class="card card-body">
+                <h6>Perícias:</h6>
+                <ul>
+                    <li *ngFor="let prof of monstro.proficiencies">
+                        {{ prof.proficiency.name }}: +{{ prof.value }}
+                    </li>
+                </ul>
+            </div>
         </div>
   
         <!-- Imunidades e Resistências -->
@@ -43,39 +101,105 @@
         </div>
   
         <!-- Habilidades Especiais -->
-        <div *ngIf="monstro.special_abilities.length > 0" class="mb-2">
+        <!-- <div *ngIf="monstro.special_abilities.length > 0" class="mb-2">
           <h6>Habilidades Especiais:</h6>
           <ul>
             <li *ngFor="let ability of monstro.special_abilities">
               <strong>{{ ability.name }}:</strong> {{ ability.desc }}
             </li>
           </ul>
+        </div> -->
+
+        <!-- Botão de Colapso de Habilidades Especiais -->
+        <p class="d-inline-flex gap-1">
+            <button class="btn btn-dark btn-small" type="button" data-bs-toggle="collapse" 
+                            [attr.data-bs-target]="'#collapseSpecialAbilities' + i" 
+                            aria-expanded="false" [attr.aria-controls]="'collapseSpecialAbilities' + i">
+                 Habilidades Especiais
+            </button>
+        </p>
+
+        <!-- Colapso de Habilidades Especiais -->
+        <div class="collapse" [id]="'collapseSpecialAbilities' + i">
+            <div class="card card-body">
+                <h6>Habilidades Especiais:</h6>
+                <ul>
+                    <li *ngFor="let ability of monstro.special_abilities">
+                        <strong>{{ ability.name }}:</strong> {{ ability.desc }}
+                    </li>
+                </ul>
+            </div>
         </div>
+
+
+
   
         <!-- Ações -->
-        <div *ngIf="monstro.actions.length > 0" class="mb-2">
+       <!--  <div *ngIf="monstro.actions.length > 0" class="mb-2">
           <h6>Ações:</h6>
           <ul>
             <li *ngFor="let action of monstro.actions">
               <strong>{{ action.name }}:</strong> {{ action.desc }}
             </li>
           </ul>
+        </div> -->
+
+        <!-- Botão de Colapso de Ações -->
+        <p class="d-inline-flex gap-1">
+            <button class="btn btn-dark btn-small" type="button" data-bs-toggle="collapse" 
+                            [attr.data-bs-target]="'#collapseActions' + i" 
+                            aria-expanded="false" [attr.aria-controls]="'collapseActions' + i">
+                 Ações
+            </button>
+        </p>
+
+        <!-- Colapso de Ações -->
+        <div class="collapse" [id]="'collapseActions' + i">
+            <div class="card card-body">
+                <h6>Ações:</h6>
+                <ul>
+                    <li *ngFor="let action of monstro.actions">
+                        <strong>{{ action.name }}:</strong> {{ action.desc }}
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Botão de Colapso de Ações Lendárias -->
+        <p class="d-inline-flex gap-1">
+            <button class="btn btn-dark btn-small" type="button" data-bs-toggle="collapse" 
+                            [attr.data-bs-target]="'#collapseLegendaryActions' + i" 
+                            aria-expanded="false" [attr.aria-controls]="'collapseLegendaryActions' + i">
+                 Ações Lendárias
+            </button>
+        </p>
+
+        <!-- Colapso de Ações Lendárias -->
+        <div class="collapse" [id]="'collapseLegendaryActions' + i">
+            <div class="card card-body">
+                <h6>Ações Lendárias:</h6>
+                <ul>
+                    <li *ngFor="let legendary of monstro.legendary_actions">
+                        <strong>{{ legendary.name }}:</strong> {{ legendary.desc }}
+                    </li>
+                </ul>
+            </div>
         </div>
   
         <!-- Ações Lendárias -->
-        <div *ngIf="monstro.legendary_actions.length > 0">
+        <!-- <div *ngIf="monstro.legendary_actions.length > 0">
           <h6>Ações Lendárias:</h6>
           <ul>
             <li *ngFor="let legendary of monstro.legendary_actions">
               <strong>{{ legendary.name }}:</strong> {{ legendary.desc }}
             </li>
           </ul>
-        </div>
+        </div> -->
   
         <!-- Outras informações -->
+        <h6>Outras Informações:</h6>
         <p><strong>Idiomas:</strong> {{ monstro.languages }}</p>
         <p><strong>XP:</strong> {{ monstro.xp }}</p>
-        <!-- <a [href]="monstro.url" target="_blank" class="card-link">Ver mais detalhes</a> -->
       </div>
     </div>
   </div>
