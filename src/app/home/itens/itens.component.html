@@ -1,44 +1,47 @@
-<h3 class="mx-4 my-1">Sorteio de Itens</h3>
+<div style="margin: 36px;">
+    <h3 style="margin-top: 60px;">Sorteio de Itens</h3>
 
-<div class="row g-3 align-items-center mx-4 my-1">
-    <div class="col-auto mt-4">
-        <select class="form-select" [(ngModel)]="ObjetoItem" aria-label="Default select example">
-            <option selected>Objeto</option>
-            <option value="Bau">Baú</option>
-            <option value="Bolso">Bolso</option>
-            <option value="Gaveta">Gaveta</option>
-        </select>
+    <div class="row g-3 align-items-center ">
+        <div class="col-auto mt-4">
+            <select class="form-select" [(ngModel)]="ObjetoItem" aria-label="Default select example">
+                <option selected>Objeto</option>
+                <option value="Bau">Baú</option>
+                <option value="Bolso">Bolso</option>
+                <option value="Gaveta">Gaveta</option>
+            </select>
+        </div>
+        <div class="col-auto">
+            <input class="form-control form-control-sm col-6 m-1" [(ngModel)]="sorteJogador" type="number"
+                placeholder="Sorte">
+        </div>
+        <div class="col-auto">
+            <input class="form-control form-control-sm col-6 m-1" [(ngModel)]="dadoRange" type="number"
+                placeholder="Range">
+        </div>
+
     </div>
-    <div class="col-auto">
-        <input class="form-control form-control-sm col-6 m-1" [(ngModel)]="sorteJogador" type="number" placeholder="Sorte">
+    <div class="col-auto  mt-4">
+        <button class="btn btn-primary" (click)="buscarItens()">Sortear</button>
     </div>
-    <div class="col-auto">
-        <input class="form-control form-control-sm col-6 m-1" [(ngModel)]="dadoRange" type="number" placeholder="Range">
+    <div class="col-auto  mt-4">
+        <button class="btn btn-primary" (click)="acertoCritico()">Acerto Crítico</button>
     </div>
 
-</div>
-<div class="col-auto mx-4 my-1 mt-4">
-    <button class="btn btn-primary" (click)="buscarItens()">Sortear</button>
-</div>
-<div class="col-auto mx-4 my-1 mt-4">
-    <button class="btn btn-primary" (click)="acertoCritico()">Acerto Crítico</button>
-</div>
 
 
-  
-<div class="row mx-4 my-1" *ngIf="itemSorteado">
-    <div class="col-12 col-md-6 col-lg-4">
-        <div class="card mx-4 my-1">
-            <div class="card-body">
-                <h5 class="card-title">{{itemSorteado.nome}}</h5>
-                <p class="card-text">{{itemSorteado.descricao}}</p>
-                <p class="card-text">{{itemSorteado.tipo}}</p>
+    <div class="row mt-2" *ngIf="itemSorteado">
+        <div class="col-12 col-md-6 col-lg-4">
+            <div class="card ">
+                <div class="card-body">
+                    <h5 class="card-title">{{itemSorteado.nome}}</h5>
+                    <p class="card-text">{{itemSorteado.descricao}}</p>
+                    <p class="card-text">{{itemSorteado.tipo}}</p>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<!-- <div class="row">
+    <!-- <div class="row">
     <div class="col-12 col-md-6 col-lg-4" *ngFor="let item of itens">
         <div class="card mx-4 my-1">
             <div class="card-body">
@@ -49,3 +52,4 @@
     </div>
 </div>
  -->
+</div>
