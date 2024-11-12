@@ -1,0 +1,44 @@
+<h3 class="mx-4 my-1">Iniciativa de batalha</h3>
+
+<div class="row g-3 align-items-center mx-4 my-1">
+    <div class="col-auto">
+        <input class="form-control form-control-sm col-6 m-1" [(ngModel)]="nome" list="datalistOptions" id="exampleDataList"
+            placeholder="Jogador">
+        <datalist id="datalistOptions">
+            <option value="Bueno">
+            <option value="Kev">
+            <option value="Gabriel">
+            <option value="Dogui">
+            <option value="Monsto1">
+        </datalist>
+    </div>
+
+    <div class="col-auto">
+        <input class="form-control form-control-sm col-6 m-1" [(ngModel)]="iniciativa" type="number"
+            placeholder="Iniciativa">
+    </div>
+    <div>
+        <button class="btn btn-dark btn-sm" (click)="adicionar()">Adicionar</button>
+    </div>
+
+</div>
+<table class="table m-3">
+    <thead>
+        <tr>
+            <th scope="col">Iniciativa</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Ações</th>
+
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let jogador of listaIniciativa">
+            <td>{{jogador.iniciativa}}</td>
+            <td>{{jogador.nome}}</td>
+            <td>
+                <button class="btn btn-danger btn-sm" (click)="remover(jogador)">Remover</button>
+
+        </tr>
+
+    </tbody>
+</table>
