@@ -20,9 +20,17 @@ export class MonstrosComponent {
     this.monstrosService.getMonstros().subscribe((data: any) => {
       this.monstros = data.results;
     });
+    this.getCaracteristicasForEachMontros();
 
 
   
+  }
+
+  getCaracteristicasForEachMontros() {
+    this.monstrosService.getMonstrosComCaracteristicas().subscribe((data: any) => {
+      this.monstros = data;
+      console.log(data);
+    });
   }
 
 

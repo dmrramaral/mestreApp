@@ -1,8 +1,79 @@
 <div style="margin-top: 60px; display: flex; flex-wrap: wrap; flex-direction: row; justify-content: space-around;">
-    <div *ngFor="let monstro of monstros" class="card m-1" style="width: 10rem;">
-    <div class="card-body">
-        <h6 class="card-title">{{ monstro.name }}</h6>
-        <p class="card-subtitle mb-2 text-body-secondary">{{ monstro.url }}</p>
+    <div *ngFor="let monstro of monstros" class="card m-1" style="width: 20rem;">
+      <img *ngIf="monstro.image" [src]="'https://www.dnd5eapi.co'+ monstro.image" class="card-img-top" alt="{{ monstro.name }}">
+      <div class="card-body">
+        <h5 class="card-title">{{ monstro.name }} <small class="text-muted">({{ monstro.alignment }})</small></h5>
+        <p class="card-subtitle mb-2 text-muted">{{ monstro.size }} {{ monstro.type }}</p>
+        
+        <!-- Atributos de Combate -->
+        <ul class="list-group list-group-flush mb-2">
+          <li class="list-group-item"><strong>HP:</strong> {{ monstro.hit_points }} ({{ monstro.hit_dice }})</li>
+          <li class="list-group-item"><strong>CA:</strong> {{ monstro.armor_class[0].value }} ({{ monstro.armor_class[0].type }})</li>
+          <li class="list-group-item"><strong>Velocidade:</strong> {{ monstro.speed.walk }}, {{ monstro.speed.swim }}</li>
+        </ul>
+        
+        <!-- Atributos de Status -->
+        <div class="attributes mb-2">
+          <p><strong>Força:</strong> {{ monstro.strength }}</p>
+          <p><strong>Destreza:</strong> {{ monstro.dexterity }}</p>
+          <p><strong>Constituição:</strong> {{ monstro.constitution }}</p>
+          <p><strong>Inteligência:</strong> {{ monstro.intelligence }}</p>
+          <p><strong>Sabedoria:</strong> {{ monstro.wisdom }}</p>
+          <p><strong>Carisma:</strong> {{ monstro.charisma }}</p>
+        </div>
+        
+        <!-- Perícias -->
+        <div *ngIf="monstro.proficiencies.length > 0" class="mb-2">
+          <h6>Perícias:</h6>
+          <ul>
+            <li *ngFor="let prof of monstro.proficiencies">
+              {{ prof.proficiency.name }}: +{{ prof.value }}
+            </li>
+          </ul>
+        </div>
+  
+        <!-- Imunidades e Resistências -->
+        <div *ngIf="monstro.damage_immunities.length || monstro.damage_resistances.length" class="mb-2">
+          <h6>Imunidades e Resistências:</h6>
+          <p *ngIf="monstro.damage_immunities.length"><strong>Imunidades:</strong> {{ monstro.damage_immunities.join(', ') }}</p>
+          <p *ngIf="monstro.damage_resistances.length"><strong>Resistências:</strong> {{ monstro.damage_resistances.join(', ') }}</p>
+        </div>
+  
+        <!-- Habilidades Especiais -->
+        <div *ngIf="monstro.special_abilities.length > 0" class="mb-2">
+          <h6>Habilidades Especiais:</h6>
+          <ul>
+            <li *ngFor="let ability of monstro.special_abilities">
+              <strong>{{ ability.name }}:</strong> {{ ability.desc }}
+            </li>
+          </ul>
+        </div>
+  
+        <!-- Ações -->
+        <div *ngIf="monstro.actions.length > 0" class="mb-2">
+          <h6>Ações:</h6>
+          <ul>
+            <li *ngFor="let action of monstro.actions">
+              <strong>{{ action.name }}:</strong> {{ action.desc }}
+            </li>
+          </ul>
+        </div>
+  
+        <!-- Ações Lendárias -->
+        <div *ngIf="monstro.legendary_actions.length > 0">
+          <h6>Ações Lendárias:</h6>
+          <ul>
+            <li *ngFor="let legendary of monstro.legendary_actions">
+              <strong>{{ legendary.name }}:</strong> {{ legendary.desc }}
+            </li>
+          </ul>
+        </div>
+  
+        <!-- Outras informações -->
+        <p><strong>Idiomas:</strong> {{ monstro.languages }}</p>
+        <p><strong>XP:</strong> {{ monstro.xp }}</p>
+        <!-- <a [href]="monstro.url" target="_blank" class="card-link">Ver mais detalhes</a> -->
+      </div>
     </div>
-</div>
-</div>
+  </div>
+  
