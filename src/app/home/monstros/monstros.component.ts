@@ -15,7 +15,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class MonstrosComponent {
 
-  monstros : any;
+  monstros: any;
 
   filter = {
     name: '',
@@ -33,8 +33,8 @@ export class MonstrosComponent {
   types: any[] = [];
   xp: any[] = [];
 
- 
-  constructor(private monstrosService : MonstrosService) { }
+
+  constructor(private monstrosService: MonstrosService) { }
 
   ngOnInit() {
     this.monstrosService.getMonstros().subscribe((data: any) => {
@@ -44,23 +44,25 @@ export class MonstrosComponent {
       this.alignments = [...new Set(this.monstros.map((monster: any) => monster.alignment as string))].sort((a, b) => (a as string).localeCompare(b as string));
       this.names = Array.from(new Set(this.monstros.map((monster: any) => monster.name as string))).sort((a, b) => (a as string).localeCompare(b as string));
       this.xp = [...new Set(this.monstros.map((monster: any) => monster.xp))].sort((a, b) => (a as number) - (b as number));
-  
+
     });
   }
 
   applyFilters() {
     this.monstrosService.getMonstros().subscribe((data: any) => {
       this.monstros = data.filter((monstro: any) => {
-        return (this.filter.name ? monstro.name.includes(this.filter.name) : true) &&
-               (this.filter.alignment ? monstro.alignment === this.filter.alignment : true) &&
-               (this.filter.size ? monstro.size === this.filter.size : true) &&
-               (this.filter.type ? monstro.type === this.filter.type : true) &&
-               (this.filter.xp ? monstro.xp === this.filter.xp : true);
+        const result = (this.filter.name ? monstro.name.includes(this.filter.name) : true) &&
+          (this.filter.alignment ? monstro.alignment === this.filter.alignment : true) &&
+          (this.filter.xp ? monstro.xp === Number(this.filter.xp) : true) &&
+          (this.filter.size ? monstro.size === this.filter.size : true) &&
+          (this.filter.type ? monstro.type === this.filter.type : true);
+
+        return result;
       });
     });
   }
-
-
-
-
 }
+
+
+
+
