@@ -4,6 +4,7 @@ import { ItensComponent } from './home/itens/itens.component';
 import { IniciativaComponent } from './home/iniciativa/iniciativa.component';
 import path from 'path';
 import { MercadoComponent } from './home/mercado/mercado.component';
+import { MonstrosComponent } from './home/monstros/monstros.component';
 
 export const routes: Routes = [
     {path: '', redirectTo: 'home', pathMatch: 'full'},
@@ -11,5 +12,6 @@ export const routes: Routes = [
     {path: 'itens', component: ItensComponent},
     {path: 'iniciativa', component: IniciativaComponent},
     {path: 'mercado', component: MercadoComponent} ,  
+    {path: 'monstros', component: MonstrosComponent},
     {path: '**', redirectTo: 'home'},
 ];
