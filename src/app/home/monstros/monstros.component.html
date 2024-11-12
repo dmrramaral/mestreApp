@@ -1,6 +1,9 @@
 <div style="margin-top: 60px; display: flex; flex-wrap: wrap; flex-direction: row; justify-content: space-around;">
     <div *ngFor="let monstro of monstros" class="card m-1" style="width: 20rem;">
       <img *ngIf="monstro.image" [src]="'https://www.dnd5eapi.co'+ monstro.image" class="card-img-top" alt="{{ monstro.name }}">
+    <button (click)="monstro.showImage = !monstro.showImage" class="btn btn-link">
+        <i class="fa" [ngClass]="{'fa-eye': !monstro.showImage, 'fa-eye-slash': monstro.showImage}"></i>
+    </button>
       <div class="card-body">
         <h5 class="card-title">{{ monstro.name }} <small class="text-muted">({{ monstro.alignment }})</small></h5>
         <p class="card-subtitle mb-2 text-muted">{{ monstro.size }} {{ monstro.type }}</p>
