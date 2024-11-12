@@ -12,12 +12,14 @@ $light: #f8f9fa;
 $dark: #343a40;
 $white: #fff;
 
-* {
-  margin: 0 !important;
-  padding: 0 ;
+:host {
+  display: block !important;
+  overflow-x: hidden !important;
+  
 }
 
 body {
+  
   font-family: "Roboto", sans-serif;
   background-image: url("/assets/fantasy-group-adventurers.jpg") !important;
   background-size: cover !important;
@@ -25,3 +27,5 @@ body {
   background-position: center center !important;
   background-attachment: fixed !important;
 }
+
+
