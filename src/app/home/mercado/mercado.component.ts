@@ -20,18 +20,7 @@ export class MercadoComponent {
 
 
   constructor(private mercadoService: MercadoService) {
-    this.mercado = { armas: [
-      {
-        nome: 'Espada de Ferro',
-        preco: 100,
-        moeda: "ouro"
-      },
-      {
-        nome: 'Espada de Diamante',
-        preco: 1000,
-        moeda: "ouro"
-      }
-    ], comidas: [], bebidas: [], armaduras: [] };
+    this.mercado = { armas: [], comidas: [], bebidas: [], armaduras: [], aneis: [], amuletos: [] };
   }
 
   ngOnInit() {

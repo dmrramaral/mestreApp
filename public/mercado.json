@@ -2,210 +2,380 @@
     "mercado": {
         "armas": [
             {
-                "nome": "Espada Longa",
-                "preco": 15,
-                "moeda": "ouro"
+            "nome": "Espada Longa",
+            "preco": 15,
+            "moeda": "ouro",
+            "beneficios": "Aumenta o dano em 1d8"
             },
             {
-                "nome": "Machado de Batalha",
-                "preco": 20,
-                "moeda": "ouro"
+            "nome": "Machado de Batalha",
+            "preco": 20,
+            "moeda": "ouro",
+            "beneficios": "Aumenta o dano em 1d10"
             },
             {
-                "nome": "Arco Curto",
-                "preco": 10,
-                "moeda": "ouro"
+            "nome": "Arco Curto",
+            "preco": 10,
+            "moeda": "ouro",
+            "beneficios": "Aumenta o dano em 1d6"
             },
             {
-                "nome": "Lança",
-                "preco": 8,
-                "moeda": "ouro"
+            "nome": "Lança",
+            "preco": 8,
+            "moeda": "ouro",
+            "beneficios": "Aumenta o dano em 1d6"
             },
             {
-                "nome": "Martelo de Guerra",
-                "preco": 25,
-                "moeda": "ouro"
+            "nome": "Martelo de Guerra",
+            "preco": 25,
+            "moeda": "ouro",
+            "beneficios": "Aumenta o dano em 1d12"
             },
             {
-                "nome": "Funda",
-                "preco": 2,
-                "moeda": "ouro"
+            "nome": "Funda",
+            "preco": 2,
+            "moeda": "ouro",
+            "beneficios": "Aumenta o dano em 1d4"
             },
             {
-                "nome": "Cajado Mágico",
-                "preco": 30,
-                "moeda": "ouro"
+            "nome": "Cajado Mágico",
+            "preco": 30,
+            "moeda": "ouro",
+            "beneficios": "Aumenta o dano mágico em 1d8"
             },
             {
-                "nome": "Adaga Envenenada",
-                "preco": 12,
-                "moeda": "ouro"
+            "nome": "Adaga Envenenada",
+            "preco": 12,
+            "moeda": "ouro",
+            "beneficios": "Aumenta o dano em 1d4 e causa veneno"
             },
             {
-                "nome": "Espada Curta",
-                "preco": 10,
-                "moeda": "ouro"
+            "nome": "Espada Curta",
+            "preco": 10,
+            "moeda": "ouro",
+            "beneficios": "Aumenta o dano em 1d6"
             },
             {
-                "nome": "Arco Longo",
-                "preco": 15,
-                "moeda": "ouro"
+            "nome": "Arco Longo",
+            "preco": 15,
+            "moeda": "ouro",
+            "beneficios": "Aumenta o dano em 1d8"
             }
         ],
-        "comidas": [
+    "comidas": [
+        {
+            "nome": "Pão",
+            "preco": 1,
+            "moeda": "ouro",
+            "beneficios": "Recupera 1d4 pontos de vida"
+        },
+        {
+            "nome": "Queijo",
+            "preco": 2,
+            "moeda": "ouro",
+            "beneficios": "Recupera 1d6 pontos de vida"
+        },
+        {
+            "nome": "Maçã",
+            "preco": 1,
+            "moeda": "ouro",
+            "beneficios": "Recupera 1d4 pontos de vida"
+        },
+        {
+            "nome": "Carne Seca",
+            "preco": 3,
+            "moeda": "ouro",
+            "beneficios": "Recupera 1d8 pontos de vida"
+        },
+        {
+            "nome": "Peixe",
+            "preco": 4,
+            "moeda": "ouro",
+            "beneficios": "Recupera 1d8 pontos de vida"
+        },
+        {
+            "nome": "Sopa de Legumes",
+            "preco": 2,
+            "moeda": "ouro",
+            "beneficios": "Recupera 1d6 pontos de vida"
+        },
+        {
+            "nome": "Frango Assado",
+            "preco": 5,
+            "moeda": "ouro",
+            "beneficios": "Recupera 1d10 pontos de vida"
+        },
+        {
+            "nome": "Bolo",
+            "preco": 3,
+            "moeda": "ouro",
+            "beneficios": "Recupera 1d6 pontos de vida"
+        },
+        {
+            "nome": "Ovos",
+            "preco": 1,
+            "moeda": "ouro",
+            "beneficios": "Recupera 1d4 pontos de vida"
+        },
+        {
+            "nome": "Mel",
+            "preco": 2,
+            "moeda": "ouro",
+            "beneficios": "Recupera 1d6 pontos de vida"
+        }
+    ],
+    "bebidas": [
+        {
+            "nome": "Cerveja",
+            "preco": 1,
+            "moeda": "ouro",
+            "beneficios": "Recupera 1d4 pontos de vida"
+        },
+        {
+            "nome": "Vinho",
+            "preco": 3,
+            "moeda": "ouro",
+            "beneficios": "Recupera 1d6 pontos de vida"
+        },
+        {
+            "nome": "Suco de Frutas",
+            "preco": 2,
+            "moeda": "ouro",
+            "beneficios": "Recupera 1d4 pontos de vida"
+        },
+        {
+            "nome": "Água",
+            "preco": 1,
+            "moeda": "ouro",
+            "beneficios": "Recupera 1d2 pontos de vida"
+        },
+        {
+            "nome": "Leite",
+            "preco": 1,
+            "moeda": "ouro",
+            "beneficios": "Recupera 1d4 pontos de vida"
+        },
+        {
+            "nome": "Hidromel",
+            "preco": 4,
+            "moeda": "ouro",
+            "beneficios": "Recupera 1d8 pontos de vida"
+        },
+        {
+            "nome": "Chá",
+            "preco": 1,
+            "moeda": "ouro",
+            "beneficios": "Recupera 1d2 pontos de vida"
+        },
+        {
+            "nome": "Café",
+            "preco": 1,
+            "moeda": "ouro",
+            "beneficios": "Recupera 1d2 pontos de vida"
+        },
+        {
+            "nome": "Uísque",
+            "preco": 5,
+            "moeda": "ouro",
+            "beneficios": "Recupera 1d8 pontos de vida"
+        },
+        {
+            "nome": "Rum",
+            "preco": 4,
+            "moeda": "ouro",
+            "beneficios": "Recupera 1d6 pontos de vida"
+        }
+    ], 
+        "aneis": [
             {
-                "nome": "Pão",
-                "preco": 1,
-                "moeda": "ouro"
+                "nome": "Anel de Proteção",
+                "preco": 50,
+                "moeda": "ouro",
+                "beneficios": "Aumenta a defesa em 1d4"
             },
             {
-                "nome": "Queijo",
-                "preco": 2,
-                "moeda": "ouro"
+                "nome": "Anel de Força",
+                "preco": 60,
+                "moeda": "ouro",
+                "beneficios": "Aumenta a força em 1d6"
             },
             {
-                "nome": "Maçã",
-                "preco": 1,
-                "moeda": "ouro"
+                "nome": "Anel de Agilidade",
+                "preco": 55,
+                "moeda": "ouro",
+                "beneficios": "Aumenta a agilidade em 1d4"
             },
             {
-                "nome": "Carne Seca",
-                "preco": 3,
-                "moeda": "ouro"
+                "nome": "Anel de Sabedoria",
+                "preco": 70,
+                "moeda": "ouro",
+                "beneficios": "Aumenta a sabedoria em 1d6"
             },
             {
-                "nome": "Peixe",
-                "preco": 4,
-                "moeda": "ouro"
+                "nome": "Anel de Resistência",
+                "preco": 65,
+                "moeda": "ouro",
+                "beneficios": "Aumenta a resistência em 1d4"
             },
             {
-                "nome": "Sopa de Legumes",
-                "preco": 2,
-                "moeda": "ouro"
+                "nome": "Anel de Vida",
+                "preco": 80,
+                "moeda": "ouro",
+                "beneficios": "Aumenta a vida em 1d8"
             },
             {
-                "nome": "Frango Assado",
-                "preco": 5,
-                "moeda": "ouro"
+                "nome": "Anel de Mana",
+                "preco": 75,
+                "moeda": "ouro",
+                "beneficios": "Aumenta a mana em 1d6"
             },
             {
-                "nome": "Bolo",
-                "preco": 3,
-                "moeda": "ouro"
+                "nome": "Anel de Invisibilidade",
+                "preco": 100,
+                "moeda": "ouro",
+                "beneficios": "Concede invisibilidade por 1d4 turnos"
             },
             {
-                "nome": "Ovos",
-                "preco": 1,
-                "moeda": "ouro"
+                "nome": "Anel de Velocidade",
+                "preco": 90,
+                "moeda": "ouro",
+                "beneficios": "Aumenta a velocidade em 1d6"
             },
             {
-                "nome": "Mel",
-                "preco": 2,
-                "moeda": "ouro"
+                "nome": "Anel de Regeneração",
+                "preco": 85,
+                "moeda": "ouro",
+                "beneficios": "Regenera 1d4 pontos de vida por turno"
             }
         ],
-        "bebidas": [
+        "amuletos": [
             {
-                "nome": "Cerveja",
-                "preco": 1,
-                "moeda": "ouro"
+                "nome": "Amuleto de Proteção",
+                "preco": 50,
+                "moeda": "ouro",
+                "beneficios": "Reduz dano em 1d4"
             },
             {
-                "nome": "Vinho",
-                "preco": 3,
-                "moeda": "ouro"
+                "nome": "Amuleto de Força",
+                "preco": 60,
+                "moeda": "ouro",
+                "beneficios": "Aumenta a força em 1d6"
             },
             {
-                "nome": "Suco de Frutas",
-                "preco": 2,
-                "moeda": "ouro"
+                "nome": "Amuleto de Agilidade",
+                "preco": 55,
+                "moeda": "ouro",
+                "beneficios": "Aumenta a agilidade em 1d4"
             },
             {
-                "nome": "Água",
-                "preco": 1,
-                "moeda": "ouro"
+                "nome": "Amuleto de Sabedoria",
+                "preco": 70,
+                "moeda": "ouro",
+                "beneficios": "Aumenta a sabedoria em 1d6"
             },
             {
-                "nome": "Leite",
-                "preco": 1,
-                "moeda": "ouro"
+                "nome": "Amuleto de Resistência",
+                "preco": 65,
+                "moeda": "ouro",
+                "beneficios": "Aumenta a resistência em 1d4"
             },
             {
-                "nome": "Hidromel",
-                "preco": 4,
-                "moeda": "ouro"
+                "nome": "Amuleto de Vida",
+                "preco": 80,
+                "moeda": "ouro",
+                "beneficios": "Aumenta a vida em 1d8"
             },
             {
-                "nome": "Chá",
-                "preco": 1,
-                "moeda": "ouro"
+                "nome": "Amuleto de Mana",
+                "preco": 75,
+                "moeda": "ouro",
+                "beneficios": "Aumenta a mana em 1d6"
             },
             {
-                "nome": "Café",
-                "preco": 1,
-                "moeda": "ouro"
+                "nome": "Amuleto de Invisibilidade",
+                "preco": 100,
+                "moeda": "ouro",
+                "beneficios": "Concede invisibilidade por 1d4 turnos"
             },
             {
-                "nome": "Uísque",
-                "preco": 5,
-                "moeda": "ouro"
+                "nome": "Amuleto de Velocidade",
+                "preco": 90,
+                "moeda": "ouro",
+                "beneficios": "Aumenta a velocidade em 1d6"
             },
             {
-                "nome": "Rum",
-                "preco": 4,
-                "moeda": "ouro"
+                "nome": "Amuleto de Regeneração",
+                "preco": 85,
+                "moeda": "ouro",
+                "beneficios": "Regenera 1d4 pontos de vida por turno"
             }
         ],
         "armaduras": [
             {
-                "nome": "Armadura de Couro",
-                "preco": 10,
-                "moeda": "ouro"
+            "nome": "Armadura de Couro",
+            "preco": 10,
+            "moeda": "ouro",
+            "beneficios": "Reduz dano em 1d2"
             },
             {
-                "nome": "Cota de Malha",
-                "preco": 20,
-                "moeda": "ouro"
+            "nome": "Armadura de Couro Reforçada",
+            "preco": 15,
+            "moeda": "ouro",
+            "beneficios": "Reduz dano em 1d4"
             },
             {
-                "nome": "Armadura de Placas",
-                "preco": 50,
-                "moeda": "ouro"
+            "nome": "Cota de Malha",
+            "preco": 20,
+            "moeda": "ouro",
+            "beneficios": "Reduz dano em 1d6"
             },
             {
-                "nome": "Escudo de Madeira",
-                "preco": 5,
-                "moeda": "ouro"
+            "nome": "Armadura de Placas",
+            "preco": 50,
+            "moeda": "ouro",
+            "beneficios": "Reduz dano em 1d8"
             },
             {
-                "nome": "Escudo de Ferro",
-                "preco": 15,
-                "moeda": "ouro"
+            "nome": "Escudo de Madeira",
+            "preco": 5,
+            "moeda": "ouro",
+            "beneficios": "Reduz dano em 1d2"
             },
             {
-                "nome": "Elmo de Ferro",
-                "preco": 10,
-                "moeda": "ouro"
+            "nome": "Escudo de Ferro",
+            "preco": 15,
+            "moeda": "ouro",
+            "beneficios": "Reduz dano em 1d4"
             },
             {
-                "nome": "Botas de Couro",
-                "preco": 5,
-                "moeda": "ouro"
+            "nome": "Elmo de Ferro",
+            "preco": 10,
+            "moeda": "ouro",
+            "beneficios": "Reduz dano em 1d3"
             },
             {
-                "nome": "Luvas de Couro",
-                "preco": 3,
-                "moeda": "ouro"
+            "nome": "Botas de Couro",
+            "preco": 5,
+            "moeda": "ouro",
+            "beneficios": "Aumenta a agilidade em 1d2"
             },
             {
-                "nome": "Capa de Tecido",
-                "preco": 2,
-                "moeda": "ouro"
+            "nome": "Luvas de Couro",
+            "preco": 3,
+            "moeda": "ouro",
+            "beneficios": "Aumenta a destreza em 1d2"
             },
             {
-                "nome": "Armadura de Escamas",
-                "preco": 30,
-                "moeda": "ouro"
+            "nome": "Capa de Tecido",
+            "preco": 2,
+            "moeda": "ouro",
+            "beneficios": "Aumenta a furtividade em 1d2"
+            },
+            {
+            "nome": "Armadura de Escamas",
+            "preco": 30,
+            "moeda": "ouro",
+            "beneficios": "Reduz dano em 1d6"
             }
         ]
     }

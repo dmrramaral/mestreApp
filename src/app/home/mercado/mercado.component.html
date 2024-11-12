@@ -12,6 +12,13 @@
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="armaduras-tab" data-bs-toggle="tab" data-bs-target="#armaduras-tab-pane" type="button" role="tab" aria-controls="armaduras-tab-pane" aria-selected="false">Armaduras</button>
     </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="outros-tab" data-bs-toggle="tab" data-bs-target="#aneis-tab-pane" type="button" role="tab" aria-controls="aneis-tab-pane" aria-selected="false">Aneis</button>
+    </li>
+    <!-- Amuletos -->
+     <li class="nav-item" role="presentation">
+        <button class="nav-link" id="outros-tab" data-bs-toggle="tab" data-bs-target="#amuletos-tab-pane" type="button" role="tab" aria-controls="amuletos-tab-pane" aria-selected="false">Amuletos</button>
+    </li>   
 </ul>
 <div class="tab-content m-2" id="myTabContent">
     <div class="tab-pane fade show active" id="armas-tab-pane" role="tabpanel" aria-labelledby="armas-tab" tabindex="0">
@@ -27,7 +34,7 @@
             <tbody>
                 <tr *ngFor="let item of mercado.armas; let i = index">
                     <th scope="row">{{ i + 1 }}</th>
-                    <td>{{ item.nome }}</td>
+                    <td>{{ item.nome }} <br> <small>{{item.beneficios}}</small></td>
                     <td>{{ item.preco }}</td>
                     <td>{{ item.moeda }}</td>
                 </tr>
@@ -47,7 +54,7 @@
             <tbody>
                 <tr *ngFor="let item of mercado.comidas; let i = index">
                     <th scope="row">{{ i + 1 }}</th>
-                    <td>{{ item.nome }}</td>
+                    <td>{{ item.nome }} <br> <small>{{item.beneficios}}</small></td>
                     <td>{{ item.preco }}</td>
                     <td>{{ item.moeda }}</td>
                 </tr>
@@ -67,7 +74,7 @@
             <tbody>
                 <tr *ngFor="let item of mercado.bebidas; let i = index">
                     <th scope="row">{{ i + 1 }}</th>
-                    <td>{{ item.nome }}</td>
+                    <td>{{ item.nome }} <br> <small>{{item.beneficios}}</small></td>
                     <td>{{ item.preco }}</td>
                     <td>{{ item.moeda }}</td>
                 </tr>
@@ -87,11 +94,52 @@
             <tbody>
                 <tr *ngFor="let item of mercado.armaduras; let i = index">
                     <th scope="row">{{ i + 1 }}</th>
-                    <td>{{ item.nome }}</td>
+                    <td>{{ item.nome }} <br> <small>{{item.beneficios}}</small></td>
                     <td>{{ item.preco }}</td>
                     <td>{{ item.moeda }}</td>
                 </tr>
             </tbody>
         </table>
     </div>
+
+    <div class="tab-pane fade" id="aneis-tab-pane" role="tabpanel" aria-labelledby="aneis-tab" tabindex="0">
+        <table class="table m-2">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Preço</th>
+                    <th scope="col">Moeda</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of mercado.aneis; let i = index">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{ item.nome }} <br> <small>{{item.beneficios}}</small></td>
+                    <td>{{ item.preco }}</td>
+                    <td>{{ item.moeda }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="tab-pane fade" id="amuletos-tab-pane" role="tabpanel" aria-labelledby="amuletos-tab" tabindex="0">
+        <table class="table m-2">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nome</th>
+                    <th scope="col">Preço</th>
+                    <th scope="col">Moeda</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of mercado.amuletos; let i = index">
+                    <th scope="row">{{ i + 1 }}</th>
+                    <td>{{ item.nome }} <br> <small>{{item.beneficios}}</small></td>
+                    <td>{{ item.preco }}</td>
+                    <td>{{ item.moeda }}</td>
+                </tr>
+            </tbody>
+        </table>
 </div>

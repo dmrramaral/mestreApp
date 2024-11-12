@@ -2,6 +2,7 @@ export interface Item {
     nome: string;
     preco: number;
     moeda: string;
+    beneficios?: string;
 }
 
 export interface Mercado {
@@ -9,4 +10,6 @@ export interface Mercado {
     comidas: Item[];
     bebidas: Item[];
     armaduras: Item[];
+    aneis: Item[];
+    amuletos: Item[];
 }
