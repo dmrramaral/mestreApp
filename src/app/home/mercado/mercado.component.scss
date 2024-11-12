@@ -1,0 +1,29 @@
+.nav-link{
+    width: 6rem;
+    color: #fff;
+    transition: background-color 0.3s;
+    background-color: #000000;
+    &:hover{
+        background-color: #fd0000;
+        color: #000;
+    }
+    &.active{
+        background-color: #0400fd;
+        color: #ffffff;
+        font-weight: bold;
+    }
+}
+
+.nav-tabs{
+    background-color: #0000007c;
+    border-bottom: 3px solid #000;
+}
+
+.nav-tabs .nav-item{
+    margin-bottom: 0;
+}
+
+.table{
+    width: 100%;
+    border-radius: 2rem;
+}

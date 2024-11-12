@@ -3,28 +3,28 @@
 
 <div style="margin-top: 60px; display: flex; flex-wrap: wrap; flex-direction: row; justify-content: space-around;">
 
-    <div class="filter-container">
-        <select [(ngModel)]="filter.name" class="form-control mb-2">
+    <div class="filter-monsters">
+        <select [(ngModel)]="filter.name" class="form-control w-25 mb-2 col-4">
             <option value="">Nomes</option>
             <option *ngFor="let name of names" [value]="name">{{ name }}</option>
         </select>
         <!-- XP -->
-        <select [(ngModel)]="filter.xp" class="form-control mb-2">
+        <select [(ngModel)]="filter.xp" class="form-control w-25 mb-2 col-4">
             <option value="">XP</option>
             <option *ngFor="let xp of xp" [value]="xp">{{ xp }}</option>
         </select>
 
 
 
-        <select [(ngModel)]="filter.alignment" class="form-control mb-2">
+        <select [(ngModel)]="filter.alignment" class="form-control w-50 mb-2">
             <option value="">Alinhamento</option>
             <option *ngFor="let alignment of alignments" [value]="alignment">{{ alignment }}</option>
         </select>
-        <select [(ngModel)]="filter.size" class="form-control mb-2">
+        <select [(ngModel)]="filter.size" class="form-control w-50 mb-2">
             <option value="">Tamanho</option>
             <option *ngFor="let size of sizes" [value]="size">{{ size }}</option>
         </select>
-        <select [(ngModel)]="filter.type" class="form-control mb-2">
+        <select [(ngModel)]="filter.type" class="form-control mb-2 w-25">
             <option value="">Tipo</option>
             <option *ngFor="let type of types" [value]="type">{{ type }}</option>
         </select>
