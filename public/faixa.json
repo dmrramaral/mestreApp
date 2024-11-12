@@ -817,6 +817,150 @@
                 "range": 6,
                 "nome": "Relíquia Mágica",
                 "descricao": "A gaveta contém uma relíquia mágica de grande valor, como um artefato ancestral com poderes divinos ou extraordinários."
+            },
+            {
+                "id": 91,
+                "sorte": "Acerto Crítico",
+                "tipo": "Bau",
+                "range": 1,
+                "nome": "Relíquia Suprema",
+                "descricao": "O baú contém uma relíquia suprema com poderes incomparáveis, como um artefato mágico com habilidades únicas que afetam profundamente o jogo (ex.: um anel que concede controle sobre o tempo ou um cetro que invoca criaturas poderosas)."
+            },
+            {
+                "id": 92,
+                "sorte": "Acerto Crítico",
+                "tipo": "Bolso",
+                "range": 1,
+                "nome": "Tesouro Real",
+                "descricao": "Os bolsos contêm um tesouro real de altíssimo valor, incluindo uma quantidade massiva de ouro (30d6+50 peças de ouro) e joias raras de valor excepcional."
+            },
+            {
+                "id": 93,
+                "sorte": "Acerto Crítico",
+                "tipo": "Gaveta",
+                "range": 1,
+                "nome": "Artefato Divino",
+                "descricao": "A gaveta contém um artefato divino de valor inestimável, que pode alterar a balança do poder no jogo (ex.: um livro que concede conhecimento absoluto ou uma arma com poderes cósmicos)."
+            },
+            {
+                "id": 94,
+                "sorte": "Acerto Crítico",
+                "tipo": "Bau",
+                "range": 2,
+                "nome": "Item Lendário Único",
+                "descricao": "O baú contém um item lendário único, com habilidades e bônus extraordinários que podem redefinir a maneira como o personagem atua no jogo (ex.: uma espada que absorve magia ou uma armadura que fornece invulnerabilidade temporária)."
+            },
+            {
+                "id": 95,
+                "sorte": "Acerto Crítico",
+                "tipo": "Bolso",
+                "range": 2,
+                "nome": "Fortuna Incrível",
+                "descricao": "Os bolsos contêm uma fortuna inacreditável, com uma enorme quantidade de ouro (40d6+75 peças de ouro) e uma coleção de joias raras e valiosas."
+            },
+            {
+                "id": 96,
+                "sorte": "Acerto Crítico",
+                "tipo": "Gaveta",
+                "range": 2,
+                "nome": "Tesouro Cósmico",
+                "descricao": "A gaveta contém um tesouro cósmico, incluindo um conjunto de itens mágicos raros e poderosos e um volume significativo de ouro e joias."
+            },
+            {
+                "id": 97,
+                "sorte": "Acerto Crítico",
+                "tipo": "Bau",
+                "range": 3,
+                "nome": "Cofre de Magias Lendárias",
+                "descricao": "O baú contém um cofre de pergaminhos ou tomos mágicos lendários com feitiços de nível máximo e magias de importância crucial (ex.: feitiços de convocação de deuses ou magia de destruição em larga escala)."
+            },
+            {
+                "id": 98,
+                "sorte": "Acerto Crítico",
+                "tipo": "Bolso",
+                "range": 3,
+                "nome": "Riqueza Suprema",
+                "descricao": "Os bolsos contêm uma riqueza suprema, incluindo uma vasta quantidade de ouro (5d6+100 peças de ouro) e uma seleção de joias e artefatos de valor incalculável."
+            },
+            {
+                "id": 99,
+                "sorte": "Acerto Crítico",
+                "tipo": "Gaveta",
+                "range": 3,
+                "nome": "Relíquia Ancestral",
+                "descricao": "A gaveta contém uma relíquia ancestral com poderes incomensuráveis, capaz de conceder habilidades divinas ou alterar profundamente o curso da aventura."
+            },
+            {
+                "id": 100,
+                "sorte": "Acerto Crítico",
+                "tipo": "Bau",
+                "range": 4,
+                "nome": "Tesouro do Poder Supremo",
+                "descricao": "O baú contém um tesouro com itens de poder supremo, como um conjunto completo de equipamentos mágicos lendários e um grande montante de ouro."
+            },
+            {
+                "id": 101,
+                "sorte": "Acerto Crítico",
+                "tipo": "Bolso",
+                "range": 4,
+                "nome": "Montante Astronômico de Ouro e Joias",
+                "descricao": "Os bolsos contêm um montante astronômico de ouro (60d6+150 peças de ouro) e uma coleção de joias de valor inestimável."
+            },
+            {
+                "id": 102,
+                "sorte": "Acerto Crítico",
+                "tipo": "Gaveta",
+                "range": 4,
+                "nome": "Equipamento Divino",
+                "descricao": "A gaveta contém um conjunto de equipamento divino, como uma armadura e uma arma de poder absoluto, que conferem habilidades e bônus incomparáveis."
+            },
+            {
+                "id": 103,
+                "sorte": "Acerto Crítico",
+                "tipo": "Bau",
+                "range": 5,
+                "nome": "Arma Lendária com Poderes Únicos",
+                "descricao": "O baú contém uma arma lendária com poderes únicos que conferem ao portador habilidades extraordinárias (ex.: uma arma que controla o clima ou concede invulnerabilidade a certos tipos de ataque)."
+            },
+            {
+                "id": 104,
+                "sorte": "Acerto Crítico",
+                "tipo": "Bolso",
+                "range": 5,
+                "nome": "Riqueza Infinita",
+                "descricao": "Os bolsos contêm uma riqueza infinita em ouro (70d6+200 peças de ouro) e uma vasta coleção de joias e artefatos mágicos de altíssimo valor."
+            },
+            {
+                "id": 105,
+                "sorte": "Acerto Crítico",
+                "tipo": "Gaveta",
+                "range": 5,
+                "nome": "Artefato de Poder Absoluto",
+                "descricao": "A gaveta contém um artefato de poder absoluto, como um item que pode conceder ao portador poderes divinos ou realizar desejos."
+            },
+            {
+                "id": 106,
+                "sorte": "Acerto Crítico",
+                "tipo": "Bau",
+                "range": 6,
+                "nome": "Tesouro de Magias e Artefatos",
+                "descricao": "O baú contém um tesouro combinando magias poderosas e artefatos lendários, proporcionando ao jogador um impacto significativo no jogo (ex.: um livro de feitiços e uma arma mágica que transforma o jogo)."
+            },
+            {
+                "id": 107,
+                "sorte": "Acerto Crítico",
+                "tipo": "Bolso",
+                "range": 6,
+                "nome": "Fortuna Astronômica",
+                "descricao": "Os bolsos contêm uma fortuna astronômica em ouro (80d6+250 peças de ouro) e um grande número de joias e artefatos mágicos raros e valiosos."
+            },
+            {
+                "id": 108,
+                "sorte": "Acerto Crítico",
+                "tipo": "Gaveta",
+                "range": 6,
+                "nome": "Equipamento e Artefato Supremo",
+                "descricao": "A gaveta contém um conjunto de equipamentos e artefatos supremos, oferecendo ao jogador poderes divinos e uma riqueza incomensurável."
             }
         
         

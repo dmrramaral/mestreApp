@@ -42,12 +42,16 @@ export class ItensComponent implements OnInit {
 
   buscarItens() {
     this.geradorRange();
-    this.SortearItem();
+    this.sortearItem();
 
   }
 
   acertoCritico() {
-    alert('Acerto Crítico - não implementado ainda');
+    this.rangeItens ="Acerto Crítico"
+    this.itemSorteado = this.itens.find(item => item.tipo === this.ObjetoItem &&
+      item.range === this.dadoRange && item.sorte === this.rangeItens);
+
+    
   }
 
 
@@ -70,7 +74,7 @@ export class ItensComponent implements OnInit {
     console.log('RangeItens: ', this.rangeItens);
   }
 
-  SortearItem() {
+  sortearItem() {
     console.log('Sorteando Item');
     console.log('Tipo ' + this.ObjetoItem);
     console.log('Sorte: ', this.sorteJogador);
@@ -84,5 +88,7 @@ export class ItensComponent implements OnInit {
     
     console.log('ItemSorteado: ', this.itemSorteado);
   }
+
+  
 
 }
