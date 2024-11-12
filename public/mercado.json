@@ -1,0 +1,212 @@
+{
+    "mercado": {
+        "armas": [
+            {
+                "nome": "Espada Longa",
+                "preco": 15,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Machado de Batalha",
+                "preco": 20,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Arco Curto",
+                "preco": 10,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Lança",
+                "preco": 8,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Martelo de Guerra",
+                "preco": 25,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Funda",
+                "preco": 2,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Cajado Mágico",
+                "preco": 30,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Adaga Envenenada",
+                "preco": 12,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Espada Curta",
+                "preco": 10,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Arco Longo",
+                "preco": 15,
+                "moeda": "ouro"
+            }
+        ],
+        "comidas": [
+            {
+                "nome": "Pão",
+                "preco": 1,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Queijo",
+                "preco": 2,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Maçã",
+                "preco": 1,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Carne Seca",
+                "preco": 3,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Peixe",
+                "preco": 4,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Sopa de Legumes",
+                "preco": 2,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Frango Assado",
+                "preco": 5,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Bolo",
+                "preco": 3,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Ovos",
+                "preco": 1,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Mel",
+                "preco": 2,
+                "moeda": "ouro"
+            }
+        ],
+        "bebidas": [
+            {
+                "nome": "Cerveja",
+                "preco": 1,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Vinho",
+                "preco": 3,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Suco de Frutas",
+                "preco": 2,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Água",
+                "preco": 1,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Leite",
+                "preco": 1,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Hidromel",
+                "preco": 4,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Chá",
+                "preco": 1,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Café",
+                "preco": 1,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Uísque",
+                "preco": 5,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Rum",
+                "preco": 4,
+                "moeda": "ouro"
+            }
+        ],
+        "armaduras": [
+            {
+                "nome": "Armadura de Couro",
+                "preco": 10,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Cota de Malha",
+                "preco": 20,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Armadura de Placas",
+                "preco": 50,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Escudo de Madeira",
+                "preco": 5,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Escudo de Ferro",
+                "preco": 15,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Elmo de Ferro",
+                "preco": 10,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Botas de Couro",
+                "preco": 5,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Luvas de Couro",
+                "preco": 3,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Capa de Tecido",
+                "preco": 2,
+                "moeda": "ouro"
+            },
+            {
+                "nome": "Armadura de Escamas",
+                "preco": 30,
+                "moeda": "ouro"
+            }
+        ]
+    }
+}
