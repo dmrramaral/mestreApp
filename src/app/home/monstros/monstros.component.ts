@@ -54,7 +54,8 @@ export class MonstrosComponent {
         return (this.filter.name ? monstro.name.includes(this.filter.name) : true) &&
                (this.filter.alignment ? monstro.alignment === this.filter.alignment : true) &&
                (this.filter.size ? monstro.size === this.filter.size : true) &&
-               (this.filter.type ? monstro.type === this.filter.type : true);
+               (this.filter.type ? monstro.type === this.filter.type : true) &&
+               (this.filter.xp ? monstro.xp === this.filter.xp : true);
       });
     });
   }
