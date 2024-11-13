@@ -1,10 +1,10 @@
-[ 
+[
     {
         "index": "aboleth",
         "name": "Aboleth",
-        "size": "Large",
+        "size": "Grande",
         "type": "aberration",
-        "alignment": "lawful evil",
+        "alignment": "maligno legal",
         "armor_class": [
             {
                 "type": "natural",
@@ -15,8 +15,8 @@
         "hit_dice": "18d10",
         "hit_points_roll": "18d10+36",
         "speed": {
-            "walk": "10 ft.",
-            "swim": "40 ft."
+            "walk": "10 pés",
+            "swim": "40 pés"
         },
         "strength": 21,
         "dexterity": 9,
@@ -29,7 +29,7 @@
                 "value": 6,
                 "proficiency": {
                     "index": "saving-throw-con",
-                    "name": "Saving Throw: CON",
+                    "name": "Teste de Resistência: CON",
                     "url": "/api/proficiencies/saving-throw-con"
                 }
             },
@@ -37,7 +37,7 @@
                 "value": 8,
                 "proficiency": {
                     "index": "saving-throw-int",
-                    "name": "Saving Throw: INT",
+                    "name": "Teste de Resistência: INT",
                     "url": "/api/proficiencies/saving-throw-int"
                 }
             },
@@ -45,7 +45,7 @@
                 "value": 6,
                 "proficiency": {
                     "index": "saving-throw-wis",
-                    "name": "Saving Throw: WIS",
+                    "name": "Teste de Resistência: SAB",
                     "url": "/api/proficiencies/saving-throw-wis"
                 }
             },
@@ -53,7 +53,7 @@
                 "value": 12,
                 "proficiency": {
                     "index": "skill-history",
-                    "name": "Skill: History",
+                    "name": "Perícia: História",
                     "url": "/api/proficiencies/skill-history"
                 }
             },
@@ -61,7 +61,7 @@
                 "value": 10,
                 "proficiency": {
                     "index": "skill-perception",
-                    "name": "Skill: Perception",
+                    "name": "Perícia: Percepção",
                     "url": "/api/proficiencies/skill-perception"
                 }
             }
@@ -71,21 +71,21 @@
         "damage_immunities": [],
         "condition_immunities": [],
         "senses": {
-            "darkvision": "120 ft.",
+            "darkvision": "120 pés",
             "passive_perception": 20
         },
-        "languages": "Deep Speech, telepathy 120 ft.",
+        "languages": "Língua Profunda, telepatia 120 pés",
         "challenge_rating": 10,
         "proficiency_bonus": 4,
         "xp": 5900,
         "special_abilities": [
             {
                 "name": "Amphibious",
-                "desc": "The aboleth can breathe air and water."
+                "desc": "O aboleth pode respirar ar e água."
             },
             {
                 "name": "Mucous Cloud",
-                "desc": "While underwater, the aboleth is surrounded by transformative mucus. A creature that touches the aboleth or that hits it with a melee attack while within 5 ft. of it must make a DC 14 Constitution saving throw. On a failure, the creature is diseased for 1d4 hours. The diseased creature can breathe only underwater.",
+                "desc": "Enquanto estiver submerso, o aboleth é rodeado por um muco transformador. Uma criatura que toque o aboleth ou que o acerte com um ataque corpo a corpo a menos de 1,5 metros de distância deve fazer um teste de resistência de Constituição DC 14. Em caso de falha, a criatura fica doente por 1d4 horas. A criatura doente só pode respirar debaixo d'água.",
                 "dc": {
                     "dc_type": {
                         "index": "con",
@@ -98,14 +98,14 @@
             },
             {
                 "name": "Probing Telepathy",
-                "desc": "If a creature communicates telepathically with the aboleth, the aboleth learns the creature's greatest desires if the aboleth can see the creature."
+                "desc": "Se uma criatura se comunicar telepaticamente com o aboleth, o aboleth descobre os maiores desejos da criatura se ele puder ver a criatura."
             }
         ],
         "actions": [
             {
                 "name": "Multiattack",
                 "multiattack_type": "actions",
-                "desc": "The aboleth makes three tentacle attacks.",
+                "desc": "O aboleth faz três ataques com tentáculos.",
                 "actions": [
                     {
                         "action_name": "Tentacle",
@@ -116,7 +116,7 @@
             },
             {
                 "name": "Tentacle",
-                "desc": "Melee Weapon Attack: +9 to hit, reach 10 ft., one target. Hit: 12 (2d6 + 5) bludgeoning damage. If the target is a creature, it must succeed on a DC 14 Constitution saving throw or become diseased. The disease has no effect for 1 minute and can be removed by any magic that cures disease. After 1 minute, the diseased creature's skin becomes translucent and slimy, the creature can't regain hit points unless it is underwater, and the disease can be removed only by heal or another disease-curing spell of 6th level or higher. When the creature is outside a body of water, it takes 6 (1d12) acid damage every 10 minutes unless moisture is applied to the skin before 10 minutes have passed.",
+                "desc": "Ataque com Arma Corpo a Corpo: +9 para acertar, alcance 3 metros, um alvo. Acerto: 12 (2d6 + 5) dano contundente. Se o alvo for uma criatura, ele deve ser bem-sucedido em um teste de resistência de Constituição DC 14 ou ficará doente. A doença não tem efeito por 1 minuto e pode ser removida por qualquer magia que cure doenças. Após 1 minuto, a pele da criatura doente se torna translúcida e viscosa, a criatura não pode recuperar pontos de vida a menos que esteja debaixo d'água, e a doença só pode ser removida por curar ou outro feitiço de cura de doença de 6º nível ou superior. Quando a criatura está fora de um corpo de água, ela sofre 6 (1d12) de dano ácido a cada 10 minutos, a menos que umidade seja aplicada à pele antes de 10 minutos terem se passado.",
                 "attack_bonus": 9,
                 "dc": {
                     "dc_type": {
@@ -131,7 +131,7 @@
                     {
                         "damage_type": {
                             "index": "bludgeoning",
-                            "name": "Bludgeoning",
+                            "name": "Contundente",
                             "url": "/api/damage-types/bludgeoning"
                         },
                         "damage_dice": "2d6+5"
@@ -139,7 +139,7 @@
                     {
                         "damage_type": {
                             "index": "acid",
-                            "name": "Acid",
+                            "name": "Ácido",
                             "url": "/api/damage-types/acid"
                         },
                         "damage_dice": "1d12"
@@ -149,13 +149,13 @@
             },
             {
                 "name": "Tail",
-                "desc": "Melee Weapon Attack: +9 to hit, reach 10 ft., one target. Hit: 15 (3d6 + 5) bludgeoning damage.",
+                "desc": "Ataque com Arma Corpo a Corpo: +9 para acertar, alcance 3 metros, um alvo. Acerto: 15 (3d6 + 5) dano contundente.",
                 "attack_bonus": 9,
                 "damage": [
                     {
                         "damage_type": {
                             "index": "bludgeoning",
-                            "name": "Bludgeoning",
+                            "name": "Contundente",
                             "url": "/api/damage-types/bludgeoning"
                         },
                         "damage_dice": "3d6+5"
@@ -165,9 +165,9 @@
             },
             {
                 "name": "Enslave",
-                "desc": "The aboleth targets one creature it can see within 30 ft. of it. The target must succeed on a DC 14 Wisdom saving throw or be magically charmed by the aboleth until the aboleth dies or until it is on a different plane of existence from the target. The charmed target is under the aboleth's control and can't take reactions, and the aboleth and the target can communicate telepathically with each other over any distance.\nWhenever the charmed target takes damage, the target can repeat the saving throw. On a success, the effect ends. No more than once every 24 hours, the target can also repeat the saving throw when it is at least 1 mile away from the aboleth.",
+                "desc": "O aboleth mira uma criatura que ele pode ver a até 9 metros dele. O alvo deve ser bem-sucedido em um teste de resistência de Sabedoria DC 14 ou será magicamente enfeitiçado pelo aboleth até que o aboleth morra ou até que esteja em um plano de existência diferente do alvo. O alvo enfeitiçado está sob o controle do aboleth e não pode realizar reações, e o aboleth e o alvo podem se comunicar telepaticamente a qualquer distância.\nSempre que o alvo enfeitiçado sofrer dano, ele pode repetir o teste de resistência. Em um sucesso, o efeito termina. Não mais do que uma vez a cada 24 horas, o alvo também pode repetir o teste de resistência quando estiver a pelo menos 1 milha de distância do aboleth.",
                 "usage": {
-                    "type": "per day",
+                    "type": "por dia",
                     "times": 3
                 },
                 "dc": {

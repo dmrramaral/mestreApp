@@ -71,22 +71,13 @@ export class ItensComponent implements OnInit {
     } else {
       this.rangeItens = 'critico';
     }
-    console.log('RangeItens: ', this.rangeItens);
   }
 
   sortearItem() {
-    console.log('Sorteando Item');
-    console.log('Tipo ' + this.ObjetoItem);
-    console.log('Sorte: ', this.sorteJogador);
-
-    console.log('Range Nome: ' + this.rangeItens);
-    console.log('Range: ' + this.dadoRange);
-
 
     this.itemSorteado = this.itens.find(item => item.tipo === this.ObjetoItem &&
       item.range === this.dadoRange && item.sorte === this.rangeItens);
     
-    console.log('ItemSorteado: ', this.itemSorteado);
   }
 
   

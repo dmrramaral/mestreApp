@@ -26,7 +26,6 @@ export class MercadoComponent {
   ngOnInit() {
     this.mercadoService.getMercado().subscribe((data: any) => {
       this.mercado = data.mercado as Mercado;
-      console.log(this.mercado);
 
     });
   }
