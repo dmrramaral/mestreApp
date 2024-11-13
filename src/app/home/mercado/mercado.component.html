@@ -75,28 +75,7 @@
                                     <p *ngIf="item.weapon_category"><strong>Categoria da Arma:</strong> {{ item.weapon_category }}</p>
                                     <p *ngIf="item.weapon_range"><strong>Alcance da Arma:</strong> {{ item.weapon_range }}</p>
                                     <p *ngIf="item.throw_range?.normal || item.throw_range?.long"><strong>Alcance de Arremesso:</strong> {{ item.throw_range?.normal || 'N/A' }} / {{ item.throw_range?.long || 'N/A' }}</p>
-                                    <p *ngIf="item.name"><strong>Item:</strong> {{item.name}}</p>
-                                    <p *ngIf="item.desc"><strong>Descrição:</strong> {{ item.desc?.join(', ') }}</p>
-                                    <p *ngIf="item.weight"><strong>Peso:</strong> {{ item.weight }}</p>
-                                    <p *ngIf="item.cost?.quantity"><strong>Moeda:</strong> {{ item.cost?.quantity }}</p>
-                                    <p *ngIf="item.armor_category"><strong>Categoria da Armadura:</strong> {{ item.armor_category }}</p>
-                                    <p *ngIf="item.armor_class?.base"><strong>Classe da Armadura:</strong> Base: {{ item.armor_class?.base }}, Bônus de Destreza: {{ item.armor_class?.dex_bonus ? 'Sim' : 'Não' }}, Bônus Máximo: {{ item.armor_class?.max_bonus }}</p>
-                                    <p *ngIf="item.str_minimum"><strong>Força Mínima:</strong> {{ item.str_minimum }}</p>
-                                    <p *ngIf="item.stealth_disadvantage"><strong>Desvantagem em Furtividade:</strong> {{ item.stealth_disadvantage ? 'Sim' : 'Não' }}</p>
-                                    <p *ngIf="item.contents"><strong>Conteúdo:</strong> {{ item.contents?.join(', ') }}</p>
-                                    <p *ngIf="item.properties"><strong>Propriedades:</strong> {{ item.properties?.join(', ') }}</p>
-                                    <p *ngIf="item.capacity"><strong>Capacidade:</strong> {{ item.capacity }}</p>
-                                    <p *ngIf="item.category_range"><strong>Categoria de Alcance:</strong> {{ item.category_range }}</p>
-                                    <p *ngIf="item.damage?.quantity"><strong>Dano:</strong> {{ item.damage?.quantity }}</p>
-                                    <p *ngIf="item.quantity"><strong>Quantidade:</strong> {{ item.quantity }}</p>
-                                    <p *ngIf="item.range?.normal"><strong>Alcance:</strong> {{ item.range?.normal }} / {{ item.range?.long }}</p>
-                                    <p *ngIf="item.special"><strong>Especial:</strong> {{ item.special?.join(', ') }}</p>
-                                    <p *ngIf="item.speed?.quantity"><strong>Velocidade:</strong> {{ item.speed?.quantity }} {{ item.speed?.unit }}</p>
-                                    <p *ngIf="item.tool_category"><strong>Categoria da Ferramenta:</strong> {{ item.tool_category }}</p>
-                                    <p *ngIf="item.two_handed_damage?.quantity"><strong>Dano com Duas Mãos:</strong> {{ item.two_handed_damage?.quantity }}</p>
-                                    <p *ngIf="item.vehicle_category"><strong>Categoria do Veículo:</strong> {{ item.vehicle_category }}</p>
-                                    <p *ngIf="item.weapon_category"><strong>Categoria da Arma:</strong> {{ item.weapon_category }}</p>
-                                    <p *ngIf="item.weapon_range"><strong>Alcance da Arma:</strong> {{ item.weapon_range }}</p>
+                                    
                                     
                                 </div>
                                 <div class="modal-footer">
