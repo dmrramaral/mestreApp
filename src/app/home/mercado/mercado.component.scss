@@ -27,3 +27,13 @@
     width: 100%;
     border-radius: 2rem;
 }
+
+.filter-categories{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+}
+tbody {
+    font-size: 0.70rem; // Adjust the font size as needed
+}

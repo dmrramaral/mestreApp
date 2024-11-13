@@ -28,11 +28,11 @@
             <option value="">Tipo</option>
             <option *ngFor="let type of types" [value]="type">{{ type }}</option>
         </select>
-        <button (click)="applyFilters()" class="btn btn-dark btn-small">Aplicar Filtros</button>
+        <button (click)="applyFilters()" class="btn btn-dark btn-sm">Aplicar Filtros</button>
     </div>
 
     <div *ngFor="let monstro of monstros; let i = index" class="card m-1" style="width: 25rem;">
-      <button (click)="monstro.showImage = !monstro.showImage" class="btn btn-dark btn-sm col-3 m-1">
+      <button (click)="monstro.showImage = !monstro.showImage" class="btn btn-dark btn-sm col-3 m-1 ">
         {{ monstro.showImage ? 'X' : 'Ver Imagem' }}
       </button>
       <img *ngIf="monstro.showImage && monstro.image" [src]="'https://www.dnd5eapi.co' + monstro.image" class="card-img-top" alt="{{ monstro.name }}">
@@ -50,7 +50,7 @@
   
         <!-- Botão de Colapso de Atributos -->
         <p class="d-inline-flex gap-1">
-          <button class="btn btn-dark btn-small" type="button" data-bs-toggle="collapse" 
+          <button class="btn btn-dark btn-sm" type="button" data-bs-toggle="collapse" 
                   [attr.data-bs-target]="'#collapseAttributes' + i" 
                   aria-expanded="false" [attr.aria-controls]="'collapseAttributes' + i">
              Atributos
@@ -82,7 +82,7 @@
 
         <!-- Botão de Colapso de Perícias -->
         <p class="d-inline-flex gap-1">
-            <button class="btn btn-dark btn-small" type="button" data-bs-toggle="collapse" 
+            <button class="btn btn-dark btn-sm" type="button" data-bs-toggle="collapse" 
                             [attr.data-bs-target]="'#collapseProficiencies' + i" 
                             aria-expanded="false" [attr.aria-controls]="'collapseProficiencies' + i">
                  Perícias
@@ -120,7 +120,7 @@
 
         <!-- Botão de Colapso de Habilidades Especiais -->
         <p class="d-inline-flex gap-1">
-            <button class="btn btn-dark btn-small" type="button" data-bs-toggle="collapse" 
+            <button class="btn btn-dark btn-sm" type="button" data-bs-toggle="collapse" 
                             [attr.data-bs-target]="'#collapseSpecialAbilities' + i" 
                             aria-expanded="false" [attr.aria-controls]="'collapseSpecialAbilities' + i">
                  Habilidades Especiais
@@ -154,7 +154,7 @@
 
         <!-- Botão de Colapso de Ações -->
         <p class="d-inline-flex gap-1">
-            <button class="btn btn-dark btn-small" type="button" data-bs-toggle="collapse" 
+            <button class="btn btn-dark btn-sm" type="button" data-bs-toggle="collapse" 
                             [attr.data-bs-target]="'#collapseActions' + i" 
                             aria-expanded="false" [attr.aria-controls]="'collapseActions' + i">
                  Ações
@@ -175,7 +175,7 @@
 
         <!-- Botão de Colapso de Ações Lendárias -->
         <p class="d-inline-flex gap-1">
-            <button class="btn btn-dark btn-small" type="button" data-bs-toggle="collapse" 
+            <button class="btn btn-dark btn-sm" type="button" data-bs-toggle="collapse" 
                             [attr.data-bs-target]="'#collapseLegendaryActions' + i" 
                             aria-expanded="false" [attr.aria-controls]="'collapseLegendaryActions' + i">
                  Ações Lendárias

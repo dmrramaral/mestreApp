@@ -1,147 +1,227 @@
-<div style="margin: 36px;">
-    
-<ul class="nav nav-tabs" style="margin-top: 60px;" id="myTab" role="tablist">
-    <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="armas-tab" data-bs-toggle="tab" data-bs-target="#armas-tab-pane" type="button" role="tab" aria-controls="armas-tab-pane" aria-selected="true">Armas</button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button class="nav-link" id="comidas-tab" data-bs-toggle="tab" data-bs-target="#comidas-tab-pane" type="button" role="tab" aria-controls="comidas-tab-pane" aria-selected="false">Comidas</button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button class="nav-link" id="bebidas-tab" data-bs-toggle="tab" data-bs-target="#bebidas-tab-pane" type="button" role="tab" aria-controls="bebidas-tab-pane" aria-selected="false">Bebidas</button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button class="nav-link" id="armaduras-tab" data-bs-toggle="tab" data-bs-target="#armaduras-tab-pane" type="button" role="tab" aria-controls="armaduras-tab-pane" aria-selected="false">Armaduras</button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button class="nav-link" id="outros-tab" data-bs-toggle="tab" data-bs-target="#aneis-tab-pane" type="button" role="tab" aria-controls="aneis-tab-pane" aria-selected="false">Aneis</button>
-    </li>
-    <!-- Amuletos -->
-     <li class="nav-item" role="presentation">
-        <button class="nav-link" id="outros-tab" data-bs-toggle="tab" data-bs-target="#amuletos-tab-pane" type="button" role="tab" aria-controls="amuletos-tab-pane" aria-selected="false">Amuletos</button>
-    </li>   
-</ul>
-<div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="armas-tab-pane" role="tabpanel" aria-labelledby="armas-tab" tabindex="0">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Preço</th>
-                    <th scope="col">Moeda</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of mercado.armas; let i = index">
-                    <th scope="row">{{ i + 1 }}</th>
-                    <td>{{ item.nome }} <br> <small>{{item.beneficios}}</small></td>
-                    <td>{{ item.preco }}</td>
-                    <td>{{ item.moeda }}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="tab-pane fade" id="comidas-tab-pane" role="tabpanel" aria-labelledby="comidas-tab" tabindex="0">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Preço</th>
-                    <th scope="col">Moeda</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of mercado.comidas; let i = index">
-                    <th scope="row">{{ i + 1 }}</th>
-                    <td>{{ item.nome }} <br> <small>{{item.beneficios}}</small></td>
-                    <td>{{ item.preco }}</td>
-                    <td>{{ item.moeda }}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="tab-pane fade" id="bebidas-tab-pane" role="tabpanel" aria-labelledby="bebidas-tab" tabindex="0">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Preço</th>
-                    <th scope="col">Moeda</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of mercado.bebidas; let i = index">
-                    <th scope="row">{{ i + 1 }}</th>
-                    <td>{{ item.nome }} <br> <small>{{item.beneficios}}</small></td>
-                    <td>{{ item.preco }}</td>
-                    <td>{{ item.moeda }}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="tab-pane fade" id="armaduras-tab-pane" role="tabpanel" aria-labelledby="armaduras-tab" tabindex="0">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Preço</th>
-                    <th scope="col">Moeda</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of mercado.armaduras; let i = index">
-                    <th scope="row">{{ i + 1 }}</th>
-                    <td>{{ item.nome }} <br> <small>{{item.beneficios}}</small></td>
-                    <td>{{ item.preco }}</td>
-                    <td>{{ item.moeda }}</td>
-                </tr>
-            </tbody>
-        </table>
+<div style="margin-top: 60px; display: flex; flex-wrap: wrap; flex-direction: row; justify-content: space-around;">
+
+    <div class="filter-categories">
+        <select [(ngModel)]="filter.category" class="form-control m-1 mb-2">
+            <option value="">Categorias</option>
+            <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+        </select>
+        <select [(ngModel)]="filter.subcategory" class="form-control m-1 mb-2">
+            <option value="">Subcategorias</option>
+            <option *ngFor="let subcategory of subcategories" [value]="subcategory">{{ subcategory }}</option>
+        </select>
+        <button (click)="applyFilters()" class="btn btn-dark btn-sm">Aplicar Filtros</button>
     </div>
 
-    <div class="tab-pane fade" id="aneis-tab-pane" role="tabpanel" aria-labelledby="aneis-tab" tabindex="0">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Preço</th>
-                    <th scope="col">Moeda</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of mercado.aneis; let i = index">
-                    <th scope="row">{{ i + 1 }}</th>
-                    <td>{{ item.nome }} <br> <small>{{item.beneficios}}</small></td>
-                    <td>{{ item.preco }}</td>
-                    <td>{{ item.moeda }}</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+    <table class="table m-1">
+        <thead>
+            <tr style="font-size: 0.7rem;">
+                <!--  <th scope="col">#</th> -->
+                <th scope="col">Nome</th>
+                <th scope="col">Categoria</th>
+                <th scope="col">SubCat</th>
+                <th scope="col">Preço</th>
+                <th scope="col">Ação</th>
 
-    <div class="tab-pane fade" id="amuletos-tab-pane" role="tabpanel" aria-labelledby="amuletos-tab" tabindex="0">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">Preço</th>
-                    <th scope="col">Moeda</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of mercado.amuletos; let i = index">
-                    <th scope="row">{{ i + 1 }}</th>
-                    <td>{{ item.nome }} <br> <small>{{item.beneficios}}</small></td>
-                    <td>{{ item.preco }}</td>
-                    <td>{{ item.moeda }}</td>
-                </tr>
-            </tbody>
-        </table>
-</div>
-</div>
+                <!-- <th scope="col">Moeda</th> -->
+                <!-- <th scope="col">Peso</th> -->
+                <!-- <th scope="col">Descrição</th> -->
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of mercadoDnD; let i = index">
+                <!-- <th scope="row">{{ i + 1 }}</th> -->
+                <td>{{ item.name || '' }}</td>
+                <td>{{ item.equipment_category?.name || '' }}</td>
+                <td>{{ item.gear_category?.name || '' }}</td>
+                <td>{{ item.cost?.quantity || '' }} {{ item.cost?.unit || '' }}</td>
+                <!-- <td></td> -->
+                <!-- <td>{{ item.weight || '' }}</td> -->
+                <!-- <td>{{ item.desc?.join(', ') || '' }}</td> -->
+                <td>
+                    <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" [attr.data-bs-target]="'#detailsModal' + i">
+                        Ver
+                    </button>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="detailsModal{{i}}" tabindex="-1" [attr.aria-labelledby]="'detailsModalLabel' + i" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="detailsModalLabel{{i}}">Detalhes do Item</h5>
+                                    
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <p><strong>Item: {{item.name}}</strong></p>
+                                    <p><strong>Descrição:</strong> {{ item.desc?.join(', ') || 'N/A' }}</p>
+                                    <p><strong>Peso:</strong> {{ item.weight || 'N/A' }}</p>
+                                    <p><strong>Moeda:</strong> {{ item.cost?.quantity || 'N/A' }}</p>
+                                    <p><strong>Categoria da Armadura:</strong> {{ item.armor_category || 'N/A' }}</p>
+                                    <p><strong>Classe da Armadura:</strong> Base: {{ item.armor_class?.base || 'N/A' }}, Bônus de Destreza: {{ item.armor_class?.dex_bonus ? 'Sim' : 'Não' }}, Bônus Máximo: {{ item.armor_class?.max_bonus || 'N/A' }}</p>
+                                    <p><strong>Força Mínima:</strong> {{ item.str_minimum || 'N/A' }}</p>
+                                    <p><strong>Desvantagem em Furtividade:</strong> {{ item.stealth_disadvantage ? 'Sim' : 'Não' }}</p>
+                                    <p><strong>Conteúdo:</strong> {{ item.contents?.join(', ') || 'N/A' }}</p>
+                                    <p><strong>Propriedades:</strong> {{ item.properties?.join(', ') || 'N/A' }}</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- <ul class="nav nav-tabs" style="margin-top: 60px;" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="armas-tab" data-bs-toggle="tab" data-bs-target="#armas-tab-pane"
+                type="button" role="tab" aria-controls="armas-tab-pane" aria-selected="true">Armas</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="comidas-tab" data-bs-toggle="tab" data-bs-target="#comidas-tab-pane"
+                type="button" role="tab" aria-controls="comidas-tab-pane" aria-selected="false">Comidas</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="bebidas-tab" data-bs-toggle="tab" data-bs-target="#bebidas-tab-pane"
+                type="button" role="tab" aria-controls="bebidas-tab-pane" aria-selected="false">Bebidas</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="armaduras-tab" data-bs-toggle="tab" data-bs-target="#armaduras-tab-pane"
+                type="button" role="tab" aria-controls="armaduras-tab-pane" aria-selected="false">Armaduras</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="outros-tab" data-bs-toggle="tab" data-bs-target="#aneis-tab-pane" type="button"
+                role="tab" aria-controls="aneis-tab-pane" aria-selected="false">Aneis</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="outros-tab" data-bs-toggle="tab" data-bs-target="#amuletos-tab-pane"
+                type="button" role="tab" aria-controls="amuletos-tab-pane" aria-selected="false">Amuletos</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="armas-tab-pane" role="tabpanel" aria-labelledby="armas-tab"
+            tabindex="0">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Preço</th>
+                        <th scope="col">Moeda</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of mercado.armas; let i = index">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>{{ item.nome }} <br> <small>{{item.beneficios}}</small></td>
+                        <td>{{ item.preco }}</td>
+                        <td>{{ item.moeda }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="comidas-tab-pane" role="tabpanel" aria-labelledby="comidas-tab" tabindex="0">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Preço</th>
+                        <th scope="col">Moeda</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of mercado.comidas; let i = index">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>{{ item.nome }} <br> <small>{{item.beneficios}}</small></td>
+                        <td>{{ item.preco }}</td>
+                        <td>{{ item.moeda }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="bebidas-tab-pane" role="tabpanel" aria-labelledby="bebidas-tab" tabindex="0">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Preço</th>
+                        <th scope="col">Moeda</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of mercado.bebidas; let i = index">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>{{ item.nome }} <br> <small>{{item.beneficios}}</small></td>
+                        <td>{{ item.preco }}</td>
+                        <td>{{ item.moeda }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="tab-pane fade" id="armaduras-tab-pane" role="tabpanel" aria-labelledby="armaduras-tab" tabindex="0">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Preço</th>
+                        <th scope="col">Moeda</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of mercado.armaduras; let i = index">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>{{ item.nome }} <br> <small>{{item.beneficios}}</small></td>
+                        <td>{{ item.preco }}</td>
+                        <td>{{ item.moeda }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tab-pane fade" id="aneis-tab-pane" role="tabpanel" aria-labelledby="aneis-tab" tabindex="0">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Preço</th>
+                        <th scope="col">Moeda</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of mercado.aneis; let i = index">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>{{ item.nome }} <br> <small>{{item.beneficios}}</small></td>
+                        <td>{{ item.preco }}</td>
+                        <td>{{ item.moeda }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="tab-pane fade" id="amuletos-tab-pane" role="tabpanel" aria-labelledby="amuletos-tab" tabindex="0">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Nome</th>
+                        <th scope="col">Preço</th>
+                        <th scope="col">Moeda</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let item of mercado.amuletos; let i = index">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>{{ item.nome }} <br> <small>{{item.beneficios}}</small></td>
+                        <td>{{ item.preco }}</td>
+                        <td>{{ item.moeda }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div> -->
