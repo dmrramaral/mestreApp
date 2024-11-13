@@ -32,8 +32,8 @@
     </div>
 
     <div *ngFor="let monstro of monstros; let i = index" class="card m-1" style="width: 25rem;">
-      <button (click)="monstro.showImage = !monstro.showImage" class="btn btn-dark btn-small col-3">
-        {{ monstro.showImage ? 'X' : 'Ver Image' }}
+      <button (click)="monstro.showImage = !monstro.showImage" class="btn btn-dark btn-sm col-3 m-1">
+        {{ monstro.showImage ? 'X' : 'Ver Imagem' }}
       </button>
       <img *ngIf="monstro.showImage && monstro.image" [src]="'https://www.dnd5eapi.co' + monstro.image" class="card-img-top" alt="{{ monstro.name }}">
       <div class="card-body">
