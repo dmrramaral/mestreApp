@@ -42,7 +42,7 @@ export class IniciativaComponent implements OnInit {
 
 
   adicionar() {
-    this.listaIniciativa.push({ nome: this.nome, iniciativa: this.iniciativa });
+    this.listaIniciativa.push({ nome: this.nome, iniciativa: this.iniciativa, vida: 0 });
     this.listaIniciativa.sort((a, b) => b.iniciativa - a.iniciativa);
     this.nome = '';
     this.iniciativa = null;
@@ -52,5 +52,8 @@ export class IniciativaComponent implements OnInit {
   remover(jogador: any) {
     const index = this.listaIniciativa.indexOf(jogador);
     this.listaIniciativa.splice(index, 1);
+  }
+salvarVida() {
+    this.localStorageServcieService.setItem('listaIniciativa', JSON.stringify(this.listaIniciativa));
   }
 }
