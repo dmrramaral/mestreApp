@@ -32,6 +32,7 @@
     <thead class="justify-content-center">
         <tr>
             <th scope="col">Iniciativa</th>
+            <th scope="col">Vida</th>
             <th scope="col">Nome</th>
             <th scope="col">Ações</th>
 
@@ -40,6 +41,7 @@
     <tbody>
         <tr *ngFor="let jogador of listaIniciativa">
             <td>{{jogador.iniciativa}}</td>
+<td><input type="number"/></td>
             <td>{{jogador.nome}}</td>
             <td>
                 <button class="btn btn-danger btn-sm" (click)="remover(jogador)">Remover</button>
