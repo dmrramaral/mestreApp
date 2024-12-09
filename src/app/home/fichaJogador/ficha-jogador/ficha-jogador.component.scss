@@ -1,0 +1,105 @@
+.headerFicha{
+    background-color: azure;
+    margin-top: 60px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.headerFicha__avatar img{
+    width: 2rem;
+}
+
+.fichaJogador{
+    background-color: azure;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top:1rem;
+    margin-left: 0.5rem;
+}
+
+.headerFicha__info{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-content: center;
+    flex-wrap: nowrap;
+    align-items: center;
+    
+}
+
+.headerFicha__info p{
+    margin: 0;
+    padding: 0;
+    margin-right: 0.6rem;
+}
+
+.fichaJogador__atributos__item{
+    background-color: azure;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.fichaJogador__pericias__item{
+    background-color: azure;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.fichaJogador__combate{
+    background-color: azure;
+
+    border: 2px solid black;
+ 
+}
+
+.fichaJogador__combate__item{
+    background-color: azure;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.fichaJogador__atributos{
+    background-color: azure;
+    border: 2px solid black;
+}
+
+.fichaJogador__equipamentos__item{
+    background-color: azure;
+    display: flex;
+    flex-direction: row;
+    align-content: end;
+    flex-wrap: wrap;
+    align-items: end;
+    margin-top: 1rem;
+   
+}
+
+.fichaJogador__talentos__item{
+    background-color: azure;
+    display: flex;
+    flex-direction: row;
+    align-content: end;
+    flex-wrap: wrap;
+    align-items: end;
+    margin-top: 1rem;
+
+}

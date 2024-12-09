@@ -1,0 +1,86 @@
+<div class="headerFicha">
+    <div class="headerFicha__avatar">
+        <img [src]="jogador.avatar" alt="Avatar do jogador">
+    </div>
+    <div class="headerFicha__info">
+
+        <p><strong>Nome: <br></strong>{{jogador.nome}}</p>
+        <p><strong>Classe:<br></strong>{{jogador.classe}}</p>
+        <p><strong>Raça:<br></strong>{{jogador.raca}}</p>
+        <p><strong>Nv<br></strong>{{jogador.nivel}}</p>
+    </div>
+</div>
+<button type="button" class="btn btn-secondary btn-sm m-1">Magia</button>
+<button type="button" class="btn btn-secondary btn-sm">Talento</button>
+<button type="button" class="btn btn-secondary btn-sm m-1">Mochila</button>
+<div class="d-flex">
+    <div class="fichaJogador__combate mt-1 col-6">
+        <p><strong>Combate</strong></p>
+        <div class="fichaJogador__combate__item" style="font-size: x-small;">
+            <p><strong>PV:</strong> {{jogador.pv}}</p>
+            <p><strong>PVA:</strong> {{jogador.pva}}</p>
+            <p><strong>CA:</strong> {{jogador.ca}}</p>
+            <p><strong>Des:</strong> {{jogador.deslocamento}}</p>
+            <p><strong>Inic:</strong> {{jogador.iniciativa}}</p>
+            <p><strong>Insp</strong> {{jogador.inspiracao}}</p>
+        </div>
+    </div>
+    <div class="fichaJogador__atributos mt-1 col-6">
+        <p><strong>Atributos</strong></p>
+        <div class="fichaJogador__atributos__item" style="font-size: x-small;">
+            <p><strong>For:</strong> {{jogador.atributos.forca}}</p>
+            <p><strong>Des:</strong> {{jogador.atributos.destreza}}</p>
+            <p><strong>Con:</strong> {{jogador.atributos.constituicao}}</p>
+            <p><strong>Int:</strong> {{jogador.atributos.inteligencia}}</p>
+            <p><strong>Sab:</strong> {{jogador.atributos.sabedoria}}</p>
+            <p><strong>Car:</strong> {{jogador.atributos.carisma}}</p>
+            <p><strong>Sor:</strong> {{jogador.atributos.sorte}}</p>
+        </div>
+    </div>
+</div>
+
+<div class="fichaJogador">
+
+    <div class="fichaJogador__pericias">
+        <p><strong>Perícias</strong></p>
+        <div class="fichaJogador__pericias__item" style="font-size: x-small;">
+            <ng-container *ngFor="let pericia of jogador.pericias">
+                <p *ngIf="pericia.valor === 'sim'">
+                    <strong>{{pericia.nome}}</strong>
+                </p>
+            </ng-container>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex">
+
+    <div class="fichaJogador col-6">
+        <div class="fichaJogador__equipamentos ">
+            <p><strong>Equipamentos</strong></p>
+            <div class="fichaJogador__equipamentos__item" style="font-size: x-small;">
+                <ng-container *ngFor="let categoria of ['cabeca', 'armadura', 'pes','escudo', 'amuleto', 'anel']">
+                    <ng-container *ngFor="let equipamento of jogador.equipamentos[categoria]">
+                        <p>
+                            <strong>{{equipamento.nome}}</strong>: {{equipamento.descricao}}<br>
+                        </p>
+                    </ng-container>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+
+    <div class="fichaJogador col-6">
+        <div class="fichaJogador__talentos">
+            <p><strong>Talentos</strong></p>
+            <div class="fichaJogador__talentos__item" style="font-size: x-small;">
+                <ng-container *ngFor="let talentos of jogador.talentos">
+                    <p>
+                        <strong>{{talentos.nome}}</strong>: {{talentos.descricao}}<br>
+
+                    </p>
+                </ng-container>
+            </div>
+        </div>
+    </div>
+</div>
