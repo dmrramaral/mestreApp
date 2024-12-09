@@ -11,6 +11,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrl: './ficha-jogador.component.scss'
 })
 export class FichaJogadorComponent implements OnInit {
+
   jogador: any;
 
   constructor() { }
@@ -41,7 +42,7 @@ export class FichaJogadorComponent implements OnInit {
         inteligencia: 16,
         sabedoria: 8,
         carisma: 10,
-        sorte: 5
+        sorte: 12
       },
       pericias: [
         { nome: 'Atletismo', valor: 'sim' },
@@ -93,4 +94,39 @@ export class FichaJogadorComponent implements OnInit {
     };
   }
 
+  calcularModificador(arg0: any) {
+      if (arg0 >= 8 && arg0 <= 9) {
+        return -1;
+      } else if (arg0 >= 10 && arg0 <= 11) {
+        return 0;
+      } else if (arg0 >= 12 && arg0 <= 13) {
+        return 1;
+      } else if (arg0 >= 14 && arg0 <= 15) {
+        return 2;
+      } else if (arg0 >= 16 && arg0 <= 17) {
+        return 3;
+      } else if (arg0 >= 18 && arg0 <= 19) {
+        return 4;
+      } else if (arg0 >= 20 && arg0 <= 21) {
+        return 5;
+      } else if (arg0 >= 22 && arg0 <= 23) {
+        return 6;
+      } else if (arg0 >= 24 && arg0 <= 25) {
+        return 7;
+      } else if (arg0 >= 26 && arg0 <= 27) {
+        return 8;
+      } else if (arg0 >= 28 && arg0 <= 29) {
+        return 9;
+      } else if (arg0 == 30) {
+        return 10;
+      } else {
+        return null;
+      }
+
+
+
+
+
+  }
+    
 }

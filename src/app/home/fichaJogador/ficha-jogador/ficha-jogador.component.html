@@ -28,13 +28,13 @@
     <div class="fichaJogador__atributos mt-1 col-6">
         <p><strong>Atributos</strong></p>
         <div class="fichaJogador__atributos__item" style="font-size: x-small;">
-            <p><strong>For:</strong> {{jogador.atributos.forca}}</p>
-            <p><strong>Des:</strong> {{jogador.atributos.destreza}}</p>
-            <p><strong>Con:</strong> {{jogador.atributos.constituicao}}</p>
-            <p><strong>Int:</strong> {{jogador.atributos.inteligencia}}</p>
-            <p><strong>Sab:</strong> {{jogador.atributos.sabedoria}}</p>
-            <p><strong>Car:</strong> {{jogador.atributos.carisma}}</p>
-            <p><strong>Sor:</strong> {{jogador.atributos.sorte}}</p>
+            <p><strong>For:</strong> {{ calcularModificador(jogador.atributos.forca) }}</p>
+            <p><strong>Des:</strong> {{ calcularModificador(jogador.atributos.destreza) }}</p>
+            <p><strong>Con:</strong> {{ calcularModificador(jogador.atributos.constituicao) }}</p>
+            <p><strong>Int:</strong> {{ calcularModificador(jogador.atributos.inteligencia) }}</p>
+            <p><strong>Sab:</strong> {{ calcularModificador(jogador.atributos.sabedoria) }}</p>
+            <p><strong>Car:</strong> {{ calcularModificador(jogador.atributos.carisma) }}</p>
+            <p><strong>Sor:</strong> {{ calcularModificador(jogador.atributos.sorte) }}</p>
         </div>
     </div>
 </div>
