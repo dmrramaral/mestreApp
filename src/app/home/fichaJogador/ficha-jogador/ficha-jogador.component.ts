@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { LocalStorageServcieService } from '../../localStorage/local-storage-servcie.service';
 
 @Component({
   selector: 'app-ficha-jogador',
@@ -15,7 +16,7 @@ import { FormsModule } from '@angular/forms';
 export class FichaJogadorComponent implements OnInit {
 
   jogador: any;
-  
+
   adicionandoMagia: boolean = false;
   novaMagia: any = { nome: '', descricao: '' };
 
@@ -25,10 +26,18 @@ export class FichaJogadorComponent implements OnInit {
   adicionandoTalento: boolean = false;
   novoTalento: any = { nome: '', descricao: '' };
 
+  private cacheKey = 'jogadorCache';
 
-  constructor() { }
+  constructor(private localStorageServcieService: LocalStorageServcieService) {
+
+  }
+
+  saveToCache() {
+    localStorage.setItem(this.cacheKey, JSON.stringify(this.jogador));
+  }
 
   ngOnInit(): void {
+
     this.jogador = {
       avatar: 'https://www.w3schools.com/howto/img_avatar.png',
       nome: 'Douglas',
@@ -39,9 +48,17 @@ export class FichaJogadorComponent implements OnInit {
       pv: 30,
       pva: 10,
       ca: 15,
+      proficiencia: 1,
       deslocamento: 30,
       iniciativa: 2,
       inspiracao: 1,
+      fome: 10,
+      sede: 10,
+      sono: 10,
+      cansaco: 10,
+      calor: 10,
+      frio: 10,
+
       talentos: [
         { nome: 'Estratégia', descricao: '+1 Inteligencia' },
         { nome: 'Retorno Reação', descricao: 'Levando um da outro' },
@@ -101,12 +118,88 @@ export class FichaJogadorComponent implements OnInit {
         anel: [
           { nome: 'Anel de Proteção', descricao: 'CA +1' }
         ]
-       
-      }
+
+      },
+      mochila: [
+        {
+          nome: "Copo",
+          descricao: "Copo de metal"
+        },
+        {
+          nome: "Corda",
+          descricao: "Corda de 10 metros"
+        },
+        {
+          nome: "Pederneira",
+          descricao: "Pederneira para acender fogo"
+        },
+        {
+          nome: "Pergaminho",
+          descricao: "Pergaminho em branco"
+        },
+        {
+          nome: "Pergaminho",
+          descricao: "Pergaminho em branco"
+        },
+        {
+          nome: "Pergaminho",
+          descricao: "Pergaminho em branco"
+        },
+        {
+          nome: "Pergaminho",
+          descricao: "Pergaminho em branco"
+        },
+        {
+          nome: "Pergaminho",
+          descricao: "Pergaminho em branco"
+        },
+        {
+          nome: "Pergaminho",
+          descricao: "Pergaminho em branco"
+        },
+        {
+          nome: "Pergaminho",
+          descricao: "Pergaminho em branco"
+        }
+      ]
     };
+
+    const jogador = this.localStorageServcieService.getItem('jogador');
+    if (jogador) {
+      this.jogador = JSON.parse(jogador);
+    }
+    if (typeof window !== 'undefined') {
+      window.addEventListener('beforeunload', () => {
+        this.localStorageServcieService.setItem('jogador', JSON.stringify(this.jogador));
+      });
+    }
+
   }
 
- 
+  baixarJogador() {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.jogador));
+    const downloadAnchorNode = document.createElement('a');
+    downloadAnchorNode.setAttribute("href", dataStr);
+    downloadAnchorNode.setAttribute("download", "jogador.json");
+    document.body.appendChild(downloadAnchorNode);
+    downloadAnchorNode.click();
+    downloadAnchorNode.remove();
+  }
+
+  carregarJogador(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const content = e.target.result;
+        this.jogador = JSON.parse(content);
+        this.saveToCache();
+      };
+      reader.readAsText(file);
+    }
+  }
+
+
   adicionarMagia() {
     this.adicionandoMagia = true;
   }
@@ -119,8 +212,11 @@ export class FichaJogadorComponent implements OnInit {
       this.jogador.magias.push({ ...this.novaMagia });
       this.novaMagia = { nome: '', descricao: '' };
       this.adicionandoMagia = false;
+      this.saveToCache();
     }
+
   }
+
 
   cancelarAdicionarMagia() {
     this.novaMagia = { nome: '', descricao: '' };
@@ -128,33 +224,33 @@ export class FichaJogadorComponent implements OnInit {
   }
 
   calcularModificador(arg0: any) {
-      if (arg0 >= 8 && arg0 <= 9) {
-        return -1;
-      } else if (arg0 >= 10 && arg0 <= 11) {
-        return 0;
-      } else if (arg0 >= 12 && arg0 <= 13) {
-        return 1;
-      } else if (arg0 >= 14 && arg0 <= 15) {
-        return 2;
-      } else if (arg0 >= 16 && arg0 <= 17) {
-        return 3;
-      } else if (arg0 >= 18 && arg0 <= 19) {
-        return 4;
-      } else if (arg0 >= 20 && arg0 <= 21) {
-        return 5;
-      } else if (arg0 >= 22 && arg0 <= 23) {
-        return 6;
-      } else if (arg0 >= 24 && arg0 <= 25) {
-        return 7;
-      } else if (arg0 >= 26 && arg0 <= 27) {
-        return 8;
-      } else if (arg0 >= 28 && arg0 <= 29) {
-        return 9;
-      } else if (arg0 == 30) {
-        return 10;
-      } else {
-        return null;
-      }
+    if (arg0 >= 8 && arg0 <= 9) {
+      return -1;
+    } else if (arg0 >= 10 && arg0 <= 11) {
+      return 0;
+    } else if (arg0 >= 12 && arg0 <= 13) {
+      return 1;
+    } else if (arg0 >= 14 && arg0 <= 15) {
+      return 2;
+    } else if (arg0 >= 16 && arg0 <= 17) {
+      return 3;
+    } else if (arg0 >= 18 && arg0 <= 19) {
+      return 4;
+    } else if (arg0 >= 20 && arg0 <= 21) {
+      return 5;
+    } else if (arg0 >= 22 && arg0 <= 23) {
+      return 6;
+    } else if (arg0 >= 24 && arg0 <= 25) {
+      return 7;
+    } else if (arg0 >= 26 && arg0 <= 27) {
+      return 8;
+    } else if (arg0 >= 28 && arg0 <= 29) {
+      return 9;
+    } else if (arg0 == 30) {
+      return 10;
+    } else {
+      return null;
+    }
 
   }
 
@@ -172,6 +268,7 @@ export class FichaJogadorComponent implements OnInit {
       this.jogador.mochila.push({ ...this.novoItem });
       this.novoItem = { nome: '', descricao: '' };
       this.adicionandoItem = false;
+      this.saveToCache();
     }
   }
 
@@ -179,9 +276,9 @@ export class FichaJogadorComponent implements OnInit {
     this.novoItem = { nome: '', descricao: '' };
     this.adicionandoItem = false;
   }
-    
 
- 
+
+
 
   adicionarTalento() {
     this.adicionandoTalento = true;
@@ -195,6 +292,7 @@ export class FichaJogadorComponent implements OnInit {
       this.jogador.talentos.push({ ...this.novoTalento });
       this.novoTalento = { nome: '', descricao: '' };
       this.adicionandoTalento = false;
+      this.saveToCache();
     }
   }
 
