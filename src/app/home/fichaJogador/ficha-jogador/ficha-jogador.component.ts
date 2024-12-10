@@ -283,7 +283,7 @@ export class FichaJogadorComponent implements OnInit {
 
   ngOnInit(): void {
 
-    const jogador = this.localStorageServcieService.getItem('jogador');
+    const jogador = this.localStorageServcieService.getItem(this.cacheKey);
     if (jogador) {
       this.jogador = JSON.parse(jogador);
     }
@@ -298,7 +298,7 @@ export class FichaJogadorComponent implements OnInit {
     if (confirm('Tem certeza que deseja limpar o cache?')) {
       localStorage.removeItem(this.cacheKey);
       this.jogador = {
-        avatar: '',
+        avatar: 'https://www.w3schools.com/howto/img_avatar.png',
         nome: '',
         idade: null,
         classe: '',
@@ -489,7 +489,6 @@ export class FichaJogadorComponent implements OnInit {
 
   adicionarEquipamento() {
     this.adicionandoEquipamento = true;
-    console.log(this.adicionandoEquipamento);
   }
 
   confirmarAdicionarEquipamento() {
@@ -509,7 +508,6 @@ export class FichaJogadorComponent implements OnInit {
     this.novoEquipamento = { nome: '', descricao: '' };
     this.novaCategoria = '';
     this.adicionandoEquipamento = false;
-    console.log(this.adicionandoEquipamento);
   }
 
   removerEquipamento(categoria: string, equipamento: { nome: string, descricao: string }) {
