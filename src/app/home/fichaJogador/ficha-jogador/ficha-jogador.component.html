@@ -10,9 +10,82 @@
         <p><strong>Nv<br></strong>{{jogador.nivel}}</p>
     </div>
 </div>
-<button type="button" class="btn btn-secondary btn-sm m-1">Magia</button>
-<button type="button" class="btn btn-secondary btn-sm">Talento</button>
-<button type="button" class="btn btn-secondary btn-sm m-1">Mochila</button>
+
+<button class="btn btn-secondary btn-sm m-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMagias" aria-expanded="false" aria-controls="collapseMagias">
+    Magias
+</button>
+<div class="collapse" id="collapseMagias" >
+    <div class="fichaJogador">
+        <div class="d-flex justify-content-around w-100">
+            <p><strong>Magias</strong></p>
+            <button type="button" class="btn btn-primary btn-sm m-1" (click)="adicionarMagia()">Add</button>
+        </div>
+        <div class="fichaJogador__magias__item" style="font-size: x-small;">
+            <ng-container *ngFor="let magia of jogador.magias">
+                <p>
+                    <strong>{{magia.nome}}</strong>: {{magia.descricao}}<br>
+                </p>
+            </ng-container>
+        </div>
+        <div *ngIf="adicionandoMagia">
+            <input type="text" class="m-1" placeholder="Nome da Magia" [(ngModel)]="novaMagia.nome">
+            <input type="text" class="m-1" placeholder="Descrição da Magia" [(ngModel)]="novaMagia.descricao">
+            <button type="button" class="btn btn-success btn-sm m-1" (click)="confirmarAdicionarMagia()">Confirmar</button>
+            <button type="button" class="btn btn-danger btn-sm m-1" (click)="cancelarAdicionarMagia()">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+<button class="btn btn-secondary btn-sm m-1" type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapseTalentos'" aria-expanded="false" [attr.aria-controls]="'collapseTalentos'">
+    Talentos
+</button>
+<div class="collapse" id="collapseTalentos">
+    <div class="fichaJogador">
+        <div class="d-flex justify-content-around w-100">
+            <p><strong>Talentos</strong></p>
+            <button type="button" class="btn btn-primary btn-sm m-1" (click)="adicionarTalento()">Add</button>
+        </div>
+        <div class="fichaJogador__talentos__item" style="font-size: x-small;">
+            <ng-container *ngFor="let talento of jogador.talentos">
+                <p>
+                    <strong>{{talento.nome}}</strong>: {{talento.descricao}}<br>
+                </p>
+            </ng-container>
+        </div>
+        <div *ngIf="adicionandoTalento">
+            <input type="text" class="m-1" placeholder="Nome do Talento" [(ngModel)]="novoTalento.nome">
+            <input type="text" class="m-1" placeholder="Descrição do Talento" [(ngModel)]="novoTalento.descricao">
+            <button type="button" class="btn btn-success btn-sm m-1" (click)="confirmarAdicionarTalento()">Confirmar</button>
+            <button type="button" class="btn btn-danger btn-sm m-1" (click)="cancelarAdicionarTalento()">Cancelar</button>
+        </div>
+    </div>
+</div>
+<button class="btn btn-secondary btn-sm m-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMochila" aria-expanded="false" aria-controls="collapseMochila">
+    Mochila
+</button>
+<div class="collapse" id="collapseMochila">
+    <div class="fichaJogador">
+        <div class="d-flex justify-content-around w-100">
+            <p><strong>Mochila</strong></p>
+            <button type="button" class="btn btn-primary btn-sm m-1" (click)="adicionarItem()">Add</button>
+        </div>
+        <div class="fichaJogador__mochila__item" style="font-size: x-small;">
+            <ng-container *ngFor="let item of jogador.mochila">
+                <p>
+                    <strong>{{item.nome}}</strong>: {{item.descricao}}<br>
+                </p>
+            </ng-container>
+        </div>
+        <div *ngIf="adicionandoItem">
+            <input type="text" class="m-1" placeholder="Nome do Item" [(ngModel)]="novoItem.nome">
+            <input type="text" class="m-1" placeholder="Descrição do Item" [(ngModel)]="novoItem.descricao">
+            <button type="button" class="btn btn-success btn-sm m-1" (click)="confirmarAdicionarItem()">Confirmar</button>
+            <button type="button" class="btn btn-danger btn-sm m-1" (click)="cancelarAdicionarItem()">Cancelar</button>
+        </div>
+    </div>
+</div>
+
+
 <div class="d-flex">
     <div class="fichaJogador__combate mt-1 col-6">
         <p><strong>Combate</strong></p>
@@ -82,5 +155,46 @@
                 </ng-container>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="fichaJogador">
+    <div class="d-flex justify-content-around w-100">
+        <p><strong>Magias</strong></p>
+        <button type="button" class="btn btn-primary btn-sm m-1" (click)="adicionarMagia()">Add</button>
+    </div>
+    <div class="fichaJogador__magias__item" style="font-size: x-small;">
+        <ng-container *ngFor="let magia of jogador.magias">
+            <p>
+                <strong>{{magia.nome}}</strong>: {{magia.descricao}}<br>
+            </p>
+        </ng-container>
+    </div>
+    <div *ngIf="adicionandoMagia">
+        <input type="text" class="m-1" placeholder="Nome da Magia" [(ngModel)]="novaMagia.nome">
+        <input type="text" class="m-1" placeholder="Descrição da Magia" [(ngModel)]="novaMagia.descricao">
+        <button type="button" class="btn btn-success btn-sm m-1" (click)="confirmarAdicionarMagia()">Confirmar</button>
+        <button type="button" class="btn btn-danger btn-sm m-1" (click)="cancelarAdicionarMagia()">Cancelar</button>
+    </div>
+</div>
+
+<div class="fichaJogador">
+    <div class="d-flex justify-content-around w-100">
+        <p><strong>Mochila</strong></p>
+        <button type="button" class="btn btn-primary btn-sm" (click)="adicionarItem()">Add</button>
+    </div>
+
+    <div class="fichaJogador__mochila__item" style="font-size: x-small;">
+        <ng-container *ngFor="let item of jogador.mochila">
+            <p>
+                <strong>{{item.nome}}</strong>: {{item.descricao}}<br>
+            </p>
+        </ng-container>
+    </div>
+    <div *ngIf="adicionandoItem">
+        <input type="text" class="m-1" placeholder="Nome do Item" [(ngModel)]="novoItem.nome">
+        <input type="text" class="m-1" placeholder="Descrição do Item" [(ngModel)]="novoItem.descricao">
+        <button type="button" class="btn btn-success btn-sm m-1" (click)="confirmarAdicionarItem()">Confirmar</button>
+        <button type="button" class="btn btn-danger btn-sm m-1" (click)="cancelarAdicionarItem()">Cancelar</button>
     </div>
 </div>

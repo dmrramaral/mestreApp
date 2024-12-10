@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-ficha-jogador',
   standalone: true,
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   templateUrl: './ficha-jogador.component.html',
   styleUrl: './ficha-jogador.component.scss'
@@ -13,6 +15,16 @@ import { Component, OnInit } from '@angular/core';
 export class FichaJogadorComponent implements OnInit {
 
   jogador: any;
+  
+  adicionandoMagia: boolean = false;
+  novaMagia: any = { nome: '', descricao: '' };
+
+  adicionandoItem: boolean = false;
+  novoItem: any = { nome: '', descricao: '' };
+
+  adicionandoTalento: boolean = false;
+  novoTalento: any = { nome: '', descricao: '' };
+
 
   constructor() { }
 
@@ -94,6 +106,27 @@ export class FichaJogadorComponent implements OnInit {
     };
   }
 
+ 
+  adicionarMagia() {
+    this.adicionandoMagia = true;
+  }
+
+  confirmarAdicionarMagia() {
+    if (this.novaMagia.nome && this.novaMagia.descricao) {
+      if (!this.jogador.magias) {
+        this.jogador.magias = [];
+      }
+      this.jogador.magias.push({ ...this.novaMagia });
+      this.novaMagia = { nome: '', descricao: '' };
+      this.adicionandoMagia = false;
+    }
+  }
+
+  cancelarAdicionarMagia() {
+    this.novaMagia = { nome: '', descricao: '' };
+    this.adicionandoMagia = false;
+  }
+
   calcularModificador(arg0: any) {
       if (arg0 >= 8 && arg0 <= 9) {
         return -1;
@@ -123,10 +156,50 @@ export class FichaJogadorComponent implements OnInit {
         return null;
       }
 
+  }
 
 
 
+  adicionarItem() {
+    this.adicionandoItem = true;
+  }
 
+  confirmarAdicionarItem() {
+    if (this.novoItem.nome && this.novoItem.descricao) {
+      if (!this.jogador.mochila) {
+        this.jogador.mochila = [];
+      }
+      this.jogador.mochila.push({ ...this.novoItem });
+      this.novoItem = { nome: '', descricao: '' };
+      this.adicionandoItem = false;
+    }
+  }
+
+  cancelarAdicionarItem() {
+    this.novoItem = { nome: '', descricao: '' };
+    this.adicionandoItem = false;
   }
     
+
+ 
+
+  adicionarTalento() {
+    this.adicionandoTalento = true;
+  }
+
+  confirmarAdicionarTalento() {
+    if (this.novoTalento.nome && this.novoTalento.descricao) {
+      if (!this.jogador.talentos) {
+        this.jogador.talentos = [];
+      }
+      this.jogador.talentos.push({ ...this.novoTalento });
+      this.novoTalento = { nome: '', descricao: '' };
+      this.adicionandoTalento = false;
+    }
+  }
+
+  cancelarAdicionarTalento() {
+    this.novoTalento = { nome: '', descricao: '' };
+    this.adicionandoTalento = false;
+  }
 }
