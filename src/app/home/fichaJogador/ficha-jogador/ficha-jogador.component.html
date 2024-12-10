@@ -84,7 +84,7 @@
                 <p>
                     <strong>{{item.nome}}</strong>: {{item.descricao}}<br>
                     <button type="button" class="btn btn-danger btn-sm m-1"
-                        (click)="removerTalento(item)">Remover</button>
+                        (click)="removerItem(item)">Remover</button>
                 </p>
             </ng-container>
         </div>
@@ -103,25 +103,33 @@
     <div class="fichaJogador__combate mt-1 col-6">
         <p><strong>Combate</strong></p>
         <div class="fichaJogador__combate__item" style="font-size: x-small;">
-            <p><strong>PV:</strong> {{jogador.pv}}</p>
-            <p><strong>PVA:</strong> <input type="number" style="width: 1.3rem;" [(ngModel)]="jogador.pva"
-                    (change)="saveToCache()"></p>
-            <p><strong>CA:</strong> {{jogador.ca}}</p>
-            <p><strong>Des:</strong> {{jogador.deslocamento}}</p>
-            <p><strong>Inic:</strong> {{jogador.iniciativa}}</p>
-            <p><strong>Insp</strong> {{jogador.inspiracao}}</p>
+            <p><strong>PV:</strong> <input type="number" style="width: 1.3rem;" [(ngModel)]="jogador.pv" (change)="saveToCache()"></p>
+            <p><strong>PVA:</strong> <input type="number" style="width: 1.3rem;" [(ngModel)]="jogador.pva" (change)="saveToCache()"></p>
+            <p><strong>CA:</strong> <input type="number" style="width: 1.3rem;" [(ngModel)]="jogador.ca" (change)="saveToCache()"></p>
+            <p><strong>Des:</strong> <input type="number" style="width: 1.3rem;" [(ngModel)]="jogador.deslocamento" (change)="saveToCache()"></p>
+            <p><strong>Inic:</strong> <input type="number" style="width: 1.3rem;" [(ngModel)]="jogador.iniciativa" (change)="saveToCache()"></p>
+            <p><strong>Insp:</strong> <input type="number" style="width: 1.3rem;" [(ngModel)]="jogador.inspiracao" (change)="saveToCache()"></p>
+    
         </div>
     </div>
     <div class="fichaJogador__atributos mt-1 col-6">
         <p><strong>Atributos</strong></p>
         <div class="fichaJogador__atributos__item" style="font-size: x-small;">
-            <p><strong>For:</strong> {{ calcularModificador(jogador.atributos.forca) }}</p>
-            <p><strong>Des:</strong> {{ calcularModificador(jogador.atributos.destreza) }}</p>
-            <p><strong>Con:</strong> {{ calcularModificador(jogador.atributos.constituicao) }}</p>
-            <p><strong>Int:</strong> {{ calcularModificador(jogador.atributos.inteligencia) }}</p>
-            <p><strong>Sab:</strong> {{ calcularModificador(jogador.atributos.sabedoria) }}</p>
-            <p><strong>Car:</strong> {{ calcularModificador(jogador.atributos.carisma) }}</p>
-            <p><strong>Sor:</strong> {{ calcularModificador(jogador.atributos.sorte) }}</p>
+            <p class="mx-1"><strong>For:</strong> {{ calcularModificador(jogador.atributos.forca) }}</p>
+            <p class="mx-1"><strong>:</strong> {{ jogador.atributos.forca }}</p>
+            <p class="mx-1"><strong>Des:</strong> {{ calcularModificador(jogador.atributos.destreza) }}</p>
+            <p class="mx-1"><strong>:</strong> {{ jogador.atributos.destreza }}</p>
+            <p class="mx-1"><strong>Con:</strong> {{ calcularModificador(jogador.atributos.constituicao) }}</p>
+            <p class="mx-1"><strong>:</strong> {{ jogador.atributos.constituicao }}</p>
+            <p class="mx-1"><strong>Int:</strong> {{ calcularModificador(jogador.atributos.inteligencia) }}</p>
+            <p class="mx-1"><strong>:</strong> {{ jogador.atributos.inteligencia }}</p>
+            <p class="mx-1"><strong>Sab:</strong> {{ calcularModificador(jogador.atributos.sabedoria) }}</p>
+            <p class="mx-1"><strong>:</strong> {{ jogador.atributos.sabedoria }}</p>
+            <p class="mx-1"><strong>Car:</strong> {{ calcularModificador(jogador.atributos.carisma) }}</p>
+            <p class="mx-1"><strong>:</strong> {{ jogador.atributos.carisma }}</p>
+            <p class="mx-1"><strong>Sor:</strong> {{ calcularModificador(jogador.atributos.sorte) }}</p>
+            <p class="mx-1"><strong>:</strong> {{ jogador.atributos.sorte }}</p>
+            
         </div>
     </div>
 </div>
