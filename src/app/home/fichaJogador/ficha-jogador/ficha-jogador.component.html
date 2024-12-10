@@ -54,6 +54,8 @@
             <ng-container *ngFor="let talento of jogador.talentos">
                 <p>
                     <strong>{{talento.nome}}</strong>: {{talento.descricao}}<br>
+                    <button type="button" class="btn btn-danger btn-sm m-1"
+                        (click)="removerTalento(talento)">Remover</button>
                 </p>
             </ng-container>
         </div>
@@ -81,6 +83,8 @@
             <ng-container *ngFor="let item of jogador.mochila">
                 <p>
                     <strong>{{item.nome}}</strong>: {{item.descricao}}<br>
+                    <button type="button" class="btn btn-danger btn-sm m-1"
+                        (click)="removerTalento(item)">Remover</button>
                 </p>
             </ng-container>
         </div>
@@ -100,7 +104,8 @@
         <p><strong>Combate</strong></p>
         <div class="fichaJogador__combate__item" style="font-size: x-small;">
             <p><strong>PV:</strong> {{jogador.pv}}</p>
-            <p><strong>PVA:</strong> <input type="number" style="width: 1.3rem;" [(ngModel)]="jogador.pva" (change)="saveToCache()"></p>
+            <p><strong>PVA:</strong> <input type="number" style="width: 1.3rem;" [(ngModel)]="jogador.pva"
+                    (change)="saveToCache()"></p>
             <p><strong>CA:</strong> {{jogador.ca}}</p>
             <p><strong>Des:</strong> {{jogador.deslocamento}}</p>
             <p><strong>Inic:</strong> {{jogador.iniciativa}}</p>
@@ -123,7 +128,7 @@
 
 <div class="d-flex">
 
-   
+
 
     <div class="fichaJogador__pericias">
 
@@ -134,7 +139,8 @@
                 </p>
                 <p><strong>Sede:</strong> <input type="number" [(ngModel)]="jogador.sede" (change)="saveToCache()">
                 </p>
-                <p><strong>Cansaço:</strong> <input type="number" [(ngModel)]="jogador.cansaco" (change)="saveToCache()">
+                <p><strong>Cansaço:</strong> <input type="number" [(ngModel)]="jogador.cansaco"
+                        (change)="saveToCache()">
                 </p>
                 <p><strong>Calor:</strong> <input type="number" [(ngModel)]="jogador.calor" (change)="saveToCache()">
                 </p>
@@ -164,20 +170,47 @@
 
     <div class="fichaJogador col-6">
         <div class="fichaJogador__equipamentos ">
-            <p><strong>Equipamentos</strong></p>
+            <div class="d-flex justify-content-around w-100">
+                <p><strong>Equipamentos</strong></p>
+                <button type="button" class="btn btn-primary btn-sm m-1" (click)="adicionarEquipamento()">Add</button>
+            </div>
             <div class="fichaJogador__equipamentos__item" style="font-size: x-small;">
-                <ng-container *ngFor="let categoria of ['cabeca', 'armadura', 'pes','escudo', 'amuleto', 'anel']">
-                    <ng-container *ngFor="let equipamento of jogador.equipamentos[categoria]">
-                        <p>
-                            <strong>{{equipamento.nome}}</strong>: {{equipamento.descricao}}<br>
+                <ng-container *ngFor="let categoria of ['cabeca', 'armadura', 'pes','escudo', 'anel','amuleto']">
+                    <ng-container class="col-12" *ngFor="let equipamento of jogador.equipamentos[categoria]">
+                      <div>
+                        <p class="col-8 d-inline-block">
+                            <strong>{{equipamento.nome}}</strong>: {{equipamento.descricao}}
                         </p>
+                        
+                        <button type="button" class="btn btn-danger btn-sm col-2 d-inline-block"
+                                (click)="removerEquipamento(categoria, equipamento)">X</button><br>
+                      </div>
                     </ng-container>
                 </ng-container>
             </div>
         </div>
+        
+        <div *ngIf="adicionandoEquipamento" class="fichaJogador__adicionarEquipamento">
+            <div class="itens_Equipamentos d-flex">
+                <select class="form-select m-1" [(ngModel)]="novaCategoria">
+                    <option value="" disabled selected>Selecione a Categoria</option>
+                    <option value="cabeca">Cabeça</option>
+                    <option value="armadura">Armadura</option>
+                    <option value="pes">Pés</option>
+                    <option value="escudo">Escudo</option>
+                    <option value="amuleto">Amuleto</option>
+                    <option value="anel">Anel</option>
+                </select>
+                <input type="text" class="m-1" placeholder="Nome do Equipamento" [(ngModel)]="novoEquipamento.nome">
+                <input type="text" class="m-1" placeholder="Descrição do Equipamento"
+                    [(ngModel)]="novoEquipamento.descricao">
+                <button type="button" class="btn btn-success btn-sm m-1"
+                    (click)="confirmarAdicionarEquipamento()">Confirmar</button>
+                <button type="button" class="btn btn-danger btn-sm m-1"
+                    (click)="cancelarAdicionarEquipamento()">Cancelar</button>
+            </div>
+        </div>
     </div>
-
-
 </div>
 
 
