@@ -18,7 +18,7 @@ export class FichaJogadorComponent implements OnInit {
   jogador: any =
     {
       "avatar": "https://www.w3schools.com/howto/img_avatar.png",
-      "nome": "Douglas",
+      "nome": "Amaral",
       "idade": 20,
       "classe": "Academico",
       "raca": "Humano",
@@ -247,12 +247,12 @@ export class FichaJogadorComponent implements OnInit {
       ],
       "mochila": [
         {
-          "nome": "14 café",
-          "descricao": "Café"
+          "nome": "Poção de Cura",
+          "descricao": "Cura 2d4+2 de vida"
         },
         {
-          "nome": "1",
-          "descricao": "2"
+          "nome": "Poção de Resistência",
+          "descricao": "Concede resistência a dano de um tipo por 1d4 turnos"
         }
       ]
     };
@@ -293,6 +293,62 @@ export class FichaJogadorComponent implements OnInit {
       });
     }
 
+  }
+  limparCache() {
+    if (confirm('Tem certeza que deseja limpar o cache?')) {
+      localStorage.removeItem(this.cacheKey);
+      this.jogador = {
+        avatar: '',
+        nome: '',
+        idade: null,
+        classe: '',
+        raca: '',
+        nivel: null,
+        pv: null,
+        pva: null,
+        ca: null,
+        fome: null,
+        sede: null,
+        cansaco: null,
+        calor: null,
+        frio: null,
+        sono: null,
+        proficiencia: null,
+        deslocamento: null,
+        iniciativa: null,
+        inspiracao: null,
+        talentos: [],
+        atributos: {
+          forca: null,
+          destreza: null,
+          constituicao: null,
+          inteligencia: null,
+          sabedoria: null,
+          carisma: null,
+          sorte: null
+        },
+        pericias: [],
+        equipamentos: {
+          cabeca: [],
+          armadura: [],
+          pes: [],
+          escudo: [],
+          amuleto: [],
+          anel: []
+        },
+        magias: [],
+        mochila: []
+      };
+    }
+  }
+  confirmandoLimparCache: boolean = false;
+
+  confirmarLimparCache() {
+    this.confirmandoLimparCache = true;
+  }
+
+  cancelarLimparCache() {
+    this.confirmandoLimparCache = false;
   }
 
   baixarJogador() {

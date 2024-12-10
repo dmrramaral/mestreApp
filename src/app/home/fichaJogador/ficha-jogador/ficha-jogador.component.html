@@ -224,5 +224,13 @@
 
 
 
+
 <button class="btn btn-secondary btn-sm m-1" (click)="baixarJogador()">Baixar Jogador</button>
 <input type="file" class="m-1" (change)="carregarJogador($event)" accept=".json">
+<button class="btn btn-danger btn-sm m-1" (click)="confirmarLimparCache()">Limpar Cache</button>
+
+<div style="background-color: brown;" *ngIf="confirmandoLimparCache" class="confirmacao">
+    <p><strong>Tem certeza que deseja limpar o cache?</strong></p>
+    <button class="btn btn-success btn-sm m-1" (click)="limparCache()">Sim</button>
+    <button class="btn btn-secondary btn-sm m-1" (click)="cancelarLimparCache()">Não</button>
+</div>
