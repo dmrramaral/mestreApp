@@ -154,7 +154,7 @@
             <p class="m-0"><strong>Perícias</strong></p>
             <div class="fichaJogador__pericias__item" style="font-size: x-small;">
                 <ng-container *ngFor="let pericia of jogador.pericias">
-                    <p *ngIf="pericia.valor === 'sim'">
+                    <p  class="mx-1" *ngIf="pericia.valor === 'sim'">
                         <strong>{{pericia.nome}} <br> </strong>
                     </p>
                 </ng-container>
@@ -177,7 +177,7 @@
             <div class="fichaJogador__equipamentos__item" style="font-size: x-small;">
                 <ng-container *ngFor="let categoria of ['cabeca', 'armadura', 'pes','escudo', 'anel','amuleto']">
                     <ng-container class="col-12" *ngFor="let equipamento of jogador.equipamentos[categoria]">
-                      <div>
+                      <div class="mx-2">
                         <p class="col-8 d-inline-block">
                             <strong>{{equipamento.nome}}</strong>: {{equipamento.descricao}}
                         </p>
