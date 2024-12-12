@@ -11,7 +11,9 @@
         <p><strong>Nv<br></strong>{{jogador.nivel}}</p>
     </div>
 </div>
-
+<button class="btn btn-warning btn-sm m-1" type="button" data-bs-toggle="modal" data-bs-target="#editarFichaModal">
+    Editar Ficha
+</button>
 
 <button class="btn btn-secondary btn-sm m-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMagias"
     aria-expanded="false" aria-controls="collapseMagias">
@@ -228,9 +230,7 @@
     <button class="btn btn-secondary btn-sm m-1" (click)="cancelarLimparCache()">Não</button>
 </div>
 
-<button class="btn btn-warning btn-sm m-1" type="button" data-bs-toggle="modal" data-bs-target="#editarFichaModal">
-    Editar Ficha
-</button>
+
 
 <!-- Modal -->
 <div class="modal fade" id="editarFichaModal" tabindex="-1" aria-labelledby="editarFichaModalLabel" aria-hidden="true">
