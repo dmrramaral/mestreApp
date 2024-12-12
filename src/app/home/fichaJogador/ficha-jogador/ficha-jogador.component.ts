@@ -514,4 +514,9 @@ export class FichaJogadorComponent implements OnInit {
     this.jogador.equipamentos[categoria] = this.jogador.equipamentos[categoria].filter((e: { nome: string, descricao: string }) => e.nome !== equipamento.nome);
     this.saveToCache();
   }
+
+  updatePericiaValor(event: Event, pericia: any) {
+    const input = event.target as HTMLInputElement;
+    pericia.valor = input.checked ? 'sim' : 'nao';
+  }
 }
