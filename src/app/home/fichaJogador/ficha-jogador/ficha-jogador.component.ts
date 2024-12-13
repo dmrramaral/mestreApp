@@ -26,16 +26,17 @@ export class FichaJogadorComponent implements OnInit {
         pv: null,
         pva: null,
         ca: null,
+        iniciativa: null,
+        inspiracao: null,
         fome: null,
         sede: null,
         cansaco: null,
         calor: null,
         frio: null,
         sono: null,
+        
         proficiencia: null,
         deslocamento: null,
-        iniciativa: null,
-        inspiracao: null,
         talentos: [],
         atributos: {
           forca: null,
@@ -152,6 +153,7 @@ export class FichaJogadorComponent implements OnInit {
           amuleto: [],
           anel: []
         },
+        ouro: 0,
         magias: [],
         mochila: []
     

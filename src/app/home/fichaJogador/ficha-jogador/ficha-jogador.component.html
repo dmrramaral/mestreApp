@@ -190,6 +190,12 @@
                         </div>
                     </ng-container>
                 </ng-container>
+
+            </div>
+            <div class="d-flex align-content-between flex-wrap align-self-center justify-content-end">
+                <div  style="font-size: xx-small; font-weight: bold; align-items: center; display: flex;">Ouro</div>
+                
+                <input type="number" class="form-control w-25" [(ngModel)]="jogador.ouro" (change)="saveToCache()">
             </div>
         </div>
 
@@ -249,7 +255,8 @@
                         </div>
                         <div class="m-1 col-sm-4">
                             <label for="classe" class="form-label">Classe</label>
-                            <input type="text" class="form-control" id="classe" [(ngModel)]="jogador.classe" name="classe">
+                            <input type="text" class="form-control" id="classe" [(ngModel)]="jogador.classe"
+                                name="classe">
                         </div>
                         <div class="m-1 col-sm-4">
                             <label for="raca" class="form-label">Raça</label>
@@ -262,7 +269,8 @@
                         </div>
                         <div class="m-1 col-sm-4">
                             <label for="nivel" class="form-label">Nível</label>
-                            <input type="number" class="form-control" id="nivel" [(ngModel)]="jogador.nivel" name="nivel">
+                            <input type="number" class="form-control" id="nivel" [(ngModel)]="jogador.nivel"
+                                name="nivel">
                         </div>
                     </div>
                     <div class="d-flex flex-row flex-wrap align-items-center justify-content-start">
@@ -280,21 +288,25 @@
                         </div>
                         <div class="m-1 col-sm-4">
                             <label for="deslocamento" class="form-label"><strong>Des</strong></label>
-                            <input type="number" class="form-control" id="deslocamento" [(ngModel)]="jogador.deslocamento" name="deslocamento">
+                            <input type="number" class="form-control" id="deslocamento"
+                                [(ngModel)]="jogador.deslocamento" name="deslocamento">
                         </div>
                         <div class="m-1 col-sm-4">
                             <label for="iniciativa" class="form-label"><strong>Ini</strong></label>
-                            <input type="number" class="form-control" id="iniciativa" [(ngModel)]="jogador.iniciativa" name="iniciativa">
+                            <input type="number" class="form-control" id="iniciativa" [(ngModel)]="jogador.iniciativa"
+                                name="iniciativa">
                         </div>
                         <div class="m-1 col-sm-4">
                             <label for="inspiracao" class="form-label"><strong>Insp</strong></label>
-                            <input type="number" class="form-control" id="inspiracao" [(ngModel)]="jogador.inspiracao" name="inspiracao">
+                            <input type="number" class="form-control" id="inspiracao" [(ngModel)]="jogador.inspiracao"
+                                name="inspiracao">
                         </div>
                     </div>
                     <!-- Add more fields as needed -->
                     <div class="m-1 d-flex flex-row flex-wrap align-items-center justify-content-start">
                         <label class="form-label"><strong>Perícias:</strong></label>
-                        <div class="d-flex flex-row flex-wrap align-items-center justify-content-start" *ngFor="let pericia of jogador.pericias">
+                        <div class="d-flex flex-row flex-wrap align-items-center justify-content-start"
+                            *ngFor="let pericia of jogador.pericias">
                             <div class="form-check d-flex flex-row flex-wrap align-items-center justify-content-start">
 
                                 <input class="form-check-input" type="checkbox" [(ngModel)]="pericia.valor"
@@ -310,31 +322,38 @@
                     <div class="modificadores d-flex flex-row flex-wrap align-items-center justify-content-start">
                         <div class="m-1 col-3">
                             <label for="forca" class="form-label">Força</label>
-                            <input type="number" class="form-control" id="forca" [(ngModel)]="jogador.atributos.forca" name="forca">
+                            <input type="number" class="form-control" id="forca" [(ngModel)]="jogador.atributos.forca"
+                                name="forca">
                         </div>
                         <div class="m-1 col-3">
                             <label for="destreza" class="form-label">Destreza</label>
-                            <input type="number" class="form-control" id="destreza" [(ngModel)]="jogador.atributos.destreza" name="destreza">
+                            <input type="number" class="form-control" id="destreza"
+                                [(ngModel)]="jogador.atributos.destreza" name="destreza">
                         </div>
                         <div class="m-1 col-3">
                             <label for="constituicao" class="form-label">Constituição</label>
-                            <input type="number" class="form-control" id="constituicao" [(ngModel)]="jogador.atributos.constituicao" name="constituicao">
+                            <input type="number" class="form-control" id="constituicao"
+                                [(ngModel)]="jogador.atributos.constituicao" name="constituicao">
                         </div>
                         <div class="m-1 col-3">
                             <label for="inteligencia" class="form-label">Inteligência</label>
-                            <input type="number" class="form-control" id="inteligencia" [(ngModel)]="jogador.atributos.inteligencia" name="inteligencia">
+                            <input type="number" class="form-control" id="inteligencia"
+                                [(ngModel)]="jogador.atributos.inteligencia" name="inteligencia">
                         </div>
                         <div class="m-1 col-3">
                             <label for="sabedoria" class="form-label">Sabedoria</label>
-                            <input type="number" class="form-control" id="sabedoria" [(ngModel)]="jogador.atributos.sabedoria" name="sabedoria">
+                            <input type="number" class="form-control" id="sabedoria"
+                                [(ngModel)]="jogador.atributos.sabedoria" name="sabedoria">
                         </div>
                         <div class="m-1 col-3">
                             <label for="carisma" class="form-label">Carisma</label>
-                            <input type="number" class="form-control" id="carisma" [(ngModel)]="jogador.atributos.carisma" name="carisma">
+                            <input type="number" class="form-control" id="carisma"
+                                [(ngModel)]="jogador.atributos.carisma" name="carisma">
                         </div>
                         <div class="m-1 col-3">
                             <label for="sorte" class="form-label">Sorte</label>
-                            <input type="number" class="form-control" id="sorte" [(ngModel)]="jogador.atributos.sorte" name="sorte">
+                            <input type="number" class="form-control" id="sorte" [(ngModel)]="jogador.atributos.sorte"
+                                name="sorte">
                         </div>
                     </div>
                 </form>

@@ -89,6 +89,13 @@
   flex-wrap: wrap;
   align-items: end;
   margin-top: 1rem;
+  p{
+    width: 3rem;
+    font-size: xx-small
+  }
+  input{
+    font-size: xx-small
+  };
 }
 
 .fichaJogador__condicoes__item {
