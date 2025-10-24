@@ -148,7 +148,7 @@
                             <div class="attribute-box">
                                 <i class="fas fa-fist-raised"></i>
                                 <span class="attr-name">FOR</span>
-                                <input *ngIf="editandoAtributos" type="number" class="attr-input" [(ngModel)]="jogador.atributos.forca" (change)="saveToCache()">
+                                <input *ngIf="editandoAtributos" type="number" inputmode="decimal" class="attr-input" [(ngModel)]="jogador.atributos.forca" (change)="saveToCache()">
                                 <span *ngIf="!editandoAtributos" class="attr-value">{{jogador.atributos.forca || 10}}</span>
                                 <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.forca) ?? 0) >= 0 ? '+' : '' }}{{ calcularModificador(jogador.atributos.forca) ?? 0 }}</span>
                             </div>
@@ -157,7 +157,7 @@
                             <div class="attribute-box">
                                 <i class="fas fa-running"></i>
                                 <span class="attr-name">DES</span>
-                                <input *ngIf="editandoAtributos" type="number" class="attr-input" [(ngModel)]="jogador.atributos.destreza" (change)="saveToCache()">
+                                <input *ngIf="editandoAtributos" type="number" inputmode="decimal" class="attr-input" [(ngModel)]="jogador.atributos.destreza" (change)="saveToCache()">
                                 <span *ngIf="!editandoAtributos" class="attr-value">{{jogador.atributos.destreza || 10}}</span>
                                 <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.destreza) ?? 0) >= 0 ? '+' : '' }}{{ calcularModificador(jogador.atributos.destreza) ?? 0 }}</span>
                             </div>
@@ -166,7 +166,7 @@
                             <div class="attribute-box">
                                 <i class="fas fa-heart"></i>
                                 <span class="attr-name">CON</span>
-                                <input *ngIf="editandoAtributos" type="number" class="attr-input" [(ngModel)]="jogador.atributos.constituicao" (change)="saveToCache()">
+                                <input *ngIf="editandoAtributos" type="number" inputmode="decimal" class="attr-input" [(ngModel)]="jogador.atributos.constituicao" (change)="saveToCache()">
                                 <span *ngIf="!editandoAtributos" class="attr-value">{{jogador.atributos.constituicao || 10}}</span>
                                 <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.constituicao) ?? 0) >= 0 ? '+' : '' }}{{ calcularModificador(jogador.atributos.constituicao) ?? 0 }}</span>
                             </div>
@@ -175,7 +175,7 @@
                             <div class="attribute-box">
                                 <i class="fas fa-brain"></i>
                                 <span class="attr-name">INT</span>
-                                <input *ngIf="editandoAtributos" type="number" class="attr-input" [(ngModel)]="jogador.atributos.inteligencia" (change)="saveToCache()">
+                                <input *ngIf="editandoAtributos" type="number" inputmode="decimal" class="attr-input" [(ngModel)]="jogador.atributos.inteligencia" (change)="saveToCache()">
                                 <span *ngIf="!editandoAtributos" class="attr-value">{{jogador.atributos.inteligencia || 10}}</span>
                                 <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.inteligencia) ?? 0) >= 0 ? '+' : '' }}{{ calcularModificador(jogador.atributos.inteligencia) ?? 0 }}</span>
                             </div>
@@ -184,7 +184,7 @@
                             <div class="attribute-box">
                                 <i class="fas fa-eye"></i>
                                 <span class="attr-name">SAB</span>
-                                <input *ngIf="editandoAtributos" type="number" class="attr-input" [(ngModel)]="jogador.atributos.sabedoria" (change)="saveToCache()">
+                                <input *ngIf="editandoAtributos" type="number" inputmode="decimal" class="attr-input" [(ngModel)]="jogador.atributos.sabedoria" (change)="saveToCache()">
                                 <span *ngIf="!editandoAtributos" class="attr-value">{{jogador.atributos.sabedoria || 10}}</span>
                                 <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.sabedoria) ?? 0) >= 0 ? '+' : '' }}{{ calcularModificador(jogador.atributos.sabedoria) ?? 0 }}</span>
                             </div>
@@ -193,7 +193,7 @@
                             <div class="attribute-box">
                                 <i class="fas fa-comments"></i>
                                 <span class="attr-name">CAR</span>
-                                <input *ngIf="editandoAtributos" type="number" class="attr-input" [(ngModel)]="jogador.atributos.carisma" (change)="saveToCache()">
+                                <input *ngIf="editandoAtributos" type="number" inputmode="decimal" class="attr-input" [(ngModel)]="jogador.atributos.carisma" (change)="saveToCache()">
                                 <span *ngIf="!editandoAtributos" class="attr-value">{{jogador.atributos.carisma || 10}}</span>
                                 <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.carisma) ?? 0) >= 0 ? '+' : '' }}{{ calcularModificador(jogador.atributos.carisma) ?? 0 }}</span>
                             </div>
@@ -780,42 +780,42 @@
                                 <label for="forca" class="form-label">
                                     <i class="fas fa-fist-raised me-1"></i>Força
                                 </label>
-                                <input type="number" class="form-control" id="forca" [(ngModel)]="jogador.atributos.forca"
+                                <input type="number" inputmode="decimal" class="form-control" id="forca" [(ngModel)]="jogador.atributos.forca"
                                     name="forca" placeholder="Ex: 10">
                             </div>
                             <div class="col-md-4">
                                 <label for="destreza" class="form-label">
                                     <i class="fas fa-running me-1"></i>Destreza
                                 </label>
-                                <input type="number" class="form-control" id="destreza"
+                                <input type="number" inputmode="decimal" class="form-control" id="destreza"
                                     [(ngModel)]="jogador.atributos.destreza" name="destreza" placeholder="Ex: 10">
                             </div>
                             <div class="col-md-4">
                                 <label for="constituicao" class="form-label">
                                     <i class="fas fa-heart me-1"></i>Constituição
                                 </label>
-                                <input type="number" class="form-control" id="constituicao"
+                                <input type="number" inputmode="decimal" class="form-control" id="constituicao"
                                     [(ngModel)]="jogador.atributos.constituicao" name="constituicao" placeholder="Ex: 10">
                             </div>
                             <div class="col-md-4">
                                 <label for="inteligencia" class="form-label">
                                     <i class="fas fa-brain me-1"></i>Inteligência
                                 </label>
-                                <input type="number" class="form-control" id="inteligencia"
+                                <input type="number" inputmode="decimal" class="form-control" id="inteligencia"
                                     [(ngModel)]="jogador.atributos.inteligencia" name="inteligencia" placeholder="Ex: 10">
                             </div>
                             <div class="col-md-4">
                                 <label for="sabedoria" class="form-label">
                                     <i class="fas fa-eye me-1"></i>Sabedoria
                                 </label>
-                                <input type="number" class="form-control" id="sabedoria"
+                                <input type="number" inputmode="decimal" class="form-control" id="sabedoria"
                                     [(ngModel)]="jogador.atributos.sabedoria" name="sabedoria" placeholder="Ex: 10">
                             </div>
                             <div class="col-md-4">
                                 <label for="carisma" class="form-label">
                                     <i class="fas fa-comments me-1"></i>Carisma
                                 </label>
-                                <input type="number" class="form-control" id="carisma"
+                                <input type="number" inputmode="decimal" class="form-control" id="carisma"
                                     [(ngModel)]="jogador.atributos.carisma" name="carisma" placeholder="Ex: 10">
                             </div>
                         </div>
