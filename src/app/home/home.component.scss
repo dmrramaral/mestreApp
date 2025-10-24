@@ -1,85 +1,258 @@
 .home-container {
     min-height: 100vh;
     position: relative;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e2e8f0 100%);
 }
 
 .content-overlay {
     min-height: 100vh;
-    padding-top: 56px; // Account for fixed navbar
+    padding-top: 56px;
+}
+
+// Hero Section
+.hero-banner {
+    text-align: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 15px;
+    color: white;
+    box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -10%;
+        width: 200px;
+        height: 200px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        animation: float 6s ease-in-out infinite;
+    }
+    
+    .hero-icon {
+        font-size: 4rem;
+        margin-bottom: 20px;
+        animation: spin 10s linear infinite;
+        display: inline-block;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.95;
+        margin: 0;
+    }
 }
 
 .section-title {
     color: #2d3748;
-    font-weight: 600;
+    font-weight: 700;
     font-size: 1.75rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #e2e8f0;
+    
+    i {
+        animation: pulse 2s ease-in-out infinite;
+    }
+    
+    span {
+        position: relative;
+        
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: -13px;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    }
 }
 
-.card {
-    border: none;
-    border-radius: 0.5rem;
-    background: rgba(255, 255, 255, 0.95);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+.quick-access-card {
+    border: 2px solid #e2e8f0;
+    border-radius: 12px;
+    background: white;
+    transition: all 0.3s ease;
     
     &:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3) !important;
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+        border-color: #667eea;
+    }
+}
+
+.feature-card {
+    border: none;
+    border-radius: 15px;
+    background: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow: hidden;
+    position: relative;
+    
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 5px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    }
+    
+    &:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 30px rgba(102, 126, 234, 0.3) !important;
+        
+        .card-icon-wrapper {
+            transform: scale(1.1) rotate(5deg);
+        }
+    }
+}
+
+.card-icon-wrapper {
+    text-align: center;
+    padding: 30px 20px 10px;
+    transition: transform 0.3s ease;
+    
+    .card-icon {
+        font-size: 4rem;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        display: inline-block;
+        animation: float 3s ease-in-out infinite;
     }
 }
 
 .card-title {
-    color: #212529;
-    font-weight: 600;
+    color: #2d3748;
+    font-weight: 700;
     margin-bottom: 0.75rem;
+    font-size: 1.3rem;
+    
+    i {
+        color: #667eea;
+    }
 }
 
 .card-text {
-    color: #6c757d;
-    font-size: 0.95rem;
+    color: #718096;
+    font-size: 1rem;
+    line-height: 1.6;
 }
 
 .btn {
-    font-weight: 500;
-    padding: 0.5rem 1.5rem;
-    border-radius: 0.375rem;
+    font-weight: 600;
+    padding: 0.65rem 1.5rem;
+    border-radius: 8px;
     transition: all 0.3s ease;
     text-decoration: none;
     display: inline-block;
+    border: none;
+    
+    i {
+        transition: transform 0.2s ease;
+    }
     
     &:hover {
-        transform: scale(1.05);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        
+        i {
+            transform: scale(1.2);
+        }
     }
 }
 
 .btn-primary {
-    background-color: #4a5568;
-    border-color: #4a5568;
+    background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
     color: #ffffff;
     
     &:hover {
-        background-color: #2d3748;
-        border-color: #2d3748;
+        background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
     }
 }
 
 .btn-success {
-    background-color: #48bb78;
-    border-color: #48bb78;
+    background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
     color: #ffffff;
     
     &:hover {
-        background-color: #38a169;
-        border-color: #38a169;
+        background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
+    }
+}
+
+// Animations
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
     }
 }
 
 // Responsive adjustments
 @media (max-width: 767.98px) {
+    .hero-banner {
+        padding: 30px 15px;
+        
+        .hero-icon {
+            font-size: 3rem;
+        }
+        
+        .hero-title {
+            font-size: 1.8rem;
+        }
+        
+        .hero-subtitle {
+            font-size: 1rem;
+        }
+    }
+    
     .section-title {
         font-size: 1.5rem;
     }
     
     .content-overlay {
         padding-top: 56px;
+    }
+    
+    .card-icon-wrapper .card-icon {
+        font-size: 3rem;
     }
 }
 
@@ -89,7 +262,13 @@
     }
     
     .btn {
-        padding: 0.4rem 1rem;
-        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.95rem;
+    }
+    
+    .hero-banner {
+        .hero-title {
+            font-size: 1.5rem;
+        }
     }
 }

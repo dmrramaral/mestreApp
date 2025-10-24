@@ -67,6 +67,22 @@
             box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
         }
     }
+    
+    .btn-outline-secondary {
+        border: 2px solid #cbd5e0;
+        color: #4a5568;
+        border-radius: 8px;
+        padding: 10px;
+        font-weight: 600;
+        transition: all 0.2s ease;
+        
+        &:hover {
+            background: #f7fafc;
+            border-color: #a0aec0;
+            color: #2d3748;
+            transform: translateY(-2px);
+        }
+    }
 }
 
 .monsters-grid {
