@@ -3,8 +3,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { StorageService } from '../../../core/services/storage.service';
 import { FichaJogadorService } from '../../../core/services/ficha-jogador.service';
+import { DndApiService } from '../../../core/services/dnd-api.service';
 import { calcularModificador, formatarModificador } from '../../../core/utils/rpg.utils';
 import { STORAGE_KEYS, EQUIPMENT_CATEGORIES } from '../../../core/constants/rpg.constants';
+import { ApiReference, DndClass, DndRace } from '../../../core/models/dnd-api.model';
 
 @Component({
   selector: 'app-ficha-jogador',
@@ -188,9 +190,18 @@ export class FichaJogadorComponent implements OnInit {
   private cacheKey = STORAGE_KEYS.PLAYER_CHARACTER;
   readonly equipmentCategories = EQUIPMENT_CATEGORIES;
 
+  // DND API data
+  availableClasses: ApiReference[] = [];
+  availableRaces: ApiReference[] = [];
+  selectedClassDetails?: DndClass;
+  selectedRaceDetails?: DndRace;
+  loadingClassDetails = false;
+  loadingRaceDetails = false;
+
   constructor(
     private storageService: StorageService,
-    private fichaService: FichaJogadorService
+    private fichaService: FichaJogadorService,
+    private dndApiService: DndApiService
   ) {
 
   }
@@ -212,6 +223,9 @@ export class FichaJogadorComponent implements OnInit {
         this.storageService.setObject(this.cacheKey, this.jogador);
       });
     }
+
+    // Carregar classes e raças da API
+    this.loadClassesAndRaces();
   }
   limparCache() {
     if (confirm('Tem certeza que deseja limpar o cache?')) {
@@ -440,5 +454,96 @@ export class FichaJogadorComponent implements OnInit {
       this.editandoEquipamento[categoria] = {};
     }
     this.editandoEquipamento[categoria][index] = !this.editandoEquipamento[categoria][index];
+  }
+
+  /**
+   * Carrega classes e raças da API DND
+   */
+  loadClassesAndRaces(): void {
+    this.dndApiService.getClasses().subscribe({
+      next: (data) => {
+        this.availableClasses = data.results || [];
+      },
+      error: (error) => {
+        console.error('Erro ao carregar classes:', error);
+      }
+    });
+
+    this.dndApiService.getRaces().subscribe({
+      next: (data) => {
+        this.availableRaces = data.results || [];
+      },
+      error: (error) => {
+        console.error('Erro ao carregar raças:', error);
+      }
+    });
+  }
+
+  /**
+   * Visualiza detalhes de uma classe
+   */
+  viewClassDetails(classIndex: string): void {
+    if (!classIndex) return;
+    
+    this.loadingClassDetails = true;
+    this.dndApiService.getClassDetails(classIndex).subscribe({
+      next: (data) => {
+        this.selectedClassDetails = data;
+        this.loadingClassDetails = false;
+      },
+      error: (error) => {
+        console.error('Erro ao carregar detalhes da classe:', error);
+        this.loadingClassDetails = false;
+      }
+    });
+  }
+
+  /**
+   * Visualiza detalhes de uma raça
+   */
+  viewRaceDetails(raceIndex: string): void {
+    if (!raceIndex) return;
+    
+    this.loadingRaceDetails = true;
+    this.dndApiService.getRaceDetails(raceIndex).subscribe({
+      next: (data) => {
+        this.selectedRaceDetails = data;
+        this.loadingRaceDetails = false;
+      },
+      error: (error) => {
+        console.error('Erro ao carregar detalhes da raça:', error);
+        this.loadingRaceDetails = false;
+      }
+    });
+  }
+
+  /**
+   * Fecha modal de detalhes da classe
+   */
+  closeClassDetails(): void {
+    this.selectedClassDetails = undefined;
+  }
+
+  /**
+   * Fecha modal de detalhes da raça
+   */
+  closeRaceDetails(): void {
+    this.selectedRaceDetails = undefined;
+  }
+
+  /**
+   * Encontra o index da classe pelo nome
+   */
+  getClassIndexByName(className: string): string {
+    const foundClass = this.availableClasses.find(c => c.name.toLowerCase() === className.toLowerCase());
+    return foundClass?.index || '';
+  }
+
+  /**
+   * Encontra o index da raça pelo nome
+   */
+  getRaceIndexByName(raceName: string): string {
+    const foundRace = this.availableRaces.find(r => r.name.toLowerCase() === raceName.toLowerCase());
+    return foundRace?.index || '';
   }
 }

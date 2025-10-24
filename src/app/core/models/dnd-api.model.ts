@@ -111,3 +111,37 @@ export interface WeaponMasteryProperty extends ApiReference {
 export interface WeaponProperty extends ApiReference {
   description: string[];
 }
+
+/**
+ * Class (Classe) - 2014 API
+ */
+export interface DndClass extends ApiReference {
+  hit_die?: number;
+  proficiencies?: ApiReference[];
+  saving_throws?: ApiReference[];
+  starting_equipment?: any[];
+  class_levels?: string;
+  multi_classing?: any;
+  subclasses?: ApiReference[];
+  spellcasting?: any;
+}
+
+/**
+ * Race (Raça) - 2014 API
+ */
+export interface DndRace extends ApiReference {
+  speed?: number;
+  ability_bonuses?: Array<{
+    ability_score: ApiReference;
+    bonus: number;
+  }>;
+  alignment?: string;
+  age?: string;
+  size?: string;
+  size_description?: string;
+  starting_proficiencies?: ApiReference[];
+  languages?: ApiReference[];
+  language_desc?: string;
+  traits?: ApiReference[];
+  subraces?: ApiReference[];
+}
