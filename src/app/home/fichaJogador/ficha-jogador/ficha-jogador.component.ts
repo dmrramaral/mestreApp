@@ -491,6 +491,15 @@ export class FichaJogadorComponent implements OnInit {
       next: (data) => {
         this.selectedClassDetails = data;
         this.loadingClassDetails = false;
+        
+        // Abre o modal de detalhes manualmente usando Bootstrap
+        if (typeof window !== 'undefined') {
+          const bootstrap = (window as any).bootstrap;
+          if (bootstrap) {
+            const detailsModal = new bootstrap.Modal(document.getElementById('classDetailsModal'));
+            detailsModal.show();
+          }
+        }
       },
       error: (error) => {
         console.error('Erro ao carregar detalhes da classe:', error);
@@ -510,6 +519,15 @@ export class FichaJogadorComponent implements OnInit {
       next: (data) => {
         this.selectedRaceDetails = data;
         this.loadingRaceDetails = false;
+        
+        // Abre o modal de detalhes manualmente usando Bootstrap
+        if (typeof window !== 'undefined') {
+          const bootstrap = (window as any).bootstrap;
+          if (bootstrap) {
+            const detailsModal = new bootstrap.Modal(document.getElementById('raceDetailsModal'));
+            detailsModal.show();
+          }
+        }
       },
       error: (error) => {
         console.error('Erro ao carregar detalhes da raça:', error);
@@ -519,17 +537,51 @@ export class FichaJogadorComponent implements OnInit {
   }
 
   /**
-   * Fecha modal de detalhes da classe
+   * Fecha modal de detalhes da classe e volta para o modal de seleção
    */
   closeClassDetails(): void {
     this.selectedClassDetails = undefined;
+    
+    // Fecha o modal de detalhes e reabre o modal de seleção
+    if (typeof window !== 'undefined') {
+      const bootstrap = (window as any).bootstrap;
+      if (bootstrap) {
+        const detailsModal = bootstrap.Modal.getInstance(document.getElementById('classDetailsModal'));
+        if (detailsModal) {
+          detailsModal.hide();
+        }
+        
+        // Reabre o modal de seleção após um pequeno delay
+        setTimeout(() => {
+          const selectionModal = new bootstrap.Modal(document.getElementById('classSelectionModal'));
+          selectionModal.show();
+        }, 300);
+      }
+    }
   }
 
   /**
-   * Fecha modal de detalhes da raça
+   * Fecha modal de detalhes da raça e volta para o modal de seleção
    */
   closeRaceDetails(): void {
     this.selectedRaceDetails = undefined;
+    
+    // Fecha o modal de detalhes e reabre o modal de seleção
+    if (typeof window !== 'undefined') {
+      const bootstrap = (window as any).bootstrap;
+      if (bootstrap) {
+        const detailsModal = bootstrap.Modal.getInstance(document.getElementById('raceDetailsModal'));
+        if (detailsModal) {
+          detailsModal.hide();
+        }
+        
+        // Reabre o modal de seleção após um pequeno delay
+        setTimeout(() => {
+          const selectionModal = new bootstrap.Modal(document.getElementById('raceSelectionModal'));
+          selectionModal.show();
+        }, 300);
+      }
+    }
   }
 
   /**
