@@ -1,12 +1,32 @@
 .btn-sm{
-    margin: 2px;
+    margin: 5px;
 }
-
 
 .filter-monsters{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+    
+    select {
+        margin: 5px;
+    }
+    
+    button {
+        margin: 5px;
+    }
 }
 
+.card {
+    .card-body {
+        .d-inline-flex {
+            margin: 8px 0;
+            
+            button {
+                margin-right: 8px;
+            }
+        }
+    }
+}
 
