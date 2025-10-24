@@ -50,7 +50,7 @@ import {
                       <strong>Nome Completo:</strong> {{abilityScoreDetails[score.index].full_name}}<br>
                       <strong>Descrição:</strong>
                       <ul class="mb-2">
-                        <li *ngFor="let desc of abilityScoreDetails[score.index].desc">{{desc}}</li>
+                        <li *ngFor="let desc of abilityScoreDetails[score.index].description">{{desc}}</li>
                       </ul>
                       <strong>Skills Relacionadas:</strong>
                       <ul *ngIf="abilityScoreDetails[score.index]?.skills?.length">
