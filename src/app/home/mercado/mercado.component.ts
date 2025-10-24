@@ -1,22 +1,24 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Popover } from 'bootstrap';
 import { Mercado } from '../../models/mercado';
 import { MercadoService } from './mercado.service';
 
+/**
+ * Componente para exibir o mercado de itens/equipamentos
+ * Permite filtrar por categoria e subcategoria
+ */
 @Component({
   selector: 'app-mercado',
   standalone: true,
   imports: [
     CommonModule,
     FormsModule
-
   ],
   templateUrl: './mercado.component.html',
   styleUrls: ['./mercado.component.scss']
 })
-export class MercadoComponent {
+export class MercadoComponent implements OnInit {
 
   mercado: Mercado;
   mercadoDnD: any;
@@ -29,21 +31,14 @@ export class MercadoComponent {
   categories: any[] = [];
   subcategories: any[] = [];
 
-
-
   constructor(private mercadoService: MercadoService) {
     this.mercado = { armas: [], comidas: [], bebidas: [], armaduras: [], aneis: [], amuletos: [] };
   }
 
-
-
   ngOnInit() {
     this.mercadoService.getMercado().subscribe((data: any) => {
       this.mercado = data.mercado as Mercado;
-
     });
-
-   
 
     this.mercadoService.getMercadoDnD().subscribe((data: any) => {
       this.mercadoDnD = data;
@@ -57,21 +52,19 @@ export class MercadoComponent {
         .map((item: any) => item.gear_category.name as string)
       )].sort((a, b) => (a as string).localeCompare(b as string));
     });
-
-    /* this.mercadoService.getCaracteristicasEquipamentos(); */
   }
 
+  /**
+   * Aplica filtros de categoria e subcategoria aos itens do mercado
+   */
   applyFilters() {
     this.mercadoService.getMercadoDnD().subscribe((data: any) => {
       this.mercadoDnD = data.filter((item: any) => {
         const result = (this.filter.category ? item.equipment_category.name === this.filter.category : true) &&
           (this.filter.subcategory ? item.gear_category && item.gear_category.name === this.filter.subcategory : true);
 
-
         return result;
       });
     });
   }
-
- 
 }

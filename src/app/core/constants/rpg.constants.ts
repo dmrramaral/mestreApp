@@ -53,7 +53,7 @@ export const JSON_PATHS = {
  */
 export const STORAGE_KEYS = {
   PLAYER_CHARACTER: 'jogador',
-  INITIATIVE_LIST: 'iniciativa',
+  INITIATIVE_LIST: 'listaIniciativa',
   MARKET_CACHE: 'mercado_cache'
 } as const;
 
