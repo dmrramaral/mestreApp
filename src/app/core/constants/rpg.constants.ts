@@ -36,7 +36,7 @@ export const ATTRIBUTE_MODIFIER_RANGES = [
  */
 export const API_URLS = {
   DND_MONSTERS: 'https://www.dnd5eapi.co/api/monsters',
-  DND_EQUIPMENT: 'https://www.dnd5eapi.co/api/equipment'
+  DND_EQUIPMENT: 'https://www.dnd5eapi.co/api/2024/equipment'
 } as const;
 
 /**
