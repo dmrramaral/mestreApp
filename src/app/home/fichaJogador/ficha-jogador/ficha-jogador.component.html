@@ -1111,15 +1111,23 @@
                 <div class="row g-3">
                     <div class="col-md-6 col-lg-4" *ngFor="let classe of availableClasses">
                         <div class="card selection-card h-100" 
-                            [class.selected]="jogador.classe === classe.name"
-                            (click)="selectClass(classe); viewClassDetails(classe.index)">
+                            [class.selected]="jogador.classe === classe.name">
                             <div class="card-body text-center">
                                 <h5 class="card-title">
                                     <i class="fas fa-hat-wizard me-2"></i>{{ classe.name }}
                                 </h5>
-                                <button class="btn btn-sm btn-outline-primary mt-2" type="button">
-                                    <i class="fas fa-check me-1"></i>Selecionar
-                                </button>
+                                <div class="d-flex gap-2 justify-content-center mt-2">
+                                    <button class="btn btn-sm btn-outline-primary" type="button" 
+                                        (click)="selectClass(classe)">
+                                        <i class="fas fa-check me-1"></i>Selecionar
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-info" type="button" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#classDetailsModal"
+                                        (click)="viewClassDetails(classe.index)">
+                                        <i class="fas fa-info-circle me-1"></i>Detalhes
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -1152,15 +1160,23 @@
                 <div class="row g-3">
                     <div class="col-md-6 col-lg-4" *ngFor="let raca of availableRaces">
                         <div class="card selection-card h-100" 
-                            [class.selected]="jogador.raca === raca.name"
-                            (click)="selectRace(raca); viewRaceDetails(raca.index)">
+                            [class.selected]="jogador.raca === raca.name">
                             <div class="card-body text-center">
                                 <h5 class="card-title">
                                     <i class="fas fa-users me-2"></i>{{ raca.name }}
                                 </h5>
-                                <button class="btn btn-sm btn-outline-success mt-2" type="button">
-                                    <i class="fas fa-check me-1"></i>Selecionar
-                                </button>
+                                <div class="d-flex gap-2 justify-content-center mt-2">
+                                    <button class="btn btn-sm btn-outline-success" type="button" 
+                                        (click)="selectRace(raca)">
+                                        <i class="fas fa-check me-1"></i>Selecionar
+                                    </button>
+                                    <button class="btn btn-sm btn-outline-info" type="button" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#raceDetailsModal"
+                                        (click)="viewRaceDetails(raca.index)">
+                                        <i class="fas fa-info-circle me-1"></i>Detalhes
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
