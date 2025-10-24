@@ -56,6 +56,7 @@ export interface DamageType extends ApiReference {
  */
 export interface Equipment extends ApiReference {
   equipment_category: ApiReference;
+  equipment_categories?: ApiReference[];
   cost?: {
     quantity: number;
     unit: string;
