@@ -50,7 +50,7 @@ import {
                       <strong>Nome Completo:</strong> {{abilityScoreDetails[score.index].full_name}}<br>
                       <strong>Descrição:</strong>
                       <ul class="mb-2">
-                        <li *ngFor="let desc of abilityScoreDetails[score.index].description">{{desc}}</li>
+                        <li *ngFor="let description of abilityScoreDetails[score.index].description">{{description}}</li>
                       </ul>
                       <strong>Skills Relacionadas:</strong>
                       <ul *ngIf="abilityScoreDetails[score.index]?.skills?.length">
@@ -88,7 +88,7 @@ import {
                     </div>
                     <div *ngIf="!loadingDetails[alignment.index] && alignmentDetails[alignment.index]">
                       <strong>Abreviação:</strong> {{alignmentDetails[alignment.index].abbreviation}}<br>
-                      <strong>Descrição:</strong> {{alignmentDetails[alignment.index].desc}}
+                      <strong>Descrição:</strong> {{alignmentDetails[alignment.index].description}}
                     </div>
                   </div>
                 </li>
@@ -119,12 +119,12 @@ import {
                       <small>Carregando detalhes...</small>
                     </div>
                     <div *ngIf="!loadingDetails[language.index] && languageDetails[language.index]">
-                      <strong>Tipo:</strong> {{languageDetails[language.index].type}}<br>
+                      <strong>Tipo:</strong> {{languageDetails[language.index].is_rare}}<br>
                       <strong>Falantes Típicos:</strong> {{languageDetails[language.index].typical_speakers?.join(', ')}}<br>
                       <strong *ngIf="languageDetails[language.index].script">Escrita:</strong> 
                       <span *ngIf="languageDetails[language.index].script">{{languageDetails[language.index].script}}</span><br>
-                      <strong *ngIf="languageDetails[language.index].desc">Descrição:</strong> 
-                      <span *ngIf="languageDetails[language.index].desc">{{languageDetails[language.index].desc}}</span>
+                      <strong *ngIf="languageDetails[language.index].description">Descrição:</strong> 
+                      <span *ngIf="languageDetails[language.index].description">{{languageDetails[language.index].description}}</span>
                     </div>
                   </div>
                 </li>
@@ -155,7 +155,7 @@ import {
                       <small>Carregando detalhes...</small>
                     </div>
                     <div *ngIf="!loadingDetails[school.index] && magicSchoolDetails[school.index]">
-                      <strong>Descrição:</strong> {{magicSchoolDetails[school.index].desc}}
+                      <strong>Descrição:</strong> {{magicSchoolDetails[school.index].description}}
                     </div>
                   </div>
                 </li>
@@ -189,7 +189,7 @@ import {
                       <strong>Atributo Relacionado:</strong> {{skillDetails[skill.index].ability_score?.name}}<br>
                       <strong>Descrição:</strong>
                       <ul class="mb-0">
-                        <li *ngFor="let desc of skillDetails[skill.index].desc">{{desc}}</li>
+                        <li *ngFor="let description of skillDetails[skill.index].description">{{description}}</li>
                       </ul>
                     </div>
                   </div>
