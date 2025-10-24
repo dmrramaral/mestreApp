@@ -25,7 +25,7 @@ export interface ApiResourceList {
  */
 export interface AbilityScore extends ApiReference {
   full_name: string;
-  description: string[];
+  description: string;
   skills: ApiReference[];
 }
 

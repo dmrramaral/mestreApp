@@ -48,10 +48,7 @@ import {
                     </div>
                     <div *ngIf="!loadingDetails[score.index] && abilityScoreDetails[score.index]">
                       <strong>Nome Completo:</strong> {{abilityScoreDetails[score.index].full_name}}<br>
-                      <strong>Descrição:</strong>
-                      <ul class="mb-2">
-                        <li *ngFor="let description of abilityScoreDetails[score.index].description">{{description}}</li>
-                      </ul>
+                      <strong>Descrição:</strong> {{abilityScoreDetails[score.index].description}}<br>
                       <strong>Skills Relacionadas:</strong>
                       <ul *ngIf="abilityScoreDetails[score.index]?.skills?.length">
                         <li *ngFor="let skill of abilityScoreDetails[score.index]?.skills">{{skill.name}}</li>
