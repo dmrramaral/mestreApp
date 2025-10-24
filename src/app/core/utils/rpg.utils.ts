@@ -121,8 +121,15 @@ export function calcularPontosVidaPorNivel(
 }
 
 /**
+ * Interface para equipamento com CA
+ */
+interface EquipamentoComCA {
+  ca?: number;
+  [key: string]: any;
+}
+
+/**
  * Calcula a Classe de Armadura (CA) baseado nos equipamentos e modificador de destreza
- * Segue as regras do D&D 5e
  * 
  * @param equipamentos - Objeto contendo as categorias de equipamentos
  * @param modificadorDestreza - Modificador de destreza do personagem
@@ -133,7 +140,7 @@ export function calcularPontosVidaPorNivel(
  * calcularCA({}, 3) // retorna 13 (10 base + 3 destreza)
  */
 export function calcularCA(
-  equipamentos: { [key: string]: any[] } | undefined,
+  equipamentos: { [key: string]: EquipamentoComCA[] } | undefined,
   modificadorDestreza: number | null
 ): number {
   // CA base é 10 + modificador de destreza
