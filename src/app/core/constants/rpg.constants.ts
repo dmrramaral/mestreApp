@@ -36,7 +36,18 @@ export const ATTRIBUTE_MODIFIER_RANGES = [
  */
 export const API_URLS = {
   DND_MONSTERS: 'https://www.dnd5eapi.co/api/monsters',
-  DND_EQUIPMENT: 'https://www.dnd5eapi.co/api/2024/equipment'
+  DND_EQUIPMENT: 'https://www.dnd5eapi.co/api/2024/equipment',
+  DND_API_2024: 'https://www.dnd5eapi.co/api/2024',
+  DND_ABILITY_SCORES: 'https://www.dnd5eapi.co/api/2024/ability-scores',
+  DND_ALIGNMENTS: 'https://www.dnd5eapi.co/api/2024/alignments',
+  DND_CONDITIONS: 'https://www.dnd5eapi.co/api/2024/conditions',
+  DND_DAMAGE_TYPES: 'https://www.dnd5eapi.co/api/2024/damage-types',
+  DND_EQUIPMENT_CATEGORIES: 'https://www.dnd5eapi.co/api/2024/equipment-categories',
+  DND_LANGUAGES: 'https://www.dnd5eapi.co/api/2024/languages',
+  DND_MAGIC_SCHOOLS: 'https://www.dnd5eapi.co/api/2024/magic-schools',
+  DND_SKILLS: 'https://www.dnd5eapi.co/api/2024/skills',
+  DND_WEAPON_MASTERY_PROPERTIES: 'https://www.dnd5eapi.co/api/2024/weapon-mastery-properties',
+  DND_WEAPON_PROPERTIES: 'https://www.dnd5eapi.co/api/2024/weapon-properties'
 } as const;
 
 /**
