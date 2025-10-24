@@ -1,24 +1,29 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, of, take } from 'rxjs';
+import { Observable, shareReplay } from 'rxjs';
+import { JSON_PATHS } from '../../core/constants/rpg.constants';
 
+/**
+ * Serviço para gerenciar dados de monstros
+ */
 @Injectable({
   providedIn: 'root'
 })
 export class MonstrosService {
+  private monstrosCache$?: Observable<any>;
 
-  private apiDnD = 'https://www.dnd5eapi.co/api/monsters';
-  private readonly jsonDnD = '/assets/dnd.json';
-  mostrosData : any;
-  mostrosListaData : any;
+  constructor(private httpCliente: HttpClient) { }
 
-
-  constructor(private httpCliente : HttpClient) { }
-
-  getMonstros() {
-
-    return this.httpCliente.get(this.jsonDnD).pipe(take(1));
+  /**
+   * Obtém lista de monstros
+   * Usa cache para evitar requisições desnecessárias
+   */
+  getMonstros(): Observable<any> {
+    if (!this.monstrosCache$) {
+      this.monstrosCache$ = this.httpCliente.get(JSON_PATHS.MONSTERS).pipe(
+        shareReplay(1)
+      );
+    }
+    return this.monstrosCache$;
   }
-
-  
 }
