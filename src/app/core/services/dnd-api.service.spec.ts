@@ -107,6 +107,51 @@ describe('DndApiService', () => {
     req.flush(mockData);
   });
 
+  it('should fetch equipment details with multiple categories', () => {
+    const mockData = {
+      index: 'longsword',
+      name: 'Longsword',
+      url: '/api/2024/equipment/longsword',
+      equipment_category: {
+        index: 'weapons',
+        name: 'Weapons',
+        url: '/api/2024/equipment-categories/weapons'
+      },
+      equipment_categories: [
+        {
+          index: 'martial-melee-weapons',
+          name: 'Martial Melee Weapons',
+          url: '/api/2024/equipment-categories/martial-melee-weapons'
+        },
+        {
+          index: 'martial-weapons',
+          name: 'Martial Weapons',
+          url: '/api/2024/equipment-categories/martial-weapons'
+        },
+        {
+          index: 'melee-weapons',
+          name: 'Melee Weapons',
+          url: '/api/2024/equipment-categories/melee-weapons'
+        },
+        {
+          index: 'weapons',
+          name: 'Weapons',
+          url: '/api/2024/equipment-categories/weapons'
+        }
+      ]
+    };
+    
+    service.getEquipmentDetails('longsword').subscribe(data => {
+      expect(data).toEqual(mockData);
+      expect(data.equipment_categories).toBeDefined();
+      expect(data.equipment_categories.length).toBe(4);
+    });
+
+    const req = httpMock.expectOne(`${BASE_URL}/equipment/longsword`);
+    expect(req.request.method).toBe('GET');
+    req.flush(mockData);
+  });
+
   it('should fetch languages', () => {
     const mockData = { results: [] };
     
