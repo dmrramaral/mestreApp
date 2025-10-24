@@ -67,6 +67,15 @@ export interface Talento {
 }
 
 /**
+ * Traço racial ou de classe
+ */
+export interface Traco {
+  nome: string;
+  descricao?: string;
+  origem: 'classe' | 'raca';
+}
+
+/**
  * Status de condição do personagem
  */
 export interface StatusCondicao {
@@ -107,6 +116,7 @@ export interface FichaJogador {
   
   // Dados de jogo
   talentos: Talento[];
+  tracos?: Traco[];
   atributos: Atributos;
   pericias: Pericia[];
   

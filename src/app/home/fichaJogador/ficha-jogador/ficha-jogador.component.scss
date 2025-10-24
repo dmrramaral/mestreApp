@@ -858,3 +858,89 @@
     opacity: 0.5;
   }
 }
+
+// Selection Cards
+.selection-card {
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    border-color: #667eea;
+  }
+  
+  &.selected {
+    border-color: #28a745;
+    background-color: rgba(40, 167, 69, 0.1);
+    
+    .card-title {
+      color: #28a745;
+      font-weight: bold;
+    }
+  }
+  
+  .card-body {
+    padding: 20px;
+  }
+  
+  .card-title {
+    font-size: 1.1rem;
+    margin-bottom: 10px;
+  }
+}
+
+// Current Selection Badge
+.current-selection {
+  .badge {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+  }
+}
+
+// Trait List
+.trait-list {
+  .trait-item {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-left: 4px solid #667eea;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transform: translateX(5px);
+    }
+    
+    .trait-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+      
+      div:first-child {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      
+      strong {
+        color: #333;
+        font-size: 1.05rem;
+      }
+      
+      i {
+        font-size: 1.2rem;
+      }
+    }
+    
+    .trait-description {
+      margin: 0;
+      color: #666;
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+  }
+}

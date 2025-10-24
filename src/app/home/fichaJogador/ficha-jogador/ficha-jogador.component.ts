@@ -43,6 +43,7 @@ export class FichaJogadorComponent implements OnInit {
         proficiencia: null,
         deslocamento: null,
         talentos: [],
+        tracos: [],
         atributos: {
           forca: null,
           destreza: null,
@@ -545,5 +546,181 @@ export class FichaJogadorComponent implements OnInit {
   getRaceIndexByName(raceName: string): string {
     const foundRace = this.availableRaces.find(r => r.name.toLowerCase() === raceName.toLowerCase());
     return foundRace?.index || '';
+  }
+
+  /**
+   * Seleciona uma classe e carrega seus traços
+   */
+  selectClass(classRef: ApiReference): void {
+    this.jogador.classe = classRef.name;
+    
+    // Carrega detalhes da classe para obter traços
+    this.dndApiService.getClassDetails(classRef.index).subscribe({
+      next: (classDetails: DndClass) => {
+        // Remove traços antigos da classe
+        if (!this.jogador.tracos) {
+          this.jogador.tracos = [];
+        }
+        this.jogador.tracos = this.jogador.tracos.filter((t: any) => t.origem !== 'classe');
+        
+        // Adiciona proficiências como traços
+        if (classDetails.proficiencies && classDetails.proficiencies.length > 0) {
+          const profNames = classDetails.proficiencies.map(p => p.name).join(', ');
+          this.jogador.tracos.push({
+            nome: 'Proficiências da Classe',
+            descricao: profNames,
+            origem: 'classe'
+          });
+        }
+
+        // Adiciona testes de resistência como traços
+        if (classDetails.saving_throws && classDetails.saving_throws.length > 0) {
+          const saveNames = classDetails.saving_throws.map(s => s.name).join(', ');
+          this.jogador.tracos.push({
+            nome: 'Testes de Resistência',
+            descricao: saveNames,
+            origem: 'classe'
+          });
+        }
+
+        // Adiciona dado de vida como traço
+        if (classDetails.hit_die) {
+          this.jogador.tracos.push({
+            nome: 'Dado de Vida',
+            descricao: `d${classDetails.hit_die}`,
+            origem: 'classe'
+          });
+        }
+
+        // Adiciona informação sobre conjuração se disponível
+        if (classDetails.spellcasting) {
+          this.jogador.tracos.push({
+            nome: 'Conjuração',
+            descricao: 'Esta classe possui habilidades de conjuração',
+            origem: 'classe'
+          });
+        }
+
+        this.saveToCache();
+      },
+      error: (error) => {
+        console.error('Erro ao carregar detalhes da classe:', error);
+      }
+    });
+  }
+
+  /**
+   * Seleciona uma raça e carrega seus traços
+   */
+  selectRace(raceRef: ApiReference): void {
+    this.jogador.raca = raceRef.name;
+    
+    // Carrega detalhes da raça para obter traços
+    this.dndApiService.getRaceDetails(raceRef.index).subscribe({
+      next: (raceDetails: DndRace) => {
+        // Remove traços antigos da raça
+        if (!this.jogador.tracos) {
+          this.jogador.tracos = [];
+        }
+        this.jogador.tracos = this.jogador.tracos.filter((t: any) => t.origem !== 'raca');
+        
+        // Adiciona velocidade como traço
+        if (raceDetails.speed) {
+          this.jogador.tracos.push({
+            nome: 'Velocidade',
+            descricao: `${raceDetails.speed} pés`,
+            origem: 'raca'
+          });
+        }
+
+        // Adiciona bônus de atributos como traço
+        if (raceDetails.ability_bonuses && raceDetails.ability_bonuses.length > 0) {
+          const bonuses = raceDetails.ability_bonuses.map(b => 
+            `${b.ability_score.name}: +${b.bonus}`
+          ).join(', ');
+          this.jogador.tracos.push({
+            nome: 'Bônus de Atributos',
+            descricao: bonuses,
+            origem: 'raca'
+          });
+        }
+
+        // Adiciona tamanho como traço
+        if (raceDetails.size) {
+          this.jogador.tracos.push({
+            nome: 'Tamanho',
+            descricao: raceDetails.size + (raceDetails.size_description ? ` - ${raceDetails.size_description}` : ''),
+            origem: 'raca'
+          });
+        }
+
+        // Adiciona idiomas como traço
+        if (raceDetails.languages && raceDetails.languages.length > 0) {
+          const langs = raceDetails.languages.map(l => l.name).join(', ');
+          this.jogador.tracos.push({
+            nome: 'Idiomas',
+            descricao: langs + (raceDetails.language_desc ? ` - ${raceDetails.language_desc}` : ''),
+            origem: 'raca'
+          });
+        }
+
+        // Adiciona traços raciais
+        if (raceDetails.traits && raceDetails.traits.length > 0) {
+          const traits = raceDetails.traits.map(t => t.name).join(', ');
+          this.jogador.tracos.push({
+            nome: 'Traços Raciais',
+            descricao: traits,
+            origem: 'raca'
+          });
+        }
+
+        this.saveToCache();
+      },
+      error: (error) => {
+        console.error('Erro ao carregar detalhes da raça:', error);
+      }
+    });
+  }
+
+  /**
+   * Remove um traço
+   */
+  removerTraco(traco: any): void {
+    if (!this.jogador.tracos) return;
+    const index = this.jogador.tracos.indexOf(traco);
+    if (index > -1) {
+      this.jogador.tracos.splice(index, 1);
+      this.saveToCache();
+    }
+  }
+
+  /**
+   * Retorna traços de classe
+   */
+  getTracosClasse(): any[] {
+    if (!this.jogador.tracos) return [];
+    return this.jogador.tracos.filter((t: any) => t.origem === 'classe');
+  }
+
+  /**
+   * Retorna traços de raça
+   */
+  getTracosRaca(): any[] {
+    if (!this.jogador.tracos) return [];
+    return this.jogador.tracos.filter((t: any) => t.origem === 'raca');
+  }
+
+  /**
+   * Verifica se existem traços de classe
+   */
+  hasTracosClasse(): boolean {
+    return this.getTracosClasse().length > 0;
+  }
+
+  /**
+   * Verifica se existem traços de raça
+   */
+  hasTracosRaca(): boolean {
+    return this.getTracosRaca().length > 0;
   }
 }
