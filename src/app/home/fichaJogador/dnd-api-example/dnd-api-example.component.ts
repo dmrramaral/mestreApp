@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { DndApiService } from '../../../core/services/dnd-api.service';
 import { 
   ApiResourceList, 
+  ApiReference,
   AbilityScore, 
   Alignment, 
   Language, 
@@ -20,7 +21,7 @@ import {
   imports: [CommonModule],
   template: `
     <div class="container mt-4">
-      <h2>Exemplo de uso da D&D 5e API</h2>
+      <h2>API Demonstração</h2>
       <p class="text-muted">Demonstração de como usar o DndApiService para buscar dados de criação de personagens</p>
       
       <div class="row mt-4">
@@ -35,7 +36,29 @@ import {
               <div *ngIf="loadingAbilityScores">Carregando...</div>
               <ul *ngIf="abilityScores" class="list-group">
                 <li *ngFor="let score of abilityScores.results" class="list-group-item">
-                  {{score.name}}
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span>{{score.name}}</span>
+                    <button class="btn btn-sm btn-outline-info" (click)="loadAbilityScoreDetails(score.index)">
+                      Ver Detalhes
+                    </button>
+                  </div>
+                  <div *ngIf="abilityScoreDetails[score.index]" class="mt-3 detail-section">
+                    <div *ngIf="loadingDetails[score.index]" class="text-center">
+                      <small>Carregando detalhes...</small>
+                    </div>
+                    <div *ngIf="!loadingDetails[score.index] && abilityScoreDetails[score.index]">
+                      <strong>Nome Completo:</strong> {{abilityScoreDetails[score.index].full_name}}<br>
+                      <strong>Descrição:</strong>
+                      <ul class="mb-2">
+                        <li *ngFor="let desc of abilityScoreDetails[score.index].desc">{{desc}}</li>
+                      </ul>
+                      <strong>Skills Relacionadas:</strong>
+                      <ul *ngIf="abilityScoreDetails[score.index]?.skills?.length">
+                        <li *ngFor="let skill of abilityScoreDetails[score.index]?.skills">{{skill.name}}</li>
+                      </ul>
+                      <span *ngIf="!abilityScoreDetails[score.index]?.skills?.length" class="text-muted">Nenhuma skill relacionada</span>
+                    </div>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -53,7 +76,21 @@ import {
               <div *ngIf="loadingAlignments">Carregando...</div>
               <ul *ngIf="alignments" class="list-group">
                 <li *ngFor="let alignment of alignments.results" class="list-group-item">
-                  {{alignment.name}}
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span>{{alignment.name}}</span>
+                    <button class="btn btn-sm btn-outline-info" (click)="loadAlignmentDetails(alignment.index)">
+                      Ver Detalhes
+                    </button>
+                  </div>
+                  <div *ngIf="alignmentDetails[alignment.index]" class="mt-3 detail-section">
+                    <div *ngIf="loadingDetails[alignment.index]" class="text-center">
+                      <small>Carregando detalhes...</small>
+                    </div>
+                    <div *ngIf="!loadingDetails[alignment.index] && alignmentDetails[alignment.index]">
+                      <strong>Abreviação:</strong> {{alignmentDetails[alignment.index].abbreviation}}<br>
+                      <strong>Descrição:</strong> {{alignmentDetails[alignment.index].desc}}
+                    </div>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -71,7 +108,25 @@ import {
               <div *ngIf="loadingLanguages">Carregando...</div>
               <ul *ngIf="languages" class="list-group">
                 <li *ngFor="let language of languages.results" class="list-group-item">
-                  {{language.name}}
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span>{{language.name}}</span>
+                    <button class="btn btn-sm btn-outline-info" (click)="loadLanguageDetails(language.index)">
+                      Ver Detalhes
+                    </button>
+                  </div>
+                  <div *ngIf="languageDetails[language.index]" class="mt-3 detail-section">
+                    <div *ngIf="loadingDetails[language.index]" class="text-center">
+                      <small>Carregando detalhes...</small>
+                    </div>
+                    <div *ngIf="!loadingDetails[language.index] && languageDetails[language.index]">
+                      <strong>Tipo:</strong> {{languageDetails[language.index].type}}<br>
+                      <strong>Falantes Típicos:</strong> {{languageDetails[language.index].typical_speakers?.join(', ')}}<br>
+                      <strong *ngIf="languageDetails[language.index].script">Escrita:</strong> 
+                      <span *ngIf="languageDetails[language.index].script">{{languageDetails[language.index].script}}</span><br>
+                      <strong *ngIf="languageDetails[language.index].desc">Descrição:</strong> 
+                      <span *ngIf="languageDetails[language.index].desc">{{languageDetails[language.index].desc}}</span>
+                    </div>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -89,7 +144,20 @@ import {
               <div *ngIf="loadingMagicSchools">Carregando...</div>
               <ul *ngIf="magicSchools" class="list-group">
                 <li *ngFor="let school of magicSchools.results" class="list-group-item">
-                  {{school.name}}
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span>{{school.name}}</span>
+                    <button class="btn btn-sm btn-outline-info" (click)="loadMagicSchoolDetails(school.index)">
+                      Ver Detalhes
+                    </button>
+                  </div>
+                  <div *ngIf="magicSchoolDetails[school.index]" class="mt-3 detail-section">
+                    <div *ngIf="loadingDetails[school.index]" class="text-center">
+                      <small>Carregando detalhes...</small>
+                    </div>
+                    <div *ngIf="!loadingDetails[school.index] && magicSchoolDetails[school.index]">
+                      <strong>Descrição:</strong> {{magicSchoolDetails[school.index].desc}}
+                    </div>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -107,7 +175,24 @@ import {
               <div *ngIf="loadingSkills">Carregando...</div>
               <ul *ngIf="skills" class="list-group">
                 <li *ngFor="let skill of skills.results" class="list-group-item">
-                  {{skill.name}}
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span>{{skill.name}}</span>
+                    <button class="btn btn-sm btn-outline-info" (click)="loadSkillDetails(skill.index)">
+                      Ver Detalhes
+                    </button>
+                  </div>
+                  <div *ngIf="skillDetails[skill.index]" class="mt-3 detail-section">
+                    <div *ngIf="loadingDetails[skill.index]" class="text-center">
+                      <small>Carregando detalhes...</small>
+                    </div>
+                    <div *ngIf="!loadingDetails[skill.index] && skillDetails[skill.index]">
+                      <strong>Atributo Relacionado:</strong> {{skillDetails[skill.index].ability_score?.name}}<br>
+                      <strong>Descrição:</strong>
+                      <ul class="mb-0">
+                        <li *ngFor="let desc of skillDetails[skill.index].desc">{{desc}}</li>
+                      </ul>
+                    </div>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -157,8 +242,30 @@ this.dndApiService.getAbilityScoreDetails('str').subscribe(data => {{ '{' }}
       align-items: center;
     }
     .list-group {
-      max-height: 200px;
+      max-height: 400px;
       overflow-y: auto;
+    }
+    .list-group-item {
+      border-left: 3px solid transparent;
+      transition: border-left-color 0.2s ease;
+    }
+    .list-group-item:hover {
+      border-left-color: #0d6efd;
+    }
+    .detail-section {
+      background-color: #f8f9fa;
+      padding: 10px;
+      border-radius: 5px;
+      border-left: 3px solid #0dcaf0;
+      font-size: 0.9rem;
+    }
+    .detail-section strong {
+      color: #0d6efd;
+      margin-right: 5px;
+    }
+    .detail-section ul {
+      margin-top: 5px;
+      margin-bottom: 5px;
     }
     pre {
       background: #f5f5f5;
@@ -175,12 +282,21 @@ export class DndApiExampleComponent implements OnInit {
   skills?: ApiResourceList;
   equipmentCategories?: ApiResourceList;
 
+  // Details storage
+  abilityScoreDetails: { [key: string]: AbilityScore } = {};
+  alignmentDetails: { [key: string]: Alignment } = {};
+  languageDetails: { [key: string]: Language } = {};
+  magicSchoolDetails: { [key: string]: MagicSchool } = {};
+  skillDetails: { [key: string]: Skill } = {};
+  
+  // Loading states
   loadingAbilityScores = false;
   loadingAlignments = false;
   loadingLanguages = false;
   loadingMagicSchools = false;
   loadingSkills = false;
   loadingEquipmentCategories = false;
+  loadingDetails: { [key: string]: boolean } = {};
 
   constructor(private dndApiService: DndApiService) {}
 
@@ -203,6 +319,27 @@ export class DndApiExampleComponent implements OnInit {
     });
   }
 
+  loadAbilityScoreDetails(index: string): void {
+    // Toggle detail view
+    if (this.abilityScoreDetails[index]) {
+      delete this.abilityScoreDetails[index];
+      return;
+    }
+
+    this.loadingDetails[index] = true;
+    this.dndApiService.getAbilityScoreDetails(index).subscribe({
+      next: (data) => {
+        this.abilityScoreDetails[index] = data;
+        this.loadingDetails[index] = false;
+        console.log('Ability Score details loaded:', data);
+      },
+      error: (error) => {
+        console.error('Error loading ability score details:', error);
+        this.loadingDetails[index] = false;
+      }
+    });
+  }
+
   loadAlignments(): void {
     this.loadingAlignments = true;
     this.dndApiService.getAlignments().subscribe({
@@ -214,6 +351,27 @@ export class DndApiExampleComponent implements OnInit {
       error: (error) => {
         console.error('Error loading alignments:', error);
         this.loadingAlignments = false;
+      }
+    });
+  }
+
+  loadAlignmentDetails(index: string): void {
+    // Toggle detail view
+    if (this.alignmentDetails[index]) {
+      delete this.alignmentDetails[index];
+      return;
+    }
+
+    this.loadingDetails[index] = true;
+    this.dndApiService.getAlignmentDetails(index).subscribe({
+      next: (data) => {
+        this.alignmentDetails[index] = data;
+        this.loadingDetails[index] = false;
+        console.log('Alignment details loaded:', data);
+      },
+      error: (error) => {
+        console.error('Error loading alignment details:', error);
+        this.loadingDetails[index] = false;
       }
     });
   }
@@ -233,6 +391,27 @@ export class DndApiExampleComponent implements OnInit {
     });
   }
 
+  loadLanguageDetails(index: string): void {
+    // Toggle detail view
+    if (this.languageDetails[index]) {
+      delete this.languageDetails[index];
+      return;
+    }
+
+    this.loadingDetails[index] = true;
+    this.dndApiService.getLanguageDetails(index).subscribe({
+      next: (data) => {
+        this.languageDetails[index] = data;
+        this.loadingDetails[index] = false;
+        console.log('Language details loaded:', data);
+      },
+      error: (error) => {
+        console.error('Error loading language details:', error);
+        this.loadingDetails[index] = false;
+      }
+    });
+  }
+
   loadMagicSchools(): void {
     this.loadingMagicSchools = true;
     this.dndApiService.getMagicSchools().subscribe({
@@ -248,6 +427,27 @@ export class DndApiExampleComponent implements OnInit {
     });
   }
 
+  loadMagicSchoolDetails(index: string): void {
+    // Toggle detail view
+    if (this.magicSchoolDetails[index]) {
+      delete this.magicSchoolDetails[index];
+      return;
+    }
+
+    this.loadingDetails[index] = true;
+    this.dndApiService.getMagicSchoolDetails(index).subscribe({
+      next: (data) => {
+        this.magicSchoolDetails[index] = data;
+        this.loadingDetails[index] = false;
+        console.log('Magic School details loaded:', data);
+      },
+      error: (error) => {
+        console.error('Error loading magic school details:', error);
+        this.loadingDetails[index] = false;
+      }
+    });
+  }
+
   loadSkills(): void {
     this.loadingSkills = true;
     this.dndApiService.getSkills().subscribe({
@@ -259,6 +459,27 @@ export class DndApiExampleComponent implements OnInit {
       error: (error) => {
         console.error('Error loading skills:', error);
         this.loadingSkills = false;
+      }
+    });
+  }
+
+  loadSkillDetails(index: string): void {
+    // Toggle detail view
+    if (this.skillDetails[index]) {
+      delete this.skillDetails[index];
+      return;
+    }
+
+    this.loadingDetails[index] = true;
+    this.dndApiService.getSkillDetails(index).subscribe({
+      next: (data) => {
+        this.skillDetails[index] = data;
+        this.loadingDetails[index] = false;
+        console.log('Skill details loaded:', data);
+      },
+      error: (error) => {
+        console.error('Error loading skill details:', error);
+        this.loadingDetails[index] = false;
       }
     });
   }
