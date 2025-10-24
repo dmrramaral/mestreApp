@@ -216,6 +216,9 @@
                         <button class="btn btn-outline-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTalentos">
                             <i class="fas fa-star me-2"></i>Talentos
                         </button>
+                        <button class="btn btn-outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTracos">
+                            <i class="fas fa-scroll me-2"></i>Traços
+                        </button>
                         <button class="btn btn-outline-warning" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMochila">
                             <i class="fas fa-backpack me-2"></i>Mochila
                         </button>
@@ -377,6 +380,67 @@
                             </button>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Traços -->
+    <div class="collapse" id="collapseTracos">
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-dark text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-scroll me-2"></i>Traços de Classe e Raça</h5>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="trait-list" *ngIf="jogador.tracos && jogador.tracos.length > 0">
+                    <!-- Traços de Classe -->
+                    <div *ngIf="hasTracosClasse()" class="mb-4">
+                        <h6 class="text-primary mb-3">
+                            <i class="fas fa-hat-wizard me-2"></i>Traços de Classe
+                        </h6>
+                        <div class="trait-item" *ngFor="let traco of getTracosClasse()">
+                            <div class="trait-header">
+                                <div>
+                                    <i class="fas fa-dice-d20 text-primary"></i>
+                                    <strong>{{traco.nome}}</strong>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-danger btn-sm" (click)="removerTraco(traco)">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="trait-description">{{traco.descricao}}</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Traços de Raça -->
+                    <div *ngIf="hasTracosRaca()">
+                        <h6 class="text-success mb-3">
+                            <i class="fas fa-users me-2"></i>Traços Raciais
+                        </h6>
+                        <div class="trait-item" *ngFor="let traco of getTracosRaca()">
+                            <div class="trait-header">
+                                <div>
+                                    <i class="fas fa-dna text-success"></i>
+                                    <strong>{{traco.nome}}</strong>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-danger btn-sm" (click)="removerTraco(traco)">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="trait-description">{{traco.descricao}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="!jogador.tracos || jogador.tracos.length === 0" class="text-muted text-center py-3">
+                    <i class="fas fa-scroll fa-2x mb-2"></i>
+                    <p>Nenhum traço adicionado ainda</p>
+                    <p class="small">Selecione uma classe e raça para ver os traços automaticamente</p>
                 </div>
             </div>
         </div>
@@ -703,48 +767,30 @@
                                 <input type="text" class="form-control" id="nome" [(ngModel)]="jogador.nome" name="nome" placeholder="Nome do personagem">
                             </div>
                             <div class="col-md-4">
-                                <label for="classe" class="form-label">
+                                <label class="form-label">
                                     <i class="fas fa-hat-wizard me-1"></i>Classe
                                 </label>
-                                <div class="input-group">
-                                    <select class="form-select" id="classe" [(ngModel)]="jogador.classe"
-                                        name="classe">
-                                        <option value="" disabled>Selecione uma classe</option>
-                                        <option *ngFor="let classe of availableClasses" [value]="classe.name">
-                                            {{ classe.name }}
-                                        </option>
-                                    </select>
-                                    <button class="btn btn-outline-info" type="button" 
-                                        [disabled]="!jogador.classe"
-                                        (click)="viewClassDetails(getClassIndexByName(jogador.classe))"
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#classDetailsModal"
-                                        title="Ver detalhes da classe">
-                                        <i class="fas fa-info-circle"></i>
-                                    </button>
+                                <div class="current-selection mb-2" *ngIf="jogador.classe">
+                                    <span class="badge bg-primary">{{ jogador.classe }}</span>
                                 </div>
+                                <button class="btn btn-outline-primary btn-sm w-100" type="button" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#classSelectionModal">
+                                    <i class="fas fa-search me-1"></i>{{ jogador.classe ? 'Trocar Classe' : 'Selecionar Classe' }}
+                                </button>
                             </div>
                             <div class="col-md-4">
-                                <label for="raca" class="form-label">
+                                <label class="form-label">
                                     <i class="fas fa-users me-1"></i>Raça
                                 </label>
-                                <div class="input-group">
-                                    <select class="form-select" id="raca" [(ngModel)]="jogador.raca"
-                                        name="raca">
-                                        <option value="" disabled>Selecione uma raça</option>
-                                        <option *ngFor="let raca of availableRaces" [value]="raca.name">
-                                            {{ raca.name }}
-                                        </option>
-                                    </select>
-                                    <button class="btn btn-outline-info" type="button" 
-                                        [disabled]="!jogador.raca"
-                                        (click)="viewRaceDetails(getRaceIndexByName(jogador.raca))"
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#raceDetailsModal"
-                                        title="Ver detalhes da raça">
-                                        <i class="fas fa-info-circle"></i>
-                                    </button>
+                                <div class="current-selection mb-2" *ngIf="jogador.raca">
+                                    <span class="badge bg-success">{{ jogador.raca }}</span>
                                 </div>
+                                <button class="btn btn-outline-success btn-sm w-100" type="button" 
+                                    data-bs-toggle="modal" 
+                                    data-bs-target="#raceSelectionModal">
+                                    <i class="fas fa-search me-1"></i>{{ jogador.raca ? 'Trocar Raça' : 'Selecionar Raça' }}
+                                </button>
                             </div>
                             <div class="col-md-6">
                                 <label for="proficiencia" class="form-label">
@@ -1044,6 +1090,88 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeRaceDetails()">
+                    <i class="fas fa-times me-2"></i>Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Class Selection Modal -->
+<div class="modal fade" id="classSelectionModal" tabindex="-1" aria-labelledby="classSelectionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content rpg-modal">
+            <div class="modal-header bg-gradient-primary">
+                <h5 class="modal-title" id="classSelectionModalLabel">
+                    <i class="fas fa-hat-wizard me-2"></i>Selecionar Classe
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-md-6 col-lg-4" *ngFor="let classe of availableClasses">
+                        <div class="card selection-card h-100" 
+                            [class.selected]="jogador.classe === classe.name"
+                            (click)="selectClass(classe); viewClassDetails(classe.index)">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">
+                                    <i class="fas fa-hat-wizard me-2"></i>{{ classe.name }}
+                                </h5>
+                                <button class="btn btn-sm btn-outline-primary mt-2" type="button">
+                                    <i class="fas fa-check me-1"></i>Selecionar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="availableClasses.length === 0" class="text-center py-4 text-muted">
+                    <i class="fas fa-spinner fa-spin fa-2x mb-2"></i>
+                    <p>Carregando classes...</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-2"></i>Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Race Selection Modal -->
+<div class="modal fade" id="raceSelectionModal" tabindex="-1" aria-labelledby="raceSelectionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content rpg-modal">
+            <div class="modal-header bg-gradient-success">
+                <h5 class="modal-title" id="raceSelectionModalLabel">
+                    <i class="fas fa-users me-2"></i>Selecionar Raça
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row g-3">
+                    <div class="col-md-6 col-lg-4" *ngFor="let raca of availableRaces">
+                        <div class="card selection-card h-100" 
+                            [class.selected]="jogador.raca === raca.name"
+                            (click)="selectRace(raca); viewRaceDetails(raca.index)">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">
+                                    <i class="fas fa-users me-2"></i>{{ raca.name }}
+                                </h5>
+                                <button class="btn btn-sm btn-outline-success mt-2" type="button">
+                                    <i class="fas fa-check me-1"></i>Selecionar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="availableRaces.length === 0" class="text-center py-4 text-muted">
+                    <i class="fas fa-spinner fa-spin fa-2x mb-2"></i>
+                    <p>Carregando raças...</p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
                     <i class="fas fa-times me-2"></i>Fechar
                 </button>
             </div>
