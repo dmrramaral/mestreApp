@@ -3,8 +3,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Mercado } from '../../models/mercado';
 import { MercadoService } from './mercado.service';
-import { DndApiService } from '../../core/services/dnd-api.service';
-import { forkJoin } from 'rxjs';
 
 /**
  * Componente para exibir o mercado de itens/equipamentos
@@ -37,8 +35,7 @@ export class MercadoComponent implements OnInit {
   activeTab: string = 'all';
 
   constructor(
-    private mercadoService: MercadoService,
-    private dndApiService: DndApiService
+    private mercadoService: MercadoService
   ) {
     this.mercado = { armas: [], comidas: [], bebidas: [], armaduras: [], aneis: [], amuletos: [] };
   }
@@ -69,54 +66,26 @@ export class MercadoComponent implements OnInit {
   }
 
   /**
-   * Carrega armas detalhadas da API D&D
+   * Carrega armas detalhadas do arquivo local
    */
   loadWeaponsFromDndApi() {
-    // Fetch equipment-category for weapons
-    this.dndApiService.getEquipmentCategoryDetails('weapons').subscribe({
-      next: (weaponCategory: any) => {
-        if (weaponCategory && weaponCategory.equipment) {
-          // Fetch detailed information for each weapon
-          const weaponDetails$ = weaponCategory.equipment.map((weapon: any) => 
-            this.dndApiService.getEquipmentDetails(weapon.index)
-          );
-          
-          if (weaponDetails$.length > 0) {
-            forkJoin(weaponDetails$).subscribe((details) => {
-              this.weapons = details as any[];
-            });
-          }
-        }
-      },
-      error: (error) => {
-        console.error('Erro ao carregar categoria de armas:', error);
-      }
+    // Load weapons from local equipments.json file
+    this.mercadoService.getMercadoDnD().subscribe((data: any) => {
+      this.weapons = data.filter((item: any) => 
+        item.equipment_category && item.equipment_category.index === 'weapon'
+      );
     });
   }
 
   /**
-   * Carrega armaduras detalhadas da API D&D
+   * Carrega armaduras detalhadas do arquivo local
    */
   loadArmorsFromDndApi() {
-    // Fetch equipment-category for armor
-    this.dndApiService.getEquipmentCategoryDetails('armor').subscribe({
-      next: (armorCategory: any) => {
-        if (armorCategory && armorCategory.equipment) {
-          // Fetch detailed information for each armor
-          const armorDetails$ = armorCategory.equipment.map((armor: any) => 
-            this.dndApiService.getEquipmentDetails(armor.index)
-          );
-          
-          if (armorDetails$.length > 0) {
-            forkJoin(armorDetails$).subscribe((details) => {
-              this.armors = details as any[];
-            });
-          }
-        }
-      },
-      error: (error) => {
-        console.error('Erro ao carregar categoria de armaduras:', error);
-      }
+    // Load armors from local equipments.json file
+    this.mercadoService.getMercadoDnD().subscribe((data: any) => {
+      this.armors = data.filter((item: any) => 
+        item.equipment_category && item.equipment_category.index === 'armor'
+      );
     });
   }
 
