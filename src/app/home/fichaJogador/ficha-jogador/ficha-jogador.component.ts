@@ -8,6 +8,9 @@ import { calcularModificador, formatarModificador } from '../../../core/utils/rp
 import { STORAGE_KEYS, EQUIPMENT_CATEGORIES } from '../../../core/constants/rpg.constants';
 import { ApiReference, DndClass, DndRace } from '../../../core/models/dnd-api.model';
 
+// Tempo de delay para transições entre modais (em milissegundos)
+const MODAL_TRANSITION_DELAY = 300;
+
 @Component({
   selector: 'app-ficha-jogador',
   standalone: true,
@@ -505,7 +508,7 @@ export class FichaJogadorComponent implements OnInit {
             setTimeout(() => {
               const detailsModal = new bootstrap.Modal(document.getElementById('classDetailsModal'));
               detailsModal.show();
-            }, 300);
+            }, MODAL_TRANSITION_DELAY);
           }
         }
       },
@@ -541,7 +544,7 @@ export class FichaJogadorComponent implements OnInit {
             setTimeout(() => {
               const detailsModal = new bootstrap.Modal(document.getElementById('raceDetailsModal'));
               detailsModal.show();
-            }, 300);
+            }, MODAL_TRANSITION_DELAY);
           }
         }
       },
@@ -569,7 +572,7 @@ export class FichaJogadorComponent implements OnInit {
         setTimeout(() => {
           const selectionModal = new bootstrap.Modal(document.getElementById('classSelectionModal'));
           selectionModal.show();
-        }, 300);
+        }, MODAL_TRANSITION_DELAY);
       }
     }
   }
@@ -593,7 +596,7 @@ export class FichaJogadorComponent implements OnInit {
         setTimeout(() => {
           const selectionModal = new bootstrap.Modal(document.getElementById('classSelectionModal'));
           selectionModal.show();
-        }, 300);
+        }, MODAL_TRANSITION_DELAY);
       }
     }
   }
@@ -615,7 +618,7 @@ export class FichaJogadorComponent implements OnInit {
         setTimeout(() => {
           const selectionModal = new bootstrap.Modal(document.getElementById('raceSelectionModal'));
           selectionModal.show();
-        }, 300);
+        }, MODAL_TRANSITION_DELAY);
       }
     }
   }
@@ -639,7 +642,7 @@ export class FichaJogadorComponent implements OnInit {
         setTimeout(() => {
           const selectionModal = new bootstrap.Modal(document.getElementById('raceSelectionModal'));
           selectionModal.show();
-        }, 300);
+        }, MODAL_TRANSITION_DELAY);
       }
     }
   }
