@@ -1,55 +1,77 @@
-<div style="margin: 36px;">
-    <h3 style="margin-top: 60px;">Sorteio de Itens</h3>
-
-    <div class="row g-3 align-items-center ">
-        <div class="col-auto mt-4">
-            <select class="form-select" [(ngModel)]="ObjetoItem" aria-label="Default select example">
-                <option selected>Objeto</option>
-                <option value="Bau">Baú</option>
-                <option value="Bolso">Bolso</option>
-                <option value="Gaveta">Gaveta</option>
-            </select>
-        </div>
-        <div class="col-auto">
-            <input class="form-control form-control-sm col-6 m-1" [(ngModel)]="sorteJogador" type="number"
-                placeholder="Sorte">
-        </div>
-        <div class="col-auto">
-            <input class="form-control form-control-sm col-6 m-1" [(ngModel)]="dadoRange" type="number"
-                placeholder="Range">
-        </div>
-
-    </div>
-    <div class="col-auto  mt-4">
-        <button class="btn btn-primary" (click)="buscarItens()">Sortear</button>
-    </div>
-    <div class="col-auto  mt-4">
-        <button class="btn btn-primary" (click)="acertoCritico()">Acerto Crítico</button>
+<div class="itens-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h2 class="page-title">Sorteio de Itens</h2>
+        <p class="page-subtitle">Sorteie itens aleatórios para seus jogadores</p>
     </div>
 
-
-
-    <div class="row mt-2" *ngIf="itemSorteado">
-        <div class="col-12 col-md-6 col-lg-4">
-            <div class="card ">
-                <div class="card-body">
-                    <h5 class="card-title">{{itemSorteado.nome}}</h5>
-                    <p class="card-text">{{itemSorteado.descricao}}</p>
-                    <p class="card-text">{{itemSorteado.tipo}}</p>
+    <!-- Sort Form Section -->
+    <div class="sort-form-section">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="section-title mb-3">Configuração do Sorteio</h5>
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-3">
+                        <label for="objetoItem" class="form-label">Tipo de Objeto</label>
+                        <select class="form-select" [(ngModel)]="ObjetoItem" id="objetoItem">
+                            <option value="" disabled selected>Selecione...</option>
+                            <option value="Bau">Baú</option>
+                            <option value="Bolso">Bolso</option>
+                            <option value="Gaveta">Gaveta</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="sorteJogador" class="form-label">Sorte do Jogador</label>
+                        <input class="form-control" [(ngModel)]="sorteJogador" type="number"
+                            id="sorteJogador" placeholder="0">
+                    </div>
+                    <div class="col-md-3">
+                        <label for="dadoRange" class="form-label">Range do Dado</label>
+                        <input class="form-control" [(ngModel)]="dadoRange" type="number"
+                            id="dadoRange" placeholder="0">
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn btn-primary w-100" (click)="buscarItens()">
+                            <i class="fas fa-dice me-2"></i>Sortear
+                        </button>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12">
+                        <button class="btn btn-danger w-100 w-md-auto" (click)="acertoCritico()">
+                            <i class="fas fa-skull-crossbones me-2"></i>Acerto Crítico
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- <div class="row">
-    <div class="col-12 col-md-6 col-lg-4" *ngFor="let item of itens">
-        <div class="card mx-4 my-1">
+    <!-- Result Section -->
+    <div class="result-section" *ngIf="itemSorteado">
+        <div class="card shadow-sm item-result-card">
             <div class="card-body">
-                <h5 class="card-title">{{item.nome}}</h5>
-                <p class="card-text">{{item.descricao}}</p>
+                <div class="result-header">
+                    <i class="fas fa-trophy result-icon"></i>
+                    <h3 class="result-title">Item Sorteado!</h3>
+                </div>
+                <div class="item-details">
+                    <h4 class="item-name">{{itemSorteado.nome}}</h4>
+                    <p class="item-description">{{itemSorteado.descricao}}</p>
+                    <span class="badge bg-primary item-type">{{itemSorteado.tipo}}</span>
+                </div>
             </div>
         </div>
     </div>
-</div>
- -->
+
+    <!-- Empty State -->
+    <div class="empty-state" *ngIf="!itemSorteado">
+        <div class="card shadow-sm">
+            <div class="card-body text-center py-5">
+                <i class="fas fa-dice-d20 empty-icon mb-3"></i>
+                <h5 class="text-muted">Nenhum item sorteado ainda</h5>
+                <p class="text-muted">Configure os parâmetros acima e clique em "Sortear" para começar</p>
+            </div>
+        </div>
+    </div>
 </div>

@@ -1,53 +1,85 @@
-
-    
-<div class="box-effect mt-5">
-    <div class="effect fire">START THE BATTLE</div>
-</div>
-
-
-<div class="row g-3 align-items-center m-1">
-    <div class="col-auto">
-        <input class="form-control form-control-sm col-6 m-1" [(ngModel)]="nome" list="datalistOptions"
-            id="exampleDataList" placeholder="Jogador">
-        <datalist id="datalistOptions">
-            <option value="Bueno">
-            <option value="Kev">
-            <option value="Gabriel">
-            <option value="Dogui">
-            <option value="Monsto1">
-        </datalist>
+<div class="iniciativa-container">
+    <!-- Header Section -->
+    <div class="page-header">
+        <h2 class="page-title">Controle de Iniciativa</h2>
+        <p class="page-subtitle">Gerencie a ordem de combate dos jogadores</p>
     </div>
 
-    <div class="col-auto">
-        <input class="form-control form-control-sm col-6 m-1" [(ngModel)]="iniciativa" type="number"
-            placeholder="Iniciativa">
+    <!-- Add Player Form -->
+    <div class="add-player-section">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="section-title mb-3">Adicionar Participante</h5>
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-5">
+                        <label for="playerName" class="form-label">Nome do Jogador/Monstro</label>
+                        <input class="form-control" [(ngModel)]="nome" list="datalistOptions"
+                            id="playerName" placeholder="Digite o nome">
+                        <datalist id="datalistOptions">
+                            <option value="Bueno">
+                            <option value="Kev">
+                            <option value="Gabriel">
+                            <option value="Dogui">
+                            <option value="Monsto1">
+                        </datalist>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label for="initiativeValue" class="form-label">Valor de Iniciativa</label>
+                        <input class="form-control" [(ngModel)]="iniciativa" type="number"
+                            id="initiativeValue" placeholder="0">
+                    </div>
+                    
+                    <div class="col-md-3">
+                        <button class="btn btn-primary w-100" (click)="adicionar()">
+                            <i class="fas fa-plus me-2"></i>Adicionar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div>
-        <button class="btn btn-dark btn-sm" (click)="adicionar()">Adicionar</button>
+
+    <!-- Initiative Table -->
+    <div class="initiative-table-section">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="section-title mb-3">Ordem de Combate</h5>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col" class="text-center">Iniciativa</th>
+                                <th scope="col" class="text-center">Vida</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col" class="text-center">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let jogador of listaIniciativa">
+                                <td class="text-center"><strong>{{jogador.iniciativa}}</strong></td>
+                                <td class="text-center">
+                                    <input class="form-control form-control-sm text-center vida-input" 
+                                           type="number" 
+                                           [(ngModel)]="jogador.vida" 
+                                           (ngModelChange)="salvarVida()"/>
+                                </td>
+                                <td>{{jogador.nome}}</td>
+                                <td class="text-center">
+                                    <button class="btn btn-danger btn-sm" (click)="remover(jogador)">
+                                        <i class="fas fa-times"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                            <tr *ngIf="listaIniciativa.length === 0">
+                                <td colspan="4" class="text-center text-muted py-4">
+                                    Nenhum participante adicionado. Adicione jogadores ou monstros para começar o combate.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-
-</div>
-<div style="margin-top: 36px;">
-<table class="table mx-2">
-    <thead class="justify-content-center">
-        <tr>
-            <th scope="col">Iniciativa</th>
-            <th scope="col">Vida</th>
-            <th scope="col">Nome</th>
-            <th scope="col">Ações</th>
-
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let jogador of listaIniciativa">
-            <td>{{jogador.iniciativa}}</td>
-<td><input style="width: 5rem;" type="number" [(ngModel)]="jogador.vida" (ngModelChange)="salvarVida()"/></td>
-            <td>{{jogador.nome}}</td>
-            <td>
-                <button class="btn btn-danger btn-sm" (click)="remover(jogador)">X</button>
-
-        </tr>
-
-    </tbody>
-</table>
 </div>
