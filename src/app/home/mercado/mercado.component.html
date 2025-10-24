@@ -225,6 +225,23 @@
                                     <div class="modal-body">
                                         <h4 class="item-name mb-3">{{ weapon.name }}</h4>
                                         
+                                        <!-- Range at the top -->
+                                        <div *ngIf="weapon.weapon_range" class="mb-3">
+                                            <p class="mb-1"><strong><i class="fas fa-bullseye me-2"></i>Alcance:</strong> 
+                                                <span class="badge bg-secondary">{{ weapon.weapon_range }}</span>
+                                            </p>
+                                        </div>
+                                        
+                                        <!-- Equipment Categories -->
+                                        <div *ngIf="weapon.equipment_categories?.length" class="mb-3">
+                                            <h6><i class="fas fa-list me-2"></i>Categorias:</h6>
+                                            <div class="d-flex flex-wrap gap-2">
+                                                <span class="badge bg-info" *ngFor="let category of weapon.equipment_categories">
+                                                    {{ category.name }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        
                                         <div class="weapon-details">
                                             <!-- Description -->
                                             <div *ngIf="weapon.desc?.length" class="mb-3">
@@ -236,7 +253,6 @@
                                             <div class="row mb-3">
                                                 <div class="col-md-6">
                                                     <p><strong><i class="fas fa-tag me-2"></i>Categoria:</strong> {{ weapon.weapon_category || '-' }}</p>
-                                                    <p><strong><i class="fas fa-bullseye me-2"></i>Alcance:</strong> {{ weapon.weapon_range || '-' }}</p>
                                                     <p *ngIf="weapon.weight"><strong><i class="fas fa-weight me-2"></i>Peso:</strong> {{ weapon.weight }} lb</p>
                                                 </div>
                                                 <div class="col-md-6">
