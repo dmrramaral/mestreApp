@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { LocalStorageServcieService } from '../../localStorage/local-storage-servcie.service';
+import { StorageService } from '../../../core/services/storage.service';
+import { FichaJogadorService } from '../../../core/services/ficha-jogador.service';
+import { calcularModificador, formatarModificador } from '../../../core/utils/rpg.utils';
+import { STORAGE_KEYS, EQUIPMENT_CATEGORIES } from '../../../core/constants/rpg.constants';
 
 @Component({
   selector: 'app-ficha-jogador',
@@ -173,171 +176,39 @@ export class FichaJogadorComponent implements OnInit {
   adicionandoTalento: boolean = false;
   novoTalento: any = { nome: '', descricao: '' };
 
-  private cacheKey = 'jogador';
+  private cacheKey = STORAGE_KEYS.PLAYER_CHARACTER;
+  readonly equipmentCategories = EQUIPMENT_CATEGORIES;
 
-  constructor(private localStorageServcieService: LocalStorageServcieService) {
+  constructor(
+    private storageService: StorageService,
+    private fichaService: FichaJogadorService
+  ) {
 
   }
 
   saveToCache() {
-    localStorage.setItem(this.cacheKey, JSON.stringify(this.jogador));
+    this.storageService.setObject(this.cacheKey, this.jogador);
   }
 
   ngOnInit(): void {
-
-    const jogador = this.localStorageServcieService.getItem(this.cacheKey);
+    const jogador = this.storageService.getObject(this.cacheKey);
     if (jogador) {
-      this.jogador = JSON.parse(jogador);
+      this.jogador = jogador;
+    } else {
+      this.jogador = this.fichaService.criarFichaVazia();
     }
+    
     if (typeof window !== 'undefined') {
       window.addEventListener('beforeunload', () => {
-        this.localStorageServcieService.setItem('jogador', JSON.stringify(this.jogador));
+        this.storageService.setObject(this.cacheKey, this.jogador);
       });
     }
-
   }
   limparCache() {
     if (confirm('Tem certeza que deseja limpar o cache?')) {
-      localStorage.removeItem(this.cacheKey);
-      this.jogador = {
-        avatar: 'https://www.w3schools.com/howto/img_avatar.png',
-        nome: '',
-        idade: null,
-        classe: '',
-        raca: '',
-        nivel: null,
-        pv: null,
-        pva: null,
-        ca: null,
-        fome: null,
-        sede: null,
-        cansaco: null,
-        calor: null,
-        frio: null,
-        sono: null,
-        proficiencia: null,
-        deslocamento: null,
-        iniciativa: null,
-        inspiracao: null,
-        talentos: [],
-        atributos: {
-          forca: null,
-          destreza: null,
-          constituicao: null,
-          inteligencia: null,
-          sabedoria: null,
-          carisma: null,
-          sorte: null
-        },
-        pericias: [
-          {
-            nome: "Atletismo",
-            valor: "nao"
-          },
-          {
-            nome: "Briga",
-            valor: "nao"
-          },
-          {
-            nome: "Acrobacia",
-            valor: "nao"
-          },
-          {
-            nome: "Furtividade",
-            valor: "nao"
-          },
-          {
-            nome: "Prestidigitação",
-            valor: "nao"
-          },
-          {
-            nome: "Resistência",
-            valor: "nao"
-          },
-          {
-            nome: "Tolerância",
-            valor: "nao"
-          },
-          {
-            nome: "Arcanismo",
-            valor: "nao"
-          },
-          {
-            nome: "Engenharia",
-            valor: "nao"
-          },
-          {
-            nome: "Investigação",
-            valor: "nao"
-          },
-          {
-            nome: "Natureza",
-            valor: "nao"
-          },
-          {
-            nome: "Religião",
-            valor: "nao"
-          },
-          {
-            nome: "Adestrar Animais",
-            valor: "nao"
-          },
-          {
-            nome: "Intuição",
-            valor: "nao"
-          },
-          {
-            nome: "Medicina",
-            valor: "nao"
-          },
-          {
-            nome: "Percepção",
-            valor: "nao"
-          },
-          {
-            nome: "Sobrevivência",
-            valor: "nao"
-          },
-          {
-            nome: "Atuação",
-            valor: "nao"
-          },
-          {
-            nome: "Enganação",
-            valor: "nao"
-          },
-          {
-            nome: "Intimidação",
-            valor: "nao"
-          },
-          {
-            nome: "Persuasão",
-            valor: "nao"
-          },
-          {
-            nome: "Adivinhação",
-            valor: "nao"
-          },
-          {
-            nome: "Jogos de Azar",
-            valor: "nao"
-          },
-          {
-            nome: "Sincronicidade",
-            valor: "nao"
-          }          
-        ],
-        equipamentos: {
-          cabeca: [],
-          armadura: [],
-          pes: [],
-          escudo: [],
-          amuleto: [],
-          anel: []
-        },
-        magias: [],
-        mochila: []
-      };
+      this.storageService.removeItem(this.cacheKey);
+      this.jogador = this.fichaService.criarFichaVazia();
+      this.saveToCache();
     }
   }
   confirmandoLimparCache: boolean = false;
@@ -397,35 +268,19 @@ export class FichaJogadorComponent implements OnInit {
     this.adicionandoMagia = false;
   }
 
-  calcularModificador(arg0: any) {
-    if (arg0 >= 8 && arg0 <= 9) {
-      return -1;
-    } else if (arg0 >= 10 && arg0 <= 11) {
-      return 0;
-    } else if (arg0 >= 12 && arg0 <= 13) {
-      return 1;
-    } else if (arg0 >= 14 && arg0 <= 15) {
-      return 2;
-    } else if (arg0 >= 16 && arg0 <= 17) {
-      return 3;
-    } else if (arg0 >= 18 && arg0 <= 19) {
-      return 4;
-    } else if (arg0 >= 20 && arg0 <= 21) {
-      return 5;
-    } else if (arg0 >= 22 && arg0 <= 23) {
-      return 6;
-    } else if (arg0 >= 24 && arg0 <= 25) {
-      return 7;
-    } else if (arg0 >= 26 && arg0 <= 27) {
-      return 8;
-    } else if (arg0 >= 28 && arg0 <= 29) {
-      return 9;
-    } else if (arg0 == 30) {
-      return 10;
-    } else {
-      return null;
-    }
+  /**
+   * Calcula modificador de um atributo
+   * Usa função utilitária centralizada
+   */
+  calcularModificador(valor: any): number | null {
+    return calcularModificador(valor);
+  }
 
+  /**
+   * Formata modificador com sinal apropriado
+   */
+  formatarModificador(modificador: number | null): string {
+    return formatarModificador(modificador);
   }
 
 
@@ -435,16 +290,13 @@ export class FichaJogadorComponent implements OnInit {
   }
 
   removerItem(item: { nome: string, descricao: string }) {
-    this.jogador.mochila = this.jogador.mochila.filter((i: { nome: string, descricao: string }) => i.nome !== item.nome);
+    this.fichaService.removerItemMochila(this.jogador, item);
     this.saveToCache();
   }
 
   confirmarAdicionarItem() {
     if (this.novoItem.nome && this.novoItem.descricao) {
-      if (!this.jogador.mochila) {
-        this.jogador.mochila = [];
-      }
-      this.jogador.mochila.push({ ...this.novoItem });
+      this.fichaService.adicionarItemMochila(this.jogador, this.novoItem);
       this.novoItem = { nome: '', descricao: '' };
       this.adicionandoItem = false;
       this.saveToCache();
@@ -464,16 +316,13 @@ export class FichaJogadorComponent implements OnInit {
   }
 
   removerTalento(talento: { nome: string, descricao: string }) {
-    this.jogador.talentos = this.jogador.talentos.filter((t: { nome: string, descricao: string }) => t.nome !== talento.nome);
+    this.fichaService.removerTalento(this.jogador, talento);
     this.saveToCache();
   }
 
   confirmarAdicionarTalento() {
     if (this.novoTalento.nome && this.novoTalento.descricao) {
-      if (!this.jogador.talentos) {
-        this.jogador.talentos = [];
-      }
-      this.jogador.talentos.push({ ...this.novoTalento });
+      this.fichaService.adicionarTalento(this.jogador, this.novoTalento);
       this.novoTalento = { nome: '', descricao: '' };
       this.adicionandoTalento = false;
       this.saveToCache();
@@ -492,10 +341,7 @@ export class FichaJogadorComponent implements OnInit {
 
   confirmarAdicionarEquipamento() {
     if (this.novaCategoria && this.novoEquipamento.nome && this.novoEquipamento.descricao) {
-      if (!this.jogador.equipamentos[this.novaCategoria]) {
-        this.jogador.equipamentos[this.novaCategoria] = [];
-      }
-      this.jogador.equipamentos[this.novaCategoria].push({ ...this.novoEquipamento });
+      this.fichaService.adicionarEquipamento(this.jogador, this.novaCategoria, this.novoEquipamento);
       this.novoEquipamento = { nome: '', descricao: '' };
       this.novaCategoria = '';
       this.adicionandoEquipamento = false;
@@ -510,7 +356,7 @@ export class FichaJogadorComponent implements OnInit {
   }
 
   removerEquipamento(categoria: string, equipamento: { nome: string, descricao: string }) {
-    this.jogador.equipamentos[categoria] = this.jogador.equipamentos[categoria].filter((e: { nome: string, descricao: string }) => e.nome !== equipamento.nome);
+    this.fichaService.removerEquipamento(this.jogador, categoria, equipamento);
     this.saveToCache();
   }
 

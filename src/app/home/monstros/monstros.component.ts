@@ -1,8 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MonstrosService } from './monstros.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
+/**
+ * Componente para exibir e filtrar monstros
+ * Permite buscar monstros por nome, alinhamento, tamanho, tipo e XP
+ */
 @Component({
   selector: 'app-monstros',
   standalone: true,
@@ -13,7 +17,7 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './monstros.component.html',
   styleUrls: ['./monstros.component.scss']
 })
-export class MonstrosComponent {
+export class MonstrosComponent implements OnInit {
 
   monstros: any;
 
@@ -33,7 +37,6 @@ export class MonstrosComponent {
   types: any[] = [];
   xp: any[] = [];
 
-
   constructor(private monstrosService: MonstrosService) { }
 
   ngOnInit() {
@@ -44,10 +47,13 @@ export class MonstrosComponent {
       this.alignments = [...new Set(this.monstros.map((monster: any) => monster.alignment as string))].sort((a, b) => (a as string).localeCompare(b as string));
       this.names = Array.from(new Set(this.monstros.map((monster: any) => monster.name as string))).sort((a, b) => (a as string).localeCompare(b as string));
       this.xp = [...new Set(this.monstros.map((monster: any) => monster.xp))].sort((a, b) => (a as number) - (b as number));
-
     });
   }
 
+  /**
+   * Aplica filtros para buscar monstros específicos
+   * Filtra por nome, alinhamento, XP, tamanho e tipo
+   */
   applyFilters() {
     this.monstrosService.getMonstros().subscribe((data: any) => {
       this.monstros = data.filter((monstro: any) => {
@@ -62,7 +68,3 @@ export class MonstrosComponent {
     });
   }
 }
-
-
-
-
