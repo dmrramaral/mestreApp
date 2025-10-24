@@ -26,5 +26,9 @@ export const routes: Routes = [
       path: 'ficha-jogador', 
       loadComponent: () => import('./home/fichaJogador/ficha-jogador/ficha-jogador.component').then(m => m.FichaJogadorComponent)
     },
+    {
+      path: 'dnd-api-example', 
+      loadComponent: () => import('./home/fichaJogador/dnd-api-example/dnd-api-example.component').then(m => m.DndApiExampleComponent)
+    },
     {path: '**', redirectTo: 'home'},
 ];
