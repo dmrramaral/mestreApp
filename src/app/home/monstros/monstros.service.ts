@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { table } from 'console';
 import { Observable, of, take } from 'rxjs';
 
 @Injectable({
