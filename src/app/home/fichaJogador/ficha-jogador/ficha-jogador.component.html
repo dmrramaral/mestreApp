@@ -247,12 +247,39 @@
             </div>
             <div class="card-body">
                 <div class="spell-list" *ngIf="jogador.magias && jogador.magias.length > 0">
-                    <div class="spell-item" *ngFor="let magia of jogador.magias">
-                        <div class="spell-header">
-                            <i class="fas fa-wand-magic text-primary"></i>
-                            <strong>{{magia.nome}}</strong>
+                    <div class="spell-item" *ngFor="let magia of jogador.magias; let i = index">
+                        <div *ngIf="!editandoMagia[i]">
+                            <div class="spell-header">
+                                <div>
+                                    <i class="fas fa-wand-magic text-primary"></i>
+                                    <strong>{{magia.nome}}</strong>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-sm btn-outline-primary me-1" (click)="toggleEditarMagia(i)">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-danger" (click)="removerMagia(i)">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="spell-description">{{magia.descricao}}</p>
                         </div>
-                        <p class="spell-description">{{magia.descricao}}</p>
+                        <div *ngIf="editandoMagia[i]" class="edit-form">
+                            <div class="row g-2">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" [(ngModel)]="magia.nome" (change)="saveToCache()">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" [(ngModel)]="magia.descricao" (change)="saveToCache()">
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-success btn-sm w-100" (click)="toggleEditarMagia(i)">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div *ngIf="!jogador.magias || jogador.magias.length === 0" class="text-muted text-center py-3">
@@ -294,17 +321,39 @@
             </div>
             <div class="card-body">
                 <div class="talent-list" *ngIf="jogador.talentos && jogador.talentos.length > 0">
-                    <div class="talent-item" *ngFor="let talento of jogador.talentos">
-                        <div class="talent-header">
-                            <div>
-                                <i class="fas fa-certificate text-success"></i>
-                                <strong>{{talento.nome}}</strong>
+                    <div class="talent-item" *ngFor="let talento of jogador.talentos; let i = index">
+                        <div *ngIf="!editandoTalento[i]">
+                            <div class="talent-header">
+                                <div>
+                                    <i class="fas fa-certificate text-success"></i>
+                                    <strong>{{talento.nome}}</strong>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-outline-success btn-sm me-1" (click)="toggleEditarTalento(i)">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-sm" (click)="removerTalento(talento)">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <button type="button" class="btn btn-danger btn-sm" (click)="removerTalento(talento)">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
+                            <p class="talent-description">{{talento.descricao}}</p>
                         </div>
-                        <p class="talent-description">{{talento.descricao}}</p>
+                        <div *ngIf="editandoTalento[i]" class="edit-form">
+                            <div class="row g-2">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" [(ngModel)]="talento.nome" (change)="saveToCache()">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" [(ngModel)]="talento.descricao" (change)="saveToCache()">
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-success btn-sm w-100" (click)="toggleEditarTalento(i)">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div *ngIf="!jogador.talentos || jogador.talentos.length === 0" class="text-muted text-center py-3">
@@ -346,17 +395,39 @@
             </div>
             <div class="card-body">
                 <div class="item-list" *ngIf="jogador.mochila && jogador.mochila.length > 0">
-                    <div class="item-card" *ngFor="let item of jogador.mochila">
-                        <div class="item-header">
-                            <div>
-                                <i class="fas fa-box text-warning"></i>
-                                <strong>{{item.nome}}</strong>
+                    <div class="item-card" *ngFor="let item of jogador.mochila; let i = index">
+                        <div *ngIf="!editandoItem[i]">
+                            <div class="item-header">
+                                <div>
+                                    <i class="fas fa-box text-warning"></i>
+                                    <strong>{{item.nome}}</strong>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-outline-warning btn-sm me-1" (click)="toggleEditarItem(i)">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-sm" (click)="removerItem(item)">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <button type="button" class="btn btn-danger btn-sm" (click)="removerItem(item)">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
+                            <p class="item-description">{{item.descricao}}</p>
                         </div>
-                        <p class="item-description">{{item.descricao}}</p>
+                        <div *ngIf="editandoItem[i]" class="edit-form">
+                            <div class="row g-2">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" [(ngModel)]="item.nome" (change)="saveToCache()">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" [(ngModel)]="item.descricao" (change)="saveToCache()">
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-success btn-sm w-100" (click)="toggleEditarItem(i)">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div *ngIf="!jogador.mochila || jogador.mochila.length === 0" class="text-muted text-center py-3">
@@ -409,14 +480,36 @@
                             <i class="fas" [ngClass]="getCategoryIcon(categoria)"></i>
                             {{ getCategoryName(categoria) }}
                         </h6>
-                        <div class="equipment-item" *ngFor="let equipamento of jogador.equipamentos[categoria]">
-                            <div class="equipment-header">
-                                <strong>{{equipamento.nome}}</strong>
-                                <button type="button" class="btn btn-danger btn-sm" (click)="removerEquipamento(categoria, equipamento)">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
+                        <div class="equipment-item" *ngFor="let equipamento of jogador.equipamentos[categoria]; let i = index">
+                            <div *ngIf="!editandoEquipamento[categoria]?.[i]">
+                                <div class="equipment-header">
+                                    <strong>{{equipamento.nome}}</strong>
+                                    <div>
+                                        <button type="button" class="btn btn-outline-info btn-sm me-1" (click)="toggleEditarEquipamento(categoria, i)">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-sm" (click)="removerEquipamento(categoria, equipamento)">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <p class="equipment-description">{{equipamento.descricao}}</p>
                             </div>
-                            <p class="equipment-description">{{equipamento.descricao}}</p>
+                            <div *ngIf="editandoEquipamento[categoria]?.[i]" class="edit-form">
+                                <div class="row g-2">
+                                    <div class="col-md-5">
+                                        <input type="text" class="form-control" [(ngModel)]="equipamento.nome" (change)="saveToCache()">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <input type="text" class="form-control" [(ngModel)]="equipamento.descricao" (change)="saveToCache()">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="button" class="btn btn-success btn-sm w-100" (click)="toggleEditarEquipamento(categoria, i)">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -179,6 +179,11 @@ export class FichaJogadorComponent implements OnInit {
   editandoAtributos: boolean = false;
   editandoPericias: boolean = false;
   editandoCombate: boolean = false;
+  
+  editandoMagia: { [key: number]: boolean } = {};
+  editandoTalento: { [key: number]: boolean } = {};
+  editandoItem: { [key: number]: boolean } = {};
+  editandoEquipamento: { [categoria: string]: { [key: number]: boolean } } = {};
 
   private cacheKey = STORAGE_KEYS.PLAYER_CHARACTER;
   readonly equipmentCategories = EQUIPMENT_CATEGORIES;
@@ -411,5 +416,29 @@ export class FichaJogadorComponent implements OnInit {
 
   toggleEditarCombate() {
     this.editandoCombate = !this.editandoCombate;
+  }
+
+  toggleEditarMagia(index: number) {
+    this.editandoMagia[index] = !this.editandoMagia[index];
+  }
+
+  removerMagia(index: number) {
+    this.jogador.magias.splice(index, 1);
+    this.saveToCache();
+  }
+
+  toggleEditarTalento(index: number) {
+    this.editandoTalento[index] = !this.editandoTalento[index];
+  }
+
+  toggleEditarItem(index: number) {
+    this.editandoItem[index] = !this.editandoItem[index];
+  }
+
+  toggleEditarEquipamento(categoria: string, index: number) {
+    if (!this.editandoEquipamento[categoria]) {
+      this.editandoEquipamento[categoria] = {};
+    }
+    this.editandoEquipamento[categoria][index] = !this.editandoEquipamento[categoria][index];
   }
 }
