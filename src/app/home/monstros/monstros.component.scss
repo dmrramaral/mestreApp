@@ -1,37 +1,199 @@
-.btn-sm{
-    margin: 8px;
-}
-
-.filter-monsters{
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 30px;
+.monsters-container {
+    margin-top: 80px;
     padding: 20px;
-    background-color: rgba(255, 255, 255, 0.9);
-    border-radius: 8px;
-    
-    select {
-        margin: 8px;
-    }
-    
-    button {
-        margin: 8px;
-        padding: 8px 16px;
-    }
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.card {
-    .card-body {
-        .d-inline-flex {
-            margin: 12px 0;
-            
-            button {
-                margin-right: 12px;
-                margin-bottom: 8px;
-            }
+.filter-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    overflow: hidden;
+}
+
+.filter-header {
+    background: rgba(0, 0, 0, 0.2);
+    padding: 15px 20px;
+    color: white;
+    
+    h5 {
+        font-weight: 600;
+        
+        i {
+            animation: pulse 2s ease-in-out infinite;
         }
     }
 }
 
+.filter-body {
+    padding: 20px;
+    background: white;
+    
+    label {
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: #4a5568;
+        margin-bottom: 0.5rem;
+        
+        i {
+            color: #667eea;
+        }
+    }
+    
+    .form-select {
+        border: 2px solid #e2e8f0;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        
+        &:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border: none;
+        border-radius: 8px;
+        padding: 10px;
+        font-weight: 600;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        
+        &:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+    }
+}
+
+.monsters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 20px;
+}
+
+.monster-card {
+    border: none;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
+    &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .card-header {
+        padding: 15px;
+        border-bottom: none;
+        
+        h5 {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+    }
+    
+    .card-img-top {
+        max-height: 250px;
+        object-fit: cover;
+    }
+}
+
+.monster-info {
+    .badge {
+        padding: 6px 12px;
+        font-size: 0.75rem;
+        font-weight: 500;
+    }
+}
+
+.combat-stats {
+    .stat-box {
+        background: #f7fafc;
+        border-radius: 8px;
+        padding: 12px 8px;
+        transition: background 0.2s ease;
+        
+        &:hover {
+            background: #edf2f7;
+        }
+        
+        i {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            font-size: 0.75rem;
+            color: #718096;
+            margin-top: 2px;
+            font-weight: 600;
+        }
+    }
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    
+    .btn {
+        border-radius: 6px;
+        font-size: 0.875rem;
+        padding: 6px 12px;
+        
+        i {
+            font-size: 0.8rem;
+        }
+    }
+}
+
+.other-info {
+    background: #f7fafc;
+    padding: 15px;
+    border-radius: 8px;
+    
+    h6 {
+        font-weight: 600;
+        color: #2d3748;
+    }
+    
+    p {
+        font-size: 0.875rem;
+        color: #4a5568;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+@media (max-width: 768px) {
+    .monsters-container {
+        padding: 10px;
+        margin-top: 70px;
+    }
+    
+    .monsters-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .filter-body {
+        padding: 15px;
+    }
+}

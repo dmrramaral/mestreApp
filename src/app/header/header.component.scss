@@ -1,37 +1,106 @@
-.navbar {
-  border-bottom: 1px solid #e1e8ed;
-  background-color: #ffffff !important;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-  
-  .navbar-brand {
-    font-size: 1.5rem;
-    letter-spacing: 0.5px;
-    color: #4a90e2 !important;
-  }
+.navbar-rpg {
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%) !important;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(251, 191, 36, 0.2);
+    
+    .navbar-brand {
+        color: #f7fafc !important;
+        font-size: 1.5rem;
+        font-weight: 700;
+        letter-spacing: 0.5px;
+        transition: transform 0.2s ease;
+        
+        &:hover {
+            transform: scale(1.05);
+        }
+        
+        i {
+            color: #fbbf24;
+            animation: spin 3s linear infinite;
+        }
+    }
+    
+    .navbar-toggler {
+        border-color: rgba(255, 255, 255, 0.3);
+        
+        &:focus {
+            box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.3);
+        }
+        
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba(255, 255, 255, 0.85)' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+    }
 }
 
 .offcanvas {
-  background-color: #f8f9fa !important;
-  
-  .offcanvas-title {
-    color: #4a90e2 !important;
-  }
-  
-  .nav-link {
-    padding: 12px 0;
-    color: #495057;
-    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%) !important;
     
-    &:hover {
-      color: #4a90e2;
-      padding-left: 10px;
-      background-color: rgba(74, 144, 226, 0.1);
-      border-radius: 4px;
+    .offcanvas-header {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        
+        .offcanvas-title {
+            color: #f7fafc !important;
+            
+            i {
+                color: #fbbf24;
+            }
+        }
+        
+        .btn-close {
+            filter: invert(1);
+            opacity: 0.8;
+            
+            &:hover {
+                opacity: 1;
+            }
+        }
     }
     
-    &.active {
-      color: #4a90e2;
-      font-weight: 500;
+    .offcanvas-body {
+        .navbar-nav {
+            .nav-item {
+                margin: 5px 0;
+                
+                .nav-link {
+                    color: #e2e8f0;
+                    padding: 12px 16px;
+                    border-radius: 8px;
+                    transition: all 0.3s ease;
+                    font-weight: 500;
+                    
+                    i {
+                        color: #fbbf24;
+                        width: 20px;
+                        transition: transform 0.2s ease;
+                    }
+                    
+                    &:hover {
+                        background: rgba(251, 191, 36, 0.15);
+                        color: #fbbf24;
+                        transform: translateX(5px);
+                        
+                        i {
+                            transform: scale(1.2);
+                        }
+                    }
+                    
+                    &.active {
+                        background: rgba(251, 191, 36, 0.1);
+                        color: #fbbf24;
+                        font-weight: 600;
+                    }
+                }
+            }
+        }
     }
-  }
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }
