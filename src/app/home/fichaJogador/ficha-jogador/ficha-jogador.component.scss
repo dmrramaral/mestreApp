@@ -227,6 +227,26 @@
         margin-bottom: 5px;
     }
     
+    .attr-input {
+        display: block;
+        width: 60px;
+        margin: 0 auto 5px;
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: 700;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        border-radius: 6px;
+        padding: 5px;
+        background: rgba(255, 255, 255, 0.9);
+        color: #2d3748;
+        
+        &:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+            border-color: white;
+        }
+    }
+    
     .attr-modifier {
         display: block;
         font-size: 1rem;
@@ -279,8 +299,15 @@
     .spell-header {
         display: flex;
         align-items: center;
+        justify-content: space-between;
         gap: 10px;
         margin-bottom: 8px;
+        
+        > div {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
         
         i {
             font-size: 1.2rem;
@@ -300,6 +327,21 @@
     }
 }
 
+// Shared styles for talent, item, equipment headers
+.talent-header, .item-header, .equipment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    
+    > div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+}
+
+
 // Talent List
 .talent-list {
     display: grid;
@@ -313,16 +355,7 @@
     border-left: 4px solid #48bb78;
     
     .talent-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 8px;
-        
         div {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            
             i {
                 font-size: 1.2rem;
             }
@@ -355,16 +388,7 @@
     border-left: 4px solid #ecc94b;
     
     .item-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 8px;
-        
-        div {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            
+        > div {
             i {
                 font-size: 1.2rem;
             }
@@ -413,10 +437,11 @@
     margin-bottom: 10px;
     
     .equipment-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         margin-bottom: 6px;
+        
+        > div {
+            gap: 5px;
+        }
         
         strong {
             color: #2d3748;
@@ -515,6 +540,23 @@
     border: 2px dashed #cbd5e0;
     
     .form-control, .form-select {
+        border: 2px solid #e2e8f0;
+        
+        &:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+    }
+}
+
+// Edit Form (inline editing for items)
+.edit-form {
+    background: #edf2f7;
+    padding: 15px;
+    border-radius: 6px;
+    border: 2px solid #cbd5e0;
+    
+    .form-control {
         border: 2px solid #e2e8f0;
         
         &:focus {

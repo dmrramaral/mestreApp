@@ -70,7 +70,12 @@
         <div class="col-lg-6 mb-3">
             <div class="card shadow-sm combat-card">
                 <div class="card-header bg-danger text-white">
-                    <h5 class="mb-0"><i class="fas fa-heart-broken me-2"></i>Combate</h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-heart-broken me-2"></i>Combate</h5>
+                        <button type="button" class="btn btn-light btn-sm" (click)="toggleEditarCombate()">
+                            <i class="fas" [ngClass]="editandoCombate ? 'fa-check' : 'fa-edit'" [title]="editandoCombate ? 'Salvar' : 'Editar'"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="row g-3">
@@ -78,7 +83,8 @@
                             <div class="combat-stat">
                                 <i class="fas fa-heart text-danger"></i>
                                 <span class="stat-label">PV Máx</span>
-                                <span class="stat-value">{{jogador.pv || 0}}</span>
+                                <input *ngIf="editandoCombate" type="number" class="stat-input" [(ngModel)]="jogador.pv" (change)="saveToCache()">
+                                <span *ngIf="!editandoCombate" class="stat-value">{{jogador.pv || 0}}</span>
                             </div>
                         </div>
                         <div class="col-4">
@@ -92,28 +98,32 @@
                             <div class="combat-stat">
                                 <i class="fas fa-shield-alt text-primary"></i>
                                 <span class="stat-label">CA</span>
-                                <span class="stat-value">{{jogador.ca || 0}}</span>
+                                <input *ngIf="editandoCombate" type="number" class="stat-input" [(ngModel)]="jogador.ca" (change)="saveToCache()">
+                                <span *ngIf="!editandoCombate" class="stat-value">{{jogador.ca || 0}}</span>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="combat-stat">
                                 <i class="fas fa-running text-info"></i>
                                 <span class="stat-label">Deslocamento</span>
-                                <span class="stat-value">{{jogador.deslocamento || 0}}</span>
+                                <input *ngIf="editandoCombate" type="number" class="stat-input" [(ngModel)]="jogador.deslocamento" (change)="saveToCache()">
+                                <span *ngIf="!editandoCombate" class="stat-value">{{jogador.deslocamento || 0}}</span>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="combat-stat">
                                 <i class="fas fa-bolt text-warning"></i>
                                 <span class="stat-label">Iniciativa</span>
-                                <span class="stat-value">+{{jogador.iniciativa || 0}}</span>
+                                <input *ngIf="editandoCombate" type="number" class="stat-input" [(ngModel)]="jogador.iniciativa" (change)="saveToCache()">
+                                <span *ngIf="!editandoCombate" class="stat-value">+{{jogador.iniciativa || 0}}</span>
                             </div>
                         </div>
                         <div class="col-4">
                             <div class="combat-stat">
                                 <i class="fas fa-star text-warning"></i>
                                 <span class="stat-label">Inspiração</span>
-                                <span class="stat-value">{{jogador.inspiracao || 0}}</span>
+                                <input *ngIf="editandoCombate" type="number" class="stat-input" [(ngModel)]="jogador.inspiracao" (change)="saveToCache()">
+                                <span *ngIf="!editandoCombate" class="stat-value">{{jogador.inspiracao || 0}}</span>
                             </div>
                         </div>
                     </div>
@@ -125,7 +135,12 @@
         <div class="col-lg-6 mb-3">
             <div class="card shadow-sm attributes-card">
                 <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0"><i class="fas fa-dumbbell me-2"></i>Atributos</h5>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-dumbbell me-2"></i>Atributos</h5>
+                        <button type="button" class="btn btn-light btn-sm" (click)="toggleEditarAtributos()">
+                            <i class="fas" [ngClass]="editandoAtributos ? 'fa-check' : 'fa-edit'" [title]="editandoAtributos ? 'Salvar' : 'Editar'"></i>
+                        </button>
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="row g-2">
@@ -133,7 +148,8 @@
                             <div class="attribute-box">
                                 <i class="fas fa-fist-raised"></i>
                                 <span class="attr-name">FOR</span>
-                                <span class="attr-value">{{jogador.atributos.forca || 10}}</span>
+                                <input *ngIf="editandoAtributos" type="number" class="attr-input" [(ngModel)]="jogador.atributos.forca" (change)="saveToCache()">
+                                <span *ngIf="!editandoAtributos" class="attr-value">{{jogador.atributos.forca || 10}}</span>
                                 <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.forca) ?? 0) >= 0 ? '+' : '' }}{{ calcularModificador(jogador.atributos.forca) ?? 0 }}</span>
                             </div>
                         </div>
@@ -141,7 +157,8 @@
                             <div class="attribute-box">
                                 <i class="fas fa-running"></i>
                                 <span class="attr-name">DES</span>
-                                <span class="attr-value">{{jogador.atributos.destreza || 10}}</span>
+                                <input *ngIf="editandoAtributos" type="number" class="attr-input" [(ngModel)]="jogador.atributos.destreza" (change)="saveToCache()">
+                                <span *ngIf="!editandoAtributos" class="attr-value">{{jogador.atributos.destreza || 10}}</span>
                                 <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.destreza) ?? 0) >= 0 ? '+' : '' }}{{ calcularModificador(jogador.atributos.destreza) ?? 0 }}</span>
                             </div>
                         </div>
@@ -149,7 +166,8 @@
                             <div class="attribute-box">
                                 <i class="fas fa-heart"></i>
                                 <span class="attr-name">CON</span>
-                                <span class="attr-value">{{jogador.atributos.constituicao || 10}}</span>
+                                <input *ngIf="editandoAtributos" type="number" class="attr-input" [(ngModel)]="jogador.atributos.constituicao" (change)="saveToCache()">
+                                <span *ngIf="!editandoAtributos" class="attr-value">{{jogador.atributos.constituicao || 10}}</span>
                                 <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.constituicao) ?? 0) >= 0 ? '+' : '' }}{{ calcularModificador(jogador.atributos.constituicao) ?? 0 }}</span>
                             </div>
                         </div>
@@ -157,7 +175,8 @@
                             <div class="attribute-box">
                                 <i class="fas fa-brain"></i>
                                 <span class="attr-name">INT</span>
-                                <span class="attr-value">{{jogador.atributos.inteligencia || 10}}</span>
+                                <input *ngIf="editandoAtributos" type="number" class="attr-input" [(ngModel)]="jogador.atributos.inteligencia" (change)="saveToCache()">
+                                <span *ngIf="!editandoAtributos" class="attr-value">{{jogador.atributos.inteligencia || 10}}</span>
                                 <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.inteligencia) ?? 0) >= 0 ? '+' : '' }}{{ calcularModificador(jogador.atributos.inteligencia) ?? 0 }}</span>
                             </div>
                         </div>
@@ -165,7 +184,8 @@
                             <div class="attribute-box">
                                 <i class="fas fa-eye"></i>
                                 <span class="attr-name">SAB</span>
-                                <span class="attr-value">{{jogador.atributos.sabedoria || 10}}</span>
+                                <input *ngIf="editandoAtributos" type="number" class="attr-input" [(ngModel)]="jogador.atributos.sabedoria" (change)="saveToCache()">
+                                <span *ngIf="!editandoAtributos" class="attr-value">{{jogador.atributos.sabedoria || 10}}</span>
                                 <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.sabedoria) ?? 0) >= 0 ? '+' : '' }}{{ calcularModificador(jogador.atributos.sabedoria) ?? 0 }}</span>
                             </div>
                         </div>
@@ -173,7 +193,8 @@
                             <div class="attribute-box">
                                 <i class="fas fa-comments"></i>
                                 <span class="attr-name">CAR</span>
-                                <span class="attr-value">{{jogador.atributos.carisma || 10}}</span>
+                                <input *ngIf="editandoAtributos" type="number" class="attr-input" [(ngModel)]="jogador.atributos.carisma" (change)="saveToCache()">
+                                <span *ngIf="!editandoAtributos" class="attr-value">{{jogador.atributos.carisma || 10}}</span>
                                 <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.carisma) ?? 0) >= 0 ? '+' : '' }}{{ calcularModificador(jogador.atributos.carisma) ?? 0 }}</span>
                             </div>
                         </div>
@@ -226,12 +247,39 @@
             </div>
             <div class="card-body">
                 <div class="spell-list" *ngIf="jogador.magias && jogador.magias.length > 0">
-                    <div class="spell-item" *ngFor="let magia of jogador.magias">
-                        <div class="spell-header">
-                            <i class="fas fa-wand-magic text-primary"></i>
-                            <strong>{{magia.nome}}</strong>
+                    <div class="spell-item" *ngFor="let magia of jogador.magias; let i = index">
+                        <div *ngIf="!editandoMagia[i]">
+                            <div class="spell-header">
+                                <div>
+                                    <i class="fas fa-wand-magic text-primary"></i>
+                                    <strong>{{magia.nome}}</strong>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-sm btn-outline-primary me-1" (click)="toggleEditarMagia(i)">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-danger" (click)="removerMagia(i)">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="spell-description">{{magia.descricao}}</p>
                         </div>
-                        <p class="spell-description">{{magia.descricao}}</p>
+                        <div *ngIf="editandoMagia[i]" class="edit-form">
+                            <div class="row g-2">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" [(ngModel)]="magia.nome" (change)="saveToCache()">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" [(ngModel)]="magia.descricao" (change)="saveToCache()">
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-success btn-sm w-100" (click)="toggleEditarMagia(i)">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div *ngIf="!jogador.magias || jogador.magias.length === 0" class="text-muted text-center py-3">
@@ -273,17 +321,39 @@
             </div>
             <div class="card-body">
                 <div class="talent-list" *ngIf="jogador.talentos && jogador.talentos.length > 0">
-                    <div class="talent-item" *ngFor="let talento of jogador.talentos">
-                        <div class="talent-header">
-                            <div>
-                                <i class="fas fa-certificate text-success"></i>
-                                <strong>{{talento.nome}}</strong>
+                    <div class="talent-item" *ngFor="let talento of jogador.talentos; let i = index">
+                        <div *ngIf="!editandoTalento[i]">
+                            <div class="talent-header">
+                                <div>
+                                    <i class="fas fa-certificate text-success"></i>
+                                    <strong>{{talento.nome}}</strong>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-outline-success btn-sm me-1" (click)="toggleEditarTalento(i)">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-sm" (click)="removerTalento(talento)">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <button type="button" class="btn btn-danger btn-sm" (click)="removerTalento(talento)">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
+                            <p class="talent-description">{{talento.descricao}}</p>
                         </div>
-                        <p class="talent-description">{{talento.descricao}}</p>
+                        <div *ngIf="editandoTalento[i]" class="edit-form">
+                            <div class="row g-2">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" [(ngModel)]="talento.nome" (change)="saveToCache()">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" [(ngModel)]="talento.descricao" (change)="saveToCache()">
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-success btn-sm w-100" (click)="toggleEditarTalento(i)">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div *ngIf="!jogador.talentos || jogador.talentos.length === 0" class="text-muted text-center py-3">
@@ -325,17 +395,39 @@
             </div>
             <div class="card-body">
                 <div class="item-list" *ngIf="jogador.mochila && jogador.mochila.length > 0">
-                    <div class="item-card" *ngFor="let item of jogador.mochila">
-                        <div class="item-header">
-                            <div>
-                                <i class="fas fa-box text-warning"></i>
-                                <strong>{{item.nome}}</strong>
+                    <div class="item-card" *ngFor="let item of jogador.mochila; let i = index">
+                        <div *ngIf="!editandoItem[i]">
+                            <div class="item-header">
+                                <div>
+                                    <i class="fas fa-box text-warning"></i>
+                                    <strong>{{item.nome}}</strong>
+                                </div>
+                                <div>
+                                    <button type="button" class="btn btn-outline-warning btn-sm me-1" (click)="toggleEditarItem(i)">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-danger btn-sm" (click)="removerItem(item)">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
                             </div>
-                            <button type="button" class="btn btn-danger btn-sm" (click)="removerItem(item)">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
+                            <p class="item-description">{{item.descricao}}</p>
                         </div>
-                        <p class="item-description">{{item.descricao}}</p>
+                        <div *ngIf="editandoItem[i]" class="edit-form">
+                            <div class="row g-2">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" [(ngModel)]="item.nome" (change)="saveToCache()">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control" [(ngModel)]="item.descricao" (change)="saveToCache()">
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="button" class="btn btn-success btn-sm w-100" (click)="toggleEditarItem(i)">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div *ngIf="!jogador.mochila || jogador.mochila.length === 0" class="text-muted text-center py-3">
@@ -388,14 +480,36 @@
                             <i class="fas" [ngClass]="getCategoryIcon(categoria)"></i>
                             {{ getCategoryName(categoria) }}
                         </h6>
-                        <div class="equipment-item" *ngFor="let equipamento of jogador.equipamentos[categoria]">
-                            <div class="equipment-header">
-                                <strong>{{equipamento.nome}}</strong>
-                                <button type="button" class="btn btn-danger btn-sm" (click)="removerEquipamento(categoria, equipamento)">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
+                        <div class="equipment-item" *ngFor="let equipamento of jogador.equipamentos[categoria]; let i = index">
+                            <div *ngIf="!editandoEquipamento[categoria]?.[i]">
+                                <div class="equipment-header">
+                                    <strong>{{equipamento.nome}}</strong>
+                                    <div>
+                                        <button type="button" class="btn btn-outline-info btn-sm me-1" (click)="toggleEditarEquipamento(categoria, i)">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-danger btn-sm" (click)="removerEquipamento(categoria, equipamento)">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                <p class="equipment-description">{{equipamento.descricao}}</p>
                             </div>
-                            <p class="equipment-description">{{equipamento.descricao}}</p>
+                            <div *ngIf="editandoEquipamento[categoria]?.[i]" class="edit-form">
+                                <div class="row g-2">
+                                    <div class="col-md-5">
+                                        <input type="text" class="form-control" [(ngModel)]="equipamento.nome" (change)="saveToCache()">
+                                    </div>
+                                    <div class="col-md-5">
+                                        <input type="text" class="form-control" [(ngModel)]="equipamento.descricao" (change)="saveToCache()">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button type="button" class="btn btn-success btn-sm w-100" (click)="toggleEditarEquipamento(categoria, i)">
+                                            <i class="fas fa-check"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -440,19 +554,40 @@
     <div class="collapse" id="collapsePericias">
         <div class="card shadow-sm mb-3">
             <div class="card-header bg-secondary text-white">
-                <h5 class="mb-0"><i class="fas fa-tasks me-2"></i>Perícias</h5>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-tasks me-2"></i>Perícias</h5>
+                    <button type="button" class="btn btn-light btn-sm" (click)="toggleEditarPericias()">
+                        <i class="fas" [ngClass]="editandoPericias ? 'fa-check' : 'fa-edit'" [title]="editandoPericias ? 'Salvar' : 'Editar'"></i>
+                    </button>
+                </div>
             </div>
             <div class="card-body">
-                <div class="skills-grid">
-                    <div class="skill-badge" *ngFor="let pericia of jogador.pericias">
-                        <span *ngIf="pericia.valor === 'sim'" class="badge bg-success">
-                            <i class="fas fa-check-circle me-1"></i>{{pericia.nome}}
-                        </span>
+                <div *ngIf="!editandoPericias">
+                    <div class="skills-grid">
+                        <div class="skill-badge" *ngFor="let pericia of jogador.pericias">
+                            <span *ngIf="pericia.valor === 'sim'" class="badge bg-success">
+                                <i class="fas fa-check-circle me-1"></i>{{pericia.nome}}
+                            </span>
+                        </div>
+                    </div>
+                    <div *ngIf="!hasProficiencies()" class="text-muted text-center py-3">
+                        <i class="fas fa-tasks fa-2x mb-2"></i>
+                        <p>Nenhuma perícia selecionada</p>
                     </div>
                 </div>
-                <div *ngIf="!hasProficiencies()" class="text-muted text-center py-3">
-                    <i class="fas fa-tasks fa-2x mb-2"></i>
-                    <p>Nenhuma perícia selecionada</p>
+                <div *ngIf="editandoPericias" class="skills-checklist">
+                    <div class="row g-2">
+                        <div class="col-md-6" *ngFor="let pericia of jogador.pericias">
+                            <div class="form-check skill-check">
+                                <input class="form-check-input" type="checkbox"
+                                    (change)="updatePericiaValor($event, pericia); saveToCache()"
+                                    [id]="'pericia_' + pericia.nome" name="pericia_{{pericia.nome}}">
+                                <label class="form-check-label" [for]="'pericia_' + pericia.nome">
+                                    <i class="fas fa-check-circle me-1"></i>{{ pericia.nome }}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
