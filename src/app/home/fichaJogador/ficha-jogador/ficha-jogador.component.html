@@ -494,14 +494,20 @@
                                     </div>
                                 </div>
                                 <p class="equipment-description">{{equipamento.descricao}}</p>
+                                <p *ngIf="equipamento.ca" class="equipment-ca">
+                                    <i class="fas fa-shield-alt text-primary me-1"></i><strong>CA:</strong> {{equipamento.ca}}
+                                </p>
                             </div>
                             <div *ngIf="editandoEquipamento[categoria]?.[i]" class="edit-form">
                                 <div class="row g-2">
-                                    <div class="col-md-5">
-                                        <input type="text" class="form-control" [(ngModel)]="equipamento.nome" (change)="saveToCache()">
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" placeholder="Nome" [(ngModel)]="equipamento.nome" (change)="saveToCache()">
                                     </div>
-                                    <div class="col-md-5">
-                                        <input type="text" class="form-control" [(ngModel)]="equipamento.descricao" (change)="saveToCache()">
+                                    <div class="col-md-4">
+                                        <input type="text" class="form-control" placeholder="Descrição" [(ngModel)]="equipamento.descricao" (change)="saveToCache()">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="number" class="form-control" placeholder="CA" [(ngModel)]="equipamento.ca" (change)="saveToCache()">
                                     </div>
                                     <div class="col-md-2">
                                         <button type="button" class="btn btn-success btn-sm w-100" (click)="toggleEditarEquipamento(categoria, i)">
@@ -519,7 +525,7 @@
                 </div>
                 <div *ngIf="adicionandoEquipamento" class="add-form mt-3">
                     <div class="row g-2">
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <select class="form-select" [(ngModel)]="novaCategoria">
                                 <option value="" disabled selected>Categoria</option>
                                 <option value="cabeca">Cabeça</option>
@@ -530,18 +536,21 @@
                                 <option value="anel">Anel</option>
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <input type="text" class="form-control" placeholder="Nome" [(ngModel)]="novoEquipamento.nome">
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <input type="text" class="form-control" placeholder="Descrição" [(ngModel)]="novoEquipamento.descricao">
                         </div>
                         <div class="col-md-2">
+                            <input type="number" class="form-control" placeholder="CA" [(ngModel)]="novoEquipamento.ca">
+                        </div>
+                        <div class="col-md-3">
                             <button type="button" class="btn btn-success btn-sm w-100" (click)="confirmarAdicionarEquipamento()">
-                                <i class="fas fa-check"></i>
+                                <i class="fas fa-check"></i> Confirmar
                             </button>
                             <button type="button" class="btn btn-danger btn-sm w-100 mt-1" (click)="cancelarAdicionarEquipamento()">
-                                <i class="fas fa-times"></i>
+                                <i class="fas fa-times"></i> Cancelar
                             </button>
                         </div>
                     </div>

@@ -156,12 +156,23 @@ export class FichaJogadorService {
   adicionarEquipamento(
     ficha: FichaJogadorLegacy,
     categoria: string,
-    equipamento: { nome: string; descricao: string }
+    equipamento: { nome: string; descricao: string; ca?: number }
   ): void {
-    if (!ficha[categoria]) {
-      ficha[categoria] = [];
+    // Handle nested equipamentos structure
+    if (!ficha['equipamentos']) {
+      ficha['equipamentos'] = {
+        cabeca: [],
+        armadura: [],
+        pes: [],
+        escudo: [],
+        amuleto: [],
+        anel: []
+      };
     }
-    ficha[categoria].push({ ...equipamento });
+    if (!ficha['equipamentos'][categoria]) {
+      ficha['equipamentos'][categoria] = [];
+    }
+    ficha['equipamentos'][categoria].push({ ...equipamento });
   }
 
   /**
@@ -172,8 +183,9 @@ export class FichaJogadorService {
     categoria: string,
     equipamento: { nome: string }
   ): void {
-    if (ficha[categoria]) {
-      ficha[categoria] = ficha[categoria].filter((e: any) => e.nome !== equipamento.nome);
+    // Handle nested equipamentos structure
+    if (ficha['equipamentos'] && ficha['equipamentos'][categoria]) {
+      ficha['equipamentos'][categoria] = ficha['equipamentos'][categoria].filter((e: any) => e.nome !== equipamento.nome);
     }
   }
 
