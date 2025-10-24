@@ -45,6 +45,7 @@ export interface Equipamento {
   nome: string;
   descricao?: string;
   categoria?: string;
+  ca?: number;
 }
 
 /**

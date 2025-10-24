@@ -163,7 +163,7 @@ export class FichaJogadorComponent implements OnInit {
   }; 
 
   novaCategoria: string = '';
-  novoEquipamento: any = { nome: '', descricao: '' };
+  novoEquipamento: any = { nome: '', descricao: '', ca: null };
   adicionandoEquipamento: boolean = false;
 
 
@@ -351,7 +351,7 @@ export class FichaJogadorComponent implements OnInit {
   confirmarAdicionarEquipamento() {
     if (this.novaCategoria && this.novoEquipamento.nome && this.novoEquipamento.descricao) {
       this.fichaService.adicionarEquipamento(this.jogador, this.novaCategoria, this.novoEquipamento);
-      this.novoEquipamento = { nome: '', descricao: '' };
+      this.novoEquipamento = { nome: '', descricao: '', ca: null };
       this.novaCategoria = '';
       this.adicionandoEquipamento = false;
       this.saveToCache();
@@ -359,7 +359,7 @@ export class FichaJogadorComponent implements OnInit {
   }
 
   cancelarAdicionarEquipamento() {
-    this.novoEquipamento = { nome: '', descricao: '' };
+    this.novoEquipamento = { nome: '', descricao: '', ca: null };
     this.novaCategoria = '';
     this.adicionandoEquipamento = false;
   }
