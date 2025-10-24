@@ -774,8 +774,7 @@
                                     <span class="badge bg-primary">{{ jogador.classe }}</span>
                                 </div>
                                 <button class="btn btn-outline-primary btn-sm w-100" type="button" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-target="#classSelectionModal">
+                                    (click)="openClassSelection()">
                                     <i class="fas fa-search me-1"></i>{{ jogador.classe ? 'Trocar Classe' : 'Selecionar Classe' }}
                                 </button>
                             </div>
@@ -787,8 +786,7 @@
                                     <span class="badge bg-success">{{ jogador.raca }}</span>
                                 </div>
                                 <button class="btn btn-outline-success btn-sm w-100" type="button" 
-                                    data-bs-toggle="modal" 
-                                    data-bs-target="#raceSelectionModal">
+                                    (click)="openRaceSelection()">
                                     <i class="fas fa-search me-1"></i>{{ jogador.raca ? 'Trocar Raça' : 'Selecionar Raça' }}
                                 </button>
                             </div>

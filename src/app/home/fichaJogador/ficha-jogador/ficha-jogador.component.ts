@@ -492,12 +492,20 @@ export class FichaJogadorComponent implements OnInit {
         this.selectedClassDetails = data;
         this.loadingClassDetails = false;
         
-        // Abre o modal de detalhes manualmente usando Bootstrap
+        // Fecha o modal de seleção e abre o modal de detalhes
         if (typeof window !== 'undefined') {
           const bootstrap = (window as any).bootstrap;
           if (bootstrap) {
-            const detailsModal = new bootstrap.Modal(document.getElementById('classDetailsModal'));
-            detailsModal.show();
+            const selectionModal = bootstrap.Modal.getInstance(document.getElementById('classSelectionModal'));
+            if (selectionModal) {
+              selectionModal.hide();
+            }
+            
+            // Abre o modal de detalhes após um pequeno delay
+            setTimeout(() => {
+              const detailsModal = new bootstrap.Modal(document.getElementById('classDetailsModal'));
+              detailsModal.show();
+            }, 300);
           }
         }
       },
@@ -520,12 +528,20 @@ export class FichaJogadorComponent implements OnInit {
         this.selectedRaceDetails = data;
         this.loadingRaceDetails = false;
         
-        // Abre o modal de detalhes manualmente usando Bootstrap
+        // Fecha o modal de seleção e abre o modal de detalhes
         if (typeof window !== 'undefined') {
           const bootstrap = (window as any).bootstrap;
           if (bootstrap) {
-            const detailsModal = new bootstrap.Modal(document.getElementById('raceDetailsModal'));
-            detailsModal.show();
+            const selectionModal = bootstrap.Modal.getInstance(document.getElementById('raceSelectionModal'));
+            if (selectionModal) {
+              selectionModal.hide();
+            }
+            
+            // Abre o modal de detalhes após um pequeno delay
+            setTimeout(() => {
+              const detailsModal = new bootstrap.Modal(document.getElementById('raceDetailsModal'));
+              detailsModal.show();
+            }, 300);
           }
         }
       },
@@ -534,6 +550,28 @@ export class FichaJogadorComponent implements OnInit {
         this.loadingRaceDetails = false;
       }
     });
+  }
+
+  /**
+   * Abre modal de seleção de classe, fechando o modal de edição
+   */
+  openClassSelection(): void {
+    if (typeof window !== 'undefined') {
+      const bootstrap = (window as any).bootstrap;
+      if (bootstrap) {
+        // Fecha o modal de edição
+        const editModal = bootstrap.Modal.getInstance(document.getElementById('editarFichaModal'));
+        if (editModal) {
+          editModal.hide();
+        }
+        
+        // Abre o modal de seleção após um pequeno delay
+        setTimeout(() => {
+          const selectionModal = new bootstrap.Modal(document.getElementById('classSelectionModal'));
+          selectionModal.show();
+        }, 300);
+      }
+    }
   }
 
   /**
@@ -554,6 +592,28 @@ export class FichaJogadorComponent implements OnInit {
         // Reabre o modal de seleção após um pequeno delay
         setTimeout(() => {
           const selectionModal = new bootstrap.Modal(document.getElementById('classSelectionModal'));
+          selectionModal.show();
+        }, 300);
+      }
+    }
+  }
+
+  /**
+   * Abre modal de seleção de raça, fechando o modal de edição
+   */
+  openRaceSelection(): void {
+    if (typeof window !== 'undefined') {
+      const bootstrap = (window as any).bootstrap;
+      if (bootstrap) {
+        // Fecha o modal de edição
+        const editModal = bootstrap.Modal.getInstance(document.getElementById('editarFichaModal'));
+        if (editModal) {
+          editModal.hide();
+        }
+        
+        // Abre o modal de seleção após um pequeno delay
+        setTimeout(() => {
+          const selectionModal = new bootstrap.Modal(document.getElementById('raceSelectionModal'));
           selectionModal.show();
         }, 300);
       }
