@@ -19,6 +19,12 @@
                 <i class="fas fa-sword me-2"></i>Armas
             </button>
         </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" [class.active]="activeTab === 'armors'" (click)="activeTab = 'armors'"
+                type="button" role="tab">
+                <i class="fas fa-shield-alt me-2"></i>Armaduras
+            </button>
+        </li>
     </ul>
 
     <!-- Tab Content -->
@@ -322,6 +328,195 @@
                 <tr *ngIf="weapons.length === 0">
                     <td colspan="5" class="text-center text-muted py-4">
                         <i class="fas fa-spinner fa-spin me-2"></i>Carregando armas da API D&D...
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Armors Tab -->
+        <div class="tab-pane" [class.show]="activeTab === 'armors'" [class.active]="activeTab === 'armors'">
+            <div class="armors-section">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="section-title mb-3">
+                            <i class="fas fa-shield-alt me-2"></i>Armaduras D&D
+                            <span class="badge bg-primary ms-2">{{ armors.length }}</span>
+                        </h5>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th scope="col">Nome</th>
+                                        <th scope="col">Categoria</th>
+                                        <th scope="col">CA Base</th>
+                                        <th scope="col">Peso</th>
+                                        <th scope="col" class="text-center">Preço</th>
+                                        <th scope="col" class="text-center">Ação</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let armor of armors; let i = index">
+                                        <td><strong>{{ armor.name || '' }}</strong></td>
+                                        <td>
+                                            <span class="badge bg-info">{{ armor.armor_category || '-' }}</span>
+                                        </td>
+                                        <td>
+                                            <span *ngIf="armor.armor_class">{{ armor.armor_class.base }}</span>
+                                            <span *ngIf="!armor.armor_class">-</span>
+                                        </td>
+                                        <td>{{ armor.weight || '-' }} lb</td>
+                                        <td class="text-center">
+                                            <span class="badge bg-success">{{ armor.cost?.quantity || '-' }} {{ armor.cost?.unit || '' }}</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" [attr.data-bs-target]="'#armorModal' + i">
+                                                <i class="fas fa-eye me-1"></i>Ver Detalhes
+                                            </button>
+
+                        <!-- Armor Details Modal -->
+                        <div class="modal fade" id="armorModal{{i}}" tabindex="-1" [attr.aria-labelledby]="'armorModalLabel' + i" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-success text-white">
+                                        <h5 class="modal-title" id="armorModalLabel{{i}}">
+                                            <i class="fas fa-shield-alt me-2"></i>Detalhes da Armadura
+                                        </h5>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4 class="item-name mb-3">{{ armor.name }}</h4>
+                                        
+                                        <!-- Armor Category -->
+                                        <div *ngIf="armor.armor_category" class="mb-3">
+                                            <p class="mb-1"><strong><i class="fas fa-tag me-2"></i>Categoria:</strong> 
+                                                <span class="badge bg-info">{{ armor.armor_category }}</span>
+                                            </p>
+                                        </div>
+                                        
+                                        <!-- Equipment Categories -->
+                                        <div *ngIf="armor.equipment_categories?.length" class="mb-3">
+                                            <h6><i class="fas fa-list me-2"></i>Categorias de Equipamento:</h6>
+                                            <div class="d-flex flex-wrap gap-2">
+                                                <span class="badge bg-secondary" *ngFor="let category of armor.equipment_categories">
+                                                    {{ category.name }}
+                                                </span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="armor-details">
+                                            <!-- Description -->
+                                            <div *ngIf="armor.description?.length || armor.desc?.length" class="mb-3">
+                                                <h6><i class="fas fa-book me-2"></i>Descrição:</h6>
+                                                <p class="text-muted" *ngFor="let desc of (armor.description || armor.desc)">{{ desc }}</p>
+                                            </div>
+
+                                            <!-- Notes -->
+                                            <div *ngIf="armor.notes?.length" class="mb-3">
+                                                <h6><i class="fas fa-sticky-note me-2"></i>Notas:</h6>
+                                                <p class="text-muted" *ngFor="let note of armor.notes">{{ note }}</p>
+                                            </div>
+                                            
+                                            <!-- Basic Info -->
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <p *ngIf="armor.weight"><strong><i class="fas fa-weight me-2"></i>Peso:</strong> {{ armor.weight }} lb</p>
+                                                    <p *ngIf="armor.str_minimum !== undefined"><strong><i class="fas fa-dumbbell me-2"></i>Força Mínima:</strong> {{ armor.str_minimum }}</p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p *ngIf="armor.cost?.quantity"><strong><i class="fas fa-coins me-2"></i>Preço:</strong> 
+                                                        <span class="badge bg-success">{{ armor.cost?.quantity }} {{ armor.cost.unit }}</span>
+                                                    </p>
+                                                    <p *ngIf="armor.stealth_disadvantage !== undefined">
+                                                        <strong><i class="fas fa-user-secret me-2"></i>Desvantagem em Furtividade:</strong> 
+                                                        <span class="badge" [ngClass]="armor.stealth_disadvantage ? 'bg-danger' : 'bg-success'">
+                                                            {{ armor.stealth_disadvantage ? 'Sim' : 'Não' }}
+                                                        </span>
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <!-- Armor Class Information -->
+                                            <div *ngIf="armor.armor_class" class="mb-3">
+                                                <h6><i class="fas fa-shield me-2"></i>Classe de Armadura (CA):</h6>
+                                                <div class="card bg-light">
+                                                    <div class="card-body">
+                                                        <p class="mb-1"><strong>CA Base:</strong> <span class="badge bg-primary">{{ armor.armor_class.base }}</span></p>
+                                                        <p class="mb-1"><strong>Bônus de Destreza:</strong> 
+                                                            <span class="badge" [ngClass]="armor.armor_class.dex_bonus ? 'bg-success' : 'bg-secondary'">
+                                                                {{ armor.armor_class.dex_bonus ? 'Sim' : 'Não' }}
+                                                            </span>
+                                                        </p>
+                                                        <p class="mb-0" *ngIf="armor.armor_class.max_bonus !== undefined && armor.armor_class.max_bonus !== null">
+                                                            <strong>Bônus Máximo:</strong> 
+                                                            <span class="badge bg-info">{{ armor.armor_class.max_bonus }}</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Don and Doff Time -->
+                                            <div *ngIf="armor.don_time || armor.doff_time" class="mb-3">
+                                                <h6><i class="fas fa-clock me-2"></i>Tempo de Vestir/Remover:</h6>
+                                                <p class="mb-1" *ngIf="armor.don_time"><strong>Tempo para Vestir:</strong> {{ armor.don_time }}</p>
+                                                <p class="mb-0" *ngIf="armor.doff_time"><strong>Tempo para Remover:</strong> {{ armor.doff_time }}</p>
+                                            </div>
+
+                                            <!-- Contents -->
+                                            <div *ngIf="armor.contents?.length" class="mb-3">
+                                                <h6><i class="fas fa-box me-2"></i>Conteúdo:</h6>
+                                                <ul class="list-group">
+                                                    <li class="list-group-item" *ngFor="let content of armor.contents">
+                                                        {{ content.quantity }}x {{ content.item?.name || content.item }}
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <!-- Craft -->
+                                            <div *ngIf="armor.craft?.length" class="mb-3">
+                                                <h6><i class="fas fa-hammer me-2"></i>Fabricação:</h6>
+                                                <p class="text-muted" *ngFor="let craft of armor.craft">{{ craft }}</p>
+                                            </div>
+
+                                            <!-- Properties -->
+                                            <div *ngIf="armor.properties?.length" class="mb-3">
+                                                <h6><i class="fas fa-list me-2"></i>Propriedades:</h6>
+                                                <div class="d-flex flex-wrap gap-2">
+                                                    <span class="badge bg-primary" *ngFor="let prop of armor.properties">
+                                                        {{ prop.name || prop }}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <!-- Utilize -->
+                                            <div *ngIf="armor.utilize?.length" class="mb-3">
+                                                <h6><i class="fas fa-hand-paper me-2"></i>Utilização:</h6>
+                                                <p class="text-muted" *ngFor="let util of armor.utilize">{{ util }}</p>
+                                            </div>
+
+                                            <!-- Updated At -->
+                                            <div *ngIf="armor.updated_at" class="text-muted small mt-3">
+                                                <i class="fas fa-calendar me-2"></i>Atualizado em: {{ armor.updated_at | date: 'dd/MM/yyyy HH:mm' }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                            <i class="fas fa-times me-2"></i>Fechar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr *ngIf="armors.length === 0">
+                    <td colspan="6" class="text-center text-muted py-4">
+                        <i class="fas fa-spinner fa-spin me-2"></i>Carregando armaduras da API D&D...
                     </td>
                 </tr>
             </tbody>

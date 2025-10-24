@@ -25,6 +25,7 @@ export class MercadoComponent implements OnInit {
   mercado: Mercado;
   mercadoDnD: any[] = [];
   weapons: any[] = [];
+  armors: any[] = [];
 
   filter = {
     category: '',
@@ -62,6 +63,9 @@ export class MercadoComponent implements OnInit {
 
     // Load weapons from D&D API
     this.loadWeaponsFromDndApi();
+    
+    // Load armors from D&D API
+    this.loadArmorsFromDndApi();
   }
 
   /**
@@ -86,6 +90,32 @@ export class MercadoComponent implements OnInit {
       },
       error: (error) => {
         console.error('Erro ao carregar categoria de armas:', error);
+      }
+    });
+  }
+
+  /**
+   * Carrega armaduras detalhadas da API D&D
+   */
+  loadArmorsFromDndApi() {
+    // Fetch equipment-category for armor
+    this.dndApiService.getEquipmentCategoryDetails('armor').subscribe({
+      next: (armorCategory: any) => {
+        if (armorCategory && armorCategory.equipment) {
+          // Fetch detailed information for each armor
+          const armorDetails$ = armorCategory.equipment.map((armor: any) => 
+            this.dndApiService.getEquipmentDetails(armor.index)
+          );
+          
+          if (armorDetails$.length > 0) {
+            forkJoin(armorDetails$).subscribe((details) => {
+              this.armors = details as any[];
+            });
+          }
+        }
+      },
+      error: (error) => {
+        console.error('Erro ao carregar categoria de armaduras:', error);
       }
     });
   }
