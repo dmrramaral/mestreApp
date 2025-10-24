@@ -184,10 +184,7 @@ import {
                     </div>
                     <div *ngIf="!loadingDetails[skill.index] && skillDetails[skill.index]">
                       <strong>Atributo Relacionado:</strong> {{skillDetails[skill.index].ability_score?.name}}<br>
-                      <strong>Descrição:</strong>
-                      <ul class="mb-0">
-                        <li *ngFor="let description of skillDetails[skill.index].description">{{description}}</li>
-                      </ul>
+                      <strong>Descrição:</strong> {{skillDetails[skill.index].description}}
                     </div>
                   </div>
                 </li>

@@ -94,7 +94,7 @@ export interface MagicSchool extends ApiReference {
  * Skill (Perícia)
  */
 export interface Skill extends ApiReference {
-  description: string[];
+  description: string;
   ability_score: ApiReference;
 }
 

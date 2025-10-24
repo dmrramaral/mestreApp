@@ -188,6 +188,29 @@ describe('DndApiService', () => {
     req.flush(mockData);
   });
 
+  it('should fetch skill details with description as string', () => {
+    const mockData = {
+      index: 'athletics',
+      name: 'Athletics',
+      description: 'Your Strength (Athletics) check covers difficult situations you encounter while climbing, jumping, or swimming.',
+      ability_score: {
+        index: 'str',
+        name: 'STR',
+        url: '/api/2024/ability-scores/str'
+      },
+      url: '/api/2024/skills/athletics'
+    };
+    
+    service.getSkillDetails('athletics').subscribe(data => {
+      expect(data).toEqual(mockData);
+      expect(typeof data.description).toBe('string');
+    });
+
+    const req = httpMock.expectOne(`${BASE_URL}/skills/athletics`);
+    expect(req.request.method).toBe('GET');
+    req.flush(mockData);
+  });
+
   it('should fetch weapon mastery properties', () => {
     const mockData = { results: [] };
     
