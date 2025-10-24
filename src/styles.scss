@@ -2,14 +2,14 @@
 
 /* inserir variaveis de cor do bootstrap  para que eu possa alterar as cores*/
 
-$primary: #007bff !important;
+$primary: #2d3748;
 $secondary: #6c757d;
-$success: #28a745;
-$info: #17a2b8;
-$warning: #ffc107;
-$danger: #dc3545;
+$success: #48bb78;
+$info: #4299e1;
+$warning: #ecc94b;
+$danger: #f56565;
 $light: #f8f9fa;
-$dark: #343a40;
+$dark: #2d3748;
 $white: #fff;
 
 :host {
@@ -18,12 +18,41 @@ $white: #fff;
   
 }
 
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
 body {
-  font-family: "Roboto", sans-serif;
+  font-family: "Roboto", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
   background-image: url("/assets/fantasy-group-adventurers.jpg") !important;
   background-size: cover !important;
   background-position: center center !important;
   background-attachment: fixed !important;
+  background-repeat: no-repeat !important;
+  line-height: 1.6;
+}
+
+// Improve accessibility for links
+a {
+  text-decoration: none;
+  
+  &:focus {
+    outline: 2px solid #4299e1;
+    outline-offset: 2px;
+  }
+}
+
+// Ensure responsive images
+img {
+  max-width: 100%;
+  height: auto;
 }
 
 
