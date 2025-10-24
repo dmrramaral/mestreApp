@@ -1,98 +1,157 @@
-<div style="margin-top: 60px; display: flex; flex-wrap: wrap; flex-direction: row; justify-content: space-around;">
-
-    <div class="filter-categories">
-        <select [(ngModel)]="filter.category" class="form-control m-1 mb-2">
-            <option value="">Categorias</option>
-            <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
-        </select>
-        <select [(ngModel)]="filter.subcategory" class="form-control m-1 mb-2">
-            <option value="">Subcategorias</option>
-            <option *ngFor="let subcategory of subcategories" [value]="subcategory">{{ subcategory }}</option>
-        </select>
-        <button (click)="applyFilters()" class="btn btn-dark btn-sm">Aplicar Filtros</button>
+<div class="mercado-container">
+    <!-- Page Header -->
+    <div class="page-header">
+        <h2 class="page-title">Mercado D&D</h2>
+        <p class="page-subtitle">Explore e filtre itens, armas, armaduras e equipamentos</p>
     </div>
 
-    <table class="table m-1">
-        <thead>
-            <tr style="font-size: 0.7rem;">
-                <!--  <th scope="col">#</th> -->
-                <th scope="col">Nome</th>
-                <th scope="col">Categoria</th>
-                <th scope="col">SubCat</th>
-                <th scope="col">Preço</th>
-                <th scope="col">Ação</th>
+    <!-- Filters Section -->
+    <div class="filters-section">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="section-title mb-3">Filtros</h5>
+                <div class="row g-3 align-items-end">
+                    <div class="col-md-5">
+                        <label for="categoryFilter" class="form-label">Categoria</label>
+                        <select [(ngModel)]="filter.category" class="form-select" id="categoryFilter">
+                            <option value="">Todas as Categorias</option>
+                            <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-5">
+                        <label for="subcategoryFilter" class="form-label">Subcategoria</label>
+                        <select [(ngModel)]="filter.subcategory" class="form-select" id="subcategoryFilter">
+                            <option value="">Todas as Subcategorias</option>
+                            <option *ngFor="let subcategory of subcategories" [value]="subcategory">{{ subcategory }}</option>
+                        </select>
+                    </div>
+                    <div class="col-md-2">
+                        <button (click)="applyFilters()" class="btn btn-primary w-100">
+                            <i class="fas fa-filter me-2"></i>Filtrar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-                <!-- <th scope="col">Moeda</th> -->
-                <!-- <th scope="col">Peso</th> -->
-                <!-- <th scope="col">Descrição</th> -->
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of mercadoDnD; let i = index">
-                <!-- <th scope="row">{{ i + 1 }}</th> -->
-                <td>{{ item.name || '' }}</td>
-                <td>{{ item.equipment_category?.name || '' }}</td>
-                <td>{{ item.gear_category?.name || '' }}</td>
-                <td>{{ item.cost?.quantity || '' }} {{ item.cost?.unit || '' }}</td>
-                <!-- <td></td> -->
-                <!-- <td>{{ item.weight || '' }}</td> -->
-                <!-- <td>{{ item.desc?.join(', ') || '' }}</td> -->
-                <td>
-                    <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" [attr.data-bs-target]="'#detailsModal' + i">
-                        Ver
-                    </button>
+    <!-- Items Table -->
+    <div class="items-table-section">
+        <div class="card shadow-sm">
+            <div class="card-body">
+                <h5 class="section-title mb-3">Itens Disponíveis</h5>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead class="table-dark">
+                            <tr>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Categoria</th>
+                                <th scope="col">Subcategoria</th>
+                                <th scope="col" class="text-center">Preço</th>
+                                <th scope="col" class="text-center">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of mercadoDnD; let i = index">
+                                <td><strong>{{ item.name || '' }}</strong></td>
+                                <td>{{ item.equipment_category?.name || '' }}</td>
+                                <td class="text-muted">{{ item.gear_category?.name || '-' }}</td>
+                                <td class="text-center">
+                                    <span class="badge bg-success">{{ item.cost?.quantity || '' }} {{ item.cost?.unit || '' }}</span>
+                                </td>
+                                <td class="text-center">
+                                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" [attr.data-bs-target]="'#detailsModal' + i">
+                                        <i class="fas fa-eye me-1"></i>Ver Detalhes
+                                    </button>
 
                     <!-- Modal -->
                     <div class="modal fade" id="detailsModal{{i}}" tabindex="-1" [attr.aria-labelledby]="'detailsModalLabel' + i" aria-hidden="true">
-                        <div class="modal-dialog">
+                        <div class="modal-dialog modal-lg">
                             <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="detailsModalLabel{{i}}">Detalhes do Item</h5>
-                                    
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                <div class="modal-header bg-primary text-white">
+                                    <h5 class="modal-title" id="detailsModalLabel{{i}}">
+                                        <i class="fas fa-info-circle me-2"></i>Detalhes do Item
+                                    </h5>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <p *ngIf="item.name"><strong>Item: {{item.name}}</strong></p>
-                                    <p *ngIf="item.desc?.length"><strong>Descrição:</strong> {{ item.desc?.join(', ') || 'N/P'}}</p>
-                                    <p *ngIf="item.weight"><strong>Peso:</strong> {{ item.weight }}</p>
-                                    <p *ngIf="item.cost?.quantity"><strong>Moeda:</strong> {{ item.cost?.quantity }} {{item.cost.unit}}</p>
-                                    <p *ngIf="item.armor_category"><strong>Categoria da Armadura:</strong> {{ item.armor_category  }}</p>
-                                    <p *ngIf="item.armor_class?.base"><strong>Classe da Armadura:</strong> Base: {{ item.armor_class?.base }},<br> Bônus de Destreza: {{ item.armor_class?.dex_bonus ? 'Sim' : 'Não' }},<br> Bônus Máximo: {{ item.armor_class?.max_bonus }}</p>
-                                    <p *ngIf="item.str_minimum"><strong>Força Mínima:</strong> {{ item.str_minimum }}</p>
-                                    <p *ngIf="item.stealth_disadvantage"><strong>Desvantagem em Furtividade:</strong> {{ item.stealth_disadvantage ? 'Sim' : 'Não' }}</p>
-                                    <p *ngIf="item.contents?.length"><strong>Conteúdo:</strong></p>
-                                    <ul *ngIf="item.contents">
-                                        <li *ngFor="let content of item.contents">
-                                            {{ content.quantity }}x {{ content.item.name }}
-                                        </li>
-                                    </ul>
-                                    <p *ngIf="item.properties?.length"><strong>Propriedades:</strong> {{ item.properties?.join(', ') || 'N/P'}}</p>
-                                    <p *ngIf="item.capacity"><strong>Capacidade:</strong> {{ item.capacity }}</p>
-                                    <p *ngIf="item.category_range"><strong>Categoria de Alcance:</strong> {{ item.category_range }}</p>
-                                    <p *ngIf="item.damage?.quantity"><strong>Dano:</strong> {{ item.damage?.quantity }}</p>
-                                    <p *ngIf="item.quantity"><strong>Quantidade:</strong> {{ item.quantity }}</p>
-                                    <p *ngIf="item.range?.normal"><strong>Alcance:</strong> {{ item.range?.normal }} / {{ item.range?.long }}</p>
-                                    <p *ngIf="item.special?.length"><strong>Especial:</strong> {{ item.special?.join(', ') || 'N/P'}}</p>
-                                    <p *ngIf="item.speed?.quantity"><strong>Velocidade:</strong> {{ item.speed?.quantity }} {{ item.speed?.unit }}</p>
-                                    <p *ngIf="item.tool_category"><strong>Categoria da Ferramenta:</strong> {{ item.tool_category }}</p>
-                                    <p *ngIf="item.two_handed_damage?.quantity"><strong>Dano com Duas Mãos:</strong> {{ item.two_handed_damage?.quantity }}</p>
-                                    <p *ngIf="item.vehicle_category"><strong>Categoria do Veículo:</strong> {{ item.vehicle_category }}</p>
-                                    <p *ngIf="item.weapon_category"><strong>Categoria da Arma:</strong> {{ item.weapon_category }}</p>
-                                    <p *ngIf="item.weapon_range"><strong>Alcance da Arma:</strong> {{ item.weapon_range }}</p>
-                                    <p *ngIf="item.throw_range?.normal || item.throw_range?.long"><strong>Alcance de Arremesso:</strong> {{ item.throw_range?.normal || 'N/A' }} / {{ item.throw_range?.long || 'N/A' }}</p>
+                                    <h4 class="item-name mb-3">{{item.name}}</h4>
                                     
-                                    
+                                    <div class="item-details">
+                                        <p *ngIf="item.desc?.length" class="item-description"><strong>Descrição:</strong> {{ item.desc?.join(', ') || 'N/P'}}</p>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-6" *ngIf="item.weight">
+                                                <p><strong>Peso:</strong> {{ item.weight }}</p>
+                                            </div>
+                                            <div class="col-md-6" *ngIf="item.cost?.quantity">
+                                                <p><strong>Preço:</strong> <span class="badge bg-success">{{ item.cost?.quantity }} {{item.cost.unit}}</span></p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div *ngIf="item.armor_category">
+                                            <h6 class="mt-3 mb-2">Informações de Armadura</h6>
+                                            <p><strong>Categoria:</strong> {{ item.armor_category }}</p>
+                                            <p *ngIf="item.armor_class?.base">
+                                                <strong>Classe de Armadura:</strong> Base: {{ item.armor_class?.base }},
+                                                Bônus de Destreza: {{ item.armor_class?.dex_bonus ? 'Sim' : 'Não' }},
+                                                Bônus Máximo: {{ item.armor_class?.max_bonus || 'N/A' }}
+                                            </p>
+                                            <p *ngIf="item.str_minimum"><strong>Força Mínima:</strong> {{ item.str_minimum }}</p>
+                                            <p *ngIf="item.stealth_disadvantage"><strong>Desvantagem em Furtividade:</strong> {{ item.stealth_disadvantage ? 'Sim' : 'Não' }}</p>
+                                        </div>
+                                        
+                                        <div *ngIf="item.weapon_category">
+                                            <h6 class="mt-3 mb-2">Informações de Arma</h6>
+                                            <p><strong>Categoria:</strong> {{ item.weapon_category }}</p>
+                                            <p *ngIf="item.weapon_range"><strong>Alcance:</strong> {{ item.weapon_range }}</p>
+                                            <p *ngIf="item.damage?.quantity"><strong>Dano:</strong> {{ item.damage?.quantity }}</p>
+                                            <p *ngIf="item.range?.normal"><strong>Alcance:</strong> {{ item.range?.normal }} / {{ item.range?.long }}</p>
+                                            <p *ngIf="item.throw_range?.normal || item.throw_range?.long"><strong>Alcance de Arremesso:</strong> {{ item.throw_range?.normal || 'N/A' }} / {{ item.throw_range?.long || 'N/A' }}</p>
+                                            <p *ngIf="item.two_handed_damage?.quantity"><strong>Dano com Duas Mãos:</strong> {{ item.two_handed_damage?.quantity }}</p>
+                                        </div>
+                                        
+                                        <div *ngIf="item.contents?.length">
+                                            <h6 class="mt-3 mb-2">Conteúdo</h6>
+                                            <ul class="list-group">
+                                                <li class="list-group-item" *ngFor="let content of item.contents">
+                                                    {{ content.quantity }}x {{ content.item.name }}
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        
+                                        <p *ngIf="item.properties?.length" class="mt-3"><strong>Propriedades:</strong> {{ item.properties?.join(', ') || 'N/P'}}</p>
+                                        <p *ngIf="item.capacity"><strong>Capacidade:</strong> {{ item.capacity }}</p>
+                                        <p *ngIf="item.category_range"><strong>Categoria de Alcance:</strong> {{ item.category_range }}</p>
+                                        <p *ngIf="item.quantity"><strong>Quantidade:</strong> {{ item.quantity }}</p>
+                                        <p *ngIf="item.special?.length"><strong>Especial:</strong> {{ item.special?.join(', ') || 'N/P'}}</p>
+                                        <p *ngIf="item.speed?.quantity"><strong>Velocidade:</strong> {{ item.speed?.quantity }} {{ item.speed?.unit }}</p>
+                                        <p *ngIf="item.tool_category"><strong>Categoria da Ferramenta:</strong> {{ item.tool_category }}</p>
+                                        <p *ngIf="item.vehicle_category"><strong>Categoria do Veículo:</strong> {{ item.vehicle_category }}</p>
+                                    </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                        <i class="fas fa-times me-2"></i>Fechar
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </td>
             </tr>
+            <tr *ngIf="mercadoDnD.length === 0">
+                <td colspan="5" class="text-center text-muted py-4">
+                    Nenhum item encontrado com os filtros selecionados.
+                </td>
+            </tr>
         </tbody>
     </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
     <!-- <ul class="nav nav-tabs" style="margin-top: 60px;" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
