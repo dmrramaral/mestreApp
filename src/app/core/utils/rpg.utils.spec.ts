@@ -4,7 +4,8 @@ import {
   formatarModificador,
   calcularBonusProficiencia,
   validarValorAtributo,
-  calcularPontosVidaPorNivel
+  calcularPontosVidaPorNivel,
+  calcularCA
 } from './rpg.utils';
 
 describe('RPG Utils', () => {
@@ -121,6 +122,67 @@ describe('RPG Utils', () => {
 
     it('should handle zero modifier', () => {
       expect(calcularPontosVidaPorNivel(5, 0)).toBe(0);
+    });
+  });
+
+  describe('calcularCA', () => {
+    it('should return base CA (10 + dex modifier) with no equipment', () => {
+      expect(calcularCA(undefined, 2)).toBe(12);
+      expect(calcularCA({}, 3)).toBe(13);
+    });
+
+    it('should return base CA without dexterity modifier', () => {
+      expect(calcularCA(undefined, null)).toBe(10);
+      expect(calcularCA({}, null)).toBe(10);
+    });
+
+    it('should calculate CA with armor', () => {
+      const equipamentos = {
+        armadura: [{ nome: 'Armadura de Couro', ca: 11 }]
+      };
+      expect(calcularCA(equipamentos, 2)).toBe(11);
+    });
+
+    it('should calculate CA with armor and shield', () => {
+      const equipamentos = {
+        armadura: [{ nome: 'Armadura de Couro', ca: 11 }],
+        escudo: [{ nome: 'Escudo', ca: 2 }]
+      };
+      expect(calcularCA(equipamentos, 2)).toBe(13);
+    });
+
+    it('should calculate CA with shield only', () => {
+      const equipamentos = {
+        escudo: [{ nome: 'Escudo', ca: 2 }]
+      };
+      expect(calcularCA(equipamentos, 3)).toBe(15);
+    });
+
+    it('should add CA from other equipment categories', () => {
+      const equipamentos = {
+        armadura: [{ nome: 'Armadura de Couro', ca: 11 }],
+        cabeca: [{ nome: 'Elmo Mágico', ca: 1 }],
+        anel: [{ nome: 'Anel de Proteção', ca: 1 }]
+      };
+      expect(calcularCA(equipamentos, 2)).toBe(13);
+    });
+
+    it('should only use first equipment in each category', () => {
+      const equipamentos = {
+        armadura: [
+          { nome: 'Armadura de Couro', ca: 11 },
+          { nome: 'Outra Armadura', ca: 15 }
+        ]
+      };
+      expect(calcularCA(equipamentos, 2)).toBe(11);
+    });
+
+    it('should ignore equipment without CA value', () => {
+      const equipamentos = {
+        armadura: [{ nome: 'Armadura sem CA' }],
+        escudo: [{ nome: 'Escudo', ca: 2 }]
+      };
+      expect(calcularCA(equipamentos, 3)).toBe(15);
     });
   });
 });
