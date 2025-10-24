@@ -327,6 +327,21 @@
     }
 }
 
+// Shared styles for talent, item, equipment headers
+.talent-header, .item-header, .equipment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    
+    > div {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+}
+
+
 // Talent List
 .talent-list {
     display: grid;
@@ -340,16 +355,7 @@
     border-left: 4px solid #48bb78;
     
     .talent-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 8px;
-        
         div {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            
             i {
                 font-size: 1.2rem;
             }
@@ -382,18 +388,7 @@
     border-left: 4px solid #ecc94b;
     
     .item-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 8px;
-        
         > div {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        div {
             i {
                 font-size: 1.2rem;
             }
@@ -442,14 +437,9 @@
     margin-bottom: 10px;
     
     .equipment-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
         margin-bottom: 6px;
         
         > div {
-            display: flex;
-            align-items: center;
             gap: 5px;
         }
         
