@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { provideHttpClient } from '@angular/common/http';
 import { FichaJogadorComponent } from './ficha-jogador.component';
 
 describe('FichaJogadorComponent', () => {
@@ -8,7 +8,8 @@ describe('FichaJogadorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FichaJogadorComponent]
+      imports: [FichaJogadorComponent],
+      providers: [provideHttpClient()]
     })
     .compileComponents();
 
