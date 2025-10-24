@@ -1,12 +1,37 @@
 .btn-sm{
-    margin: 2px;
+    margin: 8px;
 }
-
 
 .filter-monsters{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    
+    select {
+        margin: 8px;
+    }
+    
+    button {
+        margin: 8px;
+        padding: 8px 16px;
+    }
 }
 
+.card {
+    .card-body {
+        .d-inline-flex {
+            margin: 12px 0;
+            
+            button {
+                margin-right: 12px;
+                margin-bottom: 8px;
+            }
+        }
+    }
+}
 
