@@ -67,4 +67,20 @@ export class MonstrosComponent implements OnInit {
       });
     });
   }
+
+  /**
+   * Limpa todos os filtros e recarrega todos os monstros
+   */
+  clearFilters() {
+    this.filter = {
+      name: '',
+      alignment: '',
+      size: '',
+      type: '',
+      xp: ''
+    };
+    this.monstrosService.getMonstros().subscribe((data: any) => {
+      this.monstros = data;
+    });
+  }
 }

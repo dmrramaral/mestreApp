@@ -364,4 +364,36 @@ export class FichaJogadorComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     pericia.valor = input.checked ? 'sim' : 'nao';
   }
+
+  getCategoryIcon(categoria: string): string {
+    const icons: { [key: string]: string } = {
+      'cabeca': 'fa-hat-wizard',
+      'armadura': 'fa-vest',
+      'pes': 'fa-socks',
+      'escudo': 'fa-shield-alt',
+      'amuleto': 'fa-gem',
+      'anel': 'fa-ring'
+    };
+    return icons[categoria] || 'fa-shield';
+  }
+
+  getCategoryName(categoria: string): string {
+    const names: { [key: string]: string } = {
+      'cabeca': 'Cabeça',
+      'armadura': 'Armadura',
+      'pes': 'Pés',
+      'escudo': 'Escudo',
+      'amuleto': 'Amuleto',
+      'anel': 'Anel'
+    };
+    return names[categoria] || categoria;
+  }
+
+  hasEquipment(): boolean {
+    return Object.values(this.jogador.equipamentos).some((arr: any) => arr && arr.length > 0);
+  }
+
+  hasProficiencies(): boolean {
+    return this.jogador.pericias.some((p: any) => p.valor === 'sim');
+  }
 }

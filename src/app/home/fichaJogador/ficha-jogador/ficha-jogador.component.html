@@ -1,366 +1,720 @@
-<div class="headerFicha">
-    <div class="headerFicha__avatar">
-        <img [src]="jogador.avatar" alt="Avatar do jogador">
-    </div>
-    <div class="headerFicha__info">
-
-        <p><strong>Nome: <br></strong>{{jogador.nome}}</p>
-        <p><strong>Classe:<br></strong>{{jogador.classe}}</p>
-        <p><strong>Raça:<br></strong>{{jogador.raca}}</p>
-        <p><strong>Pro<br></strong>{{jogador.proficiencia}}</p>
-        <p><strong>Nv<br></strong>{{jogador.nivel}}</p>
-    </div>
-</div>
-<button class="btn btn-warning btn-sm m-1" type="button" data-bs-toggle="modal" data-bs-target="#editarFichaModal">
-    Editar Ficha
-</button>
-
-<button class="btn btn-secondary btn-sm m-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMagias"
-    aria-expanded="false" aria-controls="collapseMagias">
-    Magias
-</button>
-<div class="collapse" id="collapseMagias">
-    <div class="fichaJogador">
-        <div class="d-flex justify-content-around w-100">
-            <p><strong>Magias</strong></p>
-            <button type="button" class="btn btn-primary btn-sm m-1" (click)="adicionarMagia()">Add</button>
-        </div>
-        <div class="fichaJogador__magias__item" style="font-size: x-small;">
-            <ng-container *ngFor="let magia of jogador.magias">
-                <p>
-                    <strong>{{magia.nome}}</strong>: {{magia.descricao}}<br>
-                </p>
-            </ng-container>
-        </div>
-        <div *ngIf="adicionandoMagia">
-            <input type="text" class="m-1" placeholder="Nome da Magia" [(ngModel)]="novaMagia.nome">
-            <input type="text" class="m-1" placeholder="Descrição da Magia" [(ngModel)]="novaMagia.descricao">
-            <button type="button" class="btn btn-success btn-sm m-1"
-                (click)="confirmarAdicionarMagia()">Confirmar</button>
-            <button type="button" class="btn btn-danger btn-sm m-1" (click)="cancelarAdicionarMagia()">Cancelar</button>
-        </div>
-    </div>
-</div>
-
-<button class="btn btn-secondary btn-sm m-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTalentos"
-    aria-expanded="false" aria-controls="collapseTalentos">
-    Talentos
-</button>
-<div class="collapse" id="collapseTalentos">
-    <div class="fichaJogador">
-        <div class="d-flex justify-content-around w-100">
-            <p><strong>Talentos</strong></p>
-            <button type="button" class="btn btn-primary btn-sm m-1" (click)="adicionarTalento()">Add</button>
-        </div>
-        <div class="fichaJogador__talentos__item" style="font-size: x-small;">
-            <ng-container *ngFor="let talento of jogador.talentos">
-                <p>
-                    <strong>{{talento.nome}}</strong>: {{talento.descricao}}<br>
-                    <button type="button" class="btn btn-danger btn-sm m-1"
-                        (click)="removerTalento(talento)">Remover</button>
-                </p>
-            </ng-container>
-        </div>
-        <div *ngIf="adicionandoTalento">
-            <input type="text" class="m-1" placeholder="Nome do Talento" [(ngModel)]="novoTalento.nome">
-            <input type="text" class="m-1" placeholder="Descrição do Talento" [(ngModel)]="novoTalento.descricao">
-            <button type="button" class="btn btn-success btn-sm m-1"
-                (click)="confirmarAdicionarTalento()">Confirmar</button>
-            <button type="button" class="btn btn-danger btn-sm m-1"
-                (click)="cancelarAdicionarTalento()">Cancelar</button>
-        </div>
-    </div>
-</div>
-<button class="btn btn-secondary btn-sm m-1" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMochila"
-    aria-expanded="false" aria-controls="collapseMochila">
-    Mochila
-</button>
-<div class="collapse" id="collapseMochila">
-    <div class="fichaJogador">
-        <div class="d-flex justify-content-around w-100">
-            <p><strong>Mochila</strong></p>
-            <button type="button" class="btn btn-primary btn-sm m-1" (click)="adicionarItem()">Add</button>
-        </div>
-        <div class="fichaJogador__mochila__item" style="font-size: x-small;">
-            <ng-container *ngFor="let item of jogador.mochila">
-                <p>
-                    <strong>{{item.nome}}</strong>: {{item.descricao}}<br>
-                    <button type="button" class="btn btn-danger btn-sm m-1" (click)="removerItem(item)">Remover</button>
-                </p>
-            </ng-container>
-        </div>
-        <div *ngIf="adicionandoItem">
-            <input type="text" class="m-1" placeholder="Nome do Item" [(ngModel)]="novoItem.nome">
-            <input type="text" class="m-1" placeholder="Descrição do Item" [(ngModel)]="novoItem.descricao">
-            <button type="button" class="btn btn-success btn-sm m-1"
-                (click)="confirmarAdicionarItem()">Confirmar</button>
-            <button type="button" class="btn btn-danger btn-sm m-1" (click)="cancelarAdicionarItem()">Cancelar</button>
-        </div>
-    </div>
-</div>
-
-
-<div class="d-flex">
-    <div class="fichaJogador__combate mt-1 col-6">
-        <p><strong>Combate</strong></p>
-        <div class="fichaJogador__combate__item" style="font-size: x-small;">
-            <p><strong>PV:</strong> {{jogador.pv}}</p>
-            <p><strong>PVA:</strong> <input type="number" style="width: 1.3rem;" [(ngModel)]="jogador.pva"
-                    (change)="saveToCache()"></p>
-            <p><strong>CA:</strong> {{jogador.ca}}</p>
-            <p><strong>Des:</strong> {{jogador.deslocamento}}</p>
-            <p><strong>Inic:</strong> {{jogador.iniciativa}}</p>
-            <p><strong>Insp:</strong> {{jogador.inspiracao}}</p>
-
-        </div>
-    </div>
-    <div class="fichaJogador__atributos mt-1 col-6">
-        <p><strong>Atributos</strong></p>
-        <div class="fichaJogador__atributos__item" style="font-size: x-small;">
-            <p class="mx-1"><strong>For:</strong> {{ calcularModificador(jogador.atributos.forca) }}</p>
-            <p class="mx-1"><strong>Des:</strong> {{ calcularModificador(jogador.atributos.destreza) }}</p>
-            <p class="mx-1"><strong>Con:</strong> {{ calcularModificador(jogador.atributos.constituicao) }}</p>
-            <p class="mx-1"><strong>Int:</strong> {{ calcularModificador(jogador.atributos.inteligencia) }}</p>
-            <p class="mx-1"><strong>Sab:</strong> {{ calcularModificador(jogador.atributos.sabedoria) }}</p>
-            <p class="mx-1"><strong>Car:</strong> {{ calcularModificador(jogador.atributos.carisma) }}</p>
-            <p class="mx-1"><strong>Sor:</strong> {{ calcularModificador(jogador.atributos.sorte) }}</p>
-
-        </div>
-    </div>
-</div>
-
-<div class="d-flex">
-
-
-
-    <div class="fichaJogador__pericias">
-
-        <div class="fichaJogador__condicoes">
-            <p><strong>Condições</strong></p>
-            <div class="fichaJogador__condicoes__item" style="font-size: xx-small;">
-                <p><strong>Fome:</strong> <input type="number" [(ngModel)]="jogador.fome" (change)="saveToCache()">
-                </p>
-                <p><strong>Sede:</strong> <input type="number" [(ngModel)]="jogador.sede" (change)="saveToCache()">
-                </p>
-                <p><strong>Cansaço:</strong> <input type="number" [(ngModel)]="jogador.cansaco"
-                        (change)="saveToCache()">
-                </p>
-                <p><strong>Calor:</strong> <input type="number" [(ngModel)]="jogador.calor" (change)="saveToCache()">
-                </p>
-                <p><strong>Frio:</strong> <input type="number" [(ngModel)]="jogador.frio" (change)="saveToCache()">
-                </p>
-                <p><strong>Sono:</strong> <input type="number" [(ngModel)]="jogador.sono" (change)="saveToCache()">
-                </p>
-            </div>
-        </div>
-        <div class="">
-            <p class="m-0"><strong>Perícias</strong></p>
-            <div class="fichaJogador__pericias__item" style="font-size: x-small;">
-                <ng-container *ngFor="let pericia of jogador.pericias">
-                    <p class="mx-1" *ngIf="pericia.valor === 'sim'">
-                        <strong>{{pericia.nome}} <br> </strong>
-                    </p>
-                </ng-container>
-            </div>
-
-        </div>
-
-
-    </div>
-
-
-
-
-    <div class="fichaJogador col-6">
-        <div class="fichaJogador__equipamentos ">
-            <div class="d-flex justify-content-around w-100">
-                <p><strong>Equipamentos</strong></p>
-                <button type="button" class="btn btn-primary btn-sm m-1" (click)="adicionarEquipamento()">Add</button>
-            </div>
-            <div class="fichaJogador__equipamentos__item" style="font-size: x-small;">
-                <ng-container *ngFor="let categoria of ['cabeca', 'armadura', 'pes','escudo', 'anel','amuleto']">
-                    <ng-container class="col-12" *ngFor="let equipamento of jogador.equipamentos[categoria]">
-                        <div class="mx-2">
-                            <p class="col-8 d-inline-block">
-                                <strong>{{equipamento.nome}}</strong>: {{equipamento.descricao}}
-                            </p>
-
-                            <button type="button" class="btn btn-danger btn-sm col-2 d-inline-block"
-                                (click)="removerEquipamento(categoria, equipamento)">X</button><br>
+<div class="character-sheet-container">
+    <!-- Character Header -->
+    <div class="character-header card shadow-lg mb-4">
+        <div class="card-body">
+            <div class="row align-items-center">
+                <div class="col-md-3 text-center mb-3 mb-md-0">
+                    <div class="avatar-container">
+                        <img [src]="jogador.avatar" alt="Avatar do jogador" class="avatar-img">
+                        <div class="avatar-overlay">
+                            <i class="fas fa-user-circle"></i>
                         </div>
-                    </ng-container>
-                </ng-container>
-
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <h2 class="character-name mb-2">
+                                <i class="fas fa-user-shield me-2"></i>{{jogador.nome || 'Sem Nome'}}
+                            </h2>
+                            <div class="character-details">
+                                <span class="detail-badge">
+                                    <i class="fas fa-hat-wizard me-1"></i>{{jogador.classe || 'Classe'}}
+                                </span>
+                                <span class="detail-badge">
+                                    <i class="fas fa-users me-1"></i>{{jogador.raca || 'Raça'}}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="row g-2">
+                                <div class="col-6">
+                                    <div class="stat-mini">
+                                        <i class="fas fa-level-up-alt"></i>
+                                        <span class="stat-label">Nível</span>
+                                        <span class="stat-value">{{jogador.nivel || 0}}</span>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="stat-mini">
+                                        <i class="fas fa-certificate"></i>
+                                        <span class="stat-label">Proficiência</span>
+                                        <span class="stat-value">+{{jogador.proficiencia || 0}}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="d-flex align-content-between flex-wrap align-self-center justify-content-end">
-                <div  style="font-size: xx-small; font-weight: bold; align-items: center; display: flex;">Ouro</div>
-                
-                <input type="number" class="form-control w-25" [(ngModel)]="jogador.ouro" (change)="saveToCache()">
+            <div class="action-buttons-header mt-3">
+                <button class="btn btn-warning btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#editarFichaModal">
+                    <i class="fas fa-edit me-1"></i>Editar Ficha
+                </button>
+                <button class="btn btn-info btn-sm" (click)="baixarJogador()">
+                    <i class="fas fa-download me-1"></i>Baixar
+                </button>
+                <label class="btn btn-success btn-sm mb-0">
+                    <i class="fas fa-upload me-1"></i>Carregar
+                    <input type="file" class="d-none" (change)="carregarJogador($event)" accept=".json">
+                </label>
+                <button class="btn btn-danger btn-sm" (click)="confirmarLimparCache()">
+                    <i class="fas fa-trash-alt me-1"></i>Limpar
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Combat Stats Section -->
+    <div class="row mb-4">
+        <div class="col-lg-6 mb-3">
+            <div class="card shadow-sm combat-card">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0"><i class="fas fa-heart-broken me-2"></i>Combate</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-4">
+                            <div class="combat-stat">
+                                <i class="fas fa-heart text-danger"></i>
+                                <span class="stat-label">PV Máx</span>
+                                <span class="stat-value">{{jogador.pv || 0}}</span>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="combat-stat active">
+                                <i class="fas fa-heartbeat text-success"></i>
+                                <span class="stat-label">PV Atual</span>
+                                <input type="number" class="stat-input" [(ngModel)]="jogador.pva" (change)="saveToCache()">
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="combat-stat">
+                                <i class="fas fa-shield-alt text-primary"></i>
+                                <span class="stat-label">CA</span>
+                                <span class="stat-value">{{jogador.ca || 0}}</span>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="combat-stat">
+                                <i class="fas fa-running text-info"></i>
+                                <span class="stat-label">Deslocamento</span>
+                                <span class="stat-value">{{jogador.deslocamento || 0}}</span>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="combat-stat">
+                                <i class="fas fa-bolt text-warning"></i>
+                                <span class="stat-label">Iniciativa</span>
+                                <span class="stat-value">+{{jogador.iniciativa || 0}}</span>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="combat-stat">
+                                <i class="fas fa-star text-warning"></i>
+                                <span class="stat-label">Inspiração</span>
+                                <span class="stat-value">{{jogador.inspiracao || 0}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div *ngIf="adicionandoEquipamento" class="fichaJogador__adicionarEquipamento">
-            <div class="itens_Equipamentos d-flex">
-                <select class="form-select m-1" [(ngModel)]="novaCategoria">
-                    <option value="" disabled selected>Selecione a Categoria</option>
-                    <option value="cabeca">Cabeça</option>
-                    <option value="armadura">Armadura</option>
-                    <option value="pes">Pés</option>
-                    <option value="escudo">Escudo</option>
-                    <option value="amuleto">Amuleto</option>
-                    <option value="anel">Anel</option>
-                </select>
-                <input type="text" class="m-1" placeholder="Nome do Equipamento" [(ngModel)]="novoEquipamento.nome">
-                <input type="text" class="m-1" placeholder="Descrição do Equipamento"
-                    [(ngModel)]="novoEquipamento.descricao">
-                <button type="button" class="btn btn-success btn-sm m-1"
-                    (click)="confirmarAdicionarEquipamento()">Confirmar</button>
-                <button type="button" class="btn btn-danger btn-sm m-1"
-                    (click)="cancelarAdicionarEquipamento()">Cancelar</button>
+        <!-- Attributes Section -->
+        <div class="col-lg-6 mb-3">
+            <div class="card shadow-sm attributes-card">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0"><i class="fas fa-dumbbell me-2"></i>Atributos</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-2">
+                        <div class="col-4 col-md-4">
+                            <div class="attribute-box">
+                                <i class="fas fa-fist-raised"></i>
+                                <span class="attr-name">FOR</span>
+                                <span class="attr-value">{{jogador.atributos.forca || 10}}</span>
+                                <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.forca) ?? 0) >= 0 ? '+' : '' }}{{ calcularModificador(jogador.atributos.forca) ?? 0 }}</span>
+                            </div>
+                        </div>
+                        <div class="col-4 col-md-4">
+                            <div class="attribute-box">
+                                <i class="fas fa-running"></i>
+                                <span class="attr-name">DES</span>
+                                <span class="attr-value">{{jogador.atributos.destreza || 10}}</span>
+                                <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.destreza) ?? 0) >= 0 ? '+' : '' }}{{ calcularModificador(jogador.atributos.destreza) ?? 0 }}</span>
+                            </div>
+                        </div>
+                        <div class="col-4 col-md-4">
+                            <div class="attribute-box">
+                                <i class="fas fa-heart"></i>
+                                <span class="attr-name">CON</span>
+                                <span class="attr-value">{{jogador.atributos.constituicao || 10}}</span>
+                                <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.constituicao) ?? 0) >= 0 ? '+' : '' }}{{ calcularModificador(jogador.atributos.constituicao) ?? 0 }}</span>
+                            </div>
+                        </div>
+                        <div class="col-4 col-md-4">
+                            <div class="attribute-box">
+                                <i class="fas fa-brain"></i>
+                                <span class="attr-name">INT</span>
+                                <span class="attr-value">{{jogador.atributos.inteligencia || 10}}</span>
+                                <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.inteligencia) ?? 0) >= 0 ? '+' : '' }}{{ calcularModificador(jogador.atributos.inteligencia) ?? 0 }}</span>
+                            </div>
+                        </div>
+                        <div class="col-4 col-md-4">
+                            <div class="attribute-box">
+                                <i class="fas fa-eye"></i>
+                                <span class="attr-name">SAB</span>
+                                <span class="attr-value">{{jogador.atributos.sabedoria || 10}}</span>
+                                <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.sabedoria) ?? 0) >= 0 ? '+' : '' }}{{ calcularModificador(jogador.atributos.sabedoria) ?? 0 }}</span>
+                            </div>
+                        </div>
+                        <div class="col-4 col-md-4">
+                            <div class="attribute-box">
+                                <i class="fas fa-comments"></i>
+                                <span class="attr-name">CAR</span>
+                                <span class="attr-value">{{jogador.atributos.carisma || 10}}</span>
+                                <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.carisma) ?? 0) >= 0 ? '+' : '' }}{{ calcularModificador(jogador.atributos.carisma) ?? 0 }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Collapsible Sections -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <div class="section-buttons">
+                        <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMagias">
+                            <i class="fas fa-magic me-2"></i>Magias
+                        </button>
+                        <button class="btn btn-outline-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTalentos">
+                            <i class="fas fa-star me-2"></i>Talentos
+                        </button>
+                        <button class="btn btn-outline-warning" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMochila">
+                            <i class="fas fa-backpack me-2"></i>Mochila
+                        </button>
+                        <button class="btn btn-outline-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapseEquipamentos">
+                            <i class="fas fa-shield-alt me-2"></i>Equipamentos
+                        </button>
+                        <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapsePericias">
+                            <i class="fas fa-tasks me-2"></i>Perícias
+                        </button>
+                        <button class="btn btn-outline-danger" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCondicoes">
+                            <i class="fas fa-heart-broken me-2"></i>Condições
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Magias -->
+    <div class="collapse" id="collapseMagias">
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-primary text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-magic me-2"></i>Magias</h5>
+                    <button type="button" class="btn btn-light btn-sm" (click)="adicionarMagia()">
+                        <i class="fas fa-plus me-1"></i>Adicionar
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="spell-list" *ngIf="jogador.magias && jogador.magias.length > 0">
+                    <div class="spell-item" *ngFor="let magia of jogador.magias">
+                        <div class="spell-header">
+                            <i class="fas fa-wand-magic text-primary"></i>
+                            <strong>{{magia.nome}}</strong>
+                        </div>
+                        <p class="spell-description">{{magia.descricao}}</p>
+                    </div>
+                </div>
+                <div *ngIf="!jogador.magias || jogador.magias.length === 0" class="text-muted text-center py-3">
+                    <i class="fas fa-magic fa-2x mb-2"></i>
+                    <p>Nenhuma magia adicionada ainda</p>
+                </div>
+                <div *ngIf="adicionandoMagia" class="add-form mt-3">
+                    <div class="row g-2">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="Nome da Magia" [(ngModel)]="novaMagia.nome">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" placeholder="Descrição da Magia" [(ngModel)]="novaMagia.descricao">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-success btn-sm w-100" (click)="confirmarAdicionarMagia()">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm w-100 mt-1" (click)="cancelarAdicionarMagia()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Talentos -->
+    <div class="collapse" id="collapseTalentos">
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-success text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-star me-2"></i>Talentos</h5>
+                    <button type="button" class="btn btn-light btn-sm" (click)="adicionarTalento()">
+                        <i class="fas fa-plus me-1"></i>Adicionar
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="talent-list" *ngIf="jogador.talentos && jogador.talentos.length > 0">
+                    <div class="talent-item" *ngFor="let talento of jogador.talentos">
+                        <div class="talent-header">
+                            <div>
+                                <i class="fas fa-certificate text-success"></i>
+                                <strong>{{talento.nome}}</strong>
+                            </div>
+                            <button type="button" class="btn btn-danger btn-sm" (click)="removerTalento(talento)">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                        <p class="talent-description">{{talento.descricao}}</p>
+                    </div>
+                </div>
+                <div *ngIf="!jogador.talentos || jogador.talentos.length === 0" class="text-muted text-center py-3">
+                    <i class="fas fa-star fa-2x mb-2"></i>
+                    <p>Nenhum talento adicionado ainda</p>
+                </div>
+                <div *ngIf="adicionandoTalento" class="add-form mt-3">
+                    <div class="row g-2">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="Nome do Talento" [(ngModel)]="novoTalento.nome">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" placeholder="Descrição do Talento" [(ngModel)]="novoTalento.descricao">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-success btn-sm w-100" (click)="confirmarAdicionarTalento()">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm w-100 mt-1" (click)="cancelarAdicionarTalento()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mochila -->
+    <div class="collapse" id="collapseMochila">
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-warning text-dark">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-backpack me-2"></i>Mochila</h5>
+                    <button type="button" class="btn btn-dark btn-sm" (click)="adicionarItem()">
+                        <i class="fas fa-plus me-1"></i>Adicionar
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="item-list" *ngIf="jogador.mochila && jogador.mochila.length > 0">
+                    <div class="item-card" *ngFor="let item of jogador.mochila">
+                        <div class="item-header">
+                            <div>
+                                <i class="fas fa-box text-warning"></i>
+                                <strong>{{item.nome}}</strong>
+                            </div>
+                            <button type="button" class="btn btn-danger btn-sm" (click)="removerItem(item)">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                        <p class="item-description">{{item.descricao}}</p>
+                    </div>
+                </div>
+                <div *ngIf="!jogador.mochila || jogador.mochila.length === 0" class="text-muted text-center py-3">
+                    <i class="fas fa-backpack fa-2x mb-2"></i>
+                    <p>Nenhum item na mochila</p>
+                </div>
+                <div *ngIf="adicionandoItem" class="add-form mt-3">
+                    <div class="row g-2">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="Nome do Item" [(ngModel)]="novoItem.nome">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" placeholder="Descrição do Item" [(ngModel)]="novoItem.descricao">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-success btn-sm w-100" (click)="confirmarAdicionarItem()">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm w-100 mt-1" (click)="cancelarAdicionarItem()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Equipamentos -->
+    <div class="collapse" id="collapseEquipamentos">
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-info text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-shield-alt me-2"></i>Equipamentos</h5>
+                    <div>
+                        <button type="button" class="btn btn-light btn-sm me-2" (click)="adicionarEquipamento()">
+                            <i class="fas fa-plus me-1"></i>Adicionar
+                        </button>
+                        <span class="gold-display">
+                            <i class="fas fa-coins me-1"></i>
+                            <input type="number" class="gold-input" [(ngModel)]="jogador.ouro" (change)="saveToCache()"> PO
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="equipment-grid" *ngIf="hasEquipment()">
+                    <div *ngFor="let categoria of ['cabeca', 'armadura', 'pes','escudo', 'anel','amuleto']" class="equipment-category">
+                        <h6 class="category-title" *ngIf="jogador.equipamentos[categoria]?.length > 0">
+                            <i class="fas" [ngClass]="getCategoryIcon(categoria)"></i>
+                            {{ getCategoryName(categoria) }}
+                        </h6>
+                        <div class="equipment-item" *ngFor="let equipamento of jogador.equipamentos[categoria]">
+                            <div class="equipment-header">
+                                <strong>{{equipamento.nome}}</strong>
+                                <button type="button" class="btn btn-danger btn-sm" (click)="removerEquipamento(categoria, equipamento)">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                            <p class="equipment-description">{{equipamento.descricao}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="!hasEquipment()" class="text-muted text-center py-3">
+                    <i class="fas fa-shield-alt fa-2x mb-2"></i>
+                    <p>Nenhum equipamento adicionado</p>
+                </div>
+                <div *ngIf="adicionandoEquipamento" class="add-form mt-3">
+                    <div class="row g-2">
+                        <div class="col-md-3">
+                            <select class="form-select" [(ngModel)]="novaCategoria">
+                                <option value="" disabled selected>Categoria</option>
+                                <option value="cabeca">Cabeça</option>
+                                <option value="armadura">Armadura</option>
+                                <option value="pes">Pés</option>
+                                <option value="escudo">Escudo</option>
+                                <option value="amuleto">Amuleto</option>
+                                <option value="anel">Anel</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" placeholder="Nome" [(ngModel)]="novoEquipamento.nome">
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" class="form-control" placeholder="Descrição" [(ngModel)]="novoEquipamento.descricao">
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-success btn-sm w-100" (click)="confirmarAdicionarEquipamento()">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm w-100 mt-1" (click)="cancelarAdicionarEquipamento()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Perícias -->
+    <div class="collapse" id="collapsePericias">
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0"><i class="fas fa-tasks me-2"></i>Perícias</h5>
+            </div>
+            <div class="card-body">
+                <div class="skills-grid">
+                    <div class="skill-badge" *ngFor="let pericia of jogador.pericias">
+                        <span *ngIf="pericia.valor === 'sim'" class="badge bg-success">
+                            <i class="fas fa-check-circle me-1"></i>{{pericia.nome}}
+                        </span>
+                    </div>
+                </div>
+                <div *ngIf="!hasProficiencies()" class="text-muted text-center py-3">
+                    <i class="fas fa-tasks fa-2x mb-2"></i>
+                    <p>Nenhuma perícia selecionada</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Condições -->
+    <div class="collapse" id="collapseCondicoes">
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-danger text-white">
+                <h5 class="mb-0"><i class="fas fa-heart-broken me-2"></i>Condições</h5>
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-4 col-sm-6">
+                        <div class="condition-box">
+                            <i class="fas fa-utensils text-warning"></i>
+                            <label>Fome</label>
+                            <input type="number" class="form-control" [(ngModel)]="jogador.fome" (change)="saveToCache()">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="condition-box">
+                            <i class="fas fa-tint text-info"></i>
+                            <label>Sede</label>
+                            <input type="number" class="form-control" [(ngModel)]="jogador.sede" (change)="saveToCache()">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="condition-box">
+                            <i class="fas fa-tired text-secondary"></i>
+                            <label>Cansaço</label>
+                            <input type="number" class="form-control" [(ngModel)]="jogador.cansaco" (change)="saveToCache()">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="condition-box">
+                            <i class="fas fa-sun text-danger"></i>
+                            <label>Calor</label>
+                            <input type="number" class="form-control" [(ngModel)]="jogador.calor" (change)="saveToCache()">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="condition-box">
+                            <i class="fas fa-snowflake text-primary"></i>
+                            <label>Frio</label>
+                            <input type="number" class="form-control" [(ngModel)]="jogador.frio" (change)="saveToCache()">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-6">
+                        <div class="condition-box">
+                            <i class="fas fa-bed text-dark"></i>
+                            <label>Sono</label>
+                            <input type="number" class="form-control" [(ngModel)]="jogador.sono" (change)="saveToCache()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Confirmation Dialog -->
+    <div *ngIf="confirmandoLimparCache" class="confirmation-overlay">
+        <div class="confirmation-dialog card shadow-lg">
+            <div class="card-body text-center">
+                <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+                <h5><strong>Tem certeza que deseja apagar todos os dados do jogador?</strong></h5>
+                <p class="text-muted">Esta ação não pode ser desfeita!</p>
+                <div class="mt-3">
+                    <button class="btn btn-success me-2" (click)="limparCache()">
+                        <i class="fas fa-check me-1"></i>Sim, apagar
+                    </button>
+                    <button class="btn btn-secondary" (click)="cancelarLimparCache()">
+                        <i class="fas fa-times me-1"></i>Cancelar
+                    </button>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
-
-
-
-
-<button class="btn btn-secondary btn-sm m-1" (click)="baixarJogador()">Baixar Jogador</button>
-<input type="file" class="m-1" (change)="carregarJogador($event)" accept=".json">
-<button class="btn btn-danger btn-sm m-1" (click)="confirmarLimparCache()">Limpar Cache</button>
-
-<div style="background-color: brown;" *ngIf="confirmandoLimparCache" class="confirmacao">
-    <p><strong>Tem certeza que deseja apagar todos os dados do jogador?</strong></p>
-    <button class="btn btn-success btn-sm m-1" (click)="limparCache()">Sim</button>
-    <button class="btn btn-secondary btn-sm m-1" (click)="cancelarLimparCache()">Não</button>
-</div>
-
-
 
 <!-- Modal -->
 <div class="modal fade" id="editarFichaModal" tabindex="-1" aria-labelledby="editarFichaModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editarFichaModalLabel">Editar Ficha do Jogador</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content rpg-modal">
+            <div class="modal-header bg-gradient-primary">
+                <h5 class="modal-title" id="editarFichaModalLabel">
+                    <i class="fas fa-scroll me-2"></i>Editar Ficha do Jogador
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form>
-                    <div class="d-flex flex-row flex-wrap align-items-center justify-content-start">
-                        <div class="m-1 col-sm-4">
-                            <label for="nome" class="form-label">Nome</label>
-                            <input type="text" class="form-control" id="nome" [(ngModel)]="jogador.nome" name="nome">
-                        </div>
-                        <div class="m-1 col-sm-4">
-                            <label for="classe" class="form-label">Classe</label>
-                            <input type="text" class="form-control" id="classe" [(ngModel)]="jogador.classe"
-                                name="classe">
-                        </div>
-                        <div class="m-1 col-sm-4">
-                            <label for="raca" class="form-label">Raça</label>
-                            <input type="text" class="form-control" id="raca" [(ngModel)]="jogador.raca" name="raca">
-                        </div>
-                        <div class="m-1 col-sm-4">
-                            <label for="proficiencia" class="form-label">Proficiencia</label>
-                            <input type="text" class="form-control" id="proficiencia" [(ngModel)]="jogador.proficiencia"
-                                name="proficiencia">
-                        </div>
-                        <div class="m-1 col-sm-4">
-                            <label for="nivel" class="form-label">Nível</label>
-                            <input type="number" class="form-control" id="nivel" [(ngModel)]="jogador.nivel"
-                                name="nivel">
-                        </div>
-                    </div>
-                    <div class="d-flex flex-row flex-wrap align-items-center justify-content-start">
-                        <div class="m-1 col-sm-4">
-                            <label for="pv" class="form-label"><strong>PV</strong></label>
-                            <input type="number" class="form-control" id="pv" [(ngModel)]="jogador.pv" name="pv">
-                        </div>
-                        <div class="m-1 col-sm-4">
-                            <label for="pva" class="form-label"><strong>PVA</strong></label>
-                            <input type="number" class="form-control" id="pva" [(ngModel)]="jogador.pva" name="pva">
-                        </div>
-                        <div class="m-1 col-sm-4">
-                            <label for="ca" class="form-label"><strong>CA</strong></label>
-                            <input type="number" class="form-control" id="ca" [(ngModel)]="jogador.ca" name="ca">
-                        </div>
-                        <div class="m-1 col-sm-4">
-                            <label for="deslocamento" class="form-label"><strong>Des</strong></label>
-                            <input type="number" class="form-control" id="deslocamento"
-                                [(ngModel)]="jogador.deslocamento" name="deslocamento">
-                        </div>
-                        <div class="m-1 col-sm-4">
-                            <label for="iniciativa" class="form-label"><strong>Ini</strong></label>
-                            <input type="number" class="form-control" id="iniciativa" [(ngModel)]="jogador.iniciativa"
-                                name="iniciativa">
-                        </div>
-                        <div class="m-1 col-sm-4">
-                            <label for="inspiracao" class="form-label"><strong>Insp</strong></label>
-                            <input type="number" class="form-control" id="inspiracao" [(ngModel)]="jogador.inspiracao"
-                                name="inspiracao">
-                        </div>
-                    </div>
-                    <!-- Add more fields as needed -->
-                    <div class="m-1 d-flex flex-row flex-wrap align-items-center justify-content-start">
-                        <label class="form-label"><strong>Perícias:</strong></label>
-                        <div class="d-flex flex-row flex-wrap align-items-center justify-content-start"
-                            *ngFor="let pericia of jogador.pericias">
-                            <div class="form-check d-flex flex-row flex-wrap align-items-center justify-content-start">
-
-                                <input class="form-check-input" type="checkbox" [(ngModel)]="pericia.valor"
-                                    (change)="updatePericiaValor($event, pericia)" [checked]="pericia.valor === 'sim'"
-                                    name="pericia_{{pericia.nome}}">
-                                <label class="form-check-label">
-                                    {{ pericia.nome }}
+                    <!-- Basic Info Section -->
+                    <div class="form-section">
+                        <h6 class="section-heading">
+                            <i class="fas fa-user me-2"></i>Informações Básicas
+                        </h6>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="nome" class="form-label">
+                                    <i class="fas fa-signature me-1"></i>Nome
                                 </label>
+                                <input type="text" class="form-control" id="nome" [(ngModel)]="jogador.nome" name="nome" placeholder="Nome do personagem">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="classe" class="form-label">
+                                    <i class="fas fa-hat-wizard me-1"></i>Classe
+                                </label>
+                                <input type="text" class="form-control" id="classe" [(ngModel)]="jogador.classe"
+                                    name="classe" placeholder="Ex: Guerreiro">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="raca" class="form-label">
+                                    <i class="fas fa-users me-1"></i>Raça
+                                </label>
+                                <input type="text" class="form-control" id="raca" [(ngModel)]="jogador.raca" name="raca" placeholder="Ex: Humano">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="proficiencia" class="form-label">
+                                    <i class="fas fa-certificate me-1"></i>Bônus de Proficiência
+                                </label>
+                                <input type="number" class="form-control" id="proficiencia" [(ngModel)]="jogador.proficiencia"
+                                    name="proficiencia" placeholder="Ex: 2">
+                            </div>
+                            <div class="col-md-6">
+                                <label for="nivel" class="form-label">
+                                    <i class="fas fa-level-up-alt me-1"></i>Nível
+                                </label>
+                                <input type="number" class="form-control" id="nivel" [(ngModel)]="jogador.nivel"
+                                    name="nivel" placeholder="Ex: 1">
                             </div>
                         </div>
                     </div>
 
-                    <div class="modificadores d-flex flex-row flex-wrap align-items-center justify-content-start">
-                        <div class="m-1 col-3">
-                            <label for="forca" class="form-label">Força</label>
-                            <input type="number" class="form-control" id="forca" [(ngModel)]="jogador.atributos.forca"
-                                name="forca">
+                    <!-- Combat Stats Section -->
+                    <div class="form-section">
+                        <h6 class="section-heading">
+                            <i class="fas fa-shield-alt me-2"></i>Estatísticas de Combate
+                        </h6>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="pv" class="form-label">
+                                    <i class="fas fa-heart me-1"></i>Pontos de Vida (PV)
+                                </label>
+                                <input type="number" class="form-control" id="pv" [(ngModel)]="jogador.pv" name="pv" placeholder="Ex: 10">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="pva" class="form-label">
+                                    <i class="fas fa-heartbeat me-1"></i>PV Atual
+                                </label>
+                                <input type="number" class="form-control" id="pva" [(ngModel)]="jogador.pva" name="pva" placeholder="Ex: 10">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="ca" class="form-label">
+                                    <i class="fas fa-shield me-1"></i>Classe de Armadura (CA)
+                                </label>
+                                <input type="number" class="form-control" id="ca" [(ngModel)]="jogador.ca" name="ca" placeholder="Ex: 15">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="deslocamento" class="form-label">
+                                    <i class="fas fa-running me-1"></i>Deslocamento
+                                </label>
+                                <input type="number" class="form-control" id="deslocamento"
+                                    [(ngModel)]="jogador.deslocamento" name="deslocamento" placeholder="Ex: 30">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="iniciativa" class="form-label">
+                                    <i class="fas fa-bolt me-1"></i>Iniciativa
+                                </label>
+                                <input type="number" class="form-control" id="iniciativa" [(ngModel)]="jogador.iniciativa"
+                                    name="iniciativa" placeholder="Ex: 2">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="inspiracao" class="form-label">
+                                    <i class="fas fa-star me-1"></i>Inspiração
+                                </label>
+                                <input type="number" class="form-control" id="inspiracao" [(ngModel)]="jogador.inspiracao"
+                                    name="inspiracao" placeholder="Ex: 0">
+                            </div>
                         </div>
-                        <div class="m-1 col-3">
-                            <label for="destreza" class="form-label">Destreza</label>
-                            <input type="number" class="form-control" id="destreza"
-                                [(ngModel)]="jogador.atributos.destreza" name="destreza">
+                    </div>
+
+                    <!-- Attributes Section -->
+                    <div class="form-section">
+                        <h6 class="section-heading">
+                            <i class="fas fa-dumbbell me-2"></i>Atributos
+                        </h6>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="forca" class="form-label">
+                                    <i class="fas fa-fist-raised me-1"></i>Força
+                                </label>
+                                <input type="number" class="form-control" id="forca" [(ngModel)]="jogador.atributos.forca"
+                                    name="forca" placeholder="Ex: 10">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="destreza" class="form-label">
+                                    <i class="fas fa-running me-1"></i>Destreza
+                                </label>
+                                <input type="number" class="form-control" id="destreza"
+                                    [(ngModel)]="jogador.atributos.destreza" name="destreza" placeholder="Ex: 10">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="constituicao" class="form-label">
+                                    <i class="fas fa-heart me-1"></i>Constituição
+                                </label>
+                                <input type="number" class="form-control" id="constituicao"
+                                    [(ngModel)]="jogador.atributos.constituicao" name="constituicao" placeholder="Ex: 10">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="inteligencia" class="form-label">
+                                    <i class="fas fa-brain me-1"></i>Inteligência
+                                </label>
+                                <input type="number" class="form-control" id="inteligencia"
+                                    [(ngModel)]="jogador.atributos.inteligencia" name="inteligencia" placeholder="Ex: 10">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="sabedoria" class="form-label">
+                                    <i class="fas fa-eye me-1"></i>Sabedoria
+                                </label>
+                                <input type="number" class="form-control" id="sabedoria"
+                                    [(ngModel)]="jogador.atributos.sabedoria" name="sabedoria" placeholder="Ex: 10">
+                            </div>
+                            <div class="col-md-4">
+                                <label for="carisma" class="form-label">
+                                    <i class="fas fa-comments me-1"></i>Carisma
+                                </label>
+                                <input type="number" class="form-control" id="carisma"
+                                    [(ngModel)]="jogador.atributos.carisma" name="carisma" placeholder="Ex: 10">
+                            </div>
                         </div>
-                        <div class="m-1 col-3">
-                            <label for="constituicao" class="form-label">Constituição</label>
-                            <input type="number" class="form-control" id="constituicao"
-                                [(ngModel)]="jogador.atributos.constituicao" name="constituicao">
-                        </div>
-                        <div class="m-1 col-3">
-                            <label for="inteligencia" class="form-label">Inteligência</label>
-                            <input type="number" class="form-control" id="inteligencia"
-                                [(ngModel)]="jogador.atributos.inteligencia" name="inteligencia">
-                        </div>
-                        <div class="m-1 col-3">
-                            <label for="sabedoria" class="form-label">Sabedoria</label>
-                            <input type="number" class="form-control" id="sabedoria"
-                                [(ngModel)]="jogador.atributos.sabedoria" name="sabedoria">
-                        </div>
-                        <div class="m-1 col-3">
-                            <label for="carisma" class="form-label">Carisma</label>
-                            <input type="number" class="form-control" id="carisma"
-                                [(ngModel)]="jogador.atributos.carisma" name="carisma">
-                        </div>
-                        <div class="m-1 col-3">
-                            <label for="sorte" class="form-label">Sorte</label>
-                            <input type="number" class="form-control" id="sorte" [(ngModel)]="jogador.atributos.sorte"
-                                name="sorte">
+                    </div>
+
+                    <!-- Skills Section -->
+                    <div class="form-section">
+                        <h6 class="section-heading">
+                            <i class="fas fa-tasks me-2"></i>Perícias
+                        </h6>
+                        <div class="skills-checklist">
+                            <div class="row g-2">
+                                <div class="col-md-6" *ngFor="let pericia of jogador.pericias">
+                                    <div class="form-check skill-check">
+                                        <input class="form-check-input" type="checkbox" [(ngModel)]="pericia.valor"
+                                            (change)="updatePericiaValor($event, pericia)" [checked]="pericia.valor === 'sim'"
+                                            [id]="'pericia_' + pericia.nome" name="pericia_{{pericia.nome}}">
+                                        <label class="form-check-label" [for]="'pericia_' + pericia.nome">
+                                            <i class="fas fa-check-circle me-1"></i>{{ pericia.nome }}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" (click)="saveToCache()">Salvar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-2"></i>Cancelar
+                </button>
+                <button type="button" class="btn btn-primary" (click)="saveToCache()" data-bs-dismiss="modal">
+                    <i class="fas fa-save me-2"></i>Salvar Alterações
+                </button>
             </div>
         </div>
     </div>
