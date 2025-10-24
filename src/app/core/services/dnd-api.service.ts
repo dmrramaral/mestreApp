@@ -11,6 +11,7 @@ import { Observable, shareReplay } from 'rxjs';
 })
 export class DndApiService {
   private readonly BASE_URL = 'https://www.dnd5eapi.co/api/2024';
+  private readonly BASE_URL_2014 = 'https://www.dnd5eapi.co/api/2014';
   
   // Cache para evitar requisições desnecessárias
   private abilityScoresCache$?: Observable<any>;
@@ -24,6 +25,8 @@ export class DndApiService {
   private skillsCache$?: Observable<any>;
   private weaponMasteryPropertiesCache$?: Observable<any>;
   private weaponPropertiesCache$?: Observable<any>;
+  private classesCache$?: Observable<any>;
+  private racesCache$?: Observable<any>;
 
   constructor(private http: HttpClient) { }
 
@@ -244,6 +247,46 @@ export class DndApiService {
   }
 
   /**
+   * Obtém lista de classes (2014 API)
+   * Ex: Barbarian, Bard, Cleric, etc.
+   */
+  getClasses(): Observable<any> {
+    if (!this.classesCache$) {
+      this.classesCache$ = this.http.get(`${this.BASE_URL_2014}/classes`).pipe(
+        shareReplay(1)
+      );
+    }
+    return this.classesCache$;
+  }
+
+  /**
+   * Obtém detalhes de uma classe específica (2014 API)
+   */
+  getClassDetails(index: string): Observable<any> {
+    return this.http.get(`${this.BASE_URL_2014}/classes/${index}`);
+  }
+
+  /**
+   * Obtém lista de raças (2014 API)
+   * Ex: Dragonborn, Dwarf, Elf, etc.
+   */
+  getRaces(): Observable<any> {
+    if (!this.racesCache$) {
+      this.racesCache$ = this.http.get(`${this.BASE_URL_2014}/races`).pipe(
+        shareReplay(1)
+      );
+    }
+    return this.racesCache$;
+  }
+
+  /**
+   * Obtém detalhes de uma raça específica (2014 API)
+   */
+  getRaceDetails(index: string): Observable<any> {
+    return this.http.get(`${this.BASE_URL_2014}/races/${index}`);
+  }
+
+  /**
    * Limpa todos os caches
    * Útil quando é necessário forçar atualização dos dados
    */
@@ -259,5 +302,7 @@ export class DndApiService {
     this.skillsCache$ = undefined;
     this.weaponMasteryPropertiesCache$ = undefined;
     this.weaponPropertiesCache$ = undefined;
+    this.classesCache$ = undefined;
+    this.racesCache$ = undefined;
   }
 }
