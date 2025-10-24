@@ -5,148 +5,313 @@
         <p class="page-subtitle">Explore e filtre itens, armas, armaduras e equipamentos</p>
     </div>
 
-    <!-- Filters Section -->
-    <div class="filters-section">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h5 class="section-title mb-3">Filtros</h5>
-                <div class="row g-3 align-items-end">
-                    <div class="col-md-5">
-                        <label for="categoryFilter" class="form-label">Categoria</label>
-                        <select [(ngModel)]="filter.category" class="form-select" id="categoryFilter">
-                            <option value="">Todas as Categorias</option>
-                            <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
-                        </select>
+    <!-- Navigation Tabs -->
+    <ul class="nav nav-tabs mb-3" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" [class.active]="activeTab === 'all'" (click)="activeTab = 'all'"
+                type="button" role="tab">
+                <i class="fas fa-list me-2"></i>Todos os Itens
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" [class.active]="activeTab === 'weapons'" (click)="activeTab = 'weapons'"
+                type="button" role="tab">
+                <i class="fas fa-sword me-2"></i>Armas
+            </button>
+        </li>
+    </ul>
+
+    <!-- Tab Content -->
+    <div class="tab-content">
+        <!-- All Items Tab -->
+        <div class="tab-pane" [class.show]="activeTab === 'all'" [class.active]="activeTab === 'all'">
+            <!-- Filters Section -->
+            <div class="filters-section">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="section-title mb-3">Filtros</h5>
+                        <div class="row g-3 align-items-end">
+                            <div class="col-md-5">
+                                <label for="categoryFilter" class="form-label">Categoria</label>
+                                <select [(ngModel)]="filter.category" class="form-select" id="categoryFilter">
+                                    <option value="">Todas as Categorias</option>
+                                    <option *ngFor="let category of categories" [value]="category">{{ category }}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-5">
+                                <label for="subcategoryFilter" class="form-label">Subcategoria</label>
+                                <select [(ngModel)]="filter.subcategory" class="form-select" id="subcategoryFilter">
+                                    <option value="">Todas as Subcategorias</option>
+                                    <option *ngFor="let subcategory of subcategories" [value]="subcategory">{{ subcategory }}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <button (click)="applyFilters()" class="btn btn-primary w-100">
+                                    <i class="fas fa-filter me-2"></i>Filtrar
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-5">
-                        <label for="subcategoryFilter" class="form-label">Subcategoria</label>
-                        <select [(ngModel)]="filter.subcategory" class="form-select" id="subcategoryFilter">
-                            <option value="">Todas as Subcategorias</option>
-                            <option *ngFor="let subcategory of subcategories" [value]="subcategory">{{ subcategory }}</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <button (click)="applyFilters()" class="btn btn-primary w-100">
-                            <i class="fas fa-filter me-2"></i>Filtrar
-                        </button>
+                </div>
+            </div>
+
+            <!-- Items Table -->
+            <div class="items-table-section">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="section-title mb-3">Itens Disponíveis</h5>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th scope="col">Nome</th>
+                                        <th scope="col">Categoria</th>
+                                        <th scope="col">Subcategoria</th>
+                                        <th scope="col" class="text-center">Preço</th>
+                                        <th scope="col" class="text-center">Ação</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let item of mercadoDnD; let i = index">
+                                        <td><strong>{{ item.name || '' }}</strong></td>
+                                        <td>{{ item.equipment_category?.name || '' }}</td>
+                                        <td class="text-muted">{{ item.gear_category?.name || '-' }}</td>
+                                        <td class="text-center">
+                                            <span class="badge bg-success">{{ item.cost?.quantity || '' }} {{ item.cost?.unit || '' }}</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" [attr.data-bs-target]="'#detailsModal' + i">
+                                                <i class="fas fa-eye me-1"></i>Ver Detalhes
+                                            </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="detailsModal{{i}}" tabindex="-1" [attr.aria-labelledby]="'detailsModalLabel' + i" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-primary text-white">
+                                        <h5 class="modal-title" id="detailsModalLabel{{i}}">
+                                            <i class="fas fa-info-circle me-2"></i>Detalhes do Item
+                                        </h5>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <h4 class="item-name mb-3">{{item.name}}</h4>
+                                        
+                                        <div class="item-details">
+                                            <p *ngIf="item.desc?.length" class="item-description"><strong>Descrição:</strong> {{ item.desc?.join(', ') || 'N/P'}}</p>
+                                            
+                                            <div class="row">
+                                                <div class="col-md-6" *ngIf="item.weight">
+                                                    <p><strong>Peso:</strong> {{ item.weight }}</p>
+                                                </div>
+                                                <div class="col-md-6" *ngIf="item.cost?.quantity">
+                                                    <p><strong>Preço:</strong> <span class="badge bg-success">{{ item.cost?.quantity }} {{item.cost.unit}}</span></p>
+                                                </div>
+                                            </div>
+                                            
+                                            <div *ngIf="item.armor_category">
+                                                <h6 class="mt-3 mb-2">Informações de Armadura</h6>
+                                                <p><strong>Categoria:</strong> {{ item.armor_category }}</p>
+                                                <p *ngIf="item.armor_class?.base">
+                                                    <strong>Classe de Armadura:</strong> Base: {{ item.armor_class?.base }},
+                                                    Bônus de Destreza: {{ item.armor_class?.dex_bonus ? 'Sim' : 'Não' }},
+                                                    Bônus Máximo: {{ item.armor_class?.max_bonus || 'N/A' }}
+                                                </p>
+                                                <p *ngIf="item.str_minimum"><strong>Força Mínima:</strong> {{ item.str_minimum }}</p>
+                                                <p *ngIf="item.stealth_disadvantage"><strong>Desvantagem em Furtividade:</strong> {{ item.stealth_disadvantage ? 'Sim' : 'Não' }}</p>
+                                            </div>
+                                            
+                                            <div *ngIf="item.weapon_category">
+                                                <h6 class="mt-3 mb-2">Informações de Arma</h6>
+                                                <p><strong>Categoria:</strong> {{ item.weapon_category }}</p>
+                                                <p *ngIf="item.weapon_range"><strong>Alcance:</strong> {{ item.weapon_range }}</p>
+                                                <p *ngIf="item.damage?.quantity"><strong>Dano:</strong> {{ item.damage?.quantity }}</p>
+                                                <p *ngIf="item.range?.normal"><strong>Alcance:</strong> {{ item.range?.normal }} / {{ item.range?.long }}</p>
+                                                <p *ngIf="item.throw_range?.normal || item.throw_range?.long"><strong>Alcance de Arremesso:</strong> {{ item.throw_range?.normal || 'N/A' }} / {{ item.throw_range?.long || 'N/A' }}</p>
+                                                <p *ngIf="item.two_handed_damage?.quantity"><strong>Dano com Duas Mãos:</strong> {{ item.two_handed_damage?.quantity }}</p>
+                                            </div>
+                                            
+                                            <div *ngIf="item.contents?.length">
+                                                <h6 class="mt-3 mb-2">Conteúdo</h6>
+                                                <ul class="list-group">
+                                                    <li class="list-group-item" *ngFor="let content of item.contents">
+                                                        {{ content.quantity }}x {{ content.item.name }}
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            
+                                            <p *ngIf="item.properties?.length" class="mt-3"><strong>Propriedades:</strong> {{ item.properties?.join(', ') || 'N/P'}}</p>
+                                            <p *ngIf="item.capacity"><strong>Capacidade:</strong> {{ item.capacity }}</p>
+                                            <p *ngIf="item.category_range"><strong>Categoria de Alcance:</strong> {{ item.category_range }}</p>
+                                            <p *ngIf="item.quantity"><strong>Quantidade:</strong> {{ item.quantity }}</p>
+                                            <p *ngIf="item.special?.length"><strong>Especial:</strong> {{ item.special?.join(', ') || 'N/P'}}</p>
+                                            <p *ngIf="item.speed?.quantity"><strong>Velocidade:</strong> {{ item.speed?.quantity }} {{ item.speed?.unit }}</p>
+                                            <p *ngIf="item.tool_category"><strong>Categoria da Ferramenta:</strong> {{ item.tool_category }}</p>
+                                            <p *ngIf="item.vehicle_category"><strong>Categoria do Veículo:</strong> {{ item.vehicle_category }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                            <i class="fas fa-times me-2"></i>Fechar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr *ngIf="mercadoDnD.length === 0">
+                    <td colspan="5" class="text-center text-muted py-4">
+                        Nenhum item encontrado com os filtros selecionados.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Items Table -->
-    <div class="items-table-section">
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <h5 class="section-title mb-3">Itens Disponíveis</h5>
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle">
-                        <thead class="table-dark">
-                            <tr>
-                                <th scope="col">Nome</th>
-                                <th scope="col">Categoria</th>
-                                <th scope="col">Subcategoria</th>
-                                <th scope="col" class="text-center">Preço</th>
-                                <th scope="col" class="text-center">Ação</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of mercadoDnD; let i = index">
-                                <td><strong>{{ item.name || '' }}</strong></td>
-                                <td>{{ item.equipment_category?.name || '' }}</td>
-                                <td class="text-muted">{{ item.gear_category?.name || '-' }}</td>
-                                <td class="text-center">
-                                    <span class="badge bg-success">{{ item.cost?.quantity || '' }} {{ item.cost?.unit || '' }}</span>
-                                </td>
-                                <td class="text-center">
-                                    <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" [attr.data-bs-target]="'#detailsModal' + i">
-                                        <i class="fas fa-eye me-1"></i>Ver Detalhes
-                                    </button>
+        <!-- Weapons Tab -->
+        <div class="tab-pane" [class.show]="activeTab === 'weapons'" [class.active]="activeTab === 'weapons'">
+            <div class="weapons-section">
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="section-title mb-3">
+                            <i class="fas fa-sword me-2"></i>Armas D&D
+                            <span class="badge bg-primary ms-2">{{ weapons.length }}</span>
+                        </h5>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th scope="col">Nome</th>
+                                        <th scope="col">Categoria</th>
+                                        <th scope="col">Dano</th>
+                                        <th scope="col" class="text-center">Preço</th>
+                                        <th scope="col" class="text-center">Ação</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let weapon of weapons; let i = index">
+                                        <td><strong>{{ weapon.name || '' }}</strong></td>
+                                        <td>
+                                            <span class="badge bg-info">{{ weapon.weapon_category || '-' }}</span>
+                                            <span class="badge bg-secondary ms-1">{{ weapon.weapon_range || '-' }}</span>
+                                        </td>
+                                        <td>
+                                            <span *ngIf="weapon.damage">{{ weapon.damage.damage_dice }} {{ weapon.damage.damage_type?.name || '' }}</span>
+                                            <span *ngIf="!weapon.damage">-</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <span class="badge bg-success">{{ weapon.cost?.quantity || '-' }} {{ weapon.cost?.unit || '' }}</span>
+                                        </td>
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" [attr.data-bs-target]="'#weaponModal' + i">
+                                                <i class="fas fa-eye me-1"></i>Ver Detalhes
+                                            </button>
 
-                    <!-- Modal -->
-                    <div class="modal fade" id="detailsModal{{i}}" tabindex="-1" [attr.aria-labelledby]="'detailsModalLabel' + i" aria-hidden="true">
-                        <div class="modal-dialog modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header bg-primary text-white">
-                                    <h5 class="modal-title" id="detailsModalLabel{{i}}">
-                                        <i class="fas fa-info-circle me-2"></i>Detalhes do Item
-                                    </h5>
-                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <h4 class="item-name mb-3">{{item.name}}</h4>
-                                    
-                                    <div class="item-details">
-                                        <p *ngIf="item.desc?.length" class="item-description"><strong>Descrição:</strong> {{ item.desc?.join(', ') || 'N/P'}}</p>
-                                        
-                                        <div class="row">
-                                            <div class="col-md-6" *ngIf="item.weight">
-                                                <p><strong>Peso:</strong> {{ item.weight }}</p>
-                                            </div>
-                                            <div class="col-md-6" *ngIf="item.cost?.quantity">
-                                                <p><strong>Preço:</strong> <span class="badge bg-success">{{ item.cost?.quantity }} {{item.cost.unit}}</span></p>
-                                            </div>
-                                        </div>
-                                        
-                                        <div *ngIf="item.armor_category">
-                                            <h6 class="mt-3 mb-2">Informações de Armadura</h6>
-                                            <p><strong>Categoria:</strong> {{ item.armor_category }}</p>
-                                            <p *ngIf="item.armor_class?.base">
-                                                <strong>Classe de Armadura:</strong> Base: {{ item.armor_class?.base }},
-                                                Bônus de Destreza: {{ item.armor_class?.dex_bonus ? 'Sim' : 'Não' }},
-                                                Bônus Máximo: {{ item.armor_class?.max_bonus || 'N/A' }}
-                                            </p>
-                                            <p *ngIf="item.str_minimum"><strong>Força Mínima:</strong> {{ item.str_minimum }}</p>
-                                            <p *ngIf="item.stealth_disadvantage"><strong>Desvantagem em Furtividade:</strong> {{ item.stealth_disadvantage ? 'Sim' : 'Não' }}</p>
-                                        </div>
-                                        
-                                        <div *ngIf="item.weapon_category">
-                                            <h6 class="mt-3 mb-2">Informações de Arma</h6>
-                                            <p><strong>Categoria:</strong> {{ item.weapon_category }}</p>
-                                            <p *ngIf="item.weapon_range"><strong>Alcance:</strong> {{ item.weapon_range }}</p>
-                                            <p *ngIf="item.damage?.quantity"><strong>Dano:</strong> {{ item.damage?.quantity }}</p>
-                                            <p *ngIf="item.range?.normal"><strong>Alcance:</strong> {{ item.range?.normal }} / {{ item.range?.long }}</p>
-                                            <p *ngIf="item.throw_range?.normal || item.throw_range?.long"><strong>Alcance de Arremesso:</strong> {{ item.throw_range?.normal || 'N/A' }} / {{ item.throw_range?.long || 'N/A' }}</p>
-                                            <p *ngIf="item.two_handed_damage?.quantity"><strong>Dano com Duas Mãos:</strong> {{ item.two_handed_damage?.quantity }}</p>
-                                        </div>
-                                        
-                                        <div *ngIf="item.contents?.length">
-                                            <h6 class="mt-3 mb-2">Conteúdo</h6>
-                                            <ul class="list-group">
-                                                <li class="list-group-item" *ngFor="let content of item.contents">
-                                                    {{ content.quantity }}x {{ content.item.name }}
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        
-                                        <p *ngIf="item.properties?.length" class="mt-3"><strong>Propriedades:</strong> {{ item.properties?.join(', ') || 'N/P'}}</p>
-                                        <p *ngIf="item.capacity"><strong>Capacidade:</strong> {{ item.capacity }}</p>
-                                        <p *ngIf="item.category_range"><strong>Categoria de Alcance:</strong> {{ item.category_range }}</p>
-                                        <p *ngIf="item.quantity"><strong>Quantidade:</strong> {{ item.quantity }}</p>
-                                        <p *ngIf="item.special?.length"><strong>Especial:</strong> {{ item.special?.join(', ') || 'N/P'}}</p>
-                                        <p *ngIf="item.speed?.quantity"><strong>Velocidade:</strong> {{ item.speed?.quantity }} {{ item.speed?.unit }}</p>
-                                        <p *ngIf="item.tool_category"><strong>Categoria da Ferramenta:</strong> {{ item.tool_category }}</p>
-                                        <p *ngIf="item.vehicle_category"><strong>Categoria do Veículo:</strong> {{ item.vehicle_category }}</p>
+                        <!-- Weapon Details Modal -->
+                        <div class="modal fade" id="weaponModal{{i}}" tabindex="-1" [attr.aria-labelledby]="'weaponModalLabel' + i" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-danger text-white">
+                                        <h5 class="modal-title" id="weaponModalLabel{{i}}">
+                                            <i class="fas fa-sword me-2"></i>Detalhes da Arma
+                                        </h5>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-                                        <i class="fas fa-times me-2"></i>Fechar
-                                    </button>
+                                    <div class="modal-body">
+                                        <h4 class="item-name mb-3">{{ weapon.name }}</h4>
+                                        
+                                        <div class="weapon-details">
+                                            <!-- Description -->
+                                            <div *ngIf="weapon.desc?.length" class="mb-3">
+                                                <h6><i class="fas fa-book me-2"></i>Descrição:</h6>
+                                                <p class="text-muted" *ngFor="let desc of weapon.desc">{{ desc }}</p>
+                                            </div>
+                                            
+                                            <!-- Basic Info -->
+                                            <div class="row mb-3">
+                                                <div class="col-md-6">
+                                                    <p><strong><i class="fas fa-tag me-2"></i>Categoria:</strong> {{ weapon.weapon_category || '-' }}</p>
+                                                    <p><strong><i class="fas fa-bullseye me-2"></i>Alcance:</strong> {{ weapon.weapon_range || '-' }}</p>
+                                                    <p *ngIf="weapon.weight"><strong><i class="fas fa-weight me-2"></i>Peso:</strong> {{ weapon.weight }} lb</p>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <p *ngIf="weapon.cost?.quantity"><strong><i class="fas fa-coins me-2"></i>Preço:</strong> 
+                                                        <span class="badge bg-success">{{ weapon.cost?.quantity }} {{ weapon.cost.unit }}</span>
+                                                    </p>
+                                                </div>
+                                            </div>
+
+                                            <!-- Damage Information -->
+                                            <div *ngIf="weapon.damage" class="mb-3">
+                                                <h6><i class="fas fa-hammer me-2"></i>Informações de Dano:</h6>
+                                                <div class="card bg-light">
+                                                    <div class="card-body">
+                                                        <p class="mb-1"><strong>Dado de Dano:</strong> <span class="badge bg-danger">{{ weapon.damage.damage_dice }}</span></p>
+                                                        <p class="mb-1"><strong>Tipo de Dano:</strong> <span class="badge bg-warning text-dark">{{ weapon.damage.damage_type?.name || '-' }}</span></p>
+                                                        <p class="mb-0" *ngIf="weapon.two_handed_damage">
+                                                            <strong>Dano com Duas Mãos:</strong> 
+                                                            <span class="badge bg-danger">{{ weapon.two_handed_damage.damage_dice }}</span>
+                                                            <span class="badge bg-warning text-dark ms-1">{{ weapon.two_handed_damage.damage_type?.name || '-' }}</span>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <!-- Range Information -->
+                                            <div *ngIf="weapon.range" class="mb-3">
+                                                <h6><i class="fas fa-arrows-alt-h me-2"></i>Alcance:</h6>
+                                                <p class="mb-1"><strong>Normal:</strong> {{ weapon.range.normal }} ft</p>
+                                                <p class="mb-0" *ngIf="weapon.range.long"><strong>Longo:</strong> {{ weapon.range.long }} ft</p>
+                                            </div>
+
+                                            <!-- Throw Range -->
+                                            <div *ngIf="weapon.throw_range" class="mb-3">
+                                                <h6><i class="fas fa-hand-rock me-2"></i>Alcance de Arremesso:</h6>
+                                                <p class="mb-1"><strong>Normal:</strong> {{ weapon.throw_range.normal }} ft</p>
+                                                <p class="mb-0" *ngIf="weapon.throw_range.long"><strong>Longo:</strong> {{ weapon.throw_range.long }} ft</p>
+                                            </div>
+
+                                            <!-- Properties -->
+                                            <div *ngIf="weapon.properties?.length" class="mb-3">
+                                                <h6><i class="fas fa-list me-2"></i>Propriedades:</h6>
+                                                <div class="d-flex flex-wrap gap-2">
+                                                    <span class="badge bg-primary" *ngFor="let prop of weapon.properties">
+                                                        {{ prop.name }}
+                                                    </span>
+                                                </div>
+                                            </div>
+
+                                            <!-- Special Properties -->
+                                            <div *ngIf="weapon.special?.length" class="mb-3">
+                                                <h6><i class="fas fa-star me-2"></i>Propriedades Especiais:</h6>
+                                                <p class="text-muted" *ngFor="let special of weapon.special">{{ special }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                                            <i class="fas fa-times me-2"></i>Fechar
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    </td>
+                </tr>
+                <tr *ngIf="weapons.length === 0">
+                    <td colspan="5" class="text-center text-muted py-4">
+                        <i class="fas fa-spinner fa-spin me-2"></i>Carregando armas da API D&D...
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+                        </div>
                     </div>
-                </td>
-            </tr>
-            <tr *ngIf="mercadoDnD.length === 0">
-                <td colspan="5" class="text-center text-muted py-4">
-                    Nenhum item encontrado com os filtros selecionados.
-                </td>
-            </tr>
-        </tbody>
-    </table>
                 </div>
             </div>
         </div>
