@@ -79,6 +79,7 @@ export interface Language extends ApiReference {
   typical_speakers: string[];
   script?: string;
   description?: string;
+  is_rare: boolean;
 }
 
 /**
