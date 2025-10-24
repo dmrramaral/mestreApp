@@ -25,7 +25,7 @@ export interface ApiResourceList {
  */
 export interface AbilityScore extends ApiReference {
   full_name: string;
-  desc: string[];
+  description: string[];
   skills: ApiReference[];
 }
 
@@ -34,21 +34,21 @@ export interface AbilityScore extends ApiReference {
  */
 export interface Alignment extends ApiReference {
   abbreviation: string;
-  desc: string;
+  description: string;
 }
 
 /**
  * Condition (Condição)
  */
 export interface Condition extends ApiReference {
-  desc: string[];
+  description: string[];
 }
 
 /**
  * Damage Type (Tipo de Dano)
  */
 export interface DamageType extends ApiReference {
-  desc: string[];
+  description: string[];
 }
 
 /**
@@ -61,7 +61,7 @@ export interface Equipment extends ApiReference {
     unit: string;
   };
   weight?: number;
-  desc?: string[];
+  description?: string[];
 }
 
 /**
@@ -78,21 +78,21 @@ export interface Language extends ApiReference {
   type: string;
   typical_speakers: string[];
   script?: string;
-  desc?: string;
+  description?: string;
 }
 
 /**
  * Magic School (Escola de Magia)
  */
 export interface MagicSchool extends ApiReference {
-  desc: string;
+  description: string;
 }
 
 /**
  * Skill (Perícia)
  */
 export interface Skill extends ApiReference {
-  desc: string[];
+  description: string[];
   ability_score: ApiReference;
 }
 
@@ -100,12 +100,12 @@ export interface Skill extends ApiReference {
  * Weapon Mastery Property (Propriedade de Maestria de Arma)
  */
 export interface WeaponMasteryProperty extends ApiReference {
-  desc: string[];
+  description: string[];
 }
 
 /**
  * Weapon Property (Propriedade de Arma)
  */
 export interface WeaponProperty extends ApiReference {
-  desc: string[];
+  description: string[];
 }
