@@ -61,6 +61,14 @@ export class FichaJogadorService {
       itensGerais: [],
       ferramentas: [],
       kits: [],
+      equipamentos: {
+        cabeca: [],
+        armadura: [],
+        pes: [],
+        escudo: [],
+        amuleto: [],
+        anel: []
+      },
       mochila: [],
       magias: []
     };

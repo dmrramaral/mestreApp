@@ -95,7 +95,10 @@ export const SKILLS = [
   { nome: 'Atuação', atributo: 'carisma' },
   { nome: 'Enganação', atributo: 'carisma' },
   { nome: 'Intimidação', atributo: 'carisma' },
-  { nome: 'Persuasão', atributo: 'carisma' }
+  { nome: 'Persuasão', atributo: 'carisma' },
+  { nome: 'Adivinhação', atributo: 'sabedoria' },
+  { nome: 'Jogos de Azar', atributo: 'carisma' },
+  { nome: 'Sincronicidade', atributo: 'sabedoria' }
 ] as const;
 
 /**
