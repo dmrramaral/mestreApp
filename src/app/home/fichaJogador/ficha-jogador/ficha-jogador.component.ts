@@ -176,6 +176,10 @@ export class FichaJogadorComponent implements OnInit {
   adicionandoTalento: boolean = false;
   novoTalento: any = { nome: '', descricao: '' };
 
+  editandoAtributos: boolean = false;
+  editandoPericias: boolean = false;
+  editandoCombate: boolean = false;
+
   private cacheKey = STORAGE_KEYS.PLAYER_CHARACTER;
   readonly equipmentCategories = EQUIPMENT_CATEGORIES;
 
@@ -395,5 +399,17 @@ export class FichaJogadorComponent implements OnInit {
 
   hasProficiencies(): boolean {
     return this.jogador.pericias.some((p: any) => p.valor === 'sim');
+  }
+
+  toggleEditarAtributos() {
+    this.editandoAtributos = !this.editandoAtributos;
+  }
+
+  toggleEditarPericias() {
+    this.editandoPericias = !this.editandoPericias;
+  }
+
+  toggleEditarCombate() {
+    this.editandoCombate = !this.editandoCombate;
   }
 }
