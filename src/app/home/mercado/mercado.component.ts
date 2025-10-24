@@ -69,7 +69,7 @@ export class MercadoComponent implements OnInit {
    */
   loadWeaponsFromDndApi() {
     // Fetch equipment-category for weapons
-    this.dndApiService.getEquipmentCategoryDetails('weapon').subscribe({
+    this.dndApiService.getEquipmentCategoryDetails('weapons').subscribe({
       next: (weaponCategory: any) => {
         if (weaponCategory && weaponCategory.equipment) {
           // Fetch detailed information for each weapon
