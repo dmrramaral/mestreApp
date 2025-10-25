@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { StorageService } from '../../../core/services/storage.service';
 import { FichaJogadorService } from '../../../core/services/ficha-jogador.service';
 import { DndApiService } from '../../../core/services/dnd-api.service';
-import { calcularModificador, formatarModificador } from '../../../core/utils/rpg.utils';
+import { calcularModificador, formatarModificador, calcularCA } from '../../../core/utils/rpg.utils';
 import { STORAGE_KEYS, EQUIPMENT_CATEGORIES } from '../../../core/constants/rpg.constants';
 import { ApiReference, DndClass, DndRace } from '../../../core/models/dnd-api.model';
 
@@ -308,6 +308,14 @@ export class FichaJogadorComponent implements OnInit {
    */
   formatarModificador(modificador: number | null): string {
     return formatarModificador(modificador);
+  }
+
+  /**
+   * Obtém a CA calculada baseada nos equipamentos e modificador de destreza
+   */
+  get caCalculada(): number {
+    const modificadorDestreza = this.calcularModificador(this.jogador.atributos.destreza);
+    return calcularCA(this.jogador.equipamentos, modificadorDestreza);
   }
 
 

@@ -119,3 +119,57 @@ export function calcularPontosVidaPorNivel(
 ): number {
   return nivel * modificadorConstituicao;
 }
+
+/**
+ * Interface para equipamento com CA
+ */
+interface EquipamentoComCA {
+  ca?: number;
+  [key: string]: any;
+}
+
+/**
+ * Calcula a Classe de Armadura (CA) baseado nos equipamentos e modificador de destreza
+ * 
+ * @param equipamentos - Objeto contendo as categorias de equipamentos
+ * @param modificadorDestreza - Modificador de destreza do personagem
+ * @returns A CA calculada
+ * 
+ * @example
+ * calcularCA({ armadura: [{ ca: 14 }], escudo: [{ ca: 2 }] }, 2) // retorna 16
+ * calcularCA({}, 3) // retorna 13 (10 base + 3 destreza)
+ */
+export function calcularCA(
+  equipamentos: { [key: string]: EquipamentoComCA[] } | undefined,
+  modificadorDestreza: number | null
+): number {
+  // CA base é 10 + modificador de destreza
+  let ca = 10 + (modificadorDestreza || 0);
+
+  if (!equipamentos) {
+    return ca;
+  }
+
+  // Procura por armadura equipada
+  const armadura = equipamentos['armadura']?.[0];
+  if (armadura?.ca) {
+    ca = armadura.ca;
+  }
+
+  // Adiciona bônus do escudo
+  const escudo = equipamentos['escudo']?.[0];
+  if (escudo?.ca) {
+    ca += escudo.ca;
+  }
+
+  // Adiciona outros equipamentos que fornecem CA
+  const categorias = ['cabeca', 'pes', 'amuleto', 'anel'];
+  categorias.forEach(categoria => {
+    const equipamento = equipamentos[categoria]?.[0];
+    if (equipamento?.ca) {
+      ca += equipamento.ca;
+    }
+  });
+
+  return ca;
+}
