@@ -10,6 +10,13 @@
                         [attr.aria-label]="themeService.isDark() ? 'Mudar para tema claro' : 'Mudar para tema escuro'">
                     <i [class]="themeService.isDark() ? 'fas fa-sun' : 'fas fa-moon'"></i>
                 </button>
+                <button *ngIf="pwaService.canInstall && !pwaService.isInstalled" 
+                        class="btn btn-outline-primary btn-sm me-2" 
+                        type="button"
+                        (click)="installPwa()"
+                        title="Instalar como aplicativo">
+                    <i class="fas fa-download me-1"></i>Instalar
+                </button>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
                     aria-label="Toggle navigation">
