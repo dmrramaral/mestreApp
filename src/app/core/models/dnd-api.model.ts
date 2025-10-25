@@ -145,3 +145,47 @@ export interface DndRace extends ApiReference {
   traits?: ApiReference[];
   subraces?: ApiReference[];
 }
+
+/**
+ * Spell (Magia) - 2014 API
+ */
+export interface DndSpell extends ApiReference {
+  level?: number;
+  school?: ApiReference;
+  casting_time?: string;
+  range?: string;
+  components?: string[];
+  duration?: string;
+  concentration?: boolean;
+  ritual?: boolean;
+  description?: string[];
+  higher_level?: string[];
+  material?: string;
+  attack_type?: string;
+  damage?: {
+    damage_type?: ApiReference;
+    damage_at_slot_level?: { [key: string]: string };
+    damage_at_character_level?: { [key: string]: string };
+  };
+  dc?: {
+    dc_type?: ApiReference;
+    dc_success?: string;
+  };
+  area_of_effect?: {
+    type?: string;
+    size?: number;
+  };
+  classes?: ApiReference[];
+  subclasses?: ApiReference[];
+}
+
+/**
+ * Feat (Talento) - 2014 API
+ */
+export interface DndFeat extends ApiReference {
+  prerequisites?: Array<{
+    ability_score?: ApiReference;
+    minimum_score?: number;
+  }>;
+  description?: string[];
+}

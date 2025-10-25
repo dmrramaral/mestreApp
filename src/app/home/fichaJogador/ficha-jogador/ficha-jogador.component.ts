@@ -191,6 +191,20 @@ export class FichaJogadorComponent implements OnInit {
   editandoItem: { [key: number]: boolean } = {};
   editandoEquipamento: { [categoria: string]: { [key: number]: boolean } } = {};
 
+  // Spell and Feat search functionality
+  buscarMagiaAberto: boolean = false;
+  buscarTalentoAberto: boolean = false;
+  availableSpells: ApiReference[] = [];
+  availableFeats: ApiReference[] = [];
+  filteredSpells: ApiReference[] = [];
+  filteredFeats: ApiReference[] = [];
+  spellSearchTerm: string = '';
+  featSearchTerm: string = '';
+  loadingSpells: boolean = false;
+  loadingFeats: boolean = false;
+  selectedSpellDetails: any = null;
+  selectedFeatDetails: any = null;
+
   private cacheKey = STORAGE_KEYS.PLAYER_CHARACTER;
   readonly equipmentCategories = EQUIPMENT_CATEGORIES;
 
@@ -845,5 +859,193 @@ export class FichaJogadorComponent implements OnInit {
    */
   hasTracosRaca(): boolean {
     return this.getTracosRaca().length > 0;
+  }
+
+  /**
+   * Abre modal de busca de magias
+   */
+  abrirBuscarMagia(): void {
+    this.buscarMagiaAberto = true;
+    if (this.availableSpells.length === 0) {
+      this.loadSpells();
+    }
+  }
+
+  /**
+   * Fecha modal de busca de magias
+   */
+  fecharBuscarMagia(): void {
+    this.buscarMagiaAberto = false;
+    this.spellSearchTerm = '';
+    this.selectedSpellDetails = null;
+    this.filteredSpells = this.availableSpells;
+  }
+
+  /**
+   * Carrega lista de magias da API
+   */
+  loadSpells(): void {
+    this.loadingSpells = true;
+    this.dndApiService.getSpells().subscribe({
+      next: (data) => {
+        this.availableSpells = data.results || [];
+        this.filteredSpells = this.availableSpells;
+        this.loadingSpells = false;
+      },
+      error: (error) => {
+        console.error('Erro ao carregar magias:', error);
+        this.loadingSpells = false;
+      }
+    });
+  }
+
+  /**
+   * Filtra magias baseado no termo de busca
+   */
+  filtrarMagias(): void {
+    if (!this.spellSearchTerm) {
+      this.filteredSpells = this.availableSpells;
+    } else {
+      const term = this.spellSearchTerm.toLowerCase();
+      this.filteredSpells = this.availableSpells.filter(spell => 
+        spell.name.toLowerCase().includes(term)
+      );
+    }
+  }
+
+  /**
+   * Visualiza detalhes de uma magia
+   */
+  viewSpellDetails(spellIndex: string): void {
+    if (!spellIndex) return;
+    
+    this.dndApiService.getSpellDetails(spellIndex).subscribe({
+      next: (data) => {
+        this.selectedSpellDetails = data;
+      },
+      error: (error) => {
+        console.error('Erro ao carregar detalhes da magia:', error);
+      }
+    });
+  }
+
+  /**
+   * Adiciona magia selecionada da API à ficha
+   */
+  adicionarMagiaApi(spell: any): void {
+    if (!this.jogador.magias) {
+      this.jogador.magias = [];
+    }
+    
+    const newSpell = {
+      nome: spell.name,
+      nivel: spell.level || 0,
+      escola: spell.school?.name || '',
+      descricao: spell.desc?.join('\n') || spell.description?.join('\n') || ''
+    };
+    
+    this.jogador.magias.push(newSpell);
+    this.saveToCache();
+    this.fecharBuscarMagia();
+  }
+
+  /**
+   * Volta da visualização de detalhes da magia para lista
+   */
+  voltarListaMagias(): void {
+    this.selectedSpellDetails = null;
+  }
+
+  /**
+   * Abre modal de busca de talentos
+   */
+  abrirBuscarTalento(): void {
+    this.buscarTalentoAberto = true;
+    if (this.availableFeats.length === 0) {
+      this.loadFeats();
+    }
+  }
+
+  /**
+   * Fecha modal de busca de talentos
+   */
+  fecharBuscarTalento(): void {
+    this.buscarTalentoAberto = false;
+    this.featSearchTerm = '';
+    this.selectedFeatDetails = null;
+    this.filteredFeats = this.availableFeats;
+  }
+
+  /**
+   * Carrega lista de talentos da API
+   */
+  loadFeats(): void {
+    this.loadingFeats = true;
+    this.dndApiService.getFeats().subscribe({
+      next: (data) => {
+        this.availableFeats = data.results || [];
+        this.filteredFeats = this.availableFeats;
+        this.loadingFeats = false;
+      },
+      error: (error) => {
+        console.error('Erro ao carregar talentos:', error);
+        this.loadingFeats = false;
+      }
+    });
+  }
+
+  /**
+   * Filtra talentos baseado no termo de busca
+   */
+  filtrarTalentos(): void {
+    if (!this.featSearchTerm) {
+      this.filteredFeats = this.availableFeats;
+    } else {
+      const term = this.featSearchTerm.toLowerCase();
+      this.filteredFeats = this.availableFeats.filter(feat => 
+        feat.name.toLowerCase().includes(term)
+      );
+    }
+  }
+
+  /**
+   * Visualiza detalhes de um talento
+   */
+  viewFeatDetails(featIndex: string): void {
+    if (!featIndex) return;
+    
+    this.dndApiService.getFeatDetails(featIndex).subscribe({
+      next: (data) => {
+        this.selectedFeatDetails = data;
+      },
+      error: (error) => {
+        console.error('Erro ao carregar detalhes do talento:', error);
+      }
+    });
+  }
+
+  /**
+   * Adiciona talento selecionado da API à ficha
+   */
+  adicionarTalentoApi(feat: any): void {
+    if (!this.jogador.talentos) {
+      this.jogador.talentos = [];
+    }
+    
+    const newFeat = {
+      nome: feat.name,
+      descricao: feat.desc?.join('\n') || feat.description?.join('\n') || ''
+    };
+    
+    this.jogador.talentos.push(newFeat);
+    this.saveToCache();
+    this.fecharBuscarTalento();
+  }
+
+  /**
+   * Volta da visualização de detalhes do talento para lista
+   */
+  voltarListaTalentos(): void {
+    this.selectedFeatDetails = null;
   }
 }
