@@ -85,8 +85,8 @@ body {
 // Light theme styles (default)
 // Note: CSS variables are inherited from :root, no need to redefine
 body.light-theme {
-  background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%) !important;
-  color: #1a202c;
+  background: linear-gradient(135deg, var(--color-background) 0%, var(--color-background-alt) 100%) !important;
+  color: var(--color-text);
   
   &::before {
     opacity: 0.03;
