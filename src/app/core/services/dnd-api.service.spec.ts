@@ -188,6 +188,29 @@ describe('DndApiService', () => {
     req.flush(mockData);
   });
 
+  it('should fetch skill details with description as string', () => {
+    const mockData = {
+      index: 'athletics',
+      name: 'Athletics',
+      description: 'Your Strength (Athletics) check covers difficult situations you encounter while climbing, jumping, or swimming.',
+      ability_score: {
+        index: 'str',
+        name: 'STR',
+        url: '/api/2024/ability-scores/str'
+      },
+      url: '/api/2024/skills/athletics'
+    };
+    
+    service.getSkillDetails('athletics').subscribe(data => {
+      expect(data).toEqual(mockData);
+      expect(typeof data.description).toBe('string');
+    });
+
+    const req = httpMock.expectOne(`${BASE_URL}/skills/athletics`);
+    expect(req.request.method).toBe('GET');
+    req.flush(mockData);
+  });
+
   it('should fetch weapon mastery properties', () => {
     const mockData = { results: [] };
     
@@ -220,6 +243,30 @@ describe('DndApiService', () => {
     });
 
     const req = httpMock.expectOne(`${BASE_URL}/ability-scores/str`);
+    expect(req.request.method).toBe('GET');
+    req.flush(mockData);
+  });
+
+  it('should fetch ability score details with description as string', () => {
+    const mockData = {
+      index: 'cha',
+      name: 'CHA',
+      full_name: 'Charisma',
+      description: 'Confidence, poise, and charm',
+      skills: [
+        { name: 'Deception', index: 'deception', url: '/api/2024/skills/deception' },
+        { name: 'Intimidation', index: 'intimidation', url: '/api/2024/skills/intimidation' }
+      ],
+      url: '/api/2024/ability-scores/cha'
+    };
+    
+    service.getAbilityScoreDetails('cha').subscribe(data => {
+      expect(data).toEqual(mockData);
+      expect(typeof data.description).toBe('string');
+      expect(data.description).toBe('Confidence, poise, and charm');
+    });
+
+    const req = httpMock.expectOne(`${BASE_URL}/ability-scores/cha`);
     expect(req.request.method).toBe('GET');
     req.flush(mockData);
   });
