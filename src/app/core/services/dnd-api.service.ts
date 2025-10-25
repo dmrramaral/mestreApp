@@ -27,6 +27,8 @@ export class DndApiService {
   private weaponPropertiesCache$?: Observable<any>;
   private classesCache$?: Observable<any>;
   private racesCache$?: Observable<any>;
+  private spellsCache$?: Observable<any>;
+  private featsCache$?: Observable<any>;
 
   constructor(private http: HttpClient) { }
 
@@ -287,6 +289,46 @@ export class DndApiService {
   }
 
   /**
+   * Obtém lista de magias (2014 API)
+   * Ex: Fireball, Magic Missile, Cure Wounds, etc.
+   */
+  getSpells(): Observable<any> {
+    if (!this.spellsCache$) {
+      this.spellsCache$ = this.http.get(`${this.BASE_URL_2014}/spells`).pipe(
+        shareReplay(1)
+      );
+    }
+    return this.spellsCache$;
+  }
+
+  /**
+   * Obtém detalhes de uma magia específica (2014 API)
+   */
+  getSpellDetails(index: string): Observable<any> {
+    return this.http.get(`${this.BASE_URL_2014}/spells/${index}`);
+  }
+
+  /**
+   * Obtém lista de talentos/feats (2014 API)
+   * Ex: Grappler, Actor, Alert, etc.
+   */
+  getFeats(): Observable<any> {
+    if (!this.featsCache$) {
+      this.featsCache$ = this.http.get(`${this.BASE_URL_2014}/feats`).pipe(
+        shareReplay(1)
+      );
+    }
+    return this.featsCache$;
+  }
+
+  /**
+   * Obtém detalhes de um talento/feat específico (2014 API)
+   */
+  getFeatDetails(index: string): Observable<any> {
+    return this.http.get(`${this.BASE_URL_2014}/feats/${index}`);
+  }
+
+  /**
    * Limpa todos os caches
    * Útil quando é necessário forçar atualização dos dados
    */
@@ -304,5 +346,7 @@ export class DndApiService {
     this.weaponPropertiesCache$ = undefined;
     this.classesCache$ = undefined;
     this.racesCache$ = undefined;
+    this.spellsCache$ = undefined;
+    this.featsCache$ = undefined;
   }
 }
