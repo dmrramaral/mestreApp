@@ -58,13 +58,11 @@ export class MonstrosComponent implements OnInit {
    */
   applyFilters() {
     this.monstros = this.allMonstros.filter((monstro: any) => {
-      const result = (this.filter.name ? monstro.name.toLowerCase().includes(this.filter.name.toLowerCase()) : true) &&
+      return (this.filter.name ? monstro.name.toLowerCase().includes(this.filter.name.toLowerCase()) : true) &&
         (this.filter.alignment ? monstro.alignment === this.filter.alignment : true) &&
         (this.filter.xp ? monstro.xp === Number(this.filter.xp) : true) &&
         (this.filter.size ? monstro.size === this.filter.size : true) &&
         (this.filter.type ? monstro.type === this.filter.type : true);
-
-      return result;
     });
   }
 
