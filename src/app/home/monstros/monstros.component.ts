@@ -57,13 +57,25 @@ export class MonstrosComponent implements OnInit {
    * Filtra por nome (busca parcial), alinhamento, XP, tamanho e tipo usando dados em cache
    */
   applyFilters() {
-    this.monstros = this.allMonstros.filter((monstro: any) => {
-      return (this.filter.name ? monstro.name.toLowerCase().includes(this.filter.name.toLowerCase()) : true) &&
-        (this.filter.alignment ? monstro.alignment === this.filter.alignment : true) &&
-        (this.filter.xp ? monstro.xp === Number(this.filter.xp) : true) &&
-        (this.filter.size ? monstro.size === this.filter.size : true) &&
-        (this.filter.type ? monstro.type === this.filter.type : true);
-    });
+    this.monstros = this.allMonstros.filter((monstro: any) => this.matchesFilters(monstro));
+  }
+
+  /**
+   * Verifica se um monstro corresponde aos filtros atuais
+   */
+  private matchesFilters(monstro: any): boolean {
+    const matchesName = !this.filter.name || 
+      monstro.name.toLowerCase().includes(this.filter.name.toLowerCase());
+    const matchesAlignment = !this.filter.alignment || 
+      monstro.alignment === this.filter.alignment;
+    const matchesXp = !this.filter.xp || 
+      monstro.xp === Number(this.filter.xp);
+    const matchesSize = !this.filter.size || 
+      monstro.size === this.filter.size;
+    const matchesType = !this.filter.type || 
+      monstro.type === this.filter.type;
+
+    return matchesName && matchesAlignment && matchesXp && matchesSize && matchesType;
   }
 
   /**
