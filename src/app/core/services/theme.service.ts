@@ -1,5 +1,5 @@
-import { Injectable, signal, effect, PLATFORM_ID, inject } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
+import { effect, inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 
 export type Theme = 'light' | 'dark' | 'auto';
 
@@ -11,24 +11,24 @@ export class ThemeService {
   private platformId = inject(PLATFORM_ID);
   private isBrowser = isPlatformBrowser(this.platformId);
   private mediaQuery?: MediaQueryList;
-  
+
   // Using Angular signals for reactive theme management
   theme = signal<Theme>(this.getInitialTheme());
-  
+
   // Computed signal for the effective theme (resolves 'auto' to light/dark)
   private effectiveTheme = signal<'light' | 'dark'>('light');
 
   constructor() {
     // Setup system theme preference listener
     this.setupSystemThemeListener();
-    
+
     // Apply theme whenever it changes
     effect(() => {
       const theme = this.theme();
       const resolved = this.resolveTheme(theme);
       this.effectiveTheme.set(resolved);
       this.applyTheme(resolved);
-    });
+    }, { allowSignalWrites: true });
   }
 
   private setupSystemThemeListener(): void {
@@ -38,7 +38,7 @@ export class ThemeService {
 
     // Listen to system dark mode preference
     this.mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    
+
     // Update theme when system preference changes (only if theme is set to 'auto')
     this.mediaQuery.addEventListener('change', (e) => {
       if (this.theme() === 'auto') {
@@ -54,13 +54,13 @@ export class ThemeService {
     if (!this.isBrowser) {
       return 'auto';
     }
-    
+
     // Check localStorage first
     const savedTheme = localStorage.getItem(this.THEME_KEY) as Theme;
     if (savedTheme === 'light' || savedTheme === 'dark' || savedTheme === 'auto') {
       return savedTheme;
     }
-    
+
     // Default to auto (follows system preference)
     return 'auto';
   }
@@ -81,15 +81,15 @@ export class ThemeService {
     if (!this.isBrowser) {
       return;
     }
-    
+
     const body = document.body;
-    
+
     // Remove all theme classes
     body.classList.remove('light-theme', 'dark-theme');
-    
+
     // Add the current theme class
     body.classList.add(`${theme}-theme`);
-    
+
     // Save preference to localStorage (save the selected preference, not the resolved one)
     localStorage.setItem(this.THEME_KEY, this.theme());
   }
@@ -97,7 +97,7 @@ export class ThemeService {
   toggleTheme(): void {
     const currentTheme = this.theme();
     let newTheme: Theme;
-    
+
     // Cycle through: light -> dark -> auto -> light
     if (currentTheme === 'light') {
       newTheme = 'dark';
@@ -106,7 +106,7 @@ export class ThemeService {
     } else {
       newTheme = 'light';
     }
-    
+
     this.theme.set(newTheme);
   }
 

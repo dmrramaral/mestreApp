@@ -1,7 +1,7 @@
-import { Injectable, ApplicationRef } from '@angular/core';
+import { ApplicationRef, Injectable } from '@angular/core';
 import { SwUpdate, VersionReadyEvent } from '@angular/service-worker';
-import { filter, first } from 'rxjs/operators';
 import { concat, interval } from 'rxjs';
+import { filter, first } from 'rxjs/operators';
 
 /**
  * Serviço para gerenciar atualizações do Progressive Web App
@@ -41,15 +41,15 @@ export class PwaService {
 
       // Detecta quando uma nova versão está disponível
       this.swUpdate.versionUpdates
-        .pipe(filter((evt): evt is VersionReadyEvent => evt.type === 'VERSION_READY'))
-        .subscribe(evt => {
+        .pipe(filter((evt: any): evt is VersionReadyEvent => evt.type === 'VERSION_READY'))
+        .subscribe((evt: VersionReadyEvent) => {
           if (confirm('Nova versão disponível! Deseja atualizar agora?')) {
             this.activateUpdate();
           }
         });
 
       // Detecta erros de versão não recuperáveis
-      this.swUpdate.unrecoverable.subscribe(event => {
+      this.swUpdate.unrecoverable.subscribe((event: { reason: string }) => {
         console.error('Erro não recuperável:', event.reason);
         if (confirm('Ocorreu um erro. A aplicação precisa ser recarregada. Deseja recarregar agora?')) {
           window.location.reload();
@@ -90,7 +90,7 @@ export class PwaService {
     this.promptEvent.prompt();
     const result = await this.promptEvent.userChoice;
     this.promptEvent = null;
-    
+
     return result.outcome === 'accepted';
   }
 
@@ -108,7 +108,7 @@ export class PwaService {
     if (typeof window === 'undefined') {
       return false;
     }
-    
+
     return window.matchMedia('(display-mode: standalone)').matches ||
            (window.navigator as any).standalone === true;
   }

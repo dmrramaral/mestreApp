@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { StorageService } from '../../../core/services/storage.service';
-import { FichaJogadorService } from '../../../core/services/ficha-jogador.service';
-import { DndApiService } from '../../../core/services/dnd-api.service';
-import { calcularModificador, formatarModificador, calcularCA } from '../../../core/utils/rpg.utils';
-import { STORAGE_KEYS, EQUIPMENT_CATEGORIES } from '../../../core/constants/rpg.constants';
+import { EQUIPMENT_CATEGORIES, STORAGE_KEYS } from '../../../core/constants/rpg.constants';
 import { ApiReference, DndClass, DndRace } from '../../../core/models/dnd-api.model';
+import { DndApiService } from '../../../core/services/dnd-api.service';
+import { FichaJogadorService } from '../../../core/services/ficha-jogador.service';
+import { StorageService } from '../../../core/services/storage.service';
+import { calcularCA, calcularModificador, formatarModificador } from '../../../core/utils/rpg.utils';
 
 // Tempo de delay para transições entre modais (em milissegundos)
 const MODAL_TRANSITION_DELAY = 300;
@@ -42,7 +42,7 @@ export class FichaJogadorComponent implements OnInit {
         calor: null,
         frio: null,
         sono: null,
-        
+
         proficiencia: null,
         deslocamento: null,
         talentos: [],
@@ -152,7 +152,7 @@ export class FichaJogadorComponent implements OnInit {
           {
             nome: "Sincronicidade",
             valor: "nao"
-          }          
+          }
         ],
         equipamentos: {
           cabeca: [],
@@ -165,8 +165,8 @@ export class FichaJogadorComponent implements OnInit {
         ouro: 0,
         magias: [],
         mochila: []
-    
-  }; 
+
+  };
 
   novaCategoria: string = '';
   novoEquipamento: any = { nome: '', descricao: '', ca: null };
@@ -174,7 +174,18 @@ export class FichaJogadorComponent implements OnInit {
 
 
   adicionandoMagia: boolean = false;
-  novaMagia: any = { nome: '', descricao: '' };
+  novaMagia: any = {
+    nome: '',
+    descricao: '',
+    level: undefined,
+    school: '',
+    casting_time: '',
+    range: '',
+    components: [],
+    material: '',
+    duration: '',
+    classes: []
+  };
 
   adicionandoItem: boolean = false;
   novoItem: any = { nome: '', descricao: '' };
@@ -185,7 +196,7 @@ export class FichaJogadorComponent implements OnInit {
   editandoAtributos: boolean = false;
   editandoPericias: boolean = false;
   editandoCombate: boolean = false;
-  
+
   editandoMagia: { [key: number]: boolean } = {};
   editandoTalento: { [key: number]: boolean } = {};
   editandoItem: { [key: number]: boolean } = {};
@@ -204,6 +215,19 @@ export class FichaJogadorComponent implements OnInit {
   loadingFeats: boolean = false;
   selectedSpellDetails: any = null;
   selectedFeatDetails: any = null;
+
+  // Spell filters
+  spellLevelFilter: string = '';
+  spellClassFilter: string = '';
+  availableSpellLevels: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+  availableSpellClasses: string[] = ['Bard', 'Cleric', 'Druid', 'Paladin', 'Ranger', 'Sorcerer', 'Warlock', 'Wizard'];
+
+  // Cache de detalhes de magias para filtros
+  spellDetailsCache: { [key: string]: any } = {};
+
+  // Spell details in player's spell list
+  expandedSpellDetails: { [key: number]: any } = {};
+  loadingSpellDetails: { [key: number]: boolean } = {};
 
   private cacheKey = STORAGE_KEYS.PLAYER_CHARACTER;
   readonly equipmentCategories = EQUIPMENT_CATEGORIES;
@@ -235,7 +259,7 @@ export class FichaJogadorComponent implements OnInit {
     } else {
       this.jogador = this.fichaService.criarFichaVazia();
     }
-    
+
     if (typeof window !== 'undefined') {
       window.addEventListener('beforeunload', () => {
         this.storageService.setObject(this.cacheKey, this.jogador);
@@ -295,8 +319,30 @@ export class FichaJogadorComponent implements OnInit {
       if (!this.jogador.magias) {
         this.jogador.magias = [];
       }
-      this.jogador.magias.push({ ...this.novaMagia });
-      this.novaMagia = { nome: '', descricao: '' };
+      // Remove campos vazios antes de adicionar
+      const magiaParaAdicionar = { ...this.novaMagia };
+      if (!magiaParaAdicionar.level && magiaParaAdicionar.level !== 0) delete magiaParaAdicionar.level;
+      if (!magiaParaAdicionar.school) delete magiaParaAdicionar.school;
+      if (!magiaParaAdicionar.casting_time) delete magiaParaAdicionar.casting_time;
+      if (!magiaParaAdicionar.range) delete magiaParaAdicionar.range;
+      if (!magiaParaAdicionar.components || magiaParaAdicionar.components.length === 0) delete magiaParaAdicionar.components;
+      if (!magiaParaAdicionar.material) delete magiaParaAdicionar.material;
+      if (!magiaParaAdicionar.duration) delete magiaParaAdicionar.duration;
+      if (!magiaParaAdicionar.classes || magiaParaAdicionar.classes.length === 0) delete magiaParaAdicionar.classes;
+
+      this.jogador.magias.push(magiaParaAdicionar);
+      this.novaMagia = {
+        nome: '',
+        descricao: '',
+        level: undefined,
+        school: '',
+        casting_time: '',
+        range: '',
+        components: [],
+        material: '',
+        duration: '',
+        classes: []
+      };
       this.adicionandoMagia = false;
       this.saveToCache();
     }
@@ -305,7 +351,18 @@ export class FichaJogadorComponent implements OnInit {
 
 
   cancelarAdicionarMagia() {
-    this.novaMagia = { nome: '', descricao: '' };
+    this.novaMagia = {
+      nome: '',
+      descricao: '',
+      level: undefined,
+      school: '',
+      casting_time: '',
+      range: '',
+      components: [],
+      material: '',
+      duration: '',
+      classes: []
+    };
     this.adicionandoMagia = false;
   }
 
@@ -510,13 +567,13 @@ export class FichaJogadorComponent implements OnInit {
    */
   viewClassDetails(classIndex: string): void {
     if (!classIndex) return;
-    
+
     this.loadingClassDetails = true;
     this.dndApiService.getClassDetails(classIndex).subscribe({
       next: (data) => {
         this.selectedClassDetails = data;
         this.loadingClassDetails = false;
-        
+
         // Fecha o modal de seleção e abre o modal de detalhes
         if (typeof window !== 'undefined') {
           const bootstrap = (window as any).bootstrap;
@@ -525,7 +582,7 @@ export class FichaJogadorComponent implements OnInit {
             if (selectionModal) {
               selectionModal.hide();
             }
-            
+
             // Abre o modal de detalhes após um pequeno delay
             setTimeout(() => {
               const detailsModal = new bootstrap.Modal(document.getElementById('classDetailsModal'));
@@ -546,13 +603,13 @@ export class FichaJogadorComponent implements OnInit {
    */
   viewRaceDetails(raceIndex: string): void {
     if (!raceIndex) return;
-    
+
     this.loadingRaceDetails = true;
     this.dndApiService.getRaceDetails(raceIndex).subscribe({
       next: (data) => {
         this.selectedRaceDetails = data;
         this.loadingRaceDetails = false;
-        
+
         // Fecha o modal de seleção e abre o modal de detalhes
         if (typeof window !== 'undefined') {
           const bootstrap = (window as any).bootstrap;
@@ -561,7 +618,7 @@ export class FichaJogadorComponent implements OnInit {
             if (selectionModal) {
               selectionModal.hide();
             }
-            
+
             // Abre o modal de detalhes após um pequeno delay
             setTimeout(() => {
               const detailsModal = new bootstrap.Modal(document.getElementById('raceDetailsModal'));
@@ -589,7 +646,7 @@ export class FichaJogadorComponent implements OnInit {
         if (editModal) {
           editModal.hide();
         }
-        
+
         // Abre o modal de seleção após um pequeno delay
         setTimeout(() => {
           const selectionModal = new bootstrap.Modal(document.getElementById('classSelectionModal'));
@@ -604,7 +661,7 @@ export class FichaJogadorComponent implements OnInit {
    */
   closeClassDetails(): void {
     this.selectedClassDetails = undefined;
-    
+
     // Fecha o modal de detalhes e reabre o modal de seleção
     if (typeof window !== 'undefined') {
       const bootstrap = (window as any).bootstrap;
@@ -613,7 +670,7 @@ export class FichaJogadorComponent implements OnInit {
         if (detailsModal) {
           detailsModal.hide();
         }
-        
+
         // Reabre o modal de seleção após um pequeno delay
         setTimeout(() => {
           const selectionModal = new bootstrap.Modal(document.getElementById('classSelectionModal'));
@@ -635,7 +692,7 @@ export class FichaJogadorComponent implements OnInit {
         if (editModal) {
           editModal.hide();
         }
-        
+
         // Abre o modal de seleção após um pequeno delay
         setTimeout(() => {
           const selectionModal = new bootstrap.Modal(document.getElementById('raceSelectionModal'));
@@ -650,7 +707,7 @@ export class FichaJogadorComponent implements OnInit {
    */
   closeRaceDetails(): void {
     this.selectedRaceDetails = undefined;
-    
+
     // Fecha o modal de detalhes e reabre o modal de seleção
     if (typeof window !== 'undefined') {
       const bootstrap = (window as any).bootstrap;
@@ -659,7 +716,7 @@ export class FichaJogadorComponent implements OnInit {
         if (detailsModal) {
           detailsModal.hide();
         }
-        
+
         // Reabre o modal de seleção após um pequeno delay
         setTimeout(() => {
           const selectionModal = new bootstrap.Modal(document.getElementById('raceSelectionModal'));
@@ -690,7 +747,7 @@ export class FichaJogadorComponent implements OnInit {
    */
   selectClass(classRef: ApiReference): void {
     this.jogador.classe = classRef.name;
-    
+
     // Carrega detalhes da classe para obter traços
     this.dndApiService.getClassDetails(classRef.index).subscribe({
       next: (classDetails: DndClass) => {
@@ -699,7 +756,7 @@ export class FichaJogadorComponent implements OnInit {
           this.jogador.tracos = [];
         }
         this.jogador.tracos = this.jogador.tracos.filter((t: any) => t.origem !== 'classe');
-        
+
         // Adiciona proficiências como traços
         if (classDetails.proficiencies && classDetails.proficiencies.length > 0) {
           const profNames = classDetails.proficiencies.map(p => p.name).join(', ');
@@ -751,7 +808,7 @@ export class FichaJogadorComponent implements OnInit {
    */
   selectRace(raceRef: ApiReference): void {
     this.jogador.raca = raceRef.name;
-    
+
     // Carrega detalhes da raça para obter traços
     this.dndApiService.getRaceDetails(raceRef.index).subscribe({
       next: (raceDetails: DndRace) => {
@@ -760,7 +817,7 @@ export class FichaJogadorComponent implements OnInit {
           this.jogador.tracos = [];
         }
         this.jogador.tracos = this.jogador.tracos.filter((t: any) => t.origem !== 'raca');
-        
+
         // Adiciona velocidade como traço
         if (raceDetails.speed) {
           this.jogador.tracos.push({
@@ -772,7 +829,7 @@ export class FichaJogadorComponent implements OnInit {
 
         // Adiciona bônus de atributos como traço
         if (raceDetails.ability_bonuses && raceDetails.ability_bonuses.length > 0) {
-          const bonuses = raceDetails.ability_bonuses.map(b => 
+          const bonuses = raceDetails.ability_bonuses.map(b =>
             `${b.ability_score.name}: +${b.bonus}`
           ).join(', ');
           this.jogador.tracos.push({
@@ -903,14 +960,137 @@ export class FichaJogadorComponent implements OnInit {
    * Filtra magias baseado no termo de busca
    */
   filtrarMagias(): void {
-    if (!this.spellSearchTerm) {
-      this.filteredSpells = this.availableSpells;
-    } else {
+    let filtered = this.availableSpells;
+
+    // Filter by search term
+    if (this.spellSearchTerm) {
       const term = this.spellSearchTerm.toLowerCase();
-      this.filteredSpells = this.availableSpells.filter(spell => 
+      filtered = filtered.filter(spell =>
         spell.name.toLowerCase().includes(term)
       );
     }
+
+    this.filteredSpells = filtered;
+  }
+
+  /**
+   * Aplica filtros de nível e classe nas magias
+   * Tenta usar a API com filtros, se falhar usa filtragem local
+   */
+  aplicarFiltrosMagias(): void {
+    this.loadingSpells = true;
+
+    // Se não há filtros, apenas recarrega a lista completa
+    if (!this.spellLevelFilter && !this.spellClassFilter) {
+      this.loadSpells();
+      return;
+    }
+
+    // Tentar usar o método com filtros da API
+    this.dndApiService.getSpellsWithFilters(
+      this.spellLevelFilter || undefined,
+      this.spellClassFilter || undefined
+    ).subscribe({
+      next: (data: any) => {
+        this.availableSpells = data.results || [];
+        this.filtrarMagias();
+        this.loadingSpells = false;
+      },
+      error: (error) => {
+        console.warn('API não suporta filtros, usando filtragem local:', error);
+        // Se a API não suportar filtros, faz filtragem local
+        this.aplicarFiltrosLocalmente();
+      }
+    });
+  }
+
+  /**
+   * Aplica filtros localmente carregando detalhes das magias
+   */
+  private aplicarFiltrosLocalmente(): void {
+    // Carrega todas as magias primeiro
+    this.dndApiService.getSpells().subscribe({
+      next: (data: any) => {
+        const allSpells = data.results || [];
+
+        // Se não há filtros, retorna tudo
+        if (!this.spellLevelFilter && !this.spellClassFilter) {
+          this.availableSpells = allSpells;
+          this.filtrarMagias();
+          this.loadingSpells = false;
+          return;
+        }
+
+        // Filtragem precisa carregar detalhes - limitando a 100 magias
+        const spellsToCheck = allSpells.slice(0, 100);
+        let checkedCount = 0;
+        const filteredResults: any[] = [];
+
+        for (const spell of spellsToCheck) {
+          this.checkSpellMatchesFilters(spell, filteredResults, () => {
+            checkedCount++;
+            if (checkedCount === spellsToCheck.length) {
+              this.availableSpells = filteredResults;
+              this.filtrarMagias();
+              this.loadingSpells = false;
+            }
+          });
+        }
+      },
+      error: (error) => {
+        console.error('Erro ao carregar magias para filtro local:', error);
+        this.loadingSpells = false;
+      }
+    });
+  }
+
+  /**
+   * Verifica se uma magia atende aos filtros
+   */
+  private checkSpellMatchesFilters(spell: any, results: any[], callback: () => void): void {
+    this.dndApiService.getSpellDetails(spell.index).subscribe({
+      next: (details) => {
+        let matches = true;
+
+        // Filtro de nível
+        if (this.spellLevelFilter) {
+          const filterLevel = Number.parseInt(this.spellLevelFilter, 10);
+          if (details.level !== filterLevel) {
+            matches = false;
+          }
+        }
+
+        // Filtro de classe
+        if (this.spellClassFilter && matches) {
+          const classFilter = this.spellClassFilter.toLowerCase();
+          const hasClass = details.classes?.some((c: any) =>
+            c.name.toLowerCase() === classFilter
+          );
+          if (!hasClass) {
+            matches = false;
+          }
+        }
+
+        if (matches) {
+          results.push(spell);
+        }
+
+        callback();
+      },
+      error: () => {
+        callback();
+      }
+    });
+  }
+
+  /**
+   * Limpa filtros de magias
+   */
+  limparFiltrosMagias(): void {
+    this.spellLevelFilter = '';
+    this.spellClassFilter = '';
+    this.spellSearchTerm = '';
+    this.loadSpells();
   }
 
   /**
@@ -918,7 +1098,7 @@ export class FichaJogadorComponent implements OnInit {
    */
   viewSpellDetails(spellIndex: string): void {
     if (!spellIndex) return;
-    
+
     this.dndApiService.getSpellDetails(spellIndex).subscribe({
       next: (data) => {
         this.selectedSpellDetails = data;
@@ -930,20 +1110,127 @@ export class FichaJogadorComponent implements OnInit {
   }
 
   /**
+   * Carrega e exibe detalhes de uma magia na lista do jogador
+   */
+  toggleSpellDetailsInList(index: number, spellName: string): void {
+    if (this.expandedSpellDetails[index]) {
+      // Se já está expandido, recolhe
+      delete this.expandedSpellDetails[index];
+      return;
+    }
+
+    // Busca detalhes da magia pelo nome
+    this.loadingSpellDetails[index] = true;
+    const spellIndex = spellName.toLowerCase().replaceAll(/[^a-z0-9]/g, '-').replaceAll(/-+/g, '-');
+
+    this.dndApiService.getSpellDetails(spellIndex).subscribe({
+      next: (data) => {
+        this.expandedSpellDetails[index] = data;
+        this.loadingSpellDetails[index] = false;
+      },
+      error: (error) => {
+        console.error('Erro ao carregar detalhes da magia:', error);
+        this.loadingSpellDetails[index] = false;
+        // Se falhar, tenta buscar na lista de magias disponíveis
+        this.tryFindSpellInAvailableList(index, spellName);
+      }
+    });
+  }
+
+  /**
+   * Tenta encontrar magia na lista disponível caso a busca direta falhe
+   */
+  private tryFindSpellInAvailableList(index: number, spellName: string): void {
+    // Se a lista de magias ainda não foi carregada, carrega primeiro
+    if (this.availableSpells.length === 0) {
+      this.dndApiService.getSpells().subscribe({
+        next: (data) => {
+          this.availableSpells = data.results || [];
+          this.findAndLoadSpellDetails(index, spellName);
+        },
+        error: () => {
+          this.loadingSpellDetails[index] = false;
+        }
+      });
+    } else {
+      this.findAndLoadSpellDetails(index, spellName);
+    }
+  }
+
+  /**
+   * Encontra e carrega detalhes da magia da lista disponível
+   */
+  private findAndLoadSpellDetails(index: number, spellName: string): void {
+    const spell = this.availableSpells.find(s =>
+      s.name.toLowerCase() === spellName.toLowerCase()
+    );
+
+    if (spell) {
+      this.dndApiService.getSpellDetails(spell.index).subscribe({
+        next: (data) => {
+          this.expandedSpellDetails[index] = data;
+          this.loadingSpellDetails[index] = false;
+        },
+        error: () => {
+          this.loadingSpellDetails[index] = false;
+        }
+      });
+    } else {
+      this.loadingSpellDetails[index] = false;
+    }
+  }
+
+  /**
+   * Retorna os nomes das classes de uma magia formatados
+   */
+  getSpellClassNames(classes: any[]): string {
+    if (!classes || classes.length === 0) {
+      return '';
+    }
+    return classes.map(c => c.name).join(', ');
+  }
+
+  /**
+   * Obtém os componentes da magia formatados (combina dados locais e da API)
+   */
+  getSpellComponents(magia: any, expandedDetails: any): string {
+    if (magia.components && magia.components.length > 0) {
+      return typeof magia.components === 'string' ? magia.components : magia.components.join(', ');
+    }
+    if (expandedDetails?.components && expandedDetails.components.length > 0) {
+      return expandedDetails.components.join(', ');
+    }
+    return '';
+  }
+
+  /**
+   * Obtém as classes da magia formatadas (combina dados locais e da API)
+   */
+  getSpellClassesFormatted(magia: any, expandedDetails: any): string {
+    if (magia.classes && magia.classes.length > 0) {
+      return typeof magia.classes === 'string' ? magia.classes : this.getSpellClassNames(magia.classes);
+    }
+    if (expandedDetails?.classes && expandedDetails.classes.length > 0) {
+      return this.getSpellClassNames(expandedDetails.classes);
+    }
+    return '';
+  }
+
+  /**
    * Adiciona magia selecionada da API à ficha
    */
   adicionarMagiaApi(spell: any): void {
     if (!this.jogador.magias) {
       this.jogador.magias = [];
     }
-    
+
     const newSpell = {
       nome: spell.name,
       nivel: spell.level || 0,
       escola: spell.school?.name || '',
       descricao: spell.desc?.join('\n') || spell.description?.join('\n') || ''
     };
-    
+
     this.jogador.magias.push(newSpell);
     this.saveToCache();
     this.fecharBuscarMagia();
@@ -962,7 +1249,7 @@ export class FichaJogadorComponent implements OnInit {
   abrirBuscarTalento(): void {
     this.buscarTalentoAberto = true;
     if (this.availableFeats.length === 0) {
-      this.loadFeats();
+      this.loadFeatsFromOpen5e();
     }
   }
 
@@ -977,7 +1264,26 @@ export class FichaJogadorComponent implements OnInit {
   }
 
   /**
-   * Carrega lista de talentos da API
+   * Carrega lista de talentos da API Open5e
+   */
+  loadFeatsFromOpen5e(page: number = 1): void {
+    this.loadingFeats = true;
+    this.dndApiService.getFeatsOpen5e(page).subscribe({
+      next: (data) => {
+        this.availableFeats = data.results || [];
+        this.filteredFeats = this.availableFeats;
+        this.loadingFeats = false;
+      },
+      error: (error) => {
+        console.error('Erro ao carregar talentos da Open5e:', error);
+        // Fallback para API dnd5eapi se Open5e falhar
+        this.loadFeats();
+      }
+    });
+  }
+
+  /**
+   * Carrega lista de talentos da API dnd5eapi (fallback)
    */
   loadFeats(): void {
     this.loadingFeats = true;
@@ -995,31 +1301,55 @@ export class FichaJogadorComponent implements OnInit {
   }
 
   /**
-   * Filtra talentos baseado no termo de busca
+   * Filtra talentos baseado no termo de busca usando Open5e API
    */
   filtrarTalentos(): void {
-    if (!this.featSearchTerm) {
-      this.filteredFeats = this.availableFeats;
-    } else {
-      const term = this.featSearchTerm.toLowerCase();
-      this.filteredFeats = this.availableFeats.filter(feat => 
-        feat.name.toLowerCase().includes(term)
-      );
+    if (!this.featSearchTerm || this.featSearchTerm.trim().length < 2) {
+      this.loadFeatsFromOpen5e();
+      return;
     }
+
+    this.loadingFeats = true;
+    this.dndApiService.searchFeatsOpen5e(this.featSearchTerm).subscribe({
+      next: (data) => {
+        this.availableFeats = data.results || [];
+        this.filteredFeats = this.availableFeats;
+        this.loadingFeats = false;
+      },
+      error: (error) => {
+        console.error('Erro ao buscar talentos:', error);
+        // Fallback para filtro local
+        const term = this.featSearchTerm.toLowerCase();
+        this.filteredFeats = this.availableFeats.filter(feat =>
+          feat.name?.toLowerCase().includes(term) || (feat as any).slug?.toLowerCase().includes(term)
+        );
+        this.loadingFeats = false;
+      }
+    });
   }
 
   /**
    * Visualiza detalhes de um talento
+   * Tenta primeiro Open5e, depois fallback para dnd5eapi
    */
-  viewFeatDetails(featIndex: string): void {
-    if (!featIndex) return;
-    
-    this.dndApiService.getFeatDetails(featIndex).subscribe({
+  viewFeatDetails(featIndexOrSlug: string): void {
+    if (!featIndexOrSlug) return;
+
+    // Tenta primeiro com Open5e (usa slug)
+    this.dndApiService.getFeatDetailsOpen5e(featIndexOrSlug).subscribe({
       next: (data) => {
         this.selectedFeatDetails = data;
       },
-      error: (error) => {
-        console.error('Erro ao carregar detalhes do talento:', error);
+      error: () => {
+        // Fallback para dnd5eapi
+        this.dndApiService.getFeatDetails(featIndexOrSlug).subscribe({
+          next: (data) => {
+            this.selectedFeatDetails = data;
+          },
+          error: (error) => {
+            console.error('Erro ao carregar detalhes do talento:', error);
+          }
+        });
       }
     });
   }
@@ -1031,12 +1361,12 @@ export class FichaJogadorComponent implements OnInit {
     if (!this.jogador.talentos) {
       this.jogador.talentos = [];
     }
-    
+
     const newFeat = {
       nome: feat.name,
-      descricao: feat.desc?.join('\n') || feat.description?.join('\n') || ''
+      descricao: feat.desc?.join('\n') || feat.description?.join('\n') || feat.desc || ''
     };
-    
+
     this.jogador.talentos.push(newFeat);
     this.saveToCache();
     this.fecharBuscarTalento();
@@ -1047,5 +1377,31 @@ export class FichaJogadorComponent implements OnInit {
    */
   voltarListaTalentos(): void {
     this.selectedFeatDetails = null;
+  }
+
+  /**
+   * Verifica se a descrição do feat é uma string
+   */
+  isString(value: any): boolean {
+    return typeof value === 'string';
+  }
+
+  /**
+   * Obtém prévia da descrição do feat
+   */
+  getFeatDescPreview(feat: any): string {
+    const desc = feat.desc;
+    if (!desc) return '';
+    if (typeof desc === 'string') {
+      return desc.length > 100 ? desc.substring(0, 100) + '...' : desc;
+    }
+    return '';
+  }
+
+  /**
+   * Obtém o identificador do feat (slug ou index)
+   */
+  getFeatId(feat: any): string {
+    return feat.index || feat.slug || '';
   }
 }

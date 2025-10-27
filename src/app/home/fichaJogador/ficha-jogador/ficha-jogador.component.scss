@@ -325,6 +325,48 @@
         font-size: 0.9rem;
         line-height: 1.5;
     }
+    
+    .spell-details-expanded {
+        background: white;
+        border-radius: 8px;
+        padding: 15px;
+        border: 1px solid #e2e8f0;
+        margin-top: 15px;
+        
+        .detail-box {
+            background: #f7fafc;
+            padding: 10px 15px;
+            border-radius: 6px;
+            
+            strong {
+                display: block;
+                margin-bottom: 5px;
+                font-size: 0.9rem;
+                color: #4a5568;
+            }
+            
+            span {
+                color: #2d3748;
+                font-size: 0.95rem;
+            }
+            
+            p {
+                margin-bottom: 0;
+                color: #4a5568;
+                font-size: 0.9rem;
+                line-height: 1.6;
+                
+                &:last-child {
+                    margin-bottom: 0;
+                }
+            }
+            
+            small {
+                font-size: 0.85rem;
+                margin-top: 5px;
+            }
+        }
+    }
 }
 
 // Shared styles for talent, item, equipment headers
