@@ -137,3 +137,18 @@ html {
   outline: 3px solid rgba(102, 126, 234, 0.5);
   outline-offset: 2px;
 }
+
+// Placeholder styling
+input::placeholder,
+textarea::placeholder,
+select::placeholder {
+  color: #c5c5c5 !important;
+  opacity: 1;
+}
+
+input::-moz-placeholder,
+textarea::-moz-placeholder,
+select::-moz-placeholder {
+  color: #c5c5c5 !important;
+  opacity: 1;
+}
