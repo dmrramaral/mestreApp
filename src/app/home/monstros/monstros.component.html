@@ -14,10 +14,11 @@
             <div class="row g-3">
                 <div class="col-md-6 col-lg-4">
                     <label class="form-label"><i class="fas fa-tag me-1"></i>Nome</label>
-                    <select [(ngModel)]="filter.name" class="form-select form-select-sm">
-                        <option value="">Todos os nomes</option>
-                        <option *ngFor="let name of names" [value]="name">{{ name }}</option>
-                    </select>
+                    <input type="text" 
+                        [(ngModel)]="filter.name" 
+                        (ngModelChange)="applyFilters()"
+                        class="form-control form-control-sm" 
+                        placeholder="Digite para buscar...">
                 </div>
                 <div class="col-md-6 col-lg-4">
                     <label class="form-label"><i class="fas fa-star me-1"></i>XP</label>

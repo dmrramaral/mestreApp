@@ -137,3 +137,32 @@ html {
   outline: 3px solid rgba(102, 126, 234, 0.5);
   outline-offset: 2px;
 }
+
+// Placeholder styling
+input::placeholder,
+textarea::placeholder,
+select::placeholder {
+  color: #c5c5c5 !important;
+  opacity: 1;
+}
+
+input::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder,
+select::-webkit-input-placeholder {
+  color: #c5c5c5 !important;
+  opacity: 1;
+}
+
+input::-moz-placeholder,
+textarea::-moz-placeholder,
+select::-moz-placeholder {
+  color: #c5c5c5 !important;
+  opacity: 1;
+}
+
+input:-ms-input-placeholder,
+textarea:-ms-input-placeholder,
+select:-ms-input-placeholder {
+  color: #c5c5c5 !important;
+  opacity: 1;
+}

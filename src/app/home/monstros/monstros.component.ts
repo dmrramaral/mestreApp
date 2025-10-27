@@ -52,12 +52,12 @@ export class MonstrosComponent implements OnInit {
 
   /**
    * Aplica filtros para buscar monstros específicos
-   * Filtra por nome, alinhamento, XP, tamanho e tipo
+   * Filtra por nome (busca parcial), alinhamento, XP, tamanho e tipo
    */
   applyFilters() {
     this.monstrosService.getMonstros().subscribe((data: any) => {
       this.monstros = data.filter((monstro: any) => {
-        const result = (this.filter.name ? monstro.name.includes(this.filter.name) : true) &&
+        const result = (this.filter.name ? monstro.name.toLowerCase().includes(this.filter.name.toLowerCase()) : true) &&
           (this.filter.alignment ? monstro.alignment === this.filter.alignment : true) &&
           (this.filter.xp ? monstro.xp === Number(this.filter.xp) : true) &&
           (this.filter.size ? monstro.size === this.filter.size : true) &&
