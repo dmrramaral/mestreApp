@@ -20,6 +20,7 @@ import { FormsModule } from '@angular/forms';
 export class MonstrosComponent implements OnInit {
 
   monstros: any;
+  allMonstros: any[] = []; // Cache all monsters
 
   filter = {
     name: '',
@@ -41,6 +42,7 @@ export class MonstrosComponent implements OnInit {
 
   ngOnInit() {
     this.monstrosService.getMonstros().subscribe((data: any) => {
+      this.allMonstros = data; // Cache all monsters
       this.monstros = data;
       this.types = [...new Set(this.monstros.map((monster: any) => monster.type as string))].sort((a, b) => (a as string).localeCompare(b as string));
       this.sizes = [...new Set(this.monstros.map((monster: any) => monster.size))].sort((a, b) => (a as string).localeCompare(b as string));
@@ -52,24 +54,22 @@ export class MonstrosComponent implements OnInit {
 
   /**
    * Aplica filtros para buscar monstros específicos
-   * Filtra por nome (busca parcial), alinhamento, XP, tamanho e tipo
+   * Filtra por nome (busca parcial), alinhamento, XP, tamanho e tipo usando dados em cache
    */
   applyFilters() {
-    this.monstrosService.getMonstros().subscribe((data: any) => {
-      this.monstros = data.filter((monstro: any) => {
-        const result = (this.filter.name ? monstro.name.toLowerCase().includes(this.filter.name.toLowerCase()) : true) &&
-          (this.filter.alignment ? monstro.alignment === this.filter.alignment : true) &&
-          (this.filter.xp ? monstro.xp === Number(this.filter.xp) : true) &&
-          (this.filter.size ? monstro.size === this.filter.size : true) &&
-          (this.filter.type ? monstro.type === this.filter.type : true);
+    this.monstros = this.allMonstros.filter((monstro: any) => {
+      const result = (this.filter.name ? monstro.name.toLowerCase().includes(this.filter.name.toLowerCase()) : true) &&
+        (this.filter.alignment ? monstro.alignment === this.filter.alignment : true) &&
+        (this.filter.xp ? monstro.xp === Number(this.filter.xp) : true) &&
+        (this.filter.size ? monstro.size === this.filter.size : true) &&
+        (this.filter.type ? monstro.type === this.filter.type : true);
 
-        return result;
-      });
+      return result;
     });
   }
 
   /**
-   * Limpa todos os filtros e recarrega todos os monstros
+   * Limpa todos os filtros e restaura todos os monstros do cache
    */
   clearFilters() {
     this.filter = {
@@ -79,8 +79,6 @@ export class MonstrosComponent implements OnInit {
       type: '',
       xp: ''
     };
-    this.monstrosService.getMonstros().subscribe((data: any) => {
-      this.monstros = data;
-    });
+    this.monstros = this.allMonstros;
   }
 }
