@@ -242,9 +242,14 @@
             <div class="card-header bg-primary text-white">
                 <div class="d-flex justify-content-between align-items-center">
                     <h5 class="mb-0"><i class="fas fa-magic me-2"></i>Magias</h5>
-                    <button type="button" class="btn btn-light btn-sm" (click)="adicionarMagia()">
-                        <i class="fas fa-plus me-1"></i>Adicionar
-                    </button>
+                    <div>
+                        <button type="button" class="btn btn-light btn-sm me-2" (click)="abrirBuscarMagia()">
+                            <i class="fas fa-search me-1"></i>Buscar API
+                        </button>
+                        <button type="button" class="btn btn-light btn-sm" (click)="adicionarMagia()">
+                            <i class="fas fa-plus me-1"></i>Adicionar Manual
+                        </button>
+                    </div>
                 </div>
             </div>
             <div class="card-body">
@@ -255,8 +260,20 @@
                                 <div>
                                     <i class="fas fa-wand-magic text-primary"></i>
                                     <strong>{{magia.nome}}</strong>
+                                    <span *ngIf="magia.level !== undefined" class="badge bg-primary ms-2">
+                                        {{ magia.level === 0 ? 'Truque' : 'Nv ' + magia.level }}
+                                    </span>
                                 </div>
                                 <div>
+                                    <button type="button" class="btn btn-sm btn-outline-info me-1"
+                                            (click)="toggleSpellDetailsInList(i, magia.nome)"
+                                            [disabled]="loadingSpellDetails[i]">
+                                        <i class="fas" [ngClass]="expandedSpellDetails[i] ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                                        <span *ngIf="!loadingSpellDetails[i]">Detalhes</span>
+                                        <span *ngIf="loadingSpellDetails[i]">
+                                            <i class="fas fa-spinner fa-spin"></i>
+                                        </span>
+                                    </button>
                                     <button type="button" class="btn btn-sm btn-outline-primary me-1" (click)="toggleEditarMagia(i)">
                                         <i class="fas fa-edit"></i>
                                     </button>
@@ -265,20 +282,114 @@
                                     </button>
                                 </div>
                             </div>
-                            <p class="spell-description">{{magia.descricao}}</p>
+                            <p class="spell-description" *ngIf="!expandedSpellDetails[i]">{{magia.descricao}}</p>
+
+                            <!-- Detalhes expandidos da magia -->
+                            <div *ngIf="expandedSpellDetails[i]" class="spell-details-expanded mt-3">
+                                <div class="row g-3">
+                                    <div class="col-md-6" *ngIf="magia.level !== undefined || (expandedSpellDetails[i] && expandedSpellDetails[i].level !== undefined)">
+                                        <div class="detail-box">
+                                            <strong><i class="fas fa-layer-group me-2 text-primary"></i>Nível:</strong>
+                                            <span>{{ (magia.level !== undefined ? magia.level : expandedSpellDetails[i]?.level) === 0 ? 'Truque' : 'Nível ' + (magia.level !== undefined ? magia.level : expandedSpellDetails[i]?.level) }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" *ngIf="magia.school || (expandedSpellDetails[i] && expandedSpellDetails[i].school)">
+                                        <div class="detail-box">
+                                            <strong><i class="fas fa-book me-2 text-primary"></i>Escola:</strong>
+                                            <span>{{ magia.school || expandedSpellDetails[i]?.school?.name || expandedSpellDetails[i]?.school }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" *ngIf="magia.casting_time || (expandedSpellDetails[i] && expandedSpellDetails[i].casting_time)">
+                                        <div class="detail-box">
+                                            <strong><i class="fas fa-clock me-2 text-primary"></i>Tempo de Conjuração:</strong>
+                                            <span>{{ magia.casting_time || expandedSpellDetails[i]?.casting_time }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" *ngIf="magia.range || (expandedSpellDetails[i] && expandedSpellDetails[i].range)">
+                                        <div class="detail-box">
+                                            <strong><i class="fas fa-crosshairs me-2 text-primary"></i>Alcance:</strong>
+                                            <span>{{ magia.range || expandedSpellDetails[i]?.range }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" *ngIf="(magia.components && magia.components.length > 0) || (expandedSpellDetails[i] && expandedSpellDetails[i].components && expandedSpellDetails[i].components.length > 0)">
+                                        <div class="detail-box">
+                                            <strong><i class="fas fa-hand-sparkles me-2 text-primary"></i>Componentes:</strong>
+                                            <span>{{ getSpellComponents(magia, expandedSpellDetails[i]) }}</span>
+                                            <small class="d-block text-muted" *ngIf="magia.material || expandedSpellDetails[i]?.material">{{ magia.material || expandedSpellDetails[i]?.material }}</small>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6" *ngIf="magia.duration || (expandedSpellDetails[i] && expandedSpellDetails[i].duration)">
+                                        <div class="detail-box">
+                                            <strong><i class="fas fa-hourglass-half me-2 text-primary"></i>Duração:</strong>
+                                            <span>{{ magia.duration || expandedSpellDetails[i]?.duration }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-12" *ngIf="(magia.classes && magia.classes.length > 0) || (expandedSpellDetails[i] && expandedSpellDetails[i].classes && expandedSpellDetails[i].classes.length > 0)">
+                                        <div class="detail-box">
+                                            <strong><i class="fas fa-user-graduate me-2 text-primary"></i>Classes:</strong>
+                                            <span>{{ getSpellClassesFormatted(magia, expandedSpellDetails[i]) }}</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-12" *ngIf="expandedSpellDetails[i] && expandedSpellDetails[i].desc && expandedSpellDetails[i].desc.length > 0">
+                                        <div class="detail-box">
+                                            <strong><i class="fas fa-scroll me-2 text-primary"></i>Descrição:</strong>
+                                            <p *ngFor="let paragraph of expandedSpellDetails[i].desc" class="mb-2">{{ paragraph }}</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-12" *ngIf="expandedSpellDetails[i] && expandedSpellDetails[i].higher_level && expandedSpellDetails[i].higher_level.length > 0">
+                                        <div class="detail-box">
+                                            <strong><i class="fas fa-arrow-up me-2 text-primary"></i>Em Níveis Superiores:</strong>
+                                            <p *ngFor="let paragraph of expandedSpellDetails[i].higher_level" class="mb-2">{{ paragraph }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div *ngIf="editandoMagia[i]" class="edit-form">
                             <div class="row g-2">
                                 <div class="col-md-4">
-                                    <input type="text" class="form-control" [(ngModel)]="magia.nome" (change)="saveToCache()">
+                                    <input type="text" class="form-control form-control-sm" placeholder="Nome" [(ngModel)]="magia.nome" (change)="saveToCache()">
                                 </div>
-                                <div class="col-md-6">
-                                    <input type="text" class="form-control" [(ngModel)]="magia.descricao" (change)="saveToCache()">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control form-control-sm" placeholder="Descrição" [(ngModel)]="magia.descricao" (change)="saveToCache()">
+                                </div>
+                                <div class="col-md-2">
+                                    <select class="form-select form-select-sm" [(ngModel)]="magia.level" (change)="saveToCache()">
+                                        <option [ngValue]="undefined">Nível</option>
+                                        <option [ngValue]="0">Truque</option>
+                                        <option [ngValue]="1">1</option>
+                                        <option [ngValue]="2">2</option>
+                                        <option [ngValue]="3">3</option>
+                                        <option [ngValue]="4">4</option>
+                                        <option [ngValue]="5">5</option>
+                                        <option [ngValue]="6">6</option>
+                                        <option [ngValue]="7">7</option>
+                                        <option [ngValue]="8">8</option>
+                                        <option [ngValue]="9">9</option>
+                                    </select>
                                 </div>
                                 <div class="col-md-2">
                                     <button type="button" class="btn btn-success btn-sm w-100" (click)="toggleEditarMagia(i)">
                                         <i class="fas fa-check"></i>
                                     </button>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control form-control-sm" placeholder="Escola (opcional)" [(ngModel)]="magia.school" (change)="saveToCache()">
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control form-control-sm" placeholder="Tempo de Conjuração (opcional)" [(ngModel)]="magia.casting_time" (change)="saveToCache()">
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control form-control-sm" placeholder="Alcance (opcional)" [(ngModel)]="magia.range" (change)="saveToCache()">
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" class="form-control form-control-sm" placeholder="Duração (opcional)" [(ngModel)]="magia.duration" (change)="saveToCache()">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control form-control-sm" placeholder="Componentes (V, S, M) (opcional)" [(ngModel)]="magia.components" (change)="saveToCache()">
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" class="form-control form-control-sm" placeholder="Material (opcional)" [(ngModel)]="magia.material" (change)="saveToCache()">
                                 </div>
                             </div>
                         </div>
@@ -291,10 +402,25 @@
                 <div *ngIf="adicionandoMagia" class="add-form mt-3">
                     <div class="row g-2">
                         <div class="col-md-4">
-                            <input type="text" class="form-control" placeholder="Nome da Magia" [(ngModel)]="novaMagia.nome">
+                            <input type="text" class="form-control form-control-sm" placeholder="Nome da Magia *" [(ngModel)]="novaMagia.nome">
                         </div>
-                        <div class="col-md-6">
-                            <input type="text" class="form-control" placeholder="Descrição da Magia" [(ngModel)]="novaMagia.descricao">
+                        <div class="col-md-4">
+                            <input type="text" class="form-control form-control-sm" placeholder="Descrição *" [(ngModel)]="novaMagia.descricao">
+                        </div>
+                        <div class="col-md-2">
+                            <select class="form-select form-select-sm" [(ngModel)]="novaMagia.level">
+                                <option [ngValue]="undefined">Nível</option>
+                                <option [ngValue]="0">Truque</option>
+                                <option [ngValue]="1">1</option>
+                                <option [ngValue]="2">2</option>
+                                <option [ngValue]="3">3</option>
+                                <option [ngValue]="4">4</option>
+                                <option [ngValue]="5">5</option>
+                                <option [ngValue]="6">6</option>
+                                <option [ngValue]="7">7</option>
+                                <option [ngValue]="8">8</option>
+                                <option [ngValue]="9">9</option>
+                            </select>
                         </div>
                         <div class="col-md-2">
                             <button type="button" class="btn btn-success btn-sm w-100" (click)="confirmarAdicionarMagia()">
@@ -303,6 +429,24 @@
                             <button type="button" class="btn btn-danger btn-sm w-100 mt-1" (click)="cancelarAdicionarMagia()">
                                 <i class="fas fa-times"></i>
                             </button>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control form-control-sm" placeholder="Escola (opcional)" [(ngModel)]="novaMagia.school">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control form-control-sm" placeholder="Tempo de Conjuração (opcional)" [(ngModel)]="novaMagia.casting_time">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control form-control-sm" placeholder="Alcance (opcional)" [(ngModel)]="novaMagia.range">
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" class="form-control form-control-sm" placeholder="Duração (opcional)" [(ngModel)]="novaMagia.duration">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control form-control-sm" placeholder="Componentes (V, S, M) (opcional)" [(ngModel)]="novaMagia.components">
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control form-control-sm" placeholder="Material (opcional)" [(ngModel)]="novaMagia.material">
                         </div>
                     </div>
                 </div>
@@ -316,9 +460,14 @@
             <div class="card-header bg-success text-white">
                 <div class="d-flex justify-content-between align-items-center">
                     <h5 class="mb-0"><i class="fas fa-star me-2"></i>Talentos</h5>
-                    <button type="button" class="btn btn-light btn-sm" (click)="adicionarTalento()">
-                        <i class="fas fa-plus me-1"></i>Adicionar
-                    </button>
+                    <div>
+                        <button type="button" class="btn btn-light btn-sm me-2" (click)="abrirBuscarTalento()">
+                            <i class="fas fa-search me-1"></i>Buscar API
+                        </button>
+                        <button type="button" class="btn btn-light btn-sm" (click)="adicionarTalento()">
+                            <i class="fas fa-plus me-1"></i>Adicionar Manual
+                        </button>
+                    </div>
                 </div>
             </div>
             <div class="card-body">
@@ -414,7 +563,7 @@
                             <p class="trait-description">{{traco.descricao}}</p>
                         </div>
                     </div>
-                    
+
                     <!-- Traços de Raça -->
                     <div *ngIf="hasTracosRaca()">
                         <h6 class="text-success mb-3">
@@ -772,7 +921,7 @@
                                 <div class="current-selection mb-2" *ngIf="jogador.classe">
                                     <span class="badge bg-primary">{{ jogador.classe }}</span>
                                 </div>
-                                <button class="btn btn-outline-primary btn-sm w-100" type="button" 
+                                <button class="btn btn-outline-primary btn-sm w-100" type="button"
                                     (click)="openClassSelection()">
                                     <i class="fas fa-search me-1"></i>{{ jogador.classe ? 'Trocar Classe' : 'Selecionar Classe' }}
                                 </button>
@@ -784,7 +933,7 @@
                                 <div class="current-selection mb-2" *ngIf="jogador.raca">
                                     <span class="badge bg-success">{{ jogador.raca }}</span>
                                 </div>
-                                <button class="btn btn-outline-success btn-sm w-100" type="button" 
+                                <button class="btn btn-outline-success btn-sm w-100" type="button"
                                     (click)="openRaceSelection()">
                                     <i class="fas fa-search me-1"></i>{{ jogador.raca ? 'Trocar Raça' : 'Selecionar Raça' }}
                                 </button>
@@ -959,7 +1108,7 @@
                 </div>
                 <div *ngIf="!loadingClassDetails && selectedClassDetails">
                     <h4 class="mb-3">{{ selectedClassDetails.name }}</h4>
-                    
+
                     <div class="detail-section mb-3" *ngIf="selectedClassDetails.hit_die">
                         <h6 class="text-primary"><i class="fas fa-dice-d20 me-2"></i>Dado de Vida</h6>
                         <p>d{{ selectedClassDetails.hit_die }}</p>
@@ -1024,7 +1173,7 @@
                 </div>
                 <div *ngIf="!loadingRaceDetails && selectedRaceDetails">
                     <h4 class="mb-3">{{ selectedRaceDetails.name }}</h4>
-                    
+
                     <div class="detail-section mb-3" *ngIf="selectedRaceDetails.speed">
                         <h6 class="text-primary"><i class="fas fa-running me-2"></i>Velocidade</h6>
                         <p>{{ selectedRaceDetails.speed }} pés</p>
@@ -1108,18 +1257,18 @@
             <div class="modal-body">
                 <div class="row g-3">
                     <div class="col-md-6 col-lg-4" *ngFor="let classe of availableClasses">
-                        <div class="card selection-card h-100" 
+                        <div class="card selection-card h-100"
                             [class.selected]="jogador.classe === classe.name">
                             <div class="card-body text-center">
                                 <h5 class="card-title">
                                     <i class="fas fa-hat-wizard me-2"></i>{{ classe.name }}
                                 </h5>
                                 <div class="d-flex gap-2 justify-content-center mt-2">
-                                    <button class="btn btn-sm btn-outline-primary" type="button" 
+                                    <button class="btn btn-sm btn-outline-primary" type="button"
                                         (click)="selectClass(classe)">
                                         <i class="fas fa-check me-1"></i>Selecionar
                                     </button>
-                                    <button class="btn btn-sm btn-outline-info" type="button" 
+                                    <button class="btn btn-sm btn-outline-info" type="button"
                                         (click)="viewClassDetails(classe.index)">
                                         <i class="fas fa-info-circle me-1"></i>Detalhes
                                     </button>
@@ -1155,18 +1304,18 @@
             <div class="modal-body">
                 <div class="row g-3">
                     <div class="col-md-6 col-lg-4" *ngFor="let raca of availableRaces">
-                        <div class="card selection-card h-100" 
+                        <div class="card selection-card h-100"
                             [class.selected]="jogador.raca === raca.name">
                             <div class="card-body text-center">
                                 <h5 class="card-title">
                                     <i class="fas fa-users me-2"></i>{{ raca.name }}
                                 </h5>
                                 <div class="d-flex gap-2 justify-content-center mt-2">
-                                    <button class="btn btn-sm btn-outline-success" type="button" 
+                                    <button class="btn btn-sm btn-outline-success" type="button"
                                         (click)="selectRace(raca)">
                                         <i class="fas fa-check me-1"></i>Selecionar
                                     </button>
-                                    <button class="btn btn-sm btn-outline-info" type="button" 
+                                    <button class="btn btn-sm btn-outline-info" type="button"
                                         (click)="viewRaceDetails(raca.index)">
                                         <i class="fas fa-info-circle me-1"></i>Detalhes
                                     </button>
@@ -1188,3 +1337,256 @@
         </div>
     </div>
 </div>
+
+<!-- Spell Search Modal -->
+<div class="modal fade" [class.show]="buscarMagiaAberto" [style.display]="buscarMagiaAberto ? 'block' : 'none'" tabindex="-1" aria-labelledby="spellSearchModalLabel" [attr.aria-hidden]="!buscarMagiaAberto">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content rpg-modal">
+            <div class="modal-header bg-gradient-primary">
+                <h5 class="modal-title" id="spellSearchModalLabel">
+                    <i class="fas fa-magic me-2"></i>Buscar Magias - D&D 5e API
+                </h5>
+                <button type="button" class="btn-close btn-close-white" (click)="fecharBuscarMagia()" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- List View -->
+                <div *ngIf="!selectedSpellDetails">
+                    <!-- Filtros -->
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-4">
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                                <input type="text" class="form-control" placeholder="Buscar magia..."
+                                       [(ngModel)]="spellSearchTerm" (input)="filtrarMagias()">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" [(ngModel)]="spellLevelFilter" (change)="aplicarFiltrosMagias()">
+                                <option value="">Todos os Níveis</option>
+                                <option value="0">Truque (0)</option>
+                                <option *ngFor="let level of availableSpellLevels.slice(1)" [value]="level">
+                                    Nível {{ level }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" [(ngModel)]="spellClassFilter" (change)="aplicarFiltrosMagias()">
+                                <option value="">Todas as Classes</option>
+                                <option *ngFor="let classType of availableSpellClasses" [value]="classType">
+                                    {{ classType }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="button" class="btn btn-outline-secondary w-100" (click)="limparFiltrosMagias()"
+                                    [disabled]="!spellLevelFilter && !spellClassFilter && !spellSearchTerm">
+                                <i class="fas fa-times me-1"></i>Limpar
+                            </button>
+                        </div>
+                    </div>
+
+                    <div *ngIf="loadingSpells" class="text-center py-4">
+                        <i class="fas fa-spinner fa-spin fa-2x mb-2"></i>
+                        <p>Carregando magias...</p>
+                    </div>
+
+                    <div *ngIf="!loadingSpells" class="row g-3">
+                        <div class="col-md-6 col-lg-4" *ngFor="let spell of filteredSpells">
+                            <div class="card h-100 hover-card">
+                                <div class="card-body">
+                                    <h6 class="card-title">
+                                        <i class="fas fa-wand-magic text-primary me-2"></i>{{ spell.name }}
+                                    </h6>
+                                    <div class="d-flex justify-content-between mt-3">
+                                        <button type="button" class="btn btn-sm btn-outline-primary"
+                                                (click)="viewSpellDetails(spell.index)">
+                                            <i class="fas fa-info-circle me-1"></i>Detalhes
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="!loadingSpells && filteredSpells.length === 0" class="text-center py-4 text-muted">
+                        <i class="fas fa-search fa-2x mb-2"></i>
+                        <p>Nenhuma magia encontrada</p>
+                    </div>
+                </div>
+
+                <!-- Details View -->
+                <div *ngIf="selectedSpellDetails">
+                    <button type="button" class="btn btn-sm btn-outline-secondary mb-3" (click)="voltarListaMagias()">
+                        <i class="fas fa-arrow-left me-1"></i>Voltar
+                    </button>
+
+                    <h4 class="mb-3">
+                        <i class="fas fa-wand-magic text-primary me-2"></i>{{ selectedSpellDetails.name }}
+                    </h4>
+
+                    <div class="detail-section mb-3" *ngIf="selectedSpellDetails.level !== undefined">
+                        <h6 class="text-primary"><i class="fas fa-layer-group me-2"></i>Nível</h6>
+                        <p>{{ selectedSpellDetails.level === 0 ? 'Truque' : 'Nível ' + selectedSpellDetails.level }}</p>
+                    </div>
+
+                    <div class="detail-section mb-3" *ngIf="selectedSpellDetails.school">
+                        <h6 class="text-primary"><i class="fas fa-book me-2"></i>Escola</h6>
+                        <p>{{ selectedSpellDetails.school.name }}</p>
+                    </div>
+
+                    <div class="detail-section mb-3" *ngIf="selectedSpellDetails.casting_time">
+                        <h6 class="text-primary"><i class="fas fa-clock me-2"></i>Tempo de Conjuração</h6>
+                        <p>{{ selectedSpellDetails.casting_time }}</p>
+                    </div>
+
+                    <div class="detail-section mb-3" *ngIf="selectedSpellDetails.range">
+                        <h6 class="text-primary"><i class="fas fa-crosshairs me-2"></i>Alcance</h6>
+                        <p>{{ selectedSpellDetails.range }}</p>
+                    </div>
+
+                    <div class="detail-section mb-3" *ngIf="selectedSpellDetails.components && selectedSpellDetails.components.length > 0">
+                        <h6 class="text-primary"><i class="fas fa-hand-sparkles me-2"></i>Componentes</h6>
+                        <p>{{ selectedSpellDetails.components.join(', ') }}</p>
+                        <p *ngIf="selectedSpellDetails.material" class="text-muted small">{{ selectedSpellDetails.material }}</p>
+                    </div>
+
+                    <div class="detail-section mb-3" *ngIf="selectedSpellDetails.duration">
+                        <h6 class="text-primary"><i class="fas fa-hourglass-half me-2"></i>Duração</h6>
+                        <p>{{ selectedSpellDetails.duration }}</p>
+                    </div>
+
+                    <div class="detail-section mb-3" *ngIf="selectedSpellDetails.desc && selectedSpellDetails.desc.length > 0">
+                        <h6 class="text-primary"><i class="fas fa-scroll me-2"></i>Descrição</h6>
+                        <p *ngFor="let paragraph of selectedSpellDetails.desc">{{ paragraph }}</p>
+                    </div>
+
+                    <div class="detail-section mb-3" *ngIf="selectedSpellDetails.higher_level && selectedSpellDetails.higher_level.length > 0">
+                        <h6 class="text-primary"><i class="fas fa-arrow-up me-2"></i>Em Níveis Superiores</h6>
+                        <p *ngFor="let paragraph of selectedSpellDetails.higher_level">{{ paragraph }}</p>
+                    </div>
+
+                    <div class="detail-section mb-3" *ngIf="selectedSpellDetails.classes && selectedSpellDetails.classes.length > 0">
+                        <h6 class="text-primary"><i class="fas fa-hat-wizard me-2"></i>Classes</h6>
+                        <ul class="mb-0">
+                            <li *ngFor="let cls of selectedSpellDetails.classes">{{ cls.name }}</li>
+                        </ul>
+                    </div>
+
+                    <button type="button" class="btn btn-primary mt-3" (click)="adicionarMagiaApi(selectedSpellDetails)">
+                        <i class="fas fa-plus me-2"></i>Adicionar à Ficha
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="fecharBuscarMagia()">
+                    <i class="fas fa-times me-2"></i>Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-backdrop fade" [class.show]="buscarMagiaAberto" *ngIf="buscarMagiaAberto"></div>
+
+<!-- Feat Search Modal -->
+<div class="modal fade" [class.show]="buscarTalentoAberto" [style.display]="buscarTalentoAberto ? 'block' : 'none'" tabindex="-1" aria-labelledby="featSearchModalLabel" [attr.aria-hidden]="!buscarTalentoAberto">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content rpg-modal">
+            <div class="modal-header bg-gradient-success">
+                <h5 class="modal-title text-white" id="featSearchModalLabel">
+                    <i class="fas fa-star me-2"></i>Buscar Talentos - D&D 5e API
+                </h5>
+                <button type="button" class="btn-close btn-close-white" (click)="fecharBuscarTalento()" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- List View -->
+                <div *ngIf="!selectedFeatDetails">
+                    <div class="mb-3">
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fas fa-search"></i></span>
+                            <input type="text" class="form-control" placeholder="Buscar talento..."
+                                   [(ngModel)]="featSearchTerm" (input)="filtrarTalentos()">
+                        </div>
+                    </div>
+
+                    <div *ngIf="loadingFeats" class="text-center py-4">
+                        <i class="fas fa-spinner fa-spin fa-2x mb-2"></i>
+                        <p>Carregando talentos...</p>
+                    </div>
+
+                    <div *ngIf="!loadingFeats" class="row g-3">
+                        <div class="col-md-6 col-lg-4" *ngFor="let feat of filteredFeats">
+                            <div class="card h-100 hover-card">
+                                <div class="card-body">
+                                    <h6 class="card-title">
+                                        <i class="fas fa-certificate text-success me-2"></i>{{ feat.name }}
+                                    </h6>
+                                    <p class="card-text small text-muted" *ngIf="getFeatDescPreview(feat)">
+                                        {{ getFeatDescPreview(feat) }}
+                                    </p>
+                                    <div class="d-flex justify-content-between mt-3">
+                                        <button type="button" class="btn btn-sm btn-outline-success"
+                                                (click)="viewFeatDetails(getFeatId(feat))">
+                                            <i class="fas fa-info-circle me-1"></i>Detalhes
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div *ngIf="!loadingFeats && filteredFeats.length === 0" class="text-center py-4 text-muted">
+                        <i class="fas fa-search fa-2x mb-2"></i>
+                        <p>Nenhum talento encontrado</p>
+                    </div>
+                </div>
+
+                <!-- Details View -->
+                <div *ngIf="selectedFeatDetails">
+                    <button type="button" class="btn btn-sm btn-outline-secondary mb-3" (click)="voltarListaTalentos()">
+                        <i class="fas fa-arrow-left me-1"></i>Voltar
+                    </button>
+
+                    <h4 class="mb-3">
+                        <i class="fas fa-certificate text-success me-2"></i>{{ selectedFeatDetails.name }}
+                    </h4>
+
+                    <div class="detail-section mb-3" *ngIf="selectedFeatDetails.prerequisites && selectedFeatDetails.prerequisites.length > 0">
+                        <h6 class="text-success"><i class="fas fa-exclamation-triangle me-2"></i>Pré-requisitos</h6>
+                        <ul class="mb-0">
+                            <li *ngFor="let prereq of selectedFeatDetails.prerequisites">
+                                {{ prereq.ability_score?.name || prereq || 'Pré-requisito' }}: {{ prereq.minimum_score || '' }}
+                            </li>
+                        </ul>
+                    </div>
+
+                    <!-- Prerequisito como string (Open5e) -->
+                    <div class="detail-section mb-3" *ngIf="selectedFeatDetails.prerequisite && !selectedFeatDetails.prerequisites">
+                        <h6 class="text-success"><i class="fas fa-exclamation-triangle me-2"></i>Pré-requisito</h6>
+                        <p>{{ selectedFeatDetails.prerequisite }}</p>
+                    </div>
+
+                    <div class="detail-section mb-3" *ngIf="selectedFeatDetails.desc && selectedFeatDetails.desc.length > 0">
+                        <h6 class="text-success"><i class="fas fa-scroll me-2"></i>Descrição</h6>
+                        <p *ngFor="let paragraph of selectedFeatDetails.desc">{{ paragraph }}</p>
+                    </div>
+
+                    <!-- Descrição como string simples (Open5e) -->
+                    <div class="detail-section mb-3" *ngIf="selectedFeatDetails.desc && isString(selectedFeatDetails.desc)">
+                        <h6 class="text-success"><i class="fas fa-scroll me-2"></i>Descrição</h6>
+                        <div [innerHTML]="selectedFeatDetails.desc"></div>
+                    </div>
+
+                    <button type="button" class="btn btn-success mt-3" (click)="adicionarTalentoApi(selectedFeatDetails)">
+                        <i class="fas fa-plus me-2"></i>Adicionar à Ficha
+                    </button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="fecharBuscarTalento()">
+                    <i class="fas fa-times me-2"></i>Fechar
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-backdrop fade" [class.show]="buscarTalentoAberto" *ngIf="buscarTalentoAberto"></div>

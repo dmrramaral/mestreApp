@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable, shareReplay } from 'rxjs';
 
 /**
@@ -12,7 +12,8 @@ import { Observable, shareReplay } from 'rxjs';
 export class DndApiService {
   private readonly BASE_URL = 'https://www.dnd5eapi.co/api/2024';
   private readonly BASE_URL_2014 = 'https://www.dnd5eapi.co/api/2014';
-  
+  private readonly OPEN5E_URL = 'https://api.open5e.com';
+
   // Cache para evitar requisições desnecessárias
   private abilityScoresCache$?: Observable<any>;
   private alignmentsCache$?: Observable<any>;
@@ -27,6 +28,8 @@ export class DndApiService {
   private weaponPropertiesCache$?: Observable<any>;
   private classesCache$?: Observable<any>;
   private racesCache$?: Observable<any>;
+  private spellsCache$?: Observable<any>;
+  private featsCache$?: Observable<any>;
 
   constructor(private http: HttpClient) { }
 
@@ -287,6 +290,97 @@ export class DndApiService {
   }
 
   /**
+   * Obtém lista de magias (2014 API)
+   * Ex: Fireball, Magic Missile, Cure Wounds, etc.
+   */
+  getSpells(): Observable<any> {
+    if (!this.spellsCache$) {
+      this.spellsCache$ = this.http.get(`${this.BASE_URL_2014}/spells`).pipe(
+        shareReplay(1)
+      );
+    }
+    return this.spellsCache$;
+  }
+
+  /**
+   * Obtém lista de magias com filtros (2014 API)
+   * @param level - Nível da magia (0-9)
+   * @param className - Nome da classe (ex: 'wizard', 'cleric')
+   */
+  getSpellsWithFilters(level?: string, className?: string): Observable<any> {
+    let url = `${this.BASE_URL_2014}/spells`;
+    const params: string[] = [];
+
+    if (level) {
+      params.push(`level=${level}`);
+    }
+
+    if (className) {
+      params.push(`class=${className.toLowerCase()}`);
+    }
+
+    if (params.length > 0) {
+      url += '?' + params.join('&');
+    }
+
+    return this.http.get(url);
+  }
+
+  /**
+   * Obtém detalhes de uma magia específica (2014 API)
+   */
+  getSpellDetails(index: string): Observable<any> {
+    return this.http.get(`${this.BASE_URL_2014}/spells/${index}`);
+  }
+
+  /**
+   * Obtém lista de talentos/feats (2014 API)
+   * Ex: Grappler, Actor, Alert, etc.
+   */
+  getFeats(): Observable<any> {
+    if (!this.featsCache$) {
+      this.featsCache$ = this.http.get(`${this.BASE_URL_2014}/feats`).pipe(
+        shareReplay(1)
+      );
+    }
+    return this.featsCache$;
+  }
+
+  /**
+   * Obtém detalhes de um talento/feat específico (2014 API)
+   */
+  getFeatDetails(index: string): Observable<any> {
+    return this.http.get(`${this.BASE_URL_2014}/feats/${index}`);
+  }
+
+  /**
+   * Busca talentos na Open5e API com busca por texto
+   * Retorna resultados paginados com informações completas
+   */
+  searchFeatsOpen5e(searchTerm: string = '', page: number = 1): Observable<any> {
+    const params: any = { page };
+    if (searchTerm) {
+      params.search = searchTerm;
+    }
+    const queryString = new URLSearchParams(params).toString();
+    return this.http.get(`${this.OPEN5E_URL}/feats/?${queryString}`);
+  }
+
+  /**
+   * Obtém detalhes de um talento específico da Open5e API
+   */
+  getFeatDetailsOpen5e(slug: string): Observable<any> {
+    return this.http.get(`${this.OPEN5E_URL}/feats/${encodeURIComponent(slug)}/`);
+  }
+
+  /**
+   * Obtém todos os talentos da Open5e API (paginado)
+   */
+  getFeatsOpen5e(page: number = 1): Observable<any> {
+    return this.http.get(`${this.OPEN5E_URL}/feats/?page=${page}`);
+  }
+
+  /**
    * Limpa todos os caches
    * Útil quando é necessário forçar atualização dos dados
    */
@@ -304,5 +398,7 @@ export class DndApiService {
     this.weaponPropertiesCache$ = undefined;
     this.classesCache$ = undefined;
     this.racesCache$ = undefined;
+    this.spellsCache$ = undefined;
+    this.featsCache$ = undefined;
   }
 }

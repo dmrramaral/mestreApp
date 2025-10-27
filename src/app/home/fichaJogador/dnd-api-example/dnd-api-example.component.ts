@@ -1,15 +1,14 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DndApiService } from '../../../core/services/dnd-api.service';
-import { 
-  ApiResourceList, 
-  ApiReference,
-  AbilityScore, 
-  Alignment, 
-  Language, 
-  MagicSchool, 
-  Skill 
+import { Component, OnInit } from '@angular/core';
+import {
+  AbilityScore,
+  Alignment,
+  ApiResourceList,
+  Language,
+  MagicSchool,
+  Skill
 } from '../../../core/models/dnd-api.model';
+import { DndApiService } from '../../../core/services/dnd-api.service';
 
 /**
  * Componente de exemplo para demonstrar o uso do DndApiService
@@ -23,7 +22,7 @@ import {
     <div class="container mt-4">
       <h2>API Demonstração</h2>
       <p class="text-muted">Demonstração de como usar o DndApiService para buscar dados de criação de personagens</p>
-      
+
       <div class="row mt-4">
         <!-- Ability Scores -->
         <div class="col-md-6 mb-3">
@@ -117,10 +116,10 @@ import {
                     </div>
                     <div *ngIf="!loadingDetails[language.index] && languageDetails[language.index]">
                       <strong>Tipo:</strong> {{languageDetails[language.index].is_rare}}<br>
-                      <strong>Falantes Típicos:</strong> {{languageDetails[language.index].typical_speakers?.join(', ')}}<br>
-                      <strong *ngIf="languageDetails[language.index].script">Escrita:</strong> 
+                      <strong>Falantes Típicos:</strong> {{languageDetails[language.index].typical_speakers.join(', ')}}<br>
+                      <strong *ngIf="languageDetails[language.index].script">Escrita:</strong>
                       <span *ngIf="languageDetails[language.index].script">{{languageDetails[language.index].script}}</span><br>
-                      <strong *ngIf="languageDetails[language.index].description">Descrição:</strong> 
+                      <strong *ngIf="languageDetails[language.index].description">Descrição:</strong>
                       <span *ngIf="languageDetails[language.index].description">{{languageDetails[language.index].description}}</span>
                     </div>
                   </div>
@@ -183,7 +182,7 @@ import {
                       <small>Carregando detalhes...</small>
                     </div>
                     <div *ngIf="!loadingDetails[skill.index] && skillDetails[skill.index]">
-                      <strong>Atributo Relacionado:</strong> {{skillDetails[skill.index].ability_score?.name}}<br>
+                      <strong>Atributo Relacionado:</strong> {{skillDetails[skill.index].ability_score.name}}<br>
                       <strong>Descrição:</strong> {{skillDetails[skill.index].description}}
                     </div>
                   </div>
@@ -282,7 +281,7 @@ export class DndApiExampleComponent implements OnInit {
   languageDetails: { [key: string]: Language } = {};
   magicSchoolDetails: { [key: string]: MagicSchool } = {};
   skillDetails: { [key: string]: Skill } = {};
-  
+
   // Loading states
   loadingAbilityScores = false;
   loadingAlignments = false;
