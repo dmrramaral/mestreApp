@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { DEFAULT_AVATAR, RPG_SYSTEMS, SKILLS } from '../constants/rpg.constants';
 import { FichaJogadorLegacy } from '../models/ficha-jogador.model';
-import { DEFAULT_AVATAR, SKILLS, STORAGE_KEYS } from '../constants/rpg.constants';
 import { calcularBonusProficiencia } from '../utils/rpg.utils';
 
 /**
@@ -17,11 +17,32 @@ export class FichaJogadorService {
 
   constructor() {}
 
+  criarDadosCyberPun2080Padrao() {
+    return {
+      papel: '',
+      origem: '',
+      antecedente: '',
+      historia: '',
+      perguntasEssenciais: ['', '', '', '', ''],
+      implantes: [],
+      nivelAmeacaRede: null,
+      creditoEurodolar: null,
+      estresseNeural: null,
+      equipamentosTecnologiaNotas: '',
+      implantesNotas: '',
+      hackingNotas: '',
+      veiculosNotas: '',
+      consumiveisViciosNotas: '',
+      forcasCidadeNotas: ''
+    };
+  }
+
   /**
    * Cria uma nova ficha vazia com valores padrão
    */
   criarFichaVazia(): FichaJogadorLegacy {
     return {
+      sistema: RPG_SYSTEMS.DND5E,
       avatar: DEFAULT_AVATAR,
       nome: '',
       idade: null,
@@ -70,7 +91,8 @@ export class FichaJogadorService {
         anel: []
       },
       mochila: [],
-      magias: []
+      magias: [],
+      cyberpun2080: this.criarDadosCyberPun2080Padrao()
     };
   }
 

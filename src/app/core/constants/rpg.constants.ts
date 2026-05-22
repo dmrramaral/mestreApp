@@ -35,6 +35,7 @@ export const ATTRIBUTE_MODIFIER_RANGES = [
  * URLs das APIs externas
  */
 export const API_URLS = {
+  BACKEND_SYNC: 'https://mestre-app-backend-dmrramarals-projects.vercel.app',
   DND_MONSTERS: 'https://www.dnd5eapi.co/api/monsters',
   DND_EQUIPMENT: 'https://www.dnd5eapi.co/api/2024/equipment',
   DND_API_2024: 'https://www.dnd5eapi.co/api/2024',
@@ -64,9 +65,81 @@ export const JSON_PATHS = {
  */
 export const STORAGE_KEYS = {
   PLAYER_CHARACTER: 'jogador',
+  PLAYER_CHARACTER_PREFIX: 'jogador:',
+  PLAYER_LAST_SYNC_PREFIX: 'jogador:last-sync:',
+  PLAYER_SESSION: 'jogador_sessao',
   INITIATIVE_LIST: 'listaIniciativa',
   MARKET_CACHE: 'mercado_cache'
 } as const;
+
+/**
+ * Sistemas de RPG suportados
+ */
+export const RPG_SYSTEMS = {
+  DND5E: 'dnd5e',
+  CYBERPUN2080: 'cyberpun2080'
+} as const;
+
+export type RpgSystemType = typeof RPG_SYSTEMS[keyof typeof RPG_SYSTEMS];
+
+export const RPG_SYSTEM_OPTIONS: Array<{ id: RpgSystemType; nome: string }> = [
+  { id: RPG_SYSTEMS.DND5E, nome: 'D&D 5e' },
+  { id: RPG_SYSTEMS.CYBERPUN2080, nome: 'CyberPun2080' }
+];
+
+/**
+ * Configuração base de regras para CyberPun2080
+ * Fonte: PDF Cyberpunk 2080 (introdução + progressão e criação de personagem)
+ */
+export const CYBERPUN2080_RULES = {
+  dadosSuportados: ['d4', 'd6', 'd8', 'd10', 'd12', 'd20'] as const,
+  nivelMinimo: 1,
+  nivelMaximo: 20,
+  atribuicoesBase: [15, 14, 13, 12, 10, 8] as const,
+  limiteAtributoNatural: 20,
+  niveisEvolucaoAtributoOuTalento: [4, 8, 12, 16, 20] as const,
+  classes: [
+    'Cromado',
+    'Medicânico',
+    'Piloto',
+    'Samurai',
+    'Solo',
+    'Trilha-Redes'
+  ] as const,
+  atributos: [
+    { sigla: 'FOR', nome: 'Força' },
+    { sigla: 'DES', nome: 'Destreza' },
+    { sigla: 'CON', nome: 'Constituição' },
+    { sigla: 'INT', nome: 'Inteligência' },
+    { sigla: 'SAB', nome: 'Sabedoria' },
+    { sigla: 'CAR', nome: 'Carisma' }
+  ] as const
+};
+
+export const CYBERPUN2080_ESSENTIAL_QUESTIONS = [
+  'Você é de Night City? Se sim, por que ainda não conseguiu sair? Se não, o que fez você vir pra cá e ficar?',
+  'O que você já perdeu por causa da cidade?',
+  'O que você deseja conquistar, custe o que custar?',
+  'Qual é a sua maior cicatriz invisível?',
+  'O que pode te destruir se alguém descobrir?'
+] as const;
+
+export const CYBERPUN2080_MODULES = [
+  'Equipamentos e Tecnologia',
+  'Implantes Cibernéticos',
+  'Hacking',
+  'Veículos',
+  'Consumíveis, Drogas e Vícios',
+  'Forças da Cidade'
+] as const;
+
+export const CYBERPUN2080_CITY_FORCES = [
+  'Corporações',
+  'Canais de informação',
+  'Gangues',
+  'Polícia de Night City / Max-Tac',
+  'Trauma Team'
+] as const;
 
 /**
  * Avatar padrão

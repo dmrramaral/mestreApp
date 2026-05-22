@@ -1,15 +1,36 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { EQUIPMENT_CATEGORIES, STORAGE_KEYS } from '../../../core/constants/rpg.constants';
+import { firstValueFrom } from 'rxjs';
+import {
+  CYBERPUN2080_CITY_FORCES,
+  CYBERPUN2080_ESSENTIAL_QUESTIONS,
+  CYBERPUN2080_MODULES,
+  CYBERPUN2080_RULES,
+  EQUIPMENT_CATEGORIES,
+  RPG_SYSTEM_OPTIONS,
+  RPG_SYSTEMS,
+  RpgSystemType,
+  STORAGE_KEYS
+} from '../../../core/constants/rpg.constants';
 import { ApiReference, DndClass, DndRace } from '../../../core/models/dnd-api.model';
 import { DndApiService } from '../../../core/services/dnd-api.service';
 import { FichaJogadorService } from '../../../core/services/ficha-jogador.service';
 import { StorageService } from '../../../core/services/storage.service';
+import { RegistroSync, SyncBackendService } from '../../../core/services/sync-backend.service';
 import { calcularCA, calcularModificador, formatarModificador } from '../../../core/utils/rpg.utils';
 
 // Tempo de delay para transições entre modais (em milissegundos)
 const MODAL_TRANSITION_DELAY = 300;
+
+type ModoSessao = 'convidado' | 'google';
+
+interface SessaoJogador {
+  modo: ModoSessao;
+  usuarioId: string;
+  email?: string;
+  ultimoLogin: string;
+}
 
 @Component({
   selector: 'app-ficha-jogador',
@@ -21,10 +42,19 @@ const MODAL_TRANSITION_DELAY = 300;
   templateUrl: './ficha-jogador.component.html',
   styleUrl: './ficha-jogador.component.scss'
 })
-export class FichaJogadorComponent implements OnInit {
+export class FichaJogadorComponent implements OnInit, OnDestroy {
+
+  readonly sistemaDnd5e = RPG_SYSTEMS.DND5E;
+  readonly sistemaCyberPun2080 = RPG_SYSTEMS.CYBERPUN2080;
+  readonly systemOptions = RPG_SYSTEM_OPTIONS;
+  readonly cyberpunPerguntasEssenciais = CYBERPUN2080_ESSENTIAL_QUESTIONS;
+  readonly cyberpunClasses = CYBERPUN2080_RULES.classes;
+  readonly cyberpunCityForces = CYBERPUN2080_CITY_FORCES;
+  readonly cyberpunModulos = CYBERPUN2080_MODULES;
 
   jogador: any =
     {
+      sistema: RPG_SYSTEMS.DND5E,
       avatar: 'https://www.w3schools.com/howto/img_avatar.png',
         nome: '',
         idade: null,
@@ -164,7 +194,24 @@ export class FichaJogadorComponent implements OnInit {
         },
         ouro: 0,
         magias: [],
-        mochila: []
+        mochila: [],
+        cyberpun2080: {
+          papel: '',
+          origem: '',
+          antecedente: '',
+          historia: '',
+          perguntasEssenciais: ['', '', '', '', ''],
+          implantes: [],
+          nivelAmeacaRede: null,
+          creditoEurodolar: null,
+          estresseNeural: null,
+          equipamentosTecnologiaNotas: '',
+          implantesNotas: '',
+          hackingNotas: '',
+          veiculosNotas: '',
+          consumiveisViciosNotas: '',
+          forcasCidadeNotas: ''
+        }
 
   };
 
@@ -220,7 +267,6 @@ export class FichaJogadorComponent implements OnInit {
   spellLevelFilter: string = '';
   spellClassFilter: string = '';
   availableSpellLevels: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-  availableSpellClasses: string[] = ['Bard', 'Cleric', 'Druid', 'Paladin', 'Ranger', 'Sorcerer', 'Warlock', 'Wizard'];
 
   // Cache de detalhes de magias para filtros
   spellDetailsCache: { [key: string]: any } = {};
@@ -229,7 +275,17 @@ export class FichaJogadorComponent implements OnInit {
   expandedSpellDetails: { [key: number]: any } = {};
   loadingSpellDetails: { [key: number]: boolean } = {};
 
-  private cacheKey = STORAGE_KEYS.PLAYER_CHARACTER;
+  sessao: SessaoJogador = {
+    modo: 'convidado',
+    usuarioId: 'guest',
+    ultimoLogin: new Date().toISOString()
+  };
+  mensagemSessao = '';
+  private beforeUnloadHandler?: () => void;
+  sincronizandoComServidor = false;
+  erroSincronizacao = '';
+  private pushTimeout?: ReturnType<typeof setTimeout>;
+
   readonly equipmentCategories = EQUIPMENT_CATEGORIES;
 
   // DND API data
@@ -243,37 +299,307 @@ export class FichaJogadorComponent implements OnInit {
   constructor(
     private storageService: StorageService,
     private fichaService: FichaJogadorService,
-    private dndApiService: DndApiService
+    private dndApiService: DndApiService,
+    private syncBackendService: SyncBackendService
   ) {
 
   }
 
+  get chaveFichaAtual(): string {
+    if (this.sessao.usuarioId === 'guest') {
+      return STORAGE_KEYS.PLAYER_CHARACTER;
+    }
+    return `${STORAGE_KEYS.PLAYER_CHARACTER_PREFIX}${this.sessao.usuarioId}`;
+  }
+
+  get estaAutenticado(): boolean {
+    return this.sessao.modo === 'google';
+  }
+
+  get isCyberPun2080(): boolean {
+    return this.jogador?.sistema === RPG_SYSTEMS.CYBERPUN2080;
+  }
+
+  get isDnd5e(): boolean {
+    return !this.jogador?.sistema || this.jogador.sistema === RPG_SYSTEMS.DND5E;
+  }
+
+  get descricaoSessao(): string {
+    if (this.estaAutenticado) {
+      return this.sessao.email || this.sessao.usuarioId;
+    }
+    return 'Modo convidado';
+  }
+
+  private get chaveUltimoSync(): string {
+    return `${STORAGE_KEYS.PLAYER_LAST_SYNC_PREFIX}${this.sessao.usuarioId}`;
+  }
+
+  private montarRegistroSync(): RegistroSync {
+    return {
+      id: 'main-character',
+      payload: this.jogador,
+      updatedAt: new Date().toISOString(),
+      deleted: false
+    };
+  }
+
+  private salvarCheckpointSincronizacao(timestamp: string): void {
+    this.storageService.setItem(this.chaveUltimoSync, timestamp);
+  }
+
+  private obterCheckpointSincronizacao(): string | undefined {
+    return this.storageService.getItem(this.chaveUltimoSync) || undefined;
+  }
+
+  private agendarPushServidor(): void {
+    if (!this.estaAutenticado) {
+      return;
+    }
+
+    if (this.pushTimeout) {
+      clearTimeout(this.pushTimeout);
+    }
+
+    this.pushTimeout = setTimeout(() => {
+      void this.sincronizarParaServidor();
+    }, 900);
+  }
+
+  private async sincronizarDoServidor(): Promise<void> {
+    if (!this.estaAutenticado) {
+      return;
+    }
+
+    try {
+      this.sincronizandoComServidor = true;
+      this.erroSincronizacao = '';
+
+      const pull = await firstValueFrom(
+        this.syncBackendService.pullMudancas(this.sessao.usuarioId, this.obterCheckpointSincronizacao())
+      );
+
+      const ultimaMudanca = [...(pull.changes || [])]
+        .filter((change) => !change.deleted)
+        .sort((a, b) => Date.parse(a.updatedAt) - Date.parse(b.updatedAt))
+        .at(-1);
+
+      if (ultimaMudanca?.payload) {
+        this.jogador = this.garantirEstruturaSistema(ultimaMudanca.payload);
+        this.storageService.setObject(this.chaveFichaAtual, this.jogador);
+      }
+
+      this.salvarCheckpointSincronizacao(pull.serverTimestamp);
+      this.mensagemSessao = 'Sincronização com servidor concluída.';
+    } catch {
+      this.erroSincronizacao = 'Não foi possível atualizar dados do servidor agora.';
+    } finally {
+      this.sincronizandoComServidor = false;
+    }
+  }
+
+  private async sincronizarParaServidor(): Promise<void> {
+    if (!this.estaAutenticado) {
+      return;
+    }
+
+    try {
+      this.sincronizandoComServidor = true;
+      this.erroSincronizacao = '';
+
+      const push = await firstValueFrom(
+        this.syncBackendService.pushMudancas(this.sessao.usuarioId, [this.montarRegistroSync()])
+      );
+
+      this.salvarCheckpointSincronizacao(push.serverTimestamp);
+    } catch {
+      this.erroSincronizacao = 'Falha ao sincronizar com o servidor. Seus dados locais foram preservados.';
+    } finally {
+      this.sincronizandoComServidor = false;
+    }
+  }
+
+  private carregarSessao(): void {
+    const sessaoSalva = this.storageService.getObject<SessaoJogador>(STORAGE_KEYS.PLAYER_SESSION);
+    if (sessaoSalva?.usuarioId) {
+      this.sessao = sessaoSalva;
+    }
+  }
+
+  private salvarSessao(): void {
+    this.storageService.setObject(STORAGE_KEYS.PLAYER_SESSION, {
+      ...this.sessao,
+      ultimoLogin: new Date().toISOString()
+    });
+  }
+
+  private carregarFichaDaSessao(): void {
+    const jogador = this.storageService.getObject<any>(this.chaveFichaAtual);
+    if (jogador) {
+      this.jogador = this.garantirEstruturaSistema(jogador);
+      return;
+    }
+    this.jogador = this.garantirEstruturaSistema(this.fichaService.criarFichaVazia());
+  }
+
+  private criarDadosCyberPunPadrao() {
+    return {
+      papel: '',
+      origem: '',
+      antecedente: '',
+      historia: '',
+      perguntasEssenciais: ['', '', '', '', ''],
+      implantes: [],
+      nivelAmeacaRede: null,
+      creditoEurodolar: null,
+      estresseNeural: null,
+      equipamentosTecnologiaNotas: '',
+      implantesNotas: '',
+      hackingNotas: '',
+      veiculosNotas: '',
+      consumiveisViciosNotas: '',
+      forcasCidadeNotas: ''
+    };
+  }
+
+  private garantirEstruturaSistema(ficha: any): any {
+    const base = { ...ficha };
+    base.sistema = base.sistema || RPG_SYSTEMS.DND5E;
+    base.cyberpun2080 = {
+      ...this.criarDadosCyberPunPadrao(),
+      ...(base.cyberpun2080 || {})
+    };
+    if (!Array.isArray(base.cyberpun2080.perguntasEssenciais)) {
+      base.cyberpun2080.perguntasEssenciais = ['', '', '', '', ''];
+    }
+    while (base.cyberpun2080.perguntasEssenciais.length < 5) {
+      base.cyberpun2080.perguntasEssenciais.push('');
+    }
+    base.cyberpun2080.perguntasEssenciais = base.cyberpun2080.perguntasEssenciais.slice(0, 5);
+    return base;
+  }
+
+  selecionarSistema(systemId: RpgSystemType): void {
+    this.jogador = this.garantirEstruturaSistema({
+      ...this.jogador,
+      sistema: systemId
+    });
+
+    if (systemId === RPG_SYSTEMS.CYBERPUN2080) {
+      this.spellClassFilter = '';
+    } else {
+      this.loadClassesAndRaces();
+    }
+
+    this.saveToCache();
+  }
+
+  private normalizarUsuarioGoogle(email: string): string {
+    return email.trim().toLowerCase().replaceAll(/[^a-z0-9]/g, '_').replaceAll(/_+/g, '_');
+  }
+
+  private migrarFichaConvidadoParaConta(usuarioId: string): void {
+    const chaveConvidado = STORAGE_KEYS.PLAYER_CHARACTER;
+    const chaveConta = `${STORAGE_KEYS.PLAYER_CHARACTER_PREFIX}${usuarioId}`;
+    const fichaConta = this.storageService.getObject<any>(chaveConta);
+
+    if (fichaConta) {
+      return;
+    }
+
+    const fichaConvidado = this.storageService.getObject<any>(chaveConvidado);
+    if (!fichaConvidado) {
+      return;
+    }
+
+    this.storageService.setObject(chaveConta, fichaConvidado);
+    this.mensagemSessao = 'Ficha de convidado migrada automaticamente para sua conta.';
+  }
+
+  entrarComGoogle(): void {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const email = window.prompt('Informe seu e-mail Google para vincular sua ficha:');
+    if (!email) {
+      return;
+    }
+
+    const usuarioId = this.normalizarUsuarioGoogle(email);
+    if (!usuarioId) {
+      this.mensagemSessao = 'Não foi possível validar o e-mail informado.';
+      return;
+    }
+
+    this.migrarFichaConvidadoParaConta(usuarioId);
+    this.sessao = {
+      modo: 'google',
+      usuarioId,
+      email: email.trim(),
+      ultimoLogin: new Date().toISOString()
+    };
+    this.salvarSessao();
+    this.carregarFichaDaSessao();
+    void this.sincronizarDoServidor();
+
+    if (!this.mensagemSessao) {
+      this.mensagemSessao = 'Conta vinculada com sucesso. Seus dados agora estão separados por usuário.';
+    }
+  }
+
+  sairDaConta(): void {
+    this.sessao = {
+      modo: 'convidado',
+      usuarioId: 'guest',
+      ultimoLogin: new Date().toISOString()
+    };
+    this.salvarSessao();
+    this.carregarFichaDaSessao();
+    this.mensagemSessao = 'Você voltou para o modo convidado.';
+    this.erroSincronizacao = '';
+  }
+
   saveToCache() {
-    this.storageService.setObject(this.cacheKey, this.jogador);
+    this.storageService.setObject(this.chaveFichaAtual, this.jogador);
+    this.agendarPushServidor();
   }
 
   ngOnInit(): void {
-    const jogador = this.storageService.getObject(this.cacheKey);
-    if (jogador) {
-      this.jogador = jogador;
-    } else {
-      this.jogador = this.fichaService.criarFichaVazia();
+    this.carregarSessao();
+    this.carregarFichaDaSessao();
+    if (this.estaAutenticado) {
+      void this.sincronizarDoServidor();
     }
 
     if (typeof window !== 'undefined') {
-      window.addEventListener('beforeunload', () => {
-        this.storageService.setObject(this.cacheKey, this.jogador);
-      });
+      this.beforeUnloadHandler = () => {
+        this.storageService.setObject(this.chaveFichaAtual, this.jogador);
+      };
+      window.addEventListener('beforeunload', this.beforeUnloadHandler);
     }
 
-    // Carregar classes e raças da API
-    this.loadClassesAndRaces();
+    // Carrega dados D&D apenas quando o sistema atual exigir
+    if (this.isDnd5e) {
+      this.loadClassesAndRaces();
+    }
   }
+
+  ngOnDestroy(): void {
+    if (typeof window !== 'undefined' && this.beforeUnloadHandler) {
+      window.removeEventListener('beforeunload', this.beforeUnloadHandler);
+    }
+    if (this.pushTimeout) {
+      clearTimeout(this.pushTimeout);
+    }
+  }
+
   limparCache() {
     if (confirm('Tem certeza que deseja limpar o cache?')) {
-      this.storageService.removeItem(this.cacheKey);
+      this.storageService.removeItem(this.chaveFichaAtual);
       this.jogador = this.fichaService.criarFichaVazia();
       this.saveToCache();
+      this.mensagemSessao = 'Ficha atual removida do armazenamento local.';
     }
   }
   confirmandoLimparCache: boolean = false;
@@ -302,7 +628,7 @@ export class FichaJogadorComponent implements OnInit {
       const reader = new FileReader();
       reader.onload = (e: any) => {
         const content = e.target.result;
-        this.jogador = JSON.parse(content);
+        this.jogador = this.garantirEstruturaSistema(JSON.parse(content));
         this.saveToCache();
       };
       reader.readAsText(file);
@@ -543,6 +869,10 @@ export class FichaJogadorComponent implements OnInit {
    * Carrega classes e raças da API DND
    */
   loadClassesAndRaces(): void {
+    if (!this.isDnd5e) {
+      return;
+    }
+
     this.dndApiService.getClasses().subscribe({
       next: (data) => {
         this.availableClasses = data.results || [];
@@ -746,7 +1076,12 @@ export class FichaJogadorComponent implements OnInit {
    * Seleciona uma classe e carrega seus traços
    */
   selectClass(classRef: ApiReference): void {
+    if (!this.isDnd5e) {
+      return;
+    }
+
     this.jogador.classe = classRef.name;
+    this.spellClassFilter = classRef.index;
 
     // Carrega detalhes da classe para obter traços
     this.dndApiService.getClassDetails(classRef.index).subscribe({
@@ -803,10 +1138,26 @@ export class FichaJogadorComponent implements OnInit {
     });
   }
 
+  private getClasseFiltroApi(): string | undefined {
+    if (!this.spellClassFilter) {
+      return undefined;
+    }
+
+    const classeByNome = this.availableClasses.find((classe) =>
+      classe.name.toLowerCase() === this.spellClassFilter.toLowerCase()
+    );
+
+    return (classeByNome?.index || this.spellClassFilter).toLowerCase();
+  }
+
   /**
    * Seleciona uma raça e carrega seus traços
    */
   selectRace(raceRef: ApiReference): void {
+    if (!this.isDnd5e) {
+      return;
+    }
+
     this.jogador.raca = raceRef.name;
 
     // Carrega detalhes da raça para obter traços
@@ -922,7 +1273,21 @@ export class FichaJogadorComponent implements OnInit {
    * Abre modal de busca de magias
    */
   abrirBuscarMagia(): void {
+    if (!this.isDnd5e) {
+      return;
+    }
+
     this.buscarMagiaAberto = true;
+
+    if (!this.spellClassFilter && this.jogador.classe) {
+      const classeSelecionada = this.availableClasses.find((classe) =>
+        classe.name.toLowerCase() === this.jogador.classe.toLowerCase()
+      );
+      if (classeSelecionada) {
+        this.spellClassFilter = classeSelecionada.index;
+      }
+    }
+
     if (this.availableSpells.length === 0) {
       this.loadSpells();
     }
@@ -989,7 +1354,7 @@ export class FichaJogadorComponent implements OnInit {
     // Tentar usar o método com filtros da API
     this.dndApiService.getSpellsWithFilters(
       this.spellLevelFilter || undefined,
-      this.spellClassFilter || undefined
+      this.getClasseFiltroApi()
     ).subscribe({
       next: (data: any) => {
         this.availableSpells = data.results || [];
@@ -1247,6 +1612,10 @@ export class FichaJogadorComponent implements OnInit {
    * Abre modal de busca de talentos
    */
   abrirBuscarTalento(): void {
+    if (!this.isDnd5e) {
+      return;
+    }
+
     this.buscarTalentoAberto = true;
     if (this.availableFeats.length === 0) {
       this.loadFeatsFromOpen5e();

@@ -19,10 +19,15 @@
                             </h2>
                             <div class="character-details">
                                 <span class="detail-badge">
-                                    <i class="fas fa-hat-wizard me-1"></i>{{jogador.classe || 'Classe'}}
+                                    <i class="fas fa-layer-group me-1"></i>{{ isCyberPun2080 ? 'CyberPun2080' : 'D&D 5e' }}
                                 </span>
                                 <span class="detail-badge">
-                                    <i class="fas fa-users me-1"></i>{{jogador.raca || 'Raça'}}
+                                    <i class="fas me-1" [ngClass]="isCyberPun2080 ? 'fa-user-ninja' : 'fa-hat-wizard'"></i>
+                                    {{ isCyberPun2080 ? (jogador.cyberpun2080?.papel || 'Papel') : (jogador.classe || 'Classe') }}
+                                </span>
+                                <span class="detail-badge">
+                                    <i class="fas me-1" [ngClass]="isCyberPun2080 ? 'fa-city' : 'fa-users'"></i>
+                                    {{ isCyberPun2080 ? (jogador.cyberpun2080?.origem || 'Origem') : (jogador.raca || 'Raça') }}
                                 </span>
                             </div>
                         </div>
@@ -48,9 +53,34 @@
                 </div>
             </div>
             <div class="action-buttons-header mt-3">
+                <div class="session-box">
+                    <div class="session-badges">
+                        <span class="badge" [ngClass]="estaAutenticado ? 'bg-success' : 'bg-secondary'">
+                            {{ estaAutenticado ? 'Conta vinculada' : 'Modo convidado' }}
+                        </span>
+                        <span class="session-identity">{{ descricaoSessao }}</span>
+                    </div>
+                    <div class="session-actions mt-2">
+                        <button *ngIf="!estaAutenticado" class="btn btn-light btn-sm" (click)="entrarComGoogle()">
+                            <i class="fab fa-google me-1"></i>Vincular Google
+                        </button>
+                        <button *ngIf="estaAutenticado" class="btn btn-outline-light btn-sm" (click)="sairDaConta()">
+                            <i class="fas fa-user-times me-1"></i>Usar Convidado
+                        </button>
+                    </div>
+                    <small *ngIf="sincronizandoComServidor" class="session-message d-block mt-1">Sincronizando com servidor...</small>
+                    <small *ngIf="erroSincronizacao" class="session-message-error d-block mt-1">{{ erroSincronizacao }}</small>
+                    <small *ngIf="mensagemSessao" class="session-message d-block mt-1">{{ mensagemSessao }}</small>
+                </div>
                 <button class="btn btn-warning btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#editarFichaModal">
                     <i class="fas fa-edit me-1"></i>Editar Ficha
                 </button>
+                <div class="d-inline-flex align-items-center ms-2">
+                    <label class="text-white small me-2 mb-0">Sistema</label>
+                    <select class="form-select form-select-sm" [ngModel]="jogador.sistema" (ngModelChange)="selecionarSistema($event)">
+                        <option *ngFor="let option of systemOptions" [ngValue]="option.id">{{ option.nome }}</option>
+                    </select>
+                </div>
                 <button class="btn btn-info btn-sm" (click)="baixarJogador()">
                     <i class="fas fa-download me-1"></i>Baixar
                 </button>
@@ -203,13 +233,105 @@
         </div>
     </div>
 
+    <div class="row mb-4" *ngIf="isCyberPun2080">
+        <div class="col-lg-12">
+            <div class="card shadow-sm cyber-card">
+                <div class="card-header bg-dark text-info">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-microchip me-2"></i>CyberPun2080</h5>
+                        <small>Campos específicos do sistema</small>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Papel</label>
+                            <select class="form-select" [(ngModel)]="jogador.cyberpun2080.papel" (change)="saveToCache()">
+                                <option value="">Selecione</option>
+                                <option *ngFor="let classe of cyberpunClasses" [ngValue]="classe">{{ classe }}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Origem</label>
+                            <input type="text" class="form-control" [(ngModel)]="jogador.cyberpun2080.origem" (change)="saveToCache()" placeholder="Ex: Megacorp, Rua, Favela Vertical">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Eurodólares</label>
+                            <input type="number" class="form-control" [(ngModel)]="jogador.cyberpun2080.creditoEurodolar" (change)="saveToCache()">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Ameaça de Rede</label>
+                            <input type="number" class="form-control" [(ngModel)]="jogador.cyberpun2080.nivelAmeacaRede" (change)="saveToCache()" min="0" max="10">
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Estresse Neural</label>
+                            <input type="number" class="form-control" [(ngModel)]="jogador.cyberpun2080.estresseNeural" (change)="saveToCache()" min="0" max="100">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Antecedente</label>
+                            <input type="text" class="form-control" [(ngModel)]="jogador.cyberpun2080.antecedente" (change)="saveToCache()" placeholder="Ex: Ex-corp, Gangue, Militar">
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">História curta</label>
+                            <textarea class="form-control" rows="2" [(ngModel)]="jogador.cyberpun2080.historia" (change)="saveToCache()" placeholder="Resumo da história e cicatrizes do personagem"></textarea>
+                        </div>
+                        <div class="col-12">
+                            <h6 class="mb-2">Módulos do Sistema</h6>
+                            <div class="d-flex flex-wrap gap-2 mb-2">
+                                <span class="badge bg-secondary" *ngFor="let modulo of cyberpunModulos">{{ modulo }}</span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Equipamentos e Tecnologia</label>
+                            <textarea class="form-control" rows="2" [(ngModel)]="jogador.cyberpun2080.equipamentosTecnologiaNotas" (change)="saveToCache()" placeholder="Armas, munições, proteções e utilitários"></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Implantes Cibernéticos</label>
+                            <textarea class="form-control" rows="2" [(ngModel)]="jogador.cyberpun2080.implantesNotas" (change)="saveToCache()" placeholder="Upgrades, custo de humanidade e riscos"></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Hacking</label>
+                            <textarea class="form-control" rows="2" [(ngModel)]="jogador.cyberpun2080.hackingNotas" (change)="saveToCache()" placeholder="Invasões, protocolos e scripts"></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Veículos</label>
+                            <textarea class="form-control" rows="2" [(ngModel)]="jogador.cyberpun2080.veiculosNotas" (change)="saveToCache()" placeholder="Perseguições, montagem e suporte"></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Consumíveis, Drogas e Vícios</label>
+                            <textarea class="form-control" rows="2" [(ngModel)]="jogador.cyberpun2080.consumiveisViciosNotas" (change)="saveToCache()" placeholder="Efeitos físicos e psicológicos"></textarea>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Forças da Cidade</label>
+                            <textarea class="form-control" rows="2" [(ngModel)]="jogador.cyberpun2080.forcasCidadeNotas" (change)="saveToCache()" placeholder="Contatos com corporações, gangues, polícia e Trauma Team"></textarea>
+                            <small class="text-muted d-block mt-1">Referências: {{ cyberpunCityForces.join(', ') }}</small>
+                        </div>
+                        <div class="col-12">
+                            <h6 class="mb-2">Perguntas Essenciais</h6>
+                        </div>
+                        <div class="col-12" *ngFor="let pergunta of cyberpunPerguntasEssenciais; let i = index">
+                            <label class="form-label">{{ i + 1 }}. {{ pergunta }}</label>
+                            <textarea
+                                class="form-control"
+                                rows="2"
+                                [(ngModel)]="jogador.cyberpun2080.perguntasEssenciais[i]"
+                                (change)="saveToCache()"
+                                placeholder="Sua resposta"
+                            ></textarea>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Collapsible Sections -->
     <div class="row mb-4">
         <div class="col-12">
             <div class="card shadow-sm">
                 <div class="card-body">
                     <div class="section-buttons">
-                        <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMagias">
+                        <button *ngIf="isDnd5e" class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMagias">
                             <i class="fas fa-magic me-2"></i>Magias
                         </button>
                         <button class="btn btn-outline-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTalentos">
@@ -237,7 +359,7 @@
     </div>
 
     <!-- Magias -->
-    <div class="collapse" id="collapseMagias">
+    <div class="collapse" id="collapseMagias" *ngIf="isDnd5e">
         <div class="card shadow-sm mb-3">
             <div class="card-header bg-primary text-white">
                 <div class="d-flex justify-content-between align-items-center">
@@ -1372,8 +1494,8 @@
                         <div class="col-md-3">
                             <select class="form-select" [(ngModel)]="spellClassFilter" (change)="aplicarFiltrosMagias()">
                                 <option value="">Todas as Classes</option>
-                                <option *ngFor="let classType of availableSpellClasses" [value]="classType">
-                                    {{ classType }}
+                                <option *ngFor="let classType of availableClasses" [value]="classType.index">
+                                    {{ classType.name }}
                                 </option>
                             </select>
                         </div>

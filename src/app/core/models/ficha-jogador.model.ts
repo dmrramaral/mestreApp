@@ -2,6 +2,26 @@
  * Interfaces para o sistema de personagens de RPG
  */
 
+export type SistemaRpg = 'dnd5e' | 'cyberpun2080';
+
+export interface DadosCyberPun2080 {
+  papel: string;
+  origem: string;
+  antecedente: string;
+  historia: string;
+  perguntasEssenciais: string[];
+  implantes: string[];
+  nivelAmeacaRede: number | null;
+  creditoEurodolar: number | null;
+  estresseNeural: number | null;
+  equipamentosTecnologiaNotas: string;
+  implantesNotas: string;
+  hackingNotas: string;
+  veiculosNotas: string;
+  consumiveisViciosNotas: string;
+  forcasCidadeNotas: string;
+}
+
 /**
  * Atributos básicos de um personagem
  */
@@ -91,6 +111,7 @@ export interface StatusCondicao {
  * Ficha completa do jogador
  */
 export interface FichaJogador {
+  sistema?: SistemaRpg;
   avatar: string;
   nome: string;
   idade: number | null;
@@ -102,7 +123,7 @@ export interface FichaJogador {
   ca: number | null;
   iniciativa: number | null;
   inspiracao: number | null;
-  
+
   // Status de condição
   fome: number | null;
   sede: number | null;
@@ -110,16 +131,16 @@ export interface FichaJogador {
   calor: number | null;
   frio: number | null;
   sono: number | null;
-  
+
   proficiencia: number | null;
   deslocamento: number | null;
-  
+
   // Dados de jogo
   talentos: Talento[];
   tracos?: Traco[];
   atributos: Atributos;
   pericias: Pericia[];
-  
+
   // Equipamentos por categoria
   armasCorpoACorpo?: Equipamento[];
   armasDistancia?: Equipamento[];
@@ -130,12 +151,15 @@ export interface FichaJogador {
   itensGerais?: Equipamento[];
   ferramentas?: Equipamento[];
   kits?: Equipamento[];
-  
+
   // Inventário
   mochila?: ItemInventario[];
-  
+
   // Magias
   magias?: Magia[];
+
+  // Dados de sistema opcional
+  cyberpun2080?: DadosCyberPun2080;
 }
 
 /**
@@ -143,6 +167,7 @@ export interface FichaJogador {
  * @deprecated Use FichaJogador ao invés
  */
 export interface FichaJogadorLegacy {
+  sistema?: SistemaRpg;
   avatar: string;
   nome: string;
   idade: number | null;
@@ -165,5 +190,6 @@ export interface FichaJogadorLegacy {
   talentos: any[];
   atributos: any;
   pericias: any[];
+  cyberpun2080?: DadosCyberPun2080;
   [key: string]: any;
 }

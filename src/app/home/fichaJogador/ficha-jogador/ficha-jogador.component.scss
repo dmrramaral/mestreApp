@@ -12,7 +12,7 @@
     border: none;
     border-radius: 15px;
     color: white;
-    
+
     .card-body {
         padding: 25px;
     }
@@ -27,13 +27,13 @@
     overflow: hidden;
     border: 4px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    
+
     .avatar-img {
         width: 100%;
         height: 100%;
         object-fit: cover;
     }
-    
+
     .avatar-overlay {
         position: absolute;
         top: 0;
@@ -46,13 +46,13 @@
         justify-content: center;
         opacity: 0;
         transition: opacity 0.3s ease;
-        
+
         i {
             font-size: 3rem;
             color: white;
         }
     }
-    
+
     &:hover .avatar-overlay {
         opacity: 1;
     }
@@ -84,13 +84,13 @@
     border-radius: 10px;
     padding: 15px;
     text-align: center;
-    
+
     i {
         font-size: 1.5rem;
         display: block;
         margin-bottom: 8px;
     }
-    
+
     .stat-label {
         display: block;
         font-size: 0.75rem;
@@ -98,7 +98,7 @@
         letter-spacing: 1px;
         margin-bottom: 5px;
     }
-    
+
     .stat-value {
         display: block;
         font-size: 1.5rem;
@@ -110,11 +110,45 @@
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
-    
+
     .btn {
         font-weight: 600;
         border-radius: 8px;
     }
+}
+
+.session-box {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    padding: 10px 12px;
+    min-width: 240px;
+}
+
+.session-badges {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.session-identity {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.session-actions .btn {
+    font-size: 0.8rem;
+}
+
+.session-message {
+    color: #fef08a;
+    font-size: 0.8rem;
+}
+
+.session-message-error {
+    color: #fecaca;
+    font-size: 0.8rem;
 }
 
 // Combat Stats
@@ -131,23 +165,23 @@
     padding: 15px 10px;
     text-align: center;
     transition: all 0.3s ease;
-    
+
     &:hover {
         background: #edf2f7;
         transform: translateY(-2px);
     }
-    
+
     &.active {
         background: #e6fffa;
         border: 2px solid #38b2ac;
     }
-    
+
     i {
         font-size: 1.5rem;
         display: block;
         margin-bottom: 8px;
     }
-    
+
     .stat-label {
         display: block;
         font-size: 0.75rem;
@@ -156,14 +190,14 @@
         text-transform: uppercase;
         margin-bottom: 5px;
     }
-    
+
     .stat-value {
         display: block;
         font-size: 1.8rem;
         font-weight: 700;
         color: #2d3748;
     }
-    
+
     .stat-input {
         width: 70px;
         text-align: center;
@@ -174,7 +208,7 @@
         padding: 5px;
         margin: 0 auto;
         display: block;
-        
+
         &:focus {
             outline: none;
             box-shadow: 0 0 0 3px rgba(56, 178, 172, 0.2);
@@ -197,19 +231,19 @@
     text-align: center;
     color: white;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    
+
     &:hover {
         transform: translateY(-5px);
         box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
     }
-    
+
     i {
         font-size: 1.5rem;
         display: block;
         margin-bottom: 8px;
         opacity: 0.9;
     }
-    
+
     .attr-name {
         display: block;
         font-size: 0.75rem;
@@ -219,14 +253,14 @@
         margin-bottom: 5px;
         opacity: 0.9;
     }
-    
+
     .attr-value {
         display: block;
         font-size: 1.8rem;
         font-weight: 700;
         margin-bottom: 5px;
     }
-    
+
     .attr-input {
         display: block;
         width: 60px;
@@ -239,14 +273,14 @@
         padding: 5px;
         background: rgba(255, 255, 255, 0.9);
         color: #2d3748;
-        
+
         &:focus {
             outline: none;
             box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
             border-color: white;
         }
     }
-    
+
     .attr-modifier {
         display: block;
         font-size: 1rem;
@@ -264,13 +298,13 @@
     gap: 10px;
     flex-wrap: wrap;
     justify-content: center;
-    
+
     .btn {
         font-weight: 600;
         border-radius: 8px;
         padding: 10px 20px;
         transition: all 0.3s ease;
-        
+
         &:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
@@ -290,77 +324,77 @@
     padding: 15px;
     border-left: 4px solid #667eea;
     transition: all 0.2s ease;
-    
+
     &:hover {
         background: #edf2f7;
         transform: translateX(5px);
     }
-    
+
     .spell-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 10px;
         margin-bottom: 8px;
-        
+
         > div {
             display: flex;
             align-items: center;
             gap: 10px;
         }
-        
+
         i {
             font-size: 1.2rem;
         }
-        
+
         strong {
             font-size: 1.1rem;
             color: #2d3748;
         }
     }
-    
+
     .spell-description {
         color: #718096;
         margin: 0;
         font-size: 0.9rem;
         line-height: 1.5;
     }
-    
+
     .spell-details-expanded {
         background: white;
         border-radius: 8px;
         padding: 15px;
         border: 1px solid #e2e8f0;
         margin-top: 15px;
-        
+
         .detail-box {
             background: #f7fafc;
             padding: 10px 15px;
             border-radius: 6px;
-            
+
             strong {
                 display: block;
                 margin-bottom: 5px;
                 font-size: 0.9rem;
                 color: #4a5568;
             }
-            
+
             span {
                 color: #2d3748;
                 font-size: 0.95rem;
             }
-            
+
             p {
                 margin-bottom: 0;
                 color: #4a5568;
                 font-size: 0.9rem;
                 line-height: 1.6;
-                
+
                 &:last-child {
                     margin-bottom: 0;
                 }
             }
-            
+
             small {
                 font-size: 0.85rem;
                 margin-top: 5px;
@@ -375,7 +409,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 8px;
-    
+
     > div {
         display: flex;
         align-items: center;
@@ -395,20 +429,20 @@
     border-radius: 8px;
     padding: 15px;
     border-left: 4px solid #48bb78;
-    
+
     .talent-header {
         div {
             i {
                 font-size: 1.2rem;
             }
-            
+
             strong {
                 font-size: 1.1rem;
                 color: #2d3748;
             }
         }
     }
-    
+
     .talent-description {
         color: #718096;
         margin: 0;
@@ -428,20 +462,20 @@
     border-radius: 8px;
     padding: 15px;
     border-left: 4px solid #ecc94b;
-    
+
     .item-header {
         > div {
             i {
                 font-size: 1.2rem;
             }
-            
+
             strong {
                 font-size: 1.1rem;
                 color: #2d3748;
             }
         }
     }
-    
+
     .item-description {
         color: #718096;
         margin: 0;
@@ -464,7 +498,7 @@
         margin-bottom: 15px;
         padding-bottom: 8px;
         border-bottom: 2px solid #e2e8f0;
-        
+
         i {
             color: #4299e1;
             margin-right: 8px;
@@ -477,20 +511,20 @@
     border-radius: 8px;
     padding: 12px;
     margin-bottom: 10px;
-    
+
     .equipment-header {
         margin-bottom: 6px;
-        
+
         > div {
             gap: 5px;
         }
-        
+
         strong {
             color: #2d3748;
             font-size: 0.95rem;
         }
     }
-    
+
     .equipment-description {
         color: #718096;
         margin: 0;
@@ -506,11 +540,11 @@
     font-weight: 600;
     display: inline-flex;
     align-items: center;
-    
+
     i {
         color: #fbbf24;
     }
-    
+
     .gold-input {
         width: 60px;
         border: none;
@@ -528,7 +562,7 @@
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
-    
+
     .skill-badge {
         .badge {
             font-size: 0.9rem;
@@ -544,13 +578,13 @@
     border-radius: 10px;
     padding: 15px;
     text-align: center;
-    
+
     i {
         font-size: 2rem;
         display: block;
         margin-bottom: 10px;
     }
-    
+
     label {
         display: block;
         font-weight: 600;
@@ -560,13 +594,13 @@
         font-size: 0.8rem;
         letter-spacing: 1px;
     }
-    
+
     .form-control {
         text-align: center;
         font-size: 1.2rem;
         font-weight: 700;
         border: 2px solid #e2e8f0;
-        
+
         &:focus {
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
@@ -580,10 +614,10 @@
     padding: 20px;
     border-radius: 8px;
     border: 2px dashed #cbd5e0;
-    
+
     .form-control, .form-select {
         border: 2px solid #e2e8f0;
-        
+
         &:focus {
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
@@ -597,10 +631,10 @@
     padding: 15px;
     border-radius: 6px;
     border: 2px solid #cbd5e0;
-    
+
     .form-control {
         border: 2px solid #e2e8f0;
-        
+
         &:focus {
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
@@ -627,7 +661,7 @@
     width: 90%;
     border: none;
     border-radius: 15px;
-    
+
     .card-body {
         padding: 40px;
     }
@@ -639,27 +673,27 @@
         padding: 10px;
         margin-top: 70px;
     }
-    
+
     .character-name {
         font-size: 1.5rem;
     }
-    
+
     .avatar-container {
         width: 120px;
         height: 120px;
     }
-    
+
     .equipment-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .section-buttons {
         .btn {
             flex: 1 1 calc(50% - 5px);
             min-width: 0;
         }
     }
-    
+
     .action-buttons-header {
         .btn {
             flex: 1 1 calc(50% - 5px);
@@ -670,35 +704,35 @@
 @media (max-width: 576px) {
     .stat-mini {
         padding: 10px;
-        
+
         i {
             font-size: 1.2rem;
         }
-        
+
         .stat-value {
             font-size: 1.2rem;
         }
     }
-    
+
     .combat-stat {
         padding: 10px 5px;
-        
+
         i {
             font-size: 1.2rem;
         }
-        
+
         .stat-value {
             font-size: 1.4rem;
         }
     }
-    
+
     .attribute-box {
         padding: 10px 5px;
-        
+
         i {
             font-size: 1.2rem;
         }
-        
+
         .attr-value {
             font-size: 1.4rem;
         }
@@ -710,36 +744,36 @@
     border: none;
     border-radius: 15px;
     overflow: hidden;
-    
+
     .modal-header {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
         border: none;
         padding: 20px;
-        
+
         .modal-title {
             font-weight: 700;
             font-size: 1.5rem;
         }
     }
-    
+
     .modal-body {
         padding: 30px;
         background: #f7fafc;
     }
-    
+
     .form-section {
         background: white;
         padding: 20px;
         border-radius: 12px;
         margin-bottom: 20px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-        
+
         &:last-child {
             margin-bottom: 0;
         }
     }
-    
+
     .section-heading {
         color: #2d3748;
         font-weight: 700;
@@ -747,36 +781,36 @@
         margin-bottom: 15px;
         padding-bottom: 10px;
         border-bottom: 2px solid #e2e8f0;
-        
+
         i {
             color: #667eea;
         }
     }
-    
+
     .form-label {
         color: #4a5568;
         font-weight: 600;
         font-size: 0.9rem;
         margin-bottom: 8px;
-        
+
         i {
             color: #667eea;
             font-size: 0.85rem;
         }
     }
-    
+
     .form-control {
         border: 2px solid #e2e8f0;
         border-radius: 8px;
         padding: 10px 12px;
         transition: all 0.3s ease;
-        
+
         &:focus {
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
     }
-    
+
     .skills-checklist {
         .skill-check {
             background: #f7fafc;
@@ -784,34 +818,34 @@
             border-radius: 8px;
             transition: all 0.2s ease;
             border: 2px solid transparent;
-            
+
             &:hover {
                 background: #edf2f7;
                 border-color: #e2e8f0;
             }
-            
+
             .form-check-input {
                 width: 1.2rem;
                 height: 1.2rem;
                 cursor: pointer;
                 border: 2px solid #cbd5e0;
-                
+
                 &:checked {
                     background-color: #667eea;
                     border-color: #667eea;
                 }
-                
+
                 &:focus {
                     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
                 }
             }
-            
+
             .form-check-label {
                 cursor: pointer;
                 color: #4a5568;
                 font-weight: 500;
                 margin-left: 8px;
-                
+
                 i {
                     color: #48bb78;
                     font-size: 0.9rem;
@@ -819,37 +853,37 @@
             }
         }
     }
-    
+
     .modal-footer {
         padding: 20px 30px;
         border-top: 2px solid #e2e8f0;
         background: white;
-        
+
         .btn {
             padding: 10px 24px;
             font-weight: 600;
             border-radius: 8px;
             transition: all 0.3s ease;
-            
+
             &:hover {
                 transform: translateY(-2px);
                 box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
             }
         }
-        
+
         .btn-primary {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             border: none;
-            
+
             &:hover {
                 background: linear-gradient(135deg, #5568d3 0%, #653a8b 100%);
             }
         }
-        
+
         .btn-secondary {
             background: #718096;
             border: none;
-            
+
             &:hover {
                 background: #4a5568;
             }
@@ -870,7 +904,7 @@
 
   p, ul {
     margin-bottom: 0.5rem;
-    
+
     &:last-child {
       margin-bottom: 0;
     }
@@ -878,7 +912,7 @@
 
   ul {
     padding-left: 1.5rem;
-    
+
     li {
       margin-bottom: 0.25rem;
     }
@@ -888,7 +922,7 @@
 // Input group button styling
 .input-group .btn-outline-info {
   border-color: #ced4da;
-  
+
   &:hover:not(:disabled) {
     background-color: #0dcaf0;
     border-color: #0dcaf0;
@@ -906,27 +940,27 @@
   cursor: pointer;
   transition: all 0.3s ease;
   border: 2px solid transparent;
-  
+
   &:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     border-color: #667eea;
   }
-  
+
   &.selected {
     border-color: #28a745;
     background-color: rgba(40, 167, 69, 0.1);
-    
+
     .card-title {
       color: #28a745;
       font-weight: bold;
     }
   }
-  
+
   .card-body {
     padding: 20px;
   }
-  
+
   .card-title {
     font-size: 1.1rem;
     margin-bottom: 10px;
@@ -950,34 +984,34 @@
     margin-bottom: 15px;
     border-left: 4px solid #667eea;
     transition: all 0.3s ease;
-    
+
     &:hover {
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
       transform: translateX(5px);
     }
-    
+
     .trait-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 10px;
-      
+
       div:first-child {
         display: flex;
         align-items: center;
         gap: 10px;
       }
-      
+
       strong {
         color: #333;
         font-size: 1.05rem;
       }
-      
+
       i {
         font-size: 1.2rem;
       }
     }
-    
+
     .trait-description {
       margin: 0;
       color: #666;
