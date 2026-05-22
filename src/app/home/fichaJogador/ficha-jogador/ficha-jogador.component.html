@@ -64,10 +64,19 @@
                         <button *ngIf="!estaAutenticado" class="btn btn-light btn-sm" (click)="entrarComGoogle()">
                             <i class="fab fa-google me-1"></i>Vincular Google
                         </button>
+                        <button *ngIf="estaAutenticado" class="btn btn-light btn-sm me-1" (click)="trocarFichaDaConta()">
+                            <i class="fas fa-list me-1"></i>Selecionar Ficha
+                        </button>
+                        <button *ngIf="estaAutenticado" class="btn btn-light btn-sm me-1" (click)="criarNovaFichaNaConta()">
+                            <i class="fas fa-plus me-1"></i>Nova Ficha
+                        </button>
                         <button *ngIf="estaAutenticado" class="btn btn-outline-light btn-sm" (click)="sairDaConta()">
                             <i class="fas fa-user-times me-1"></i>Usar Convidado
                         </button>
                     </div>
+                    <small *ngIf="estaAutenticado && fichaSelecionadaId" class="session-message d-block mt-1">
+                        Ficha selecionada: {{ fichaSelecionadaId }}
+                    </small>
                     <small *ngIf="sincronizandoComServidor" class="session-message d-block mt-1">Sincronizando com servidor...</small>
                     <small *ngIf="erroSincronizacao" class="session-message-error d-block mt-1">{{ erroSincronizacao }}</small>
                     <small *ngIf="mensagemSessao" class="session-message d-block mt-1">{{ mensagemSessao }}</small>

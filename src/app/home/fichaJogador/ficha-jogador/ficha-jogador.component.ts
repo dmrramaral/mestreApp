@@ -32,6 +32,13 @@ interface SessaoJogador {
   ultimoLogin: string;
 }
 
+interface FichaContaResumo {
+  id: string;
+  nome: string;
+  updatedAt: string;
+  payload: any;
+}
+
 @Component({
   selector: 'app-ficha-jogador',
   standalone: true,
@@ -285,6 +292,8 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   sincronizandoComServidor = false;
   erroSincronizacao = '';
   private pushTimeout?: ReturnType<typeof setTimeout>;
+  fichasConta: FichaContaResumo[] = [];
+  fichaSelecionadaId = 'main-character';
 
   readonly equipmentCategories = EQUIPMENT_CATEGORIES;
 
@@ -335,9 +344,13 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     return `${STORAGE_KEYS.PLAYER_LAST_SYNC_PREFIX}${this.sessao.usuarioId}`;
   }
 
+  private get chaveFichaSelecionada(): string {
+    return `${STORAGE_KEYS.PLAYER_SELECTED_CHARACTER_PREFIX}${this.sessao.usuarioId}`;
+  }
+
   private montarRegistroSync(): RegistroSync {
     return {
-      id: 'main-character',
+      id: this.fichaSelecionadaId,
       payload: this.jogador,
       updatedAt: new Date().toISOString(),
       deleted: false
@@ -366,7 +379,7 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     }, 900);
   }
 
-  private async sincronizarDoServidor(): Promise<void> {
+  private async sincronizarDoServidor(forcarSelecao = false): Promise<void> {
     if (!this.estaAutenticado) {
       return;
     }
@@ -375,22 +388,42 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
       this.sincronizandoComServidor = true;
       this.erroSincronizacao = '';
 
-      const pull = await firstValueFrom(
-        this.syncBackendService.pullMudancas(this.sessao.usuarioId, this.obterCheckpointSincronizacao())
-      );
-
-      const ultimaMudanca = [...(pull.changes || [])]
+      const lista = await firstValueFrom(this.syncBackendService.listarFichas(this.sessao.usuarioId));
+      const fichas = (lista.records || [])
         .filter((change) => !change.deleted)
-        .sort((a, b) => Date.parse(a.updatedAt) - Date.parse(b.updatedAt))
-        .at(-1);
+        .sort((a, b) => Date.parse(b.updatedAt) - Date.parse(a.updatedAt))
+        .map((change) => ({
+          id: change.id,
+          nome: String(change.payload?.nome || 'Sem Nome').trim() || 'Sem Nome',
+          updatedAt: change.updatedAt,
+          payload: change.payload
+        }));
 
-      if (ultimaMudanca?.payload) {
-        this.jogador = this.garantirEstruturaSistema(ultimaMudanca.payload);
-        this.storageService.setObject(this.chaveFichaAtual, this.jogador);
+      this.fichasConta = fichas;
+
+      if (fichas.length === 0) {
+        this.fichaSelecionadaId = this.storageService.getItem(this.chaveFichaSelecionada) || 'main-character';
+        this.salvarFichaSelecionada();
+        this.mensagemSessao = 'Nenhuma ficha remota encontrada. Você pode criar uma nova e ela será salva na conta.';
+        return;
       }
 
-      this.salvarCheckpointSincronizacao(pull.serverTimestamp);
-      this.mensagemSessao = 'Sincronização com servidor concluída.';
+      let fichaSelecionada = fichas.find((ficha) => ficha.id === this.fichaSelecionadaId);
+
+      if (forcarSelecao || !fichaSelecionada) {
+        fichaSelecionada = this.selecionarFichaComPrompt(fichas);
+      }
+
+      if (!fichaSelecionada) {
+        fichaSelecionada = fichas[0];
+      }
+
+      this.fichaSelecionadaId = fichaSelecionada.id;
+      this.salvarFichaSelecionada();
+      this.jogador = this.garantirEstruturaSistema(fichaSelecionada.payload || this.fichaService.criarFichaVazia());
+      this.storageService.setObject(this.chaveFichaAtual, this.jogador);
+      this.salvarCheckpointSincronizacao(new Date().toISOString());
+      this.mensagemSessao = `Ficha ativa: ${fichaSelecionada.nome}.`;
     } catch {
       this.erroSincronizacao = 'Não foi possível atualizar dados do servidor agora.';
     } finally {
@@ -424,6 +457,49 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     if (sessaoSalva?.usuarioId) {
       this.sessao = sessaoSalva;
     }
+    this.carregarFichaSelecionada();
+  }
+
+  private carregarFichaSelecionada(): void {
+    if (this.sessao.usuarioId === 'guest') {
+      this.fichaSelecionadaId = 'main-character';
+      return;
+    }
+
+    this.fichaSelecionadaId = this.storageService.getItem(this.chaveFichaSelecionada) || 'main-character';
+  }
+
+  private salvarFichaSelecionada(): void {
+    if (this.sessao.usuarioId === 'guest') {
+      return;
+    }
+
+    this.storageService.setItem(this.chaveFichaSelecionada, this.fichaSelecionadaId);
+  }
+
+  private selecionarFichaComPrompt(fichas: FichaContaResumo[]): FichaContaResumo | undefined {
+    if (typeof window === 'undefined' || fichas.length === 0) {
+      return fichas[0];
+    }
+
+    const opcoes = fichas
+      .map((ficha, index) => {
+        const dataAtualizacao = new Date(ficha.updatedAt).toLocaleString('pt-BR');
+        return `${index + 1}. ${ficha.nome} (${dataAtualizacao})`;
+      })
+      .join('\n');
+
+    const resposta = window.prompt(
+      `Selecione a ficha da conta:\n\n${opcoes}\n\nDigite o número da ficha desejada:`,
+      '1'
+    );
+
+    const indice = Number.parseInt(String(resposta || ''), 10) - 1;
+    if (!Number.isFinite(indice) || indice < 0 || indice >= fichas.length) {
+      return fichas[0];
+    }
+
+    return fichas[indice];
   }
 
   private salvarSessao(): void {
@@ -540,8 +616,9 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
       ultimoLogin: new Date().toISOString()
     };
     this.salvarSessao();
+    this.carregarFichaSelecionada();
     this.carregarFichaDaSessao();
-    void this.sincronizarDoServidor();
+    void this.sincronizarDoServidor(true);
 
     if (!this.mensagemSessao) {
       this.mensagemSessao = 'Conta vinculada com sucesso. Seus dados agora estão separados por usuário.';
@@ -558,10 +635,38 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     this.carregarFichaDaSessao();
     this.mensagemSessao = 'Você voltou para o modo convidado.';
     this.erroSincronizacao = '';
+    this.fichasConta = [];
+    this.fichaSelecionadaId = 'main-character';
+  }
+
+  trocarFichaDaConta(): void {
+    if (!this.estaAutenticado) {
+      return;
+    }
+    void this.sincronizarDoServidor(true);
+  }
+
+  criarNovaFichaNaConta(): void {
+    if (!this.estaAutenticado || typeof window === 'undefined') {
+      return;
+    }
+
+    const nomeFicha = (window.prompt('Nome da nova ficha:') || '').trim();
+    if (!nomeFicha) {
+      return;
+    }
+
+    this.fichaSelecionadaId = `ficha-${Date.now()}`;
+    this.jogador = this.garantirEstruturaSistema(this.fichaService.criarFichaVazia());
+    this.jogador.nome = nomeFicha;
+    this.salvarFichaSelecionada();
+    this.saveToCache();
+    this.mensagemSessao = `Nova ficha criada: ${nomeFicha}.`;
   }
 
   saveToCache() {
     this.storageService.setObject(this.chaveFichaAtual, this.jogador);
+    this.salvarFichaSelecionada();
     this.agendarPushServidor();
   }
 

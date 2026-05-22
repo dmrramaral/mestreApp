@@ -22,6 +22,10 @@ interface PushResponse {
   serverTimestamp: string;
 }
 
+interface CharactersResponse {
+  records: RegistroSync[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -41,6 +45,12 @@ export class SyncBackendService {
     return this.http.post<PushResponse>(`${this.baseUrl}/api/sync/push`, {
       userId,
       records
+    });
+  }
+
+  listarFichas(userId: string): Observable<CharactersResponse> {
+    return this.http.get<CharactersResponse>(`${this.baseUrl}/api/characters`, {
+      params: { userId }
     });
   }
 }

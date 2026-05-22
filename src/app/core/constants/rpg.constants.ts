@@ -66,6 +66,7 @@ export const JSON_PATHS = {
 export const STORAGE_KEYS = {
   PLAYER_CHARACTER: 'jogador',
   PLAYER_CHARACTER_PREFIX: 'jogador:',
+  PLAYER_SELECTED_CHARACTER_PREFIX: 'jogador:selected:',
   PLAYER_LAST_SYNC_PREFIX: 'jogador:last-sync:',
   PLAYER_SESSION: 'jogador_sessao',
   INITIATIVE_LIST: 'listaIniciativa',
