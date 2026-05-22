@@ -34,5 +34,9 @@ export const routes: Routes = [
       path: 'cyberpunk-catalogo',
       loadComponent: () => import('./home/cyberpunk-catalog-admin/cyberpunk-catalog-admin.component').then(m => m.CyberpunkCatalogAdminComponent)
     },
+    {
+      path: 'cyberpunk-loja',
+      loadComponent: () => import('./home/cyberpunk-loja/cyberpunk-loja.component').then(m => m.CyberpunkLojaComponent)
+    },
     {path: '**', redirectTo: 'home'},
 ];

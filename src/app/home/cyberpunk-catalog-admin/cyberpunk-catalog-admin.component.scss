@@ -7,4 +7,33 @@
   .class-block {
     background: #f8fafc;
   }
+
+  .catalog-details {
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 0.5rem 0.75rem;
+    background: #fff;
+
+    summary {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+      font-weight: 600;
+      color: #0f172a;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+  }
+
+  .catalog-details + .catalog-details {
+    margin-top: 0.5rem;
+  }
+
+  .catalog-details.nested {
+    background: #f8fafc;
+  }
 }

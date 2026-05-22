@@ -242,49 +242,14 @@
         </div>
     </div>
 
-    <div class="collapse mb-4" id="collapseCamposSistema">
-        <div class="row" *ngIf="isCyberPun2080">
-            <div class="col-lg-12">
-                <div class="card shadow-sm cyber-card">
-                    <div class="card-header bg-dark text-info">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <h5 class="mb-0"><i class="fas fa-microchip me-2"></i>CyberPun2080</h5>
-                            <small>Campos específicos do sistema</small>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row g-3">
-                        <div class="col-md-4">
-                            <label class="form-label d-flex align-items-center gap-2">
-                                Classe
-                                <i class="fas fa-circle-info text-info" [title]="detalhesClasseCyberpunkAtual || 'Selecione uma classe para ver detalhes.'"></i>
-                            </label>
-                            <select class="form-select" [(ngModel)]="jogador.cyberpun2080.papel" (change)="onCyberPapelChange()">
-                                <option value="">Selecione</option>
-                                <option *ngFor="let classe of cyberpunClasses" [ngValue]="classe">{{ classe }}</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label d-flex align-items-center gap-2">
-                                Subclasse
-                                <i class="fas fa-circle-info text-info" [title]="detalhesSubclasseCyberpunkAtual || 'Selecione uma subclasse para ver detalhes.'"></i>
-                            </label>
-                            <select class="form-select" [(ngModel)]="jogador.cyberpun2080.subclasse" (change)="saveToCache()" [disabled]="cyberpunSubclassesDisponiveis.length === 0">
-                                <option value="">{{ cyberpunSubclassesDisponiveis.length > 0 ? 'Selecione' : 'Escolha um papel primeiro' }}</option>
-                                <option *ngFor="let subclasse of cyberpunSubclassesDisponiveis" [ngValue]="subclasse">{{ subclasse }}</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label">Origem</label>
-                            <select class="form-select" [(ngModel)]="jogador.cyberpun2080.origem" (change)="onCyberOrigemChange()">
-                                <option value="">Selecione</option>
-                                <option *ngFor="let origem of cyberpunOrigins" [ngValue]="origem">{{ origem }}</option>
-                            </select>
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label">Eurodólares</label>
-                            <input type="number" class="form-control" [(ngModel)]="jogador.cyberpun2080.creditoEurodolar" (change)="saveToCache()">
-                        </div>
+    <div class="mb-4" *ngIf="isCyberPun2080">
+        <details class="card shadow-sm cyber-card system-details-card">
+            <summary class="card-header bg-dark text-info d-flex justify-content-between align-items-center">
+                <h5 class="mb-0"><i class="fas fa-microchip me-2"></i>Campos do Sistema CyberPun2080</h5>
+                <small>Somente campos exclusivos</small>
+            </summary>
+            <div class="card-body">
+                <div class="row g-3">
                         <div class="col-md-4">
                             <label class="form-label">Ameaça de Rede</label>
                             <input type="number" class="form-control" [(ngModel)]="jogador.cyberpun2080.nivelAmeacaRede" (change)="saveToCache()" min="0" max="10">
@@ -292,19 +257,6 @@
                         <div class="col-md-4">
                             <label class="form-label">Estresse Neural</label>
                             <input type="number" class="form-control" [(ngModel)]="jogador.cyberpun2080.estresseNeural" (change)="saveToCache()" min="0" max="100">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label d-flex align-items-center gap-2">
-                                Antecedente
-                                <i class="fas fa-circle-info text-info" [title]="detalhesAntecedenteCyberpunkAtual || 'Selecione um antecedente para ver detalhes.'"></i>
-                            </label>
-                            <select class="form-select" [(ngModel)]="jogador.cyberpun2080.antecedente" (change)="saveToCache()" name="antecedenteCyber">
-                                <option value="">Selecione</option>
-                                <option *ngFor="let antecedente of cyberpunAntecedentes" [ngValue]="antecedente.nome">{{ antecedente.nome }}</option>
-                            </select>
-                            <small class="text-muted" *ngIf="!carregandoCatalogoCyberpunk && cyberpunAntecedentes.length === 0">
-                                Sem antecedentes do catalogo. Cadastre em Catalogo CyberPunk.
-                            </small>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">História curta</label>
@@ -317,10 +269,6 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Equipamentos e Tecnologia</label>
-                            <textarea class="form-control" rows="2" [(ngModel)]="jogador.cyberpun2080.equipamentosTecnologiaNotas" (change)="saveToCache()" placeholder="Armas, munições, proteções e utilitários"></textarea>
-                        </div>
-                        <div class="col-md-6">
                             <label class="form-label">Implantes Cibernéticos</label>
                             <textarea class="form-control" rows="2" [(ngModel)]="jogador.cyberpun2080.implantesNotas" (change)="saveToCache()" placeholder="Upgrades, custo de humanidade e riscos"></textarea>
                         </div>
@@ -331,10 +279,6 @@
                         <div class="col-md-6">
                             <label class="form-label">Veículos</label>
                             <textarea class="form-control" rows="2" [(ngModel)]="jogador.cyberpun2080.veiculosNotas" (change)="saveToCache()" placeholder="Perseguições, montagem e suporte"></textarea>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Consumíveis, Drogas e Vícios</label>
-                            <textarea class="form-control" rows="2" [(ngModel)]="jogador.cyberpun2080.consumiveisViciosNotas" (change)="saveToCache()" placeholder="Efeitos físicos e psicológicos"></textarea>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">Forças da Cidade</label>
@@ -354,11 +298,9 @@
                                 placeholder="Sua resposta"
                             ></textarea>
                         </div>
-                        </div>
-                    </div>
                 </div>
             </div>
-        </div>
+        </details>
     </div>
 
     <!-- Collapsible Sections -->
@@ -367,9 +309,6 @@
             <div class="card shadow-sm">
                 <div class="card-body">
                     <div class="section-buttons">
-                        <button *ngIf="isCyberPun2080" class="btn btn-outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCamposSistema">
-                            <i class="fas me-2" [ngClass]="isCyberPun2080 ? 'fa-microchip' : 'fa-layer-group'"></i>Campos do Sistema
-                        </button>
                         <button *ngIf="isDnd5e" class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMagias">
                             <i class="fas fa-magic me-2"></i>Magias
                         </button>
@@ -859,6 +798,9 @@
                         <button type="button" class="btn btn-light btn-sm me-2" (click)="adicionarEquipamento()">
                             <i class="fas fa-plus me-1"></i>Adicionar
                         </button>
+                        <button type="button" class="btn btn-light btn-sm me-2" (click)="abrirLoja()">
+                            <i class="fas fa-store me-1"></i>Da Loja
+                        </button>
                         <span class="gold-display">
                             <i class="fas fa-coins me-1"></i>
                             <input type="number" class="gold-input" [(ngModel)]="jogador.ouro" (change)="saveToCache()"> PO
@@ -1093,7 +1035,7 @@
                                 <label for="nome" class="form-label">
                                     <i class="fas fa-signature me-1"></i>Nome
                                 </label>
-                                <input type="text" class="form-control" id="nome" [(ngModel)]="jogador.nome" name="nome" placeholder="Nome do personagem">
+                                <input type="text" class="form-control" id="nome" [(ngModel)]="jogador.nome" name="nome" placeholder="Nome do personagem" (change)="saveToCache()">
                             </div>
                             <div class="col-md-4" *ngIf="isDnd5e">
                                 <label class="form-label">
@@ -1161,14 +1103,14 @@
                                     <i class="fas fa-certificate me-1"></i>Bônus de Proficiência
                                 </label>
                                 <input type="number" class="form-control" id="proficiencia" [(ngModel)]="jogador.proficiencia"
-                                    name="proficiencia" placeholder="Ex: 2">
+                                    name="proficiencia" placeholder="Ex: 2" (change)="saveToCache()">
                             </div>
                             <div class="col-md-6">
                                 <label for="nivel" class="form-label">
                                     <i class="fas fa-level-up-alt me-1"></i>Nível
                                 </label>
                                 <input type="number" class="form-control" id="nivel" [(ngModel)]="jogador.nivel"
-                                    name="nivel" placeholder="Ex: 1">
+                                    name="nivel" placeholder="Ex: 1" (change)="saveToCache()">
                             </div>
                         </div>
                     </div>
@@ -1183,13 +1125,13 @@
                                 <label for="pv" class="form-label">
                                     <i class="fas fa-heart me-1"></i>Pontos de Vida (PV)
                                 </label>
-                                <input type="number" class="form-control" id="pv" [(ngModel)]="jogador.pv" name="pv" placeholder="Ex: 10">
+                                <input type="number" class="form-control" id="pv" [(ngModel)]="jogador.pv" name="pv" placeholder="Ex: 10" (change)="saveToCache()">
                             </div>
                             <div class="col-md-4">
                                 <label for="pva" class="form-label">
                                     <i class="fas fa-heartbeat me-1"></i>PV Atual
                                 </label>
-                                <input type="number" class="form-control" id="pva" [(ngModel)]="jogador.pva" name="pva" placeholder="Ex: 10">
+                                <input type="number" class="form-control" id="pva" [(ngModel)]="jogador.pva" name="pva" placeholder="Ex: 10" (change)="saveToCache()">
                             </div>
                             <div class="col-md-4">
                                 <label for="ca" class="form-label">
@@ -1203,21 +1145,21 @@
                                     <i class="fas fa-running me-1"></i>Deslocamento
                                 </label>
                                 <input type="number" class="form-control" id="deslocamento"
-                                    [(ngModel)]="jogador.deslocamento" name="deslocamento" placeholder="Ex: 30">
+                                    [(ngModel)]="jogador.deslocamento" name="deslocamento" placeholder="Ex: 30" (change)="saveToCache()">
                             </div>
                             <div class="col-md-4">
                                 <label for="iniciativa" class="form-label">
                                     <i class="fas fa-bolt me-1"></i>Iniciativa
                                 </label>
                                 <input type="number" class="form-control" id="iniciativa" [(ngModel)]="jogador.iniciativa"
-                                    name="iniciativa" placeholder="Ex: 2">
+                                    name="iniciativa" placeholder="Ex: 2" (change)="saveToCache()">
                             </div>
                             <div class="col-md-4">
                                 <label for="inspiracao" class="form-label">
                                     <i class="fas fa-star me-1"></i>Inspiração
                                 </label>
                                 <input type="number" class="form-control" id="inspiracao" [(ngModel)]="jogador.inspiracao"
-                                    name="inspiracao" placeholder="Ex: 0">
+                                    name="inspiracao" placeholder="Ex: 0" (change)="saveToCache()">
                             </div>
                         </div>
                     </div>
@@ -1233,42 +1175,42 @@
                                     <i class="fas fa-fist-raised me-1"></i>Força
                                 </label>
                                 <input type="number" inputmode="decimal" class="form-control" id="forca" [(ngModel)]="jogador.atributos.forca"
-                                    name="forca" placeholder="Ex: 10">
+                                    name="forca" placeholder="Ex: 10" (change)="saveToCache()">
                             </div>
                             <div class="col-md-4">
                                 <label for="destreza" class="form-label">
                                     <i class="fas fa-running me-1"></i>Destreza
                                 </label>
                                 <input type="number" inputmode="decimal" class="form-control" id="destreza"
-                                    [(ngModel)]="jogador.atributos.destreza" name="destreza" placeholder="Ex: 10">
+                                    [(ngModel)]="jogador.atributos.destreza" name="destreza" placeholder="Ex: 10" (change)="saveToCache()">
                             </div>
                             <div class="col-md-4">
                                 <label for="constituicao" class="form-label">
                                     <i class="fas fa-heart me-1"></i>Constituição
                                 </label>
                                 <input type="number" inputmode="decimal" class="form-control" id="constituicao"
-                                    [(ngModel)]="jogador.atributos.constituicao" name="constituicao" placeholder="Ex: 10">
+                                    [(ngModel)]="jogador.atributos.constituicao" name="constituicao" placeholder="Ex: 10" (change)="saveToCache()">
                             </div>
                             <div class="col-md-4">
                                 <label for="inteligencia" class="form-label">
                                     <i class="fas fa-brain me-1"></i>Inteligência
                                 </label>
                                 <input type="number" inputmode="decimal" class="form-control" id="inteligencia"
-                                    [(ngModel)]="jogador.atributos.inteligencia" name="inteligencia" placeholder="Ex: 10">
+                                    [(ngModel)]="jogador.atributos.inteligencia" name="inteligencia" placeholder="Ex: 10" (change)="saveToCache()">
                             </div>
                             <div class="col-md-4">
                                 <label for="sabedoria" class="form-label">
                                     <i class="fas fa-eye me-1"></i>Sabedoria
                                 </label>
                                 <input type="number" inputmode="decimal" class="form-control" id="sabedoria"
-                                    [(ngModel)]="jogador.atributos.sabedoria" name="sabedoria" placeholder="Ex: 10">
+                                    [(ngModel)]="jogador.atributos.sabedoria" name="sabedoria" placeholder="Ex: 10" (change)="saveToCache()">
                             </div>
                             <div class="col-md-4">
                                 <label for="carisma" class="form-label">
                                     <i class="fas fa-comments me-1"></i>Carisma
                                 </label>
                                 <input type="number" inputmode="decimal" class="form-control" id="carisma"
-                                    [(ngModel)]="jogador.atributos.carisma" name="carisma" placeholder="Ex: 10">
+                                    [(ngModel)]="jogador.atributos.carisma" name="carisma" placeholder="Ex: 10" (change)="saveToCache()">
                             </div>
                         </div>
                     </div>

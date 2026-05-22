@@ -1,0 +1,50 @@
+.cyber-store {
+  .store-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.25rem;
+    border-radius: 14px;
+    background: linear-gradient(120deg, #081a26 0%, #102c3d 60%, #174660 100%);
+    color: #f4f8fb;
+
+    .text-muted {
+      color: #bfd4e1 !important;
+    }
+  }
+
+  .section-card {
+    border: 1px solid #d7e3ec;
+
+    .card-header {
+      background: #102c3d;
+      color: #f4f8fb;
+    }
+  }
+
+  .table {
+    margin-bottom: 0;
+
+    small {
+      display: inline-block;
+      max-width: 520px;
+      white-space: normal;
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .cyber-store {
+    .store-hero {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .hero-actions {
+      width: 100%;
+      display: grid !important;
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+}

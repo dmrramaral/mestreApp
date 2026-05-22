@@ -1,0 +1,68 @@
+<div class="cyber-store container py-4">
+  <div class="store-hero mb-4">
+    <div>
+      <h2 class="mb-1">Loja CyberPunk 2080</h2>
+      <p class="mb-0 text-muted">Catalogo separado do mercado D&amp;D, alimentado pelo banco do sistema cyber.</p>
+    </div>
+    <div class="hero-actions d-flex gap-2">
+      <button class="btn btn-outline-secondary" (click)="carregar()" [disabled]="loading">Recarregar</button>
+      <a class="btn btn-outline-dark" [routerLink]="'/ficha-jogador'">Voltar para Ficha</a>
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-body">
+      <label class="form-label mb-1">Busca no catalogo</label>
+      <input class="form-control" [(ngModel)]="busca" placeholder="Nome, descricao ou categoria" />
+    </div>
+  </div>
+
+  <div *ngIf="loading" class="alert alert-info">Carregando loja cyber...</div>
+  <div *ngIf="erro" class="alert alert-danger">{{ erro }}</div>
+
+  <ng-container *ngIf="catalog?.loja">
+    <div class="card mb-3 section-card" *ngFor="let categoria of categorias">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <strong><i class="fas me-2" [ngClass]="categoria.icone"></i>{{ categoria.label }}</strong>
+        <span class="badge bg-secondary">{{ itensFiltrados(categoria.key).length }} itens</span>
+      </div>
+      <div class="card-body">
+        <div class="table-responsive" *ngIf="itensFiltrados(categoria.key).length > 0; else semItens">
+          <table class="table table-sm align-middle">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Preco</th>
+                <th>CA / CF / CT</th>
+                <th>Categoria</th>
+                <th>Fonte</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of itensFiltrados(categoria.key)">
+                <td>
+                  <div class="fw-semibold">{{ item.nome }}</div>
+                  <small class="text-muted">{{ item.descricao }}</small>
+                  <span *ngIf="item.restrito" class="badge text-bg-dark ms-2">Restrito</span>
+                </td>
+                <td>{{ formatarPreco(item.precoEdinhos) }}</td>
+                <td>
+                  <span>CA {{ item.ca ?? '--' }}</span>
+                  <span class="mx-1">|</span>
+                  <span>CF {{ item.cf ?? '--' }}</span>
+                  <span class="mx-1">|</span>
+                  <span>CT {{ item.ct ?? '--' }}</span>
+                </td>
+                <td>{{ item.categoria || '--' }}</td>
+                <td>{{ item.paginaPdf || '--' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <ng-template #semItens>
+          <p class="text-muted mb-0">Nenhum item encontrado nesta categoria com o filtro atual.</p>
+        </ng-template>
+      </div>
+    </div>
+  </ng-container>
+</div>

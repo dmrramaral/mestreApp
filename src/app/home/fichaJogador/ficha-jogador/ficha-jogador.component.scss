@@ -312,6 +312,17 @@
     }
 }
 
+.system-details-card {
+    summary {
+        list-style: none;
+        cursor: pointer;
+    }
+
+    summary::-webkit-details-marker {
+        display: none;
+    }
+}
+
 // Spell List
 .spell-list {
     display: grid;

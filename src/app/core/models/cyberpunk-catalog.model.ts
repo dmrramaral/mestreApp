@@ -28,12 +28,33 @@ export interface CyberpunkTalentCatalog {
   classes: string[];
 }
 
+export interface CyberpunkStoreItem {
+  nome: string;
+  descricao: string;
+  precoEdinhos: number | null;
+  categoria: string;
+  paginaPdf: string;
+  ca?: number | null;
+  cf?: number | null;
+  ct?: number | null;
+  restrito?: boolean;
+}
+
+export interface CyberpunkStoreCatalog {
+  armas: CyberpunkStoreItem[];
+  acessoriosMunicoes: CyberpunkStoreItem[];
+  protecaoCorporal: CyberpunkStoreItem[];
+  classeTecnologica: CyberpunkStoreItem[];
+  hacksRapidos: CyberpunkStoreItem[];
+}
+
 export interface CyberpunkCatalog {
   system: 'cyberpun2080';
   version: number;
   classes: CyberpunkClassCatalog[];
   antecedentes: CyberpunkAntecedenteCatalog[];
   talentos: CyberpunkTalentCatalog[];
+  loja: CyberpunkStoreCatalog;
   updatedAt: string;
 }
 

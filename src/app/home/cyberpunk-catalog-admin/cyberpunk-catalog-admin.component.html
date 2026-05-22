@@ -18,68 +18,78 @@
     <div class="card mb-4">
       <div class="card-header d-flex justify-content-between align-items-center">
         <strong>Classes e Subclasses</strong>
-        <button class="btn btn-sm btn-success" (click)="adicionarClasse()">Adicionar Classe</button>
+        <div class="d-flex gap-2">
+          <button class="btn btn-sm btn-outline-light" (click)="toggleSecao('classes')">
+            {{ mostrarClasses ? 'Encolher' : 'Expandir' }}
+          </button>
+          <button class="btn btn-sm btn-success" (click)="adicionarClasse()">Adicionar Classe</button>
+        </div>
       </div>
-      <div class="card-body">
+      <div class="card-body" *ngIf="mostrarClasses">
         <div class="class-block border rounded p-3 mb-3" *ngFor="let classe of catalog.classes; let i = index">
-          <div class="d-flex justify-content-between align-items-center mb-2">
-            <h6 class="mb-0">Classe #{{ i + 1 }}</h6>
-            <button class="btn btn-sm btn-outline-danger" (click)="removerClasse(i)">Remover</button>
-          </div>
-          <div class="row g-2">
-            <div class="col-md-4">
-              <label class="form-label">Nome da Classe</label>
-              <input class="form-control" [(ngModel)]="classe.nome" />
-            </div>
-            <div class="col-md-8">
-              <label class="form-label">Descricao</label>
-              <input class="form-control" [(ngModel)]="classe.descricao" />
-            </div>
-          </div>
+          <details [open]="i === 0" class="catalog-details">
+            <summary>
+              <span>Classe #{{ i + 1 }} - {{ classe.nome || 'Sem nome' }}</span>
+              <button class="btn btn-sm btn-outline-danger" (click)="$event.preventDefault(); removerClasse(i)">Remover</button>
+            </summary>
 
-          <div class="mt-3">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <label class="form-label mb-0">Subclasses</label>
-              <button class="btn btn-sm btn-outline-primary" (click)="adicionarSubclasse(i)">Adicionar Subclasse</button>
+            <div class="row g-2 mt-2">
+              <div class="col-md-4">
+                <label class="form-label">Nome da Classe</label>
+                <input class="form-control" [(ngModel)]="classe.nome" />
+              </div>
+              <div class="col-md-8">
+                <label class="form-label">Descricao</label>
+                <input class="form-control" [(ngModel)]="classe.descricao" />
+              </div>
             </div>
-            <div class="border rounded p-2 mb-2" *ngFor="let subclasse of classe.subclasses; let j = index">
+
+            <div class="mt-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <strong class="small">Subclasse #{{ j + 1 }}</strong>
-                <button class="btn btn-sm btn-outline-danger" (click)="removerSubclasse(i, j)">Remover</button>
+                <label class="form-label mb-0">Subclasses</label>
+                <button class="btn btn-sm btn-outline-primary" (click)="adicionarSubclasse(i)">Adicionar Subclasse</button>
               </div>
-              <div class="row g-2">
-                <div class="col-md-4">
-                  <label class="form-label">Nome</label>
-                  <input class="form-control" [(ngModel)]="subclasse.nome" />
-                </div>
-                <div class="col-md-8">
-                  <label class="form-label">Descricao</label>
-                  <input class="form-control" [(ngModel)]="subclasse.descricao" />
-                </div>
-              </div>
+              <div class="border rounded p-2 mb-2" *ngFor="let subclasse of classe.subclasses; let j = index">
+                <details [open]="j === 0" class="catalog-details nested">
+                  <summary>
+                    <span>Subclasse #{{ j + 1 }} - {{ subclasse.nome || 'Sem nome' }}</span>
+                    <button class="btn btn-sm btn-outline-danger" (click)="$event.preventDefault(); removerSubclasse(i, j)">Remover</button>
+                  </summary>
+                  <div class="row g-2 mt-2">
+                    <div class="col-md-4">
+                      <label class="form-label">Nome</label>
+                      <input class="form-control" [(ngModel)]="subclasse.nome" />
+                    </div>
+                    <div class="col-md-8">
+                      <label class="form-label">Descricao</label>
+                      <input class="form-control" [(ngModel)]="subclasse.descricao" />
+                    </div>
+                  </div>
 
-              <div class="mt-2">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                  <label class="form-label mb-0">Progressao por Nivel</label>
-                  <button class="btn btn-sm btn-outline-secondary" (click)="adicionarNivelSubclasse(i, j)">Adicionar Nivel</button>
-                </div>
-                <div class="row g-2 mb-2" *ngFor="let nivelInfo of subclasse.progressao; let k = index">
-                  <div class="col-md-2">
-                    <input type="number" class="form-control" [(ngModel)]="nivelInfo.nivel" placeholder="Nivel" />
+                  <div class="mt-2">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                      <label class="form-label mb-0">Progressao por Nivel</label>
+                      <button class="btn btn-sm btn-outline-secondary" (click)="adicionarNivelSubclasse(i, j)">Adicionar Nivel</button>
+                    </div>
+                    <div class="row g-2 mb-2" *ngFor="let nivelInfo of subclasse.progressao; let k = index">
+                      <div class="col-md-2">
+                        <input type="number" class="form-control" [(ngModel)]="nivelInfo.nivel" placeholder="Nivel" />
+                      </div>
+                      <div class="col-md-4">
+                        <input class="form-control" [(ngModel)]="nivelInfo.habilidade" placeholder="Habilidade" />
+                      </div>
+                      <div class="col-md-5">
+                        <input class="form-control" [(ngModel)]="nivelInfo.descricao" placeholder="Descricao" />
+                      </div>
+                      <div class="col-md-1">
+                        <button class="btn btn-outline-danger w-100" (click)="removerNivelSubclasse(i, j, k)">X</button>
+                      </div>
+                    </div>
                   </div>
-                  <div class="col-md-4">
-                    <input class="form-control" [(ngModel)]="nivelInfo.habilidade" placeholder="Habilidade" />
-                  </div>
-                  <div class="col-md-5">
-                    <input class="form-control" [(ngModel)]="nivelInfo.descricao" placeholder="Descricao" />
-                  </div>
-                  <div class="col-md-1">
-                    <button class="btn btn-outline-danger w-100" (click)="removerNivelSubclasse(i, j, k)">X</button>
-                  </div>
-                </div>
+                </details>
               </div>
             </div>
-          </div>
+          </details>
         </div>
       </div>
     </div>
@@ -87,27 +97,35 @@
     <div class="card mb-4">
       <div class="card-header d-flex justify-content-between align-items-center">
         <strong>Antecedentes</strong>
-        <button class="btn btn-sm btn-success" (click)="adicionarAntecedente()">Adicionar Antecedente</button>
+        <div class="d-flex gap-2">
+          <button class="btn btn-sm btn-outline-light" (click)="toggleSecao('antecedentes')">
+            {{ mostrarAntecedentes ? 'Encolher' : 'Expandir' }}
+          </button>
+          <button class="btn btn-sm btn-success" (click)="adicionarAntecedente()">Adicionar Antecedente</button>
+        </div>
       </div>
-      <div class="card-body">
+      <div class="card-body" *ngIf="mostrarAntecedentes">
         <div class="border rounded p-3 mb-3" *ngFor="let antecedente of catalog.antecedentes; let i = index">
-          <div class="d-flex justify-content-end mb-2">
-            <button class="btn btn-sm btn-outline-danger" (click)="removerAntecedente(i)">Remover</button>
-          </div>
-          <div class="row g-2">
-            <div class="col-md-4">
-              <label class="form-label">Nome</label>
-              <input class="form-control" [(ngModel)]="antecedente.nome" />
+          <details [open]="i === 0" class="catalog-details">
+            <summary>
+              <span>Antecedente #{{ i + 1 }} - {{ antecedente.nome || 'Sem nome' }}</span>
+              <button class="btn btn-sm btn-outline-danger" (click)="$event.preventDefault(); removerAntecedente(i)">Remover</button>
+            </summary>
+            <div class="row g-2 mt-2">
+              <div class="col-md-4">
+                <label class="form-label">Nome</label>
+                <input class="form-control" [(ngModel)]="antecedente.nome" />
+              </div>
+              <div class="col-md-5">
+                <label class="form-label">Descricao</label>
+                <input class="form-control" [(ngModel)]="antecedente.descricao" />
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Talento de Origem</label>
+                <input class="form-control" [(ngModel)]="antecedente.talentoOrigem" />
+              </div>
             </div>
-            <div class="col-md-5">
-              <label class="form-label">Descricao</label>
-              <input class="form-control" [(ngModel)]="antecedente.descricao" />
-            </div>
-            <div class="col-md-3">
-              <label class="form-label">Talento de Origem</label>
-              <input class="form-control" [(ngModel)]="antecedente.talentoOrigem" />
-            </div>
-          </div>
+          </details>
         </div>
       </div>
     </div>
@@ -115,9 +133,14 @@
     <div class="card">
       <div class="card-header d-flex justify-content-between align-items-center">
         <strong>Talentos</strong>
-        <button class="btn btn-sm btn-success" (click)="adicionarTalento()">Adicionar Talento</button>
+        <div class="d-flex gap-2">
+          <button class="btn btn-sm btn-outline-light" (click)="toggleSecao('talentos')">
+            {{ mostrarTalentos ? 'Encolher' : 'Expandir' }}
+          </button>
+          <button class="btn btn-sm btn-success" (click)="adicionarTalento()">Adicionar Talento</button>
+        </div>
       </div>
-      <div class="card-body">
+      <div class="card-body" *ngIf="mostrarTalentos">
         <div class="row g-2 align-items-end mb-3">
           <div class="col-md-4">
             <label class="form-label">Filtro por Classe (visualizacao)</label>
@@ -129,31 +152,106 @@
         </div>
 
         <div class="border rounded p-3 mb-3" *ngFor="let item of talentosFiltrados; let i = index; trackBy: trackByTalentIndex">
-          <div class="d-flex justify-content-end mb-2">
-            <button class="btn btn-sm btn-outline-danger" (click)="removerTalento(item.index)">Remover</button>
+          <details [open]="i < 2" class="catalog-details">
+            <summary>
+              <span>Talento #{{ i + 1 }} - {{ item.talento.nome || 'Sem nome' }}</span>
+              <button class="btn btn-sm btn-outline-danger" (click)="$event.preventDefault(); removerTalento(item.index)">Remover</button>
+            </summary>
+            <div class="row g-2 mt-2">
+              <div class="col-md-4">
+                <label class="form-label">Nome</label>
+                <input class="form-control" [(ngModel)]="item.talento.nome" />
+              </div>
+              <div class="col-md-8">
+                <label class="form-label">Descricao</label>
+                <textarea class="form-control" rows="3" [(ngModel)]="item.talento.descricao"></textarea>
+              </div>
+            </div>
+            <div class="mt-3">
+              <label class="form-label d-block">Classes Aplicaveis</label>
+              <div class="form-check form-check-inline" *ngFor="let classe of classesDisponiveis">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  [checked]="isClasseMarcada(item.index, classe)"
+                  (change)="toggleClasseNoTalento(item.index, classe, $any($event.target).checked)"
+                  [id]="'talento_' + i + '_' + classe"
+                />
+                <label class="form-check-label" [for]="'talento_' + i + '_' + classe">{{ classe }}</label>
+              </div>
+            </div>
+          </details>
+        </div>
+      </div>
+    </div>
+
+    <div class="card mt-4">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <strong>Loja Cyber (Banco)</strong>
+        <div class="d-flex gap-2">
+          <button class="btn btn-sm btn-outline-light" (click)="mostrarLoja = !mostrarLoja">
+            {{ mostrarLoja ? 'Encolher' : 'Expandir' }}
+          </button>
+        </div>
+      </div>
+      <div class="card-body" *ngIf="mostrarLoja && catalog.loja">
+        <p class="text-muted small mb-3">Categorias separadas da loja D&amp;D: armas, acessorios/municoes, protecao corporal, itens de CT e hacks rapidos.</p>
+
+        <div class="border rounded p-3 mb-3" *ngFor="let categoria of categoriasLoja">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="mb-0">{{ categoria.label }}</h6>
+            <button class="btn btn-sm btn-outline-primary" (click)="adicionarItemLoja(categoria.key)">Adicionar Item</button>
           </div>
-          <div class="row g-2">
-            <div class="col-md-4">
-              <label class="form-label">Nome</label>
-              <input class="form-control" [(ngModel)]="item.talento.nome" />
+
+          <div class="catalog-details mb-2" *ngFor="let item of listarItensLoja(categoria.key); let i = index">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <strong>{{ item.nome || ('Item #' + (i + 1)) }}</strong>
+              <button class="btn btn-sm btn-outline-danger" (click)="removerItemLoja(categoria.key, i)">Remover</button>
             </div>
-            <div class="col-md-8">
-              <label class="form-label">Descricao</label>
-              <input class="form-control" [(ngModel)]="item.talento.descricao" />
+            <div class="row g-2">
+              <div class="col-md-4">
+                <label class="form-label">Nome</label>
+                <input class="form-control" [(ngModel)]="item.nome" />
+              </div>
+              <div class="col-md-2">
+                <label class="form-label">Preco (edinhos)</label>
+                <input type="number" class="form-control" [(ngModel)]="item.precoEdinhos" />
+              </div>
+              <div class="col-md-2">
+                <label class="form-label">CA</label>
+                <input type="number" class="form-control" [(ngModel)]="item.ca" />
+              </div>
+              <div class="col-md-2">
+                <label class="form-label">CF</label>
+                <input type="number" class="form-control" [(ngModel)]="item.cf" />
+              </div>
+              <div class="col-md-2">
+                <label class="form-label">CT</label>
+                <input type="number" class="form-control" [(ngModel)]="item.ct" />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Categoria</label>
+                <input class="form-control" [(ngModel)]="item.categoria" />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">Pagina PDF</label>
+                <input class="form-control" [(ngModel)]="item.paginaPdf" placeholder="Ex: Pag. 69" />
+              </div>
+              <div class="col-md-4 d-flex align-items-end">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" [(ngModel)]="item.restrito" [id]="'restrito_' + categoria.key + '_' + i" />
+                  <label class="form-check-label" [for]="'restrito_' + categoria.key + '_' + i">Item restrito (nao compravel)</label>
+                </div>
+              </div>
+              <div class="col-12">
+                <label class="form-label">Descricao</label>
+                <textarea class="form-control" rows="2" [(ngModel)]="item.descricao"></textarea>
+              </div>
             </div>
           </div>
-          <div class="mt-3">
-            <label class="form-label d-block">Classes Aplicaveis</label>
-            <div class="form-check form-check-inline" *ngFor="let classe of classesDisponiveis">
-              <input
-                class="form-check-input"
-                type="checkbox"
-                [checked]="isClasseMarcada(item.index, classe)"
-                (change)="toggleClasseNoTalento(item.index, classe, $any($event.target).checked)"
-                [id]="'talento_' + i + '_' + classe"
-              />
-              <label class="form-check-label" [for]="'talento_' + i + '_' + classe">{{ classe }}</label>
-            </div>
+
+          <div class="text-muted small" *ngIf="listarItensLoja(categoria.key).length === 0">
+            Sem itens nesta categoria. Clique em Adicionar Item para cadastrar.
           </div>
         </div>
       </div>

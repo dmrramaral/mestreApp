@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import {
   CYBERPUN2080_CITY_FORCES,
@@ -421,7 +422,8 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     private fichaService: FichaJogadorService,
     private dndApiService: DndApiService,
     private syncBackendService: SyncBackendService,
-    private cyberpunkCatalogService: CyberpunkCatalogService
+    private cyberpunkCatalogService: CyberpunkCatalogService,
+    private router: Router
   ) {
 
   }
@@ -632,6 +634,19 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     } finally {
       this.sincronizandoComServidor = false;
     }
+  }
+
+  private async forcarSincronizacaoPendente(): Promise<void> {
+    if (!this.estaAutenticado) {
+      return;
+    }
+
+    if (this.pushTimeout) {
+      clearTimeout(this.pushTimeout);
+      this.pushTimeout = undefined;
+    }
+
+    await this.sincronizarParaServidor();
   }
 
   private carregarSessao(): void {
@@ -887,7 +902,9 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     }
   }
 
-  sairDaConta(): void {
+  async sairDaConta(): Promise<void> {
+    await this.forcarSincronizacaoPendente();
+
     this.sessao = {
       modo: 'convidado',
       usuarioId: 'guest',
@@ -901,11 +918,13 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     this.fichaSelecionadaId = 'main-character';
   }
 
-  trocarFichaDaConta(): void {
+  async trocarFichaDaConta(): Promise<void> {
     if (!this.estaAutenticado) {
       return;
     }
-    void this.sincronizarDoServidor(true);
+
+    await this.forcarSincronizacaoPendente();
+    await this.sincronizarDoServidor(true);
   }
 
   criarNovaFichaNaConta(): void {
@@ -960,6 +979,13 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     if (this.pushTimeout) {
       clearTimeout(this.pushTimeout);
     }
+    this.storageService.setObject(this.chaveFichaAtual, this.jogador);
+    void this.sincronizarParaServidor();
+  }
+
+  abrirLoja(): void {
+    const destino = this.isCyberPun2080 ? '/cyberpunk-loja' : '/mercado';
+    void this.router.navigate([destino]);
   }
 
   limparCache() {
