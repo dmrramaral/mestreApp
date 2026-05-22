@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  backendSyncUrl: 'http://localhost:3333'
+  backendSyncUrl: 'https://mestre-app-backend.vercel.app'
 };

@@ -44,3 +44,4 @@ public/equipments.json.bak
 
 # Markdown files (do not include in commits)
 *.md
+.vercel

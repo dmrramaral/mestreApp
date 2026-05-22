@@ -11,9 +11,11 @@ import {
   CYBERPUN2080_RULES,
   CYBERPUN2080_SUBCLASSES_BY_CLASS,
   EQUIPMENT_CATEGORIES,
+  HACKS_RAPIDOS,
   RPG_SYSTEM_OPTIONS,
   RPG_SYSTEMS,
   RpgSystemType,
+  SKILLS,
   STORAGE_KEYS
 } from '../../../core/constants/rpg.constants';
 import { CyberpunkCatalog, CyberpunkStoreItem, CyberpunkTalentCatalog } from '../../../core/models/cyberpunk-catalog.model';
@@ -237,23 +239,38 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
           },
           {
             nome: "Arcanismo",
-            valor: "nao"
+            valor: "nao",
+            atributo: "inteligencia"
           },
           {
             nome: "Engenharia",
-            valor: "nao"
+            valor: "nao",
+            atributo: "inteligencia"
           },
           {
             nome: "Investigação",
-            valor: "nao"
+            valor: "nao",
+            atributo: "inteligencia"
           },
           {
             nome: "Natureza",
-            valor: "nao"
+            valor: "nao",
+            atributo: "inteligencia"
           },
           {
             nome: "Religião",
-            valor: "nao"
+            valor: "nao",
+            atributo: "inteligencia"
+          },
+          {
+            nome: "Hacking",
+            valor: "nao",
+            atributo: "inteligencia"
+          },
+          {
+            nome: "Tecnologia",
+            valor: "nao",
+            atributo: "inteligencia"
           },
           {
             nome: "Adestrar Animais",
@@ -313,6 +330,7 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
           anel: []
         },
         ouro: 0,
+        ataques: [],
         magias: [],
         mochila: [],
         cyberpun2080: {
@@ -358,6 +376,12 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
 
   adicionandoItem: boolean = false;
   novoItem: any = { nome: '', descricao: '' };
+
+  adicionandoAtaque: boolean = false;
+  novoAtaque: any = { nome: '', bonus: '', dano: '', tipoDano: '', notas: '' };
+  editandoAtaque: { [key: number]: boolean } = {};
+  hacksRapidosCatalogo = HACKS_RAPIDOS;
+  verCatalogoHacks = false;
 
   adicionandoTalento: boolean = false;
   novoTalento: any = { nome: '', descricao: '' };
@@ -779,6 +803,27 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     }
     if (!Array.isArray(base.cyberpun2080.hacksRapidos)) {
       base.cyberpun2080.hacksRapidos = [];
+    }
+    if (!Array.isArray(base.ataques)) {
+      base.ataques = [];
+    }
+    // Migra campos RAM e CT para fichas antigas
+    if (base.ram === undefined) base.ram = null;
+    if (base.ramAtual === undefined) base.ramAtual = null;
+    if (base.ct === undefined) base.ct = null;
+    if (base.ctAtual === undefined) base.ctAtual = null;
+    // Garante que pericias novas (adicionadas após criação da ficha) existam
+    if (Array.isArray(base.pericias)) {
+      const periciasNovas = [
+        { nome: 'Hacking', atributo: 'inteligencia' },
+        { nome: 'Tecnologia', atributo: 'inteligencia' },
+        { nome: 'Investigação', atributo: 'inteligencia' },
+      ];
+      for (const p of periciasNovas) {
+        if (!base.pericias.some((existing: any) => existing.nome === p.nome)) {
+          base.pericias.push({ nome: p.nome, valor: 'nao', atributo: p.atributo });
+        }
+      }
     }
     while (base.cyberpun2080.perguntasEssenciais.length < 5) {
       base.cyberpun2080.perguntasEssenciais.push('');
@@ -1273,6 +1318,70 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   cancelarAdicionarTalento() {
     this.novoTalento = { nome: '', descricao: '' };
     this.adicionandoTalento = false;
+  }
+
+  adicionarAtaque() {
+    this.adicionandoAtaque = true;
+  }
+
+  confirmarAdicionarAtaque() {
+    if (this.novoAtaque.nome && this.novoAtaque.dano) {
+      if (!Array.isArray(this.jogador.ataques)) {
+        this.jogador.ataques = [];
+      }
+      this.jogador.ataques.push({ ...this.novoAtaque });
+      this.novoAtaque = { nome: '', bonus: '', dano: '', tipoDano: '', notas: '' };
+      this.adicionandoAtaque = false;
+      this.saveToCache();
+    }
+  }
+
+  cancelarAdicionarAtaque() {
+    this.novoAtaque = { nome: '', bonus: '', dano: '', tipoDano: '', notas: '' };
+    this.adicionandoAtaque = false;
+  }
+
+  removerAtaque(index: number) {
+    if (Array.isArray(this.jogador.ataques)) {
+      this.jogador.ataques.splice(index, 1);
+      this.saveToCache();
+    }
+  }
+
+  toggleEditarAtaque(index: number) {
+    this.editandoAtaque[index] = !this.editandoAtaque[index];
+    if (!this.editandoAtaque[index]) {
+      this.saveToCache();
+    }
+  }
+
+  togglePericiaProf(pericia: any) {
+    pericia.valor = pericia.valor === 'sim' ? 'nao' : 'sim';
+    this.saveToCache();
+  }
+
+  getPericiasByAtributo(atributo: string): any[] {
+    if (!Array.isArray(this.jogador?.pericias)) return [];
+    return this.jogador.pericias.filter((p: any) => {
+      if (p.atributo) return p.atributo === atributo;
+      const skill = SKILLS.find(s => s.nome === p.nome);
+      return skill?.atributo === atributo;
+    });
+  }
+
+  adicionarHackDoCatalogo(hack: any) {
+    if (!Array.isArray(this.jogador.ataques)) {
+      this.jogador.ataques = [];
+    }
+    this.jogador.ataques.push({
+      nome: hack.nome,
+      bonus: `RAM: ${hack.ram}`,
+      dano: hack.recarga,
+      tipoDano: hack.alvo,
+      notas: hack.efeito,
+      dica: hack.dica
+    });
+    this.saveToCache();
   }
 
 

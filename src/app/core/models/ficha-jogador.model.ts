@@ -89,6 +89,17 @@ export interface Talento {
 }
 
 /**
+ * Ataque registrado na ficha
+ */
+export interface Ataque {
+  nome: string;
+  bonus: string;
+  dano: string;
+  tipoDano: string;
+  notas?: string;
+}
+
+/**
  * Traço racial ou de classe
  */
 export interface Traco {
@@ -139,6 +150,7 @@ export interface FichaJogador {
 
   // Dados de jogo
   talentos: Talento[];
+  ataques?: Ataque[];
   tracos?: Traco[];
   atributos: Atributos;
   pericias: Pericia[];
@@ -181,6 +193,10 @@ export interface FichaJogadorLegacy {
   ca: number | null;
   iniciativa: number | null;
   inspiracao: number | null;
+  ram?: number | null;
+  ramAtual?: number | null;
+  ct?: number | null;
+  ctAtual?: number | null;
   fome: number | null;
   sede: number | null;
   cansaco: number | null;

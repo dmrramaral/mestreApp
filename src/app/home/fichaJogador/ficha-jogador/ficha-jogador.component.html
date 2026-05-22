@@ -164,6 +164,38 @@
                                 <span *ngIf="!editandoCombate" class="stat-value">{{jogador.inspiracao || 0}}</span>
                             </div>
                         </div>
+                        <ng-container *ngIf="isCyberPun2080">
+                            <div class="col-4">
+                                <div class="combat-stat">
+                                    <i class="fas fa-memory text-info"></i>
+                                    <span class="stat-label">RAM Máx</span>
+                                    <input *ngIf="editandoCombate" type="number" class="stat-input" [(ngModel)]="jogador.ram" (change)="saveToCache()">
+                                    <span *ngIf="!editandoCombate" class="stat-value">{{jogador.ram || 0}}</span>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="combat-stat active">
+                                    <i class="fas fa-microchip text-success"></i>
+                                    <span class="stat-label">RAM Atual</span>
+                                    <input type="number" class="stat-input" [(ngModel)]="jogador.ramAtual" (change)="saveToCache()">
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="combat-stat">
+                                    <i class="fas fa-shield-virus text-warning"></i>
+                                    <span class="stat-label">CT Máx</span>
+                                    <input *ngIf="editandoCombate" type="number" class="stat-input" [(ngModel)]="jogador.ct" (change)="saveToCache()">
+                                    <span *ngIf="!editandoCombate" class="stat-value">{{jogador.ct || 0}}</span>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="combat-stat active">
+                                    <i class="fas fa-virus-slash text-danger"></i>
+                                    <span class="stat-label">CT Atual</span>
+                                    <input type="number" class="stat-input" [(ngModel)]="jogador.ctAtual" (change)="saveToCache()">
+                                </div>
+                            </div>
+                        </ng-container>
                     </div>
                 </div>
             </div>
@@ -190,6 +222,13 @@
                                 <span *ngIf="!editandoAtributos" class="attr-value">{{jogador.atributos.forca || 10}}</span>
                                 <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.forca) ?? 0) >= 0 ? '+' : '' }}{{ calcularModificador(jogador.atributos.forca) ?? 0 }}</span>
                             </div>
+                            <div class="int-skills-list mt-1">
+                                <div class="int-skill-row" *ngFor="let p of getPericiasByAtributo('forca')">
+                                    <span class="int-skill-prof" [class.active]="p.valor === 'sim'" (click)="togglePericiaProf(p)" title="Clique para alternar proficiência">&#9679;</span>
+                                    <span class="int-skill-name">{{ p.nome }}</span>
+                                    <span class="int-skill-bonus">{{ ((calcularModificador(jogador.atributos.forca) ?? 0) + (p.valor === 'sim' ? (jogador.proficiencia ?? 0) : 0)) >= 0 ? '+' : '' }}{{ (calcularModificador(jogador.atributos.forca) ?? 0) + (p.valor === 'sim' ? (jogador.proficiencia ?? 0) : 0) }}</span>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-4 col-md-4">
                             <div class="attribute-box">
@@ -198,6 +237,13 @@
                                 <input *ngIf="editandoAtributos" type="number" inputmode="decimal" class="attr-input" [(ngModel)]="jogador.atributos.destreza" (change)="saveToCache()">
                                 <span *ngIf="!editandoAtributos" class="attr-value">{{jogador.atributos.destreza || 10}}</span>
                                 <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.destreza) ?? 0) >= 0 ? '+' : '' }}{{ calcularModificador(jogador.atributos.destreza) ?? 0 }}</span>
+                            </div>
+                            <div class="int-skills-list mt-1">
+                                <div class="int-skill-row" *ngFor="let p of getPericiasByAtributo('destreza')">
+                                    <span class="int-skill-prof" [class.active]="p.valor === 'sim'" (click)="togglePericiaProf(p)" title="Clique para alternar proficiência">&#9679;</span>
+                                    <span class="int-skill-name">{{ p.nome }}</span>
+                                    <span class="int-skill-bonus">{{ ((calcularModificador(jogador.atributos.destreza) ?? 0) + (p.valor === 'sim' ? (jogador.proficiencia ?? 0) : 0)) >= 0 ? '+' : '' }}{{ (calcularModificador(jogador.atributos.destreza) ?? 0) + (p.valor === 'sim' ? (jogador.proficiencia ?? 0) : 0) }}</span>
+                                </div>
                             </div>
                         </div>
                         <div class="col-4 col-md-4">
@@ -208,6 +254,13 @@
                                 <span *ngIf="!editandoAtributos" class="attr-value">{{jogador.atributos.constituicao || 10}}</span>
                                 <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.constituicao) ?? 0) >= 0 ? '+' : '' }}{{ calcularModificador(jogador.atributos.constituicao) ?? 0 }}</span>
                             </div>
+                            <div class="int-skills-list mt-1">
+                                <div class="int-skill-row" *ngFor="let p of getPericiasByAtributo('constituicao')">
+                                    <span class="int-skill-prof" [class.active]="p.valor === 'sim'" (click)="togglePericiaProf(p)" title="Clique para alternar proficiência">&#9679;</span>
+                                    <span class="int-skill-name">{{ p.nome }}</span>
+                                    <span class="int-skill-bonus">{{ ((calcularModificador(jogador.atributos.constituicao) ?? 0) + (p.valor === 'sim' ? (jogador.proficiencia ?? 0) : 0)) >= 0 ? '+' : '' }}{{ (calcularModificador(jogador.atributos.constituicao) ?? 0) + (p.valor === 'sim' ? (jogador.proficiencia ?? 0) : 0) }}</span>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-4 col-md-4">
                             <div class="attribute-box">
@@ -216,6 +269,13 @@
                                 <input *ngIf="editandoAtributos" type="number" inputmode="decimal" class="attr-input" [(ngModel)]="jogador.atributos.inteligencia" (change)="saveToCache()">
                                 <span *ngIf="!editandoAtributos" class="attr-value">{{jogador.atributos.inteligencia || 10}}</span>
                                 <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.inteligencia) ?? 0) >= 0 ? '+' : '' }}{{ calcularModificador(jogador.atributos.inteligencia) ?? 0 }}</span>
+                            </div>
+                            <div class="int-skills-list mt-1">
+                                <div class="int-skill-row" *ngFor="let p of getPericiasByAtributo('inteligencia')">
+                                    <span class="int-skill-prof" [class.active]="p.valor === 'sim'" (click)="togglePericiaProf(p)" title="Clique para alternar proficiência">&#9679;</span>
+                                    <span class="int-skill-name">{{ p.nome }}</span>
+                                    <span class="int-skill-bonus">{{ ((calcularModificador(jogador.atributos.inteligencia) ?? 0) + (p.valor === 'sim' ? (jogador.proficiencia ?? 0) : 0)) >= 0 ? '+' : '' }}{{ (calcularModificador(jogador.atributos.inteligencia) ?? 0) + (p.valor === 'sim' ? (jogador.proficiencia ?? 0) : 0) }}</span>
+                                </div>
                             </div>
                         </div>
                         <div class="col-4 col-md-4">
@@ -226,6 +286,13 @@
                                 <span *ngIf="!editandoAtributos" class="attr-value">{{jogador.atributos.sabedoria || 10}}</span>
                                 <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.sabedoria) ?? 0) >= 0 ? '+' : '' }}{{ calcularModificador(jogador.atributos.sabedoria) ?? 0 }}</span>
                             </div>
+                            <div class="int-skills-list mt-1">
+                                <div class="int-skill-row" *ngFor="let p of getPericiasByAtributo('sabedoria')">
+                                    <span class="int-skill-prof" [class.active]="p.valor === 'sim'" (click)="togglePericiaProf(p)" title="Clique para alternar proficiência">&#9679;</span>
+                                    <span class="int-skill-name">{{ p.nome }}</span>
+                                    <span class="int-skill-bonus">{{ ((calcularModificador(jogador.atributos.sabedoria) ?? 0) + (p.valor === 'sim' ? (jogador.proficiencia ?? 0) : 0)) >= 0 ? '+' : '' }}{{ (calcularModificador(jogador.atributos.sabedoria) ?? 0) + (p.valor === 'sim' ? (jogador.proficiencia ?? 0) : 0) }}</span>
+                                </div>
+                            </div>
                         </div>
                         <div class="col-4 col-md-4">
                             <div class="attribute-box">
@@ -234,6 +301,13 @@
                                 <input *ngIf="editandoAtributos" type="number" inputmode="decimal" class="attr-input" [(ngModel)]="jogador.atributos.carisma" (change)="saveToCache()">
                                 <span *ngIf="!editandoAtributos" class="attr-value">{{jogador.atributos.carisma || 10}}</span>
                                 <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.carisma) ?? 0) >= 0 ? '+' : '' }}{{ calcularModificador(jogador.atributos.carisma) ?? 0 }}</span>
+                            </div>
+                            <div class="int-skills-list mt-1">
+                                <div class="int-skill-row" *ngFor="let p of getPericiasByAtributo('carisma')">
+                                    <span class="int-skill-prof" [class.active]="p.valor === 'sim'" (click)="togglePericiaProf(p)" title="Clique para alternar proficiência">&#9679;</span>
+                                    <span class="int-skill-name">{{ p.nome }}</span>
+                                    <span class="int-skill-bonus">{{ ((calcularModificador(jogador.atributos.carisma) ?? 0) + (p.valor === 'sim' ? (jogador.proficiencia ?? 0) : 0)) >= 0 ? '+' : '' }}{{ (calcularModificador(jogador.atributos.carisma) ?? 0) + (p.valor === 'sim' ? (jogador.proficiencia ?? 0) : 0) }}</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -347,6 +421,9 @@
                         </button>
                         <button class="btn btn-outline-success" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTalentos">
                             <i class="fas fa-star me-2"></i>Talentos
+                        </button>
+                        <button class="btn btn-outline-danger" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAtaques">
+                            <i class="fas fa-bolt me-2"></i>Hacks
                         </button>
                         <button class="btn btn-outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTracos">
                             <i class="fas fa-scroll me-2"></i>Traços
@@ -686,6 +763,147 @@
         </div>
     </div>
 
+    <!-- Hacks -->
+    <div class="collapse" id="collapseAtaques">
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-danger text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-bolt me-2"></i>{{ isCyberPun2080 ? 'Hacks' : 'Ataques' }}</h5>
+                    <div class="d-flex gap-2">
+                        <button *ngIf="isCyberPun2080" type="button" class="btn btn-outline-light btn-sm" (click)="verCatalogoHacks = !verCatalogoHacks">
+                            <i class="fas fa-satellite-dish me-1"></i>{{ verCatalogoHacks ? 'Fechar Catálogo' : '📡 Catálogo' }}
+                        </button>
+                        <button type="button" class="btn btn-light btn-sm" (click)="adicionarAtaque()">
+                            <i class="fas fa-plus me-1"></i>Adicionar
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <!-- Catálogo de Hacks Rápidos (somente Cyberpunk 2080) -->
+                <div *ngIf="isCyberPun2080 && verCatalogoHacks" class="hacks-catalogo mb-4">
+                    <h6 class="text-danger mb-3"><i class="fas fa-satellite-dish me-2"></i>📡 Lista de Hacks Rápidos</h6>
+                    <div class="hack-list">
+                        <details class="hack-entry" *ngFor="let hack of hacksRapidosCatalogo">
+                            <summary class="hack-summary">
+                                <span class="hack-num text-muted">{{ hack.id }}.</span>
+                                <strong class="hack-nome">{{ hack.nome }}</strong>
+                                <span class="hack-badges ms-auto">
+                                    <span class="badge bg-danger me-1">RAM {{ hack.ram }}</span>
+                                    <span class="badge bg-secondary me-1">{{ hack.recarga }}</span>
+                                    <span class="badge bg-dark">{{ hack.valor }} edinhos</span>
+                                </span>
+                                <button type="button" class="btn btn-outline-light btn-sm ms-2 hack-add-btn" (click)="adicionarHackDoCatalogo(hack); $event.preventDefault()">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </summary>
+                            <div class="hack-details">
+                                <p class="hack-descricao text-muted small mb-1">{{ hack.descricao }}</p>
+                                <p class="hack-efeito small mb-1"><strong>Efeito:</strong> {{ hack.efeito }}</p>
+                                <p class="hack-alvo small mb-1"><strong>Alvo:</strong> {{ hack.alvo }}</p>
+                                <p class="hack-dica small text-info mb-0"><i class="fas fa-lightbulb me-1"></i>{{ hack.dica }}</p>
+                            </div>
+                        </details>
+                    </div>
+                </div>
+
+                <div *ngIf="jogador.ataques && jogador.ataques.length > 0">
+                    <div class="table-responsive">
+                        <table class="table table-sm table-hover align-middle mb-0">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>{{ isCyberPun2080 ? 'RAM' : 'Bônus' }}</th>
+                                    <th>{{ isCyberPun2080 ? 'Recarga' : 'Dano' }}</th>
+                                    <th>{{ isCyberPun2080 ? 'Alvo' : 'Tipo' }}</th>
+                                    <th>{{ isCyberPun2080 ? 'Efeito' : 'Notas' }}</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let ataque of jogador.ataques; let i = index">
+                                    <ng-container *ngIf="!editandoAtaque[i]">
+                                        <td><strong>{{ ataque.nome }}</strong></td>
+                                        <td>
+                                            <span *ngIf="isCyberPun2080" class="badge bg-info text-dark">{{ ataque.bonus }}</span>
+                                            <span *ngIf="!isCyberPun2080" class="badge bg-warning text-dark">{{ ataque.bonus || '—' }}</span>
+                                        </td>
+                                        <td>
+                                            <span *ngIf="isCyberPun2080" class="badge bg-secondary">{{ ataque.dano }}</span>
+                                            <span *ngIf="!isCyberPun2080" class="badge bg-danger">{{ ataque.dano }}</span>
+                                        </td>
+                                        <td><small>{{ ataque.tipoDano }}</small></td>
+                                        <td>
+                                            <ng-container *ngIf="isCyberPun2080">
+                                                <details>
+                                                    <summary class="small text-info" style="cursor:pointer;list-style:none"><i class="fas fa-chevron-right me-1"></i>Ver efeito</summary>
+                                                    <small class="d-block mt-1">{{ ataque.notas }}</small>
+                                                    <small *ngIf="ataque.dica" class="d-block mt-1 text-muted"><i class="fas fa-lightbulb me-1 text-warning"></i>{{ ataque.dica }}</small>
+                                                </details>
+                                            </ng-container>
+                                            <small *ngIf="!isCyberPun2080" class="text-muted">{{ ataque.notas }}</small>
+                                        </td>
+                                        <td class="text-end">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary me-1" (click)="toggleEditarAtaque(i)">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-danger" (click)="removerAtaque(i)">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container *ngIf="editandoAtaque[i]">
+                                        <td><input type="text" class="form-control form-control-sm" [(ngModel)]="ataque.nome"></td>
+                                        <td><input type="text" class="form-control form-control-sm" [(ngModel)]="ataque.bonus" [placeholder]="isCyberPun2080 ? 'RAM: 2' : '+4'"></td>
+                                        <td><input type="text" class="form-control form-control-sm" [(ngModel)]="ataque.dano" [placeholder]="isCyberPun2080 ? '2 turnos' : '1d6+2'"></td>
+                                        <td><input type="text" class="form-control form-control-sm" [(ngModel)]="ataque.tipoDano" [placeholder]="isCyberPun2080 ? 'Um inimigo' : 'Perfurante'"></td>
+                                        <td><input type="text" class="form-control form-control-sm" [(ngModel)]="ataque.notas" [placeholder]="isCyberPun2080 ? 'Descrição do efeito' : 'Notas'"></td>
+                                        <td class="text-end">
+                                            <button type="button" class="btn btn-sm btn-success" (click)="toggleEditarAtaque(i)">
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                        </td>
+                                    </ng-container>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div *ngIf="!jogador.ataques || jogador.ataques.length === 0" class="text-muted text-center py-3">
+                    <i class="fas fa-bolt fa-2x mb-2"></i>
+                    <p>{{ isCyberPun2080 ? 'Nenhum hack adicionado ainda' : 'Nenhum ataque registrado ainda' }}</p>
+                </div>
+                <div *ngIf="adicionandoAtaque" class="add-form mt-3">
+                    <div class="row g-2">
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" [placeholder]="isCyberPun2080 ? 'Nome do hack' : 'Nome (ex: Pistola 9mm)'" [(ngModel)]="novoAtaque.nome">
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" class="form-control" [placeholder]="isCyberPun2080 ? 'RAM (ex: 2)' : 'Bônus (ex: +4)'" [(ngModel)]="novoAtaque.bonus">
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" class="form-control" [placeholder]="isCyberPun2080 ? 'Recarga (ex: 2 turnos)' : 'Dano (ex: 1d6+2)'" [(ngModel)]="novoAtaque.dano">
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" class="form-control" [placeholder]="isCyberPun2080 ? 'Alvo' : 'Tipo (ex: Balístico)'" [(ngModel)]="novoAtaque.tipoDano">
+                        </div>
+                        <div class="col-md-2">
+                            <input type="text" class="form-control" [placeholder]="isCyberPun2080 ? 'Efeito do hack' : 'Notas'" [(ngModel)]="novoAtaque.notas">
+                        </div>
+                        <div class="col-md-1 d-flex gap-1">
+                            <button type="button" class="btn btn-success btn-sm flex-fill" (click)="confirmarAdicionarAtaque()">
+                                <i class="fas fa-check"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm flex-fill" (click)="cancelarAdicionarAtaque()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Traços -->
     <div class="collapse" id="collapseTracos">
         <div class="card shadow-sm mb-3">
@@ -903,18 +1121,18 @@
                             </div>
                             <div *ngIf="editandoEquipamento[categoria]?.[i]" class="edit-form">
                                 <div class="row g-2">
-                                    <div class="col-md-4">
+                                    <div class="col-12">
                                         <input type="text" class="form-control" placeholder="Nome" [(ngModel)]="equipamento.nome" (change)="saveToCache()">
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-12">
                                         <input type="text" class="form-control" placeholder="Descrição" [(ngModel)]="equipamento.descricao" (change)="saveToCache()">
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-8">
                                         <input type="number" class="form-control" placeholder="CA" [(ngModel)]="equipamento.ca" (change)="saveToCache()">
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-4">
                                         <button type="button" class="btn btn-success btn-sm w-100" (click)="toggleEditarEquipamento(categoria, i)">
-                                            <i class="fas fa-check"></i>
+                                            <i class="fas fa-check"></i> Salvar
                                         </button>
                                     </div>
                                 </div>
@@ -1230,6 +1448,24 @@
                                 <input type="number" class="form-control" id="inspiracao" [(ngModel)]="jogador.inspiracao"
                                     name="inspiracao" placeholder="Ex: 0" (change)="saveToCache()">
                             </div>
+                            <ng-container *ngIf="isCyberPun2080">
+                                <div class="col-md-3">
+                                    <label class="form-label"><i class="fas fa-memory me-1"></i>RAM Máx</label>
+                                    <input type="number" class="form-control" [(ngModel)]="jogador.ram" name="ram" placeholder="Ex: 8" (change)="saveToCache()">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label"><i class="fas fa-microchip me-1"></i>RAM Atual</label>
+                                    <input type="number" class="form-control" [(ngModel)]="jogador.ramAtual" name="ramAtual" placeholder="Ex: 8" (change)="saveToCache()">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label"><i class="fas fa-shield-virus me-1"></i>CT Máx</label>
+                                    <input type="number" class="form-control" [(ngModel)]="jogador.ct" name="ct" placeholder="Ex: 10" (change)="saveToCache()">
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label"><i class="fas fa-virus-slash me-1"></i>CT Atual</label>
+                                    <input type="number" class="form-control" [(ngModel)]="jogador.ctAtual" name="ctAtual" placeholder="Ex: 10" (change)="saveToCache()">
+                                </div>
+                            </ng-container>
                         </div>
                     </div>
 

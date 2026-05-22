@@ -292,6 +292,95 @@
     }
 }
 
+// INT linked skills (Hacking, Tecnologia)
+.int-skills-list {
+    .int-skill-row {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 0.7rem;
+        padding: 1px 0;
+
+        .int-skill-prof {
+            cursor: pointer;
+            font-size: 0.55rem;
+            color: #ccc;
+            transition: color 0.2s;
+
+            &.active {
+                color: #667eea;
+            }
+        }
+
+        .int-skill-name {
+            flex: 1;
+            color: #444;
+            font-weight: 500;
+        }
+
+        .int-skill-bonus {
+            font-weight: 700;
+            color: #333;
+            min-width: 24px;
+            text-align: right;
+        }
+    }
+}
+
+// Catálogo de Hacks Rápidos
+.hacks-catalogo {
+    .hack-list {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .hack-entry {
+        background: #1a1a2e;
+        border-radius: 6px;
+        border: 1px solid #e53e3e44;
+        overflow: hidden;
+
+        &[open] {
+            border-color: #e53e3e;
+
+            .hack-summary { background: #2d0000; }
+        }
+    }
+
+    .hack-summary {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 12px;
+        cursor: pointer;
+        background: #12122299;
+        color: #f0f0f0;
+        list-style: none;
+        flex-wrap: wrap;
+
+        &::-webkit-details-marker { display: none; }
+        &::before { content: '\25B6'; font-size: 0.6rem; color: #e53e3e; flex-shrink: 0; }
+
+        details[open] &::before { content: '\25BC'; }
+
+        .hack-num { font-size: 0.75rem; min-width: 20px; }
+        .hack-nome { font-size: 0.85rem; flex: 1; min-width: 120px; }
+        .hack-badges { display: flex; flex-wrap: wrap; gap: 3px; }
+        .hack-add-btn { padding: 1px 6px; font-size: 0.7rem; flex-shrink: 0; }
+    }
+
+    .hack-details {
+        padding: 10px 14px;
+        background: #0d0d1a;
+        color: #ccc;
+        border-top: 1px solid #e53e3e33;
+
+        p { margin-bottom: 4px; }
+        .hack-dica { color: #63b3ed !important; }
+    }
+}
+
 // Section Buttons
 .section-buttons {
     display: flex;
