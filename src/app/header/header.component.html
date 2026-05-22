@@ -4,14 +4,14 @@
                 <i class="fas fa-dice-d20 me-2"></i>Mestre App
             </a>
             <div class="d-flex align-items-center">
-                <button class="btn btn-theme-toggle me-2" 
+                <button class="btn btn-theme-toggle me-2"
                         type="button"
                         (click)="toggleTheme()"
                         [attr.aria-label]="getThemeLabel()">
                     <i [class]="getThemeIcon()"></i>
                 </button>
-                <button *ngIf="pwaService.canInstall && !pwaService.isInstalled" 
-                        class="btn btn-outline-primary btn-sm me-2" 
+                <button *ngIf="pwaService.canInstall && !pwaService.isInstalled"
+                        class="btn btn-outline-primary btn-sm me-2"
                         type="button"
                         (click)="installPwa()"
                         title="Instalar como aplicativo">
@@ -69,6 +69,11 @@
                                 <i class="fas fa-code me-2"></i>D&D API
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="/cyberpunk-catalogo" aria-current="page">
+                                <i class="fas fa-diagram-project me-2"></i>Catalogo CyberPunk
+                            </a>
+                        </li>
                         <!-- <li class="nav-item">
                             <a class="nav-link" href="#">Link</a>
                         </li> -->
@@ -86,7 +91,7 @@
                   </ul>
                 </li> -->
                     </ul>
-                   
+
                 </div>
             </div>
         </div>

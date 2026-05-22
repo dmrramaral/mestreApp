@@ -20,6 +20,7 @@ export class FichaJogadorService {
   criarDadosCyberPun2080Padrao() {
     return {
       papel: '',
+      subclasse: '',
       origem: '',
       antecedente: '',
       historia: '',

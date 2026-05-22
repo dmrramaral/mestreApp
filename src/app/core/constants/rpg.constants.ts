@@ -151,6 +151,39 @@ export const CYBERPUN2080_ORIGINS = [
   'Subúrbio Industrial'
 ] as const;
 
+export const CYBERPUN2080_SUBCLASSES_BY_CLASS: Record<string, readonly string[]> = {
+  'Cromado': [
+    'Titã de Cromo',
+    'Arsenal Vivo',
+    'Quebra-Linha'
+  ],
+  'Medicânico': [
+    'Médico de Guerra',
+    'Tecnicirurgião',
+    'Anjo de Trauma'
+  ],
+  'Piloto': [
+    'Corredor Fantasma',
+    'Ás de Combate',
+    'Contrabandista'
+  ],
+  'Samurai': [
+    'Lâmina Neon',
+    'Executor Silencioso',
+    'Vanguarda Corporativa'
+  ],
+  'Solo': [
+    'Mercenário de Choque',
+    'Atirador de Elite',
+    'Guardião Urbano'
+  ],
+  'Trilha-Redes': [
+    'Netrunner de Assalto',
+    'Fantasma de Dados',
+    'Arquiteto de Daemons'
+  ]
+};
+
 export const CYBERPUN2080_CLASS_TRAITS: Record<string, Array<{ nome: string; descricao: string }>> = {
   'Cromado': [
     { nome: 'Corpo Aprimorado', descricao: 'Você recebe vantagem narrativa em ações que dependem de resistência física e força mecânica.' },

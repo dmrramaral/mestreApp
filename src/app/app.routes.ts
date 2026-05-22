@@ -3,32 +3,36 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
     {path: '', redirectTo: 'home', pathMatch: 'full'},
     {
-      path: 'home', 
+      path: 'home',
       loadComponent: () => import('./home/home.component').then(m => m.HomeComponent)
     },
     {
-      path: 'itens', 
+      path: 'itens',
       loadComponent: () => import('./home/itens/itens.component').then(m => m.ItensComponent)
     },
     {
-      path: 'iniciativa', 
+      path: 'iniciativa',
       loadComponent: () => import('./home/iniciativa/iniciativa.component').then(m => m.IniciativaComponent)
     },
     {
-      path: 'mercado', 
+      path: 'mercado',
       loadComponent: () => import('./home/mercado/mercado.component').then(m => m.MercadoComponent)
     },
     {
-      path: 'monstros', 
+      path: 'monstros',
       loadComponent: () => import('./home/monstros/monstros.component').then(m => m.MonstrosComponent)
     },
     {
-      path: 'ficha-jogador', 
+      path: 'ficha-jogador',
       loadComponent: () => import('./home/fichaJogador/ficha-jogador/ficha-jogador.component').then(m => m.FichaJogadorComponent)
     },
     {
-      path: 'dnd-api-example', 
+      path: 'dnd-api-example',
       loadComponent: () => import('./home/fichaJogador/dnd-api-example/dnd-api-example.component').then(m => m.DndApiExampleComponent)
+    },
+    {
+      path: 'cyberpunk-catalogo',
+      loadComponent: () => import('./home/cyberpunk-catalog-admin/cyberpunk-catalog-admin.component').then(m => m.CyberpunkCatalogAdminComponent)
     },
     {path: '**', redirectTo: 'home'},
 ];

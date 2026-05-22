@@ -6,6 +6,7 @@ export type SistemaRpg = 'dnd5e' | 'cyberpun2080';
 
 export interface DadosCyberPun2080 {
   papel: string;
+  subclasse: string;
   origem: string;
   antecedente: string;
   historia: string;

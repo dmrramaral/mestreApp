@@ -1,0 +1,2830 @@
+PAGES 137\n---PAGE 3---\nIntrodução  
+“Em um mundo onde a linha entre homem e máquina se tornou tênue, onde megacorporações decidem quem vive ou 
+morre, você precisa fazer mais do que lutar. Precisa escolher quem será… ou o que será.”
+ 
+Bem
+ -
+ vindo a Night City 
+ – 
+Sua História, Suas Regras  
+Este livro apresenta um sistema de RPG Cyberpunk inspirado em Dungeons & Dragons, adaptado para uma cidade 
+futurista cheia de perigos, implantes cibernéticos, gangues violentas e tecnologia avançada. Aqui, o combate, a 
+estratégia e a narrativa se encontram, e cada decisão tem peso no seu destino. 
+ 
+O que você vai encontrar neste livro  
+• Para Jogadores: Tudo que você precisa para criar personagens únicos, desde humanos e cibernéticas até perícias, 
+armas e hacks. Cada escolha define quem você é e como vai sobreviver nas ruas de Night City. 
+• Para Mestres: Ferramentas para construir missões, NPCs memoráveis, gangues, corporações e encontros dinâmicos 
+que desafiarão até os jogadores mais experientes.
+ 
+Como jogar  
+Nosso sistema combina: 
+• Dados tradicionais de D&D (d4, d6, d8, d10, d12 e d20) 
+• Classes adaptadas para o mundo cyberpunk (como Cromado, Piloto, Samurai, Solo e Trilha-Redes) 
+• Armas, implantes e tecnologia futurista que dão vantagens únicas no combate e na exploração. 
+• Hacks Rápidos e programações digitais para alterar o mundo a seu favor (ou contra você). 
+ 
+A atmosfera do jogo  
+Em Night City: 
+• Nada é gratuito, amigos podem virar inimigos. Tecnologia é uma arma… e um vício. 
+Você não está apenas contando uma história. Você está sobrevivendo, e escolhendo quem vai se tornar nesse mundo 
+brutal e impiedoso. 
+Prepare-se para atacar de forma cirúrgica, improvisar nas ruas sujas, hackear sistemas para conseguir toda a vantagem 
+e talvez ter que decidir entre lealdade e sobrevivência. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+\n---PAGE 5---\nAs próximas seções apresentam as regras que sustentam a sobrevivência em Night City. Elas existem para dar forma ao 
+caos, transformar escolhas em consequências e garantir que cada decisão — seja puxar o gatilho, instalar um implante 
+ou fechar um acordo duvidoso — tenha peso real na narrativa. 
+ 
+Progressão de Personagem  
+Aqui temos informações importantes que vão do nível 1 ao 20.
+ 
+Criação de Personagem  
+O primeiro passo para entrar no jogo é decidir quem você é em Night City. 
+Aqui você encontrará: Escolha de classe, Antecedentes e história, Talentos. 
+ 
+Equipamentos e Tecnologia  
+As ferramentas que mantêm você vivo: Armas, munições e modificações, Proteções corporais, Consumíveis e utilitários 
+ 
+Implantes Cibernéticos  
+Melhorias corporais, upgrades neurais e modificações mecânicas, com cada implante oferecendo poder — e cobrando 
+seu preço. 
+ 
+Hacking  
+Invasões digitais, guerras de dados, controle de sistemas e o risco constante de deixar sua mente exposta na Rede. 
+ 
+Veículos  
+Perseguições em alta velocidade, combates sobre rodas e fugas desesperadas pelas vias de Night City — ou apenas a 
+boa e velha ostentação. 
+ 
+Consumíveis, Drogas e Vícios  
+Estimulantes, drogas sintéticas, neuroquímicos e seus efeitos físicos e psicológicos. 
+ 
+As Forças da Cidade  
+As entidades que moldam o destino de quem vive sob o neon: Corporações, que governam do topo das torres de vidro, 
+Canais, que controlam informações e narrativas, Gangues, que dominam ruas, territórios e becos, Polícia de Night City, 
+da patrulha comum à repressão da Max-Tac, Trauma Team, que decide quem vive ou morre conforme o contrato 
+médico assinado pelo paciente. 
+ 
+Um Aviso Importante  
+Estas regras não existem para limitar a história, mas para torná-la crível. 
+Night City é implacável, e o sistema reflete isso. Poder sem preparo leva à morte. Tecnologia sem controle leva à perda 
+de humanidade. Escolhas impensadas cobram juros altos. 
+Leia as regras com atenção. Domine-as. Quebre-as quando necessário. Porque, a partir daqui, não é mais apenas um 
+jogo — é sobrevivência. 
+ 
+ 
+ 
+ 
+ 
+ 
+ \n---PAGE 6---\n🎚️ 
+PROGRESSÃO DE PERSONAGEM  
+A progressão de personagem representa o crescimento, a experiência e as cicatrizes adquiridas ao sobreviver em Night 
+City. À medida que enfrenta perigos, faz alianças duvidosas e melhora seu corpo e sua mente, seu personagem sobe de 
+nível e se torna mais eficiente — ou mais instável.
+ 
+📈 
+Níveis  
+O jogo possui 20 níveis, do nível 1 ao 20. 
+Sempre que um personagem sobe de nível, ele recebe: 
+• Pontos de Vida adicionais, determinados por sua classe e Constituição; 
+• Habilidades de Classe, que representam novas técnicas, poderes ou especializações; 
+• Benefícios de progressão geral, como aumento de proficiência ou escolhas de evolução. 
+Subir de nível não é apenas ficar mais forte — é ganhar novas ferramentas para sobreviver em um mundo que escala 
+seus perigos junto com você. 
+ 
+🧠 
+ATRIBUTOS  
+Base  
+O jogador começa com os valores: 15, 14, 13, 12, 10 e 8 e precisa distribuir em seus atributos base. Seu antecedente 
+fornecerá 3 opções de atributos onde você poderá distribuir mais 3 pontos (máximo +2 em um mesmo atributo). 
+Atributos do Sistema  
+Os atributos representam as capacidades físicas, mentais e sociais do personagem. 
+No início da criação de personagem, o jogador recebe os seguintes valores: 15, 14, 13, 12, 10 e 8. 
+Esses valores devem ser distribuídos entre os seis atributos do sistema, sem repeti-los: 
+• Força (FOR) — Poder físico, força bruta e capacidade de impacto. 
+• Destreza (DES) — Agilidade, reflexos, precisão e coordenação motora. 
+• Constituição (CON) — Resistência física, vitalidade e tolerância a danos. 
+• Inteligência (INT) — Raciocínio lógico, conhecimento técnico e capacidade analítica. 
+• Sabedoria (SAB) — Percepção, intuição, autocontrole e força mental. 
+• Carisma (CAR) — Presença, influência social, intimidação e empatia. 
+O limite base de atributo é 20, mas itens ou implantes cibernéticos permitem ultrapassar o limite natural.
+ 
+🧬 
+Atributos ou Talentos  
+Por Nível  
+A cada 4 níveis (níveis 4, 8, 12, 16 e 20), o personagem deve escolher apenas UMA das opções abaixo: 
+• Aumento de Atributo: 
+Distribua +2 pontos de atributo, com no máximo +2 no mesmo atributo; 
+OU 
+• Talento: 
+Adquira um talento, que concede habilidades especiais, efeitos passivos ou novas opções táticas. 
+Essa escolha define se o personagem evolui de forma mais consistente e bruta ou mais especializada e única. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ \n---PAGE 8---\n🧩 
+CRIAÇÃO DE PERSONAGEM  
+Cada personagem é moldado por alguns pilares principais: Classe, Subclasse, Antecedente, História e Talentos. 
+Juntos, eles definem não apenas o que você faz em combate, mas como se move pela cidade, como é visto pelas ruas e 
+quais portas se abrem — ou se fecham — quando você entra em um lugar. 
+ 
+🧠 
+Classes  
+A Classe representa o sua abordagem diante do perigo, sua especialidade e a forma como enfrenta os desafios.
+ 
+🔩 
+Cromado  
+O corpo é apenas um protótipo. 
+O Cromado empurra os limites da carne humana com implantes além das capacidades normais. Ele confia em seus 
+implantes acima de tudo.
+ 
+🚑 Medicânico 
+Manutenção de guerra em casos extremos. 
+O Medicânico mantém aliados vivos com medicina de combate, implantes e protocolos de emergência. Ele não faz 
+milagres — ele conserta o que ainda pode lutar.
+ 
+🏎️ 
+Piloto  
+Movimento é sobrevivência. 
+O Piloto domina as ruas, estradas, desertos e terrenos abertos. Seja atrás do volante, do guidão ou no controle de 
+drones de transporte, ele ataca rápido e desaparece antes que o inimigo consiga reagir. 
+ 
+🗡️ 
+Samurai  
+Um erro. Um golpe. Fim. 
+Letal, silencioso e preciso, o Samurai vive de ataques cirúrgicos. Ele observa, espera e age no momento exato, 
+explorando brechas antes que o inimigo perceba o perigo. 
+ 
+💣 
+Solo  
+Quando começa o tiroteio, alguém precisa ficar de pé. 
+O Solo é treinado para a guerra urbana. Armas, explosivos, táticas e sangue frio fazem parte do dia a dia. Ele não evita 
+o confronto — ele se prepara para o pior cenário. 
+ 
+🧠 
+Trilha
+ -
+ Redes  
+O mundo é código. 
+O Trilha-Redes invade sistemas, implantes e redes, transformando tecnologia em arma. Portas se abrem, armas falham 
+e inimigos entram em pânico — tudo sem um disparo sequer. 
+ 
+🎭 
+Antecedente  
+O Antecedente define quem você era antes do jogo começar. 
+Ele representa sua origem, profissão passada ou vida anterior dentro ou fora de Night City. 
+ 
+📖 
+História  
+A História é sua responsabilidade como jogador, não precisa ser longa, mas precisa ser honesta. 
+O mestre usará sua história para criar ganchos, conflitos e consequências reais. 
+ \n---PAGE 9---\n🩸 
+Cinco Perguntas Essenciais  
+Ao finalizar a História do seu personagem, responda às perguntas abaixo. 
+Elas não existem para preencher ficha, mas para revelar quem você realmente é em Night City. 
+1. 
+ Você é de Night City?  Se sim, por que ainda não conseguiu sair? Se não, o que fez você vir pra cá e ficar? 
+2. 
+ O que você já perdeu por causa da cidade?  Alguém, algo ou uma parte de si mesmo que nunca vai voltar. 
+3. 
+ O que você deseja conquistar, custe o que custar?  Poder, dinheiro, vingança ou redenção — e até onde 
+você iria por isso? 
+4. 
+ Qual é a sua maior cicatriz invisível?  Um trauma, culpa, medo ou erro que ainda influencia suas decisões. 
+5. 
+ O que pode te destruir se alguém descobrir?  Um vício, segredo, dívida, lealdade ou fraqueza que a cidade 
+pode usar contra você. 
+6.  
+Essas respostas moldam o personagem tanto quanto atributos ou talentos. 
+Em Night City, não são as balas que definem quem você é — são as coisas que você carrega quando ninguém está 
+olhando. 
+ 
+⭐ 
+Talentos  
+Talentos representam habilidades especiais, truques únicos ou adaptações adquiridas ao longo da vida — seja por 
+treino, sobrevivência ou obsessão. 
+Eles permitem: 
+• Diferenciar personagens da mesma classe 
+• Criar combinações únicas 
+• Definir um estilo próprio de jogo 
+Talentos são escolhas que moldam quem você se torna, não apenas o que você faz. 
+ 
+🧠 
+Em Night City…  
+Classe define seu papel, subclasse define seu método, antecedente explica sua origem, a história revela suas cicatrizes 
+e os talentos mostram até onde você foi para continuar vivo. 
+Agora escolha com cuidado. A cidade não perdoa decisões impensadas. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+\n---PAGE 10---\nCROMADO 
+Os Cromados são indivíduos que podem modificar o corpo além do limite aceitável. 
+Onde outros veem mutilação, eles veem evolução. 
+Eles suportam mais dor, mais impacto e mais sobrecarga neural do que qualquer outro. 
+Mas toda essa adaptação cobra um preço: humanidade corroída. 
+ 
+Pontos de Vida
+ : Nível 1: 20 + modificador de Constituição, Por nível: 1d10 + modificador de Constituição. 
+ 
+Proficiências
+ : Testes de resistência: Constituição, Força 
+ 
+Armas
+ : Pistolas, Revólveres, Escopetas, Rifles de Assalto, Metralhadoras Leves, Armas Improvisadas Leves e 
+pesadas. 
+ 
+Armaduras
+ : Médias, Pesadas, Escudos. 
+ 
+Ferramentas
+ : Kits de Manutenção de armas. 
+ 
+Perícias
+ : Escolha 4 entre: 
+Atletismo, Briga, Intimidação, Tolerância, Tecnologia, Acrobacia, Medicina, Pilotagem. 
+ 
+Classe Tecnológica (CT)
+ : 14 + Constituição + Sabedoria + bônus de proficiência e aumenta em +3 
+nos níveis 4, 8, 12, 16 e 20. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ \n---PAGE 11---\nPROGRESSÃO DE CLASSE  
+Nível 1 
+— 
+Corpo Adaptável
+ : Seus PV máximos aumentam em +3 para cada implante que esteja instalado em seu 
+corpo. Você possui Desvantagem em testes de Persuasão, mas Vantagem em testes de Intimidação. 
+ 
+Nível 2 
+ — 
+Estrutura Reforçada
+ : Enquanto estiver usando uma armadura média ou pesada, concede Vantagem 
+em testes de resistência contra Atordoamento. 
+ 
+Nível 5 
+ — 
+Ataque Extra:  Você pode atacar duas vezes sempre que realizar a Ação de Ataque ou realizar uma  
+Ação de Ataque e uma Ação de recarregar (em qualquer ordem). 
+ 
+Nível 6 
+ — 
+Força Opressora
+ : Concede Vantagem em testes de Força e você passa a contar como uma categoria 
+de tamanho maior para empurrar, agarrar e carregar peso. 
+ 
+Nível 9 
+ — 
+Corpo que Aguenta
+ : Concede Vantagem em testes de Constituição contra efeitos contínuos, como 
+Sangramento e Envenenamento.  
+ 
+Nível 11 
+— 
+Sobrecarga Controlada
+ : Ao acertar um ataque corpo a corpo, adicione seu modificador de 
+Constituição ao dano. 
+ 
+Nível 13 
+— 
+Blindagem Interna
+ : Reduz todo dano Cortante, Perfurante ou Contundente recebido em -1 (mínimo 
+1). Esse valor aumenta para -3 no nível 20. 
+ 
+Nível 17 
+— 
+Corpo Antinatural
+ : Não pode ser Derrubado, Empurrado ou Agarrado contra sua vontade e ignora 
+terreno difícil causado por destruição ou destroços. 
+ 
+Nível 20 
+ — 
+Aberração Funcional
+ : 1 vez por combate, Reação. 
+Ao sofrer dano proveniente de um ataque ou explosão, pode reduzi-lo pela metade. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+\n---PAGE 12---\nSubclasses de Cromado  
+Especialização: Adaptativo  
+O 
+Cromado Adaptativo  é o ápice da sobrevivência aprimorada. Seu corpo cromado não é apenas resistente — ele 
+aprende, se ajusta e responde à ameaça em tempo real. Cada placa, fibra e circuito orgânico reage ao ambiente e ao 
+inimigo, transformando o portador em um combatente extremamente difícil de derrubar. 
+ 
+Nível 3 
+ — 
+Ajustes Avançados
+ : 1 vez por turno, Ação Bônus. 
+Escolha uma opção de adaptação ou use sua Ação Bônus para trocar de adaptação em seu turno: 
+• Aumentar sua Classe de Armadura (CA) em +1 
+• Aumentar sua Classe de Firewall (CF) em +1 
+• Reduza o primeiro dano Cortante, Perfurante ou Contundente que receber no turno em valor igual ao seu Bônus de 
+Proficiência. 
+Você obtém essa característica até o final do combate ou decidir trocar usando sua Ação Bônus. 
+ 
+Nível 7 
+ — 
+Redistribuição de Impacto
+ : 1 vez por turno, Reação, usos iguais ao Bônus de Proficiência antes de 
+um descanso longo. 
+Quando sofrer dano, você pode reduzir o dano em 1d10 + seu modificador de Constituição. 
+ 
+Nível 10 
+— 
+Corpo Autônomo Evolutivo
+ : Sempre que iniciar seu turno com menos da metade dos PV: recupere 
+PV iguais seu modificador de Constituição + bônus de proficiência. Não funciona caso esteja inconsciente. 
+ 
+Nível 15 
+— 
+Duro de Matar
+ : 1 vez por combate, reação. 
+A primeira vez que cair a 0 PV em um combate, você cai para 1 PV em vez disso e até o fim do seu próximo turno, você 
+tem resistência a todos os danos. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+\n---PAGE 13---\nEspecialização: Brutal  
+O 
+Cromado Brutal  é a personificação da força levada ao limite da engenharia. Servo-músculos reforçados, placas 
+metálicas cravadas ao corpo e um desprezo absoluto por sutileza fazem dessa subclasse um aríete vivo no campo de 
+batalha. Onde ele avança, formações se quebram, ossos estalam e o inimigo é esmagado pela pressão incessante de 
+golpes pesados e implacáveis. 
+ 
+Nível 3 
+ — 
+Mr. 
+Músculos
+ : Seus ataques corpo a corpo causam +1d4 de dano extra. 
+O dano aumenta em +1d4 nos níveis 8, 12, 16 e 20. 
+ 
+Nível 7 
+ — 
+Quebra
+ -
+ Linha
+ : Quando você acerta um ataque corpo a corpo, pode Empurrar o alvo 3m. 
+Se o alvo for de tamanho Grande ou maior, ele pode realizar um teste de Força (CD 8 + modificador de Força + bônus 
+de proficiência) para resistir. Se o alvo colidir com algo sólido, ele sofre +1d6 de dano contundente. 
+ 
+Nível 10 
+— 
+Pressão Constante
+ : Sempre que você acertar dois ataques corpo a corpo no mesmo alvo no turno, 
+ele sofre Desvantagem em todos os ataques contra você até o fim do seu próximo turno. 
+ 
+Nível 15 
+— 
+Massa de Impacto
+ : 1 vez por turno. 
+Quando reduzir um inimigo a 0 PV com um ataque corpo a corpo, você pode realizar um ataque corpo a corpo adicional 
+contra outro alvo ao alcance. Acertos Críticos em Ataques corpo a corpo em criaturas Médias ou menores com menos 
+que 20 PV executam o alvo instantaneamente. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+\n---PAGE 14---\nEspecialização:  
+Juggernaut  
+O 
+Juggernaut  é uma muralha de metal em movimento, criado para avançar onde qualquer outro cairia. Seu corpo foi 
+transformado em uma máquina de impacto contínuo, com blindagens densas, estruturas hidráulicas e estabilizadores 
+internos capazes de absorver violência absurda sem desacelerar. Cada golpe recebido alimenta sua própria brutalidade, 
+convertendo dor em força cinética e transformando o Cromado em um colosso imparável no centro do combate.  
+ 
+Nível 3 
+ — 
+Massa Cinética:  Sempre que você sofre dano: Ganha 1 Carga de Massa Cinética. Ao realizar um 
+ataque corpo a corpo, pode gastar Cargas de Massa Cinética para aumentar o dano correspondente em +1d6 de dano 
+por carga. O número de Carga de Massa Cinética é igual seu modificador de Constituição. 
+ 
+Nível 7 
+ — 
+Inércia Brutal
+ : Se mover pelo menos 3m em linha reta antes de realizar um ataque corpo a corpo, 
+empurra o alvo mediano ou menor 3m para trás, o forçando a realizar um Teste de Destreza (CD 8 + modificador de 
+Força + bônus de proficiência) e em caso de falha, ele fica Caído. Se colidir com algo sólido, causa +1d8 de dano 
+Contundente. 
+ 
+Nível 10 
+— 
+Absorção Pesada
+ : Reduz todo o dano sofrido em 1 ponto para cada Carga de Massa Cinética que 
+você possui. 
+ 
+Nível 15 
+— 
+Colosso Imparável
+ : Enquanto tiver ao menos uma Carga de Massa Cinética, você se torna vantagem 
+em testes contra o dano e efeito de explosões, e aumenta sua Classe de armadura (CA) em 1. Você pode gastar 3 
+Cargas de Massa Cinética ao realizar um ataque corpo a corpo, o alvo deve realizar Teste de Força (CD 8 + modificador 
+de Força + bônus de proficiência) e em caso de falha, ele fica Atordoado até o fim do seu próximo turno.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ \n---PAGE 15---\nM
+EDICÂNICO  
+Os Medicânicos são os responsáveis por manter corpos e implantes funcionando quando tudo já deveria ter parado. 
+Misturam conhecimento médico, engenharia cibernética e protocolos de emergência para sustentar aliados no meio do 
+caos. Não fazem milagres — fazem manutenção de guerra. 
+ 
+Pontos de Vida
+ : Nível 1: 18 + modificador de Constituição, Por nível: 1d8 + modificador de Constituição. 
+ 
+Proficiências
+ : Testes de resistência: Constituição, Sabedoria. 
+ 
+Armas
+ : Armas: Pistolas, Revólveres, Submetralhadoras, Escopetas, Rifle de Assalto, Rifle de Precisão, Facas, 
+Armas improvisadas leves. 
+ 
+Armaduras
+ : Leves, Médias, Pesadas e escudo. 
+ 
+Ferramentas
+ : Kit Médico, Kits de Manutenção de armas e implantes. 
+ 
+Perícias
+ : Escolha quatro entre: 
+Medicina, Tecnologia, Intuição, Percepção, Tolerância, Investigação, Pilotagem, Persuasão. 
+ 
+Classe Tecnológica (CT)
+ : 12 + Constituição + Sabedoria + bônus de proficiência e aumenta em +3 
+nos níveis 4, 8, 12, 16 e 20. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ \n---PAGE 16---\nPROGRESSÃO DE CLASSE  
+Nível 1 
+— 
+Protocolo de Emergência
+ : Algumas habilidades podem ser aprimoradas ou exigem o uso desse 
+recurso. Você recupera todos os usos ao final de um descanso longo. 
+Nível 1 
+— 
+Atendimento de Combate
+ : Ação, Toque, Usos iguais ao seu Modificador de Sabedoria + Bônus de 
+Proficiência por combate. 
+Você pode restaurar 2d8 + Sabedoria + bônus de proficiência de PV de uma criatura ao seu alcance corpo a corpo. 
+A cura aumenta em +1d8 nos níveis 4, 8, 12 e 16. 
+Se gastar um uso de Protocolo de Emergência, a cura também remove Sangramento, Veneno ou Atordoamento. 
+ 
+Nível 2 
+ — 
+Drogas de Combate
+ : 1 vez por combate, Ação Bônus, Toque. 
+Você injeta uma droga criada por você mesmo em um alvo que Cura em 10 + Sabedoria de PV e causa um efeito: 
+• Líquido Vermelho: +2 em ataques por 2 turnos. 
+• Líquido Azul: Resistência a Contundente, Cortante e Perfurante até o final de seu próximo turno. 
+Depois que o efeito termina, o alvo sofre 1d6 de dano Psíquico. 
+ 
+Nível 5 
+ — 
+Ataque Extra:  Você pode atacar duas vezes sempre que realizar a Ação de Ataque ou realizar uma  
+Ação de Ataque e uma Ação de recarregar (em qualquer ordem). 
+ 
+Nível 6 
+ — 
+Blindagem Biotécnica
+ : 1 vez por turno, Reação. 
+Quando um aliado a até 5m sofre dano, você pode usar sua Reação para conceder resistência a esse dano. 
+ 
+Nível 9 
+ — 
+Metabolismo Ajustado
+ : Sempre que curar um alvo, ele recebe Vantagem no próximo ataque que 
+fizer, até o fim do seu próximo turno. Se o ataque acertar, ele causa +1d6 de dano. Se gastar um uso de Protocolo de 
+Emergência, o dado de dano aumenta para 1d8. Se gastar Protocolo de Emergência, o aliado recebe PV igual metade 
+do dano que causou por essa habilidade. 
+ 
+Nível 11 
+— 
+Sobrecarga Adrenal
+ : 1 vez por combate, Ação Bônus, Toque. 
+Um aliado recebe +1d6 de aumento de todo dano que causar e +2 na CA até o fim de seu próximo turno. 
+Se gastar Protocolo de Emergência, ele também ganha um ataque extra nesse período. 
+ 
+Nível 13 
+— 
+Cirurgia de Campo
+ : Você pode realizar Atendimento de Combate como Ação Bônus. Se mover para 
+usar Atendimento de Combate não provoca ataques de oportunidade e lhe concede 10 PV ao usar após se mover. 
+ 
+Nível 17 
+— 
+Manutenção Total
+ : Ação. 
+Ao curar um alvo, aumente a cura em 1d8 e ele recebe +1d6 em testes de resistência até o fim do próximo turno. 
+Se gastar Protocolo de Emergência, o dado extra em testes aumenta para 1d8. 
+ 
+Nível 20 
+ — 
+Milagre Mecânico
+ : 1 vez por descanso longo, Reação. 
+Quando um aliado a até 9m cair a 0 PV, você fazê-lo permanecer 
+com 1 PV em vez disso e ele ganha PV temporários iguais ao seu 
+nível de Medicânico. Além disso, até o fim do próximo turno, ele 
+não pode cair abaixo de 1 PV. 
+ 
+ 
+ 
+ \n---PAGE 17---\nSUBCLASSES DO MEDICÂNICO  
+ESPECIALIZAÇÃO: CIRURGIÃO DE GUERRA  
+O 
+Cirurgião de Guerra  é o último recurso quando tudo deu errado. Treinado para operar sob fogo cruzado, ele 
+mantém aliados vivos através de transfusões improvisadas, estabilizações brutais e intervenções rápidas que ignoram 
+dor, medo e limites biológicos. Onde outros veriam um corpo perdido, ele enxerga apenas mais um paciente que ainda 
+pode voltar para a luta. 
+Nível 3 
+ — 
+Mãos Firmes
+ : Sua cura sempre usa o valor máximo do dado base quando o alvo estiver abaixo de 
+metade dos PV. 
+ 
+Nível 7 
+ — 
+Transfusão de Emergência
+ : 1 vez por turno, 1 Protocolo de Emergência, Reação. 
+Quando um aliado a até 5m sofre dano, ele recebe apenas metade deste dano, e você recebe o mesmo valor em dano 
+Psíquico. 
+ 
+Nível 
+ 10 
+— 
+Malha de Estabilização
+ : Aliados curados por você recebem +2 CA (até um máximo de 26) até o 
+final de seu próximo turno. 
+ 
+Nível 1
+5 
+— 
+Pulso Restaurador
+ :  1 vez por combate, 1 Protocolo de Emergência, Ação. 
+Até 4 alvos em até 9m recuperam 2d8 + Sabedoria + bônus de proficiência de PV e recupera seus usos de Reação desta 
+rodada. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ \n---PAGE 19---\nESPECIALIZAÇÃO: Biohacker  
+O 
+Biohacker  não cura corpos. Você reescreve sistemas biológicos. 
+Nanotecnologia médica, vírus sintéticos e sabotagem neural permitem que você transforme inimigos em organismos 
+falhos enquanto fortalece aliados através de mutações temporárias. 
+ 
+Nível 3 
+ — 
+Vírus Adaptativo
+ : 1 vez por turno. 
+Quando causar dano a uma criatura humanoide ou curar um aliado, você pode aplicar um Vírus Adaptativo até o fim do 
+seu próximo turno. 
+Escolha um efeito: 
+• Colapso Motor: A criatura perde 3m de deslocamento. 
+• Sobrecarga Neural: A criatura sofre Desvantagem no próximo teste de resistência ou ataque que realizar. 
+• Estímulo Sintético: Um aliado recebe +1d4 no próximo teste de resistência  ou ataque que realizar. 
+ 
+Nível 7 
+ — 
+Nanorreparos : Quando um aliado sob um de seus efeitos sofrer dano, reduza o dano em valor igual à 
+sua Sabedoria. Se o alvo estiver abaixo da metade dos PV, ele também ganha PV temporários iguais ao bônus de 
+proficiência. 
+ 
+Nível 10 
+— 
+Contaminação Viral:  Inimigos afetados por efeitos de suas habilidades tem a  Classe de Armadura 
+(CA) reduzida em -1, e toda a cura é reduzida pela metade. 
+ 
+Nível 15 
+— 
+Reescrita Biológica:  1 vez por combate, Ação. 
+Escolha até 4 criaturas em 9m que estejam afetadas por suas habilidades e aplique um dos efeitos. 
+Aliados: 
+• Revitalização: Recuperam 2d8 PV;  
+• Reflexos: Recebem Vantagem no próximo teste de resistência.  
+Inimigos: 
+• Punição: Sofrem 4d8 dano Psíquico; e realizam teste de Constituição (CD 8 + modificador de Sabedoria + bônus de 
+proficiência) e em caso de falha, ele fica Atordoado até o fim do seu próximo turno. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ \n---PAGE 20---\nPILOTO  
+Os Pilotos são os donos das ruas abertas, rodovias esquecidas e das Terras Baldias. Onde não há mapas confiáveis, 
+onde o terreno mata tanto quanto as balas, eles prosperam. Mestres da pilotagem, leitura de ambiente e sobrevivência 
+extrema, Pilotos sabem quando acelerar, quando se esconder e quando transformar a estrada em uma arma. 
+ 
+Pontos de Vida
+ : Nível 1: 20 + modificador de Constituição, Por nível: 1d10 + modificador de Constituição. 
+ 
+Proficiências
+ : Testes de resistência: Destreza, Sabedoria. 
+ 
+Armas
+ : Pistolas, Revólveres, Submetralhadoras, Rifles de Assalto, rifles de precisão, Escopetas, Facas, Armas 
+Improvisadas Leves. 
+ 
+Armaduras
+ : Leves e Médias. 
+ 
+Ferramentas
+ : Ferramentas de Veículos Kits de Sobrevivência. 
+ 
+Perícias
+ : Escolha quatro entre: 
+Pilotagem, Sobrevivência, Percepção, Furtividade, Atletismo, Intuição, Tecnologia, Tolerância. 
+ 
+Classe Tecnológica (CT)
+ : 10 + Constituição + Sabedoria + bônus de proficiência e aumenta em +3 
+nos níveis 4, 8, 12, 16 e 20. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ \n---PAGE 21---\nPROGRESSÃO DE CLASSE  
+Nível 1 
+— 
+Motorizado: Você começa com -1.500 edinhos. Escolha entre o carro Archer Hella EC-D I360 ou a moto 
+Arch Nazaré. Você já inicia com o veículo selecionado. Você possui proficiência em Pilotagem; e pode realizar 
+manutenção básica em veículos sem testes. 
+Nível 1 
+— 
+Instinto de Estrada
+ : Vantagem em testes de Percepção e Sobrevivência em ruas, áreas abertas, 
+rodovias, becos externos e nas Terras Baldias. Além disso, você sempre sabe qual direção oferece melhor rota de fuga. 
+ 
+Nível 2 
+ — 
+Mãos no Volante
+ : O veículo pilotado por você ganha +2 na CA e recebe Vantagem em testes de 
+Pilotagem para Manobras Evasivas. 
+ 
+Nível 5 
+ — 
+Ataque Extra:  Você pode atacar duas vezes sempre que realizar a Ação de Ataque ou realizar uma  
+Ação de Ataque e uma Ação de recarregar (em qualquer ordem). 
+ 
+Nível 6 
+ — 
+Posicionamento Estratégico: Você recebe Vantagem no teste de iniciativa em ruas, áreas abertas, 
+rodovias, becos externos e nas Terras Baldias. Caso esteja em uma dessas áreas, após a rolagem de iniciativa, e antes 
+de qualquer um agir, você pode se mover até 3m sem gastar deslocamento e esse movimento não provoca ataques de 
+oportunidade. 
+ 
+Nível 
+ 9 
+— 
+Sobrevivente Cascudo
+ : Você recebe resistência a dano Químico e de Veneno, e recebe Vantagem 
+em testes contra climas e ambientes adversos. 
+ 
+Nível 
+ 11 
+— 
+Escapista
+ : 1 vez por turno, Reação. 
+Quando um inimigo errar um ataque contra você, pode se mover até 5m e esse movimento não provoca ataques de 
+oportunidade. 
+ 
+Nível 13 
+— 
+Mobilidade Predatória
+ : Você pode marcar um alvo, e caso esse alvo se mova, você pode mover até 
+metade do seu deslocamento em direção a ela sem gastar movimento. 
+ 
+Nível 17 
+— 
+Reflexos de Alta Velocidade
+ : Adiciona seu modificador de Sabedoria à sua CA enquanto estiver 
+em um veículo e recebe Vantagem em testes contra efeitos de explosões. 
+ 
+Nível 20 
+ — 
+Lenda da Estrada
+ : Se mover pelo menos 6m antes de atacar, recebe Vantagem no ataque e adiciona 
++1d8 de dano adicional. Enquanto estiver em veículo: ataques contra você possuem Desvantagem até o início do 
+próximo turno.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ \n---PAGE 22---\nSubclasses de Piloto  
+Especialização: Fúria  
+A Fúria transforma o piloto em um predador da estrada. Para ele, velocidade não é apenas locomoção — é arma, 
+vantagem e sentença de morte. Cada perseguição é uma caçada, cada curva é calculada, e cada disparo é feito no 
+momento exato em que o inimigo está mais vulnerável. Onde outros veem caos, o Piloto da Fúria enxerga 
+oportunidades. 
+ 
+Nível 3 
+ — 
+Predador da Estrada
+ : Atacar enquanto pilota não impõe Desvantagem e seu primeiro ataque em 
+combate veicular causa +1d8 de dano extra. 
+ 
+Nível 7 
+ — 
+Emboscador
+ : 1 vez por turno. 
+O primeiro ataque que realizar tem Vantagem em ataques contra inimigos que ainda não agiram neste turno. 
+Além disso, Acertos Críticos com armas à distância causam +1d8 extra. 
+ 
+Nível 10 
+— 
+Caça Implacável
+ : 1 vez por turno, Ação Bônus. 
+Você pode marcar um alvo e você tem Vantagem em Ataques contra ele. Caso o atinja, você consome a marca e causa 
+2d8 de dano extra. 
+ 
+Nível 15 
+— 
+Estrada da Fúria
+ : Enquanto estiver abordo de um veículo ou lutando em ruas, áreas abertas, becos 
+externos ou nas Terras Baldias, seus ataques com armas à distância têm crítico em 19–20. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+\n---PAGE 25---\nSAMURAI  
+Os Samurais são assassinos urbanos, duelistas modernos e executores frios. Alguns seguem um próprio código pessoal, 
+outros só seguem o contrato, mas todos entendem uma verdade simples: o combate acaba antes do inimigo perceber 
+que começou. Eles dominam o posicionamento, o tempo exato do golpe e a arte do ataque decisivo. Seja com uma 
+lâmina vibrando no ar ou uma pistola disparando no momento perfeito, o Samurai vence pela precisão, não pela 
+resistência. 
+ 
+Pontos de Vida
+ : Nível 1: 18 + Mod. Constituição, Por nível: 1d8 + modificador de Constituição. 
+ 
+Proficiências
+ : Testes de resistência: Destreza, Constituição. 
+ 
+Armas
+ : Pistolas, Submetralhadoras, Rifles de Precisão, Katanas, Facas, Armas Improvisadas Leves. 
+ 
+Armaduras
+ : Leves 
+ 
+Ferramenta
+ s: Ferramentas de Ladrão 
+ 
+Perícia
+ s: Escolha quatro entre: 
+Furtividade, Acrobacia, Percepção, Intuição, Enganação, Intimidação, Prestidigitação, Pilotagem. 
+ 
+Classe Tecnológica (CT)
+ : 8 + Constituição + Sabedoria + bônus de proficiência e aumenta em +3 
+nos níveis 4, 8, 12, 16 e 20. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ \n---PAGE 26---\nPROGRESSÃO DE CLASSE  
+Nível 1 
+— 
+Golpe Decisivo
+ : 1 vez por turno. 
+Quando atacar usando uma lâmina ou arma de fogo leve com Vantagem ou atacar um inimigo que ainda não tenha 
+detectado ameaças, você causa +1d6 de dano extra. Você não precisa ter Vantagem na jogada de ataque se pelo menos 
+um de seus aliados estiver a até 1,5m do alvo, e o aliado não esteja Incapacitado e você não tem Desvantagem na 
+jogada de ataque. O dano aumenta em +1d6 nos níveis 4, 8, 12 e 16. 
+ 
+Nível 2 
+ — 
+Movimento 
+Rápido e 
+ Silencioso
+ : Vantagem em testes de Furtividade. Você pode usar as ações 
+Disparada e Desengajar com Ação Bônus e levantar-se do chão custa apenas 2m de movimento. 
+ 
+Nível 5 
+ — 
+Ataque Extra:  Você pode atacar duas vezes sempre que realizar a Ação de Ataque ou realizar uma  
+Ação de Ataque e uma Ação de recarregar (em qualquer ordem). 
+ 
+Nível 6 
+ — 
+Desaparecer no Caos
+ : Reação. 
+Após derrubar um inimigo a 0 PV você pode se mover até 3m sem provocar ataques de oportunidade e realizar um 
+teste de Furtividade para se esconder como parte do movimento.  
+ 
+Nível 9 
+ — 
+Contra
+ -
+ Ataque 
+Instintivo
+ : 1 vez por combate, Reação. 
+Quando um inimigo errar um ataque contra você, realize um ataque contra ele, caso esteja em seu alcance e se acertar, 
+adicione Golpe Decisivo ao dano. 
+ 
+Nível 11 
+— 
+Execução Precisa
+ : 1 vez por combate. 
+Quando atacar um inimigo Surpreso, você pode causar o dano máximo nos dados. 
+ 
+Nível 13 
+— 
+Passo Fantasma
+ : Você ignora terreno difícil enquanto Furtivo, além disso, movimentar-se não 
+quebra Furtividade fora de combate. 
+ 
+Nível 17 
+— 
+Momento Perfeito
+ : Seus Ataques Críticos causam 10 de dano extra e ignoram Resistência a dano da 
+arma utilizada. 
+ 
+Nível 20 
+ — 
+Samurai Urbano
+ : 1 vez por combate, usos iguais ao Bônus de Proficiência antes de um descanso 
+longo. 
+A quando reduzir um inimigo a 0 PV com um 
+ataque corpo a corpo ou com arma, você pode 
+realizar um ataque adicional contra outro alvo 
+ao alcance. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ \n---PAGE 27---\nSubclasses de Samurai  
+Especialização: Lâmina Viva  
+Discípulo do duelo puro, o Samurai da Lâmina transforma velocidade e precisão em morte certa. Seus movimentos são 
+rápidos como um relâmpago, sempre buscando abrir brechas antes que o inimigo possa reagir. À medida que a luta se 
+prolonga, seus golpes se tornam cada vez mais devastadores.  
+ 
+Nível 3 
+ — 
+Corte Relâmpago : Após acertar um ataque com uma lâmina, você pode usar sua Ação Bônus para 
+realizar um ataque corpo a corpo adicional. Caso acerte um alvo que esteja Sangrando, cause 1d4 de dano extra. 
+ 
+Nível 
+ 7 
+— 
+Dança do Aço
+ : O alcance de seus ataques de oportunidade é dobrado. Caso você precise se mover 
+para atingir seu alvo em ataques de oportunidade, este deslocamento não provoca ataques de oportunidade em você e 
+criaturas atingidas por eles perdem 3m de deslocamento. 
+ 
+Nível 
+ 10 
+— 
+Corte Perfeito: Seus ataques com lâmina têm Acerto Crítico em 19–20. 
+ 
+Nível 
+ 15 
+— 
+Lâmina Frenética: Ataques com lâmina causam +1d4 de dano extra. 
+Sempre que você tiver um Acerto Crítico em ataques com lâmina, esse dano aumenta em 1d4 (Max 3d4). 
+Este bônus acumulativo dura até o próximo descanso longo. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ \n---PAGE 30---\nSOLO  
+Solos são combatentes de elite, mercenários, soldados e assassinos profissionais. Eles vivem do confronto direto, 
+dominam qualquer arma e sabem usar o terreno e a cobertura a seu favor. Um Solo bem treinado faz do campo de 
+batalha uma extensão de si mesmo: onde há tiro, há Solo. 
+ 
+Pontos de Vida: Nível 1: 22 + Mod. Constituição, Por nível: 1d12 + modificador de Constituição. 
+ 
+Proficiências: Testes de resistência: Força, Constituição. 
+ 
+Armas: Pistolas, Revólveres, Submetralhadoras, Escopetas, Rifles de Assalto, Metralhadoras Leves, Lança 
+Foguetes, Facas, Armas Improvisadas Leves e Pesadas. 
+ 
+Armaduras: Leves, Médias, Pesadas, Escudos. 
+ 
+Ferramentas: Kits de Manutenção de armas.  
+ 
+Perícias: Escolha 4 entre: 
+Atletismo, Intimidação, Percepção, Pilotagem, Briga, Tolerância, Enganação, Investigação. 
+ 
+Classe Tecnológica (CT)
+ : 10 + Constituição + Sabedoria + bônus de proficiência e aumenta em +3 
+nos níveis 4, 8, 12, 16 e 20. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ \n---PAGE 31---\nPROGRESSÃO DE CLASSE  
+Nível 1 
+— 
+Instinto de Combate: 1 vez por combate. 
+Você recebe +3 na Iniciativa. No primeiro turno do combate, recebe +3m de deslocamento e +1 na sua primeira jogada 
+de ataque após se mover. 
+ 
+Nível 2 
+ — 
+Mira Avançada: 1 vez por turno. 
+Ao usar a Ação Mirar, aumente o dano em +1d4 extra. 
+O dano aumenta em +1d4 nos níveis 8, 12 e 16. 
+ 
+Nível 5 
+ — 
+Ataque Extra:  Você pode atacar duas vezes sempre que realizar a Ação de Ataque ou realizar uma  
+Ação de Ataque e uma Ação de recarregar (em qualquer ordem). 
+ 
+Nível 6 
+ — 
+Reação Rápida
+ : 1 vez por combate, Reação. 
+Ao receber um ataque à distância, aumente sua CA em +3 contra esse ataque. 
+ 
+Nível 9 
+ — 
+Especialista em Explosivos
+ : Granadas podem ser usados como Ação Bônus. 
+ 
+Nível 13 
+— 
+Provocação: 1 vez por combate. 
+Escolha até 2 inimigos que possam ouvi-lo em até 18m e os desafie. Os forçando a realizar um teste de resistência de 
+Carisma (CD 8 + modificador de Força + bônus de proficiência), e em caso de falha; se moverão até 5m imediatamente 
+em sua direção sem provocar ataques de oportunidade e recebem Desvantagem em ataques contra outros alvos até o 
+início do próximo turno. Os alvos afetados podem se posicionar atrás de coberturas durante este movimento. 
+ 
+Nível 17 
+— 
+Maestria em Combate
+ : 1 vez por combate. 
+Caso erre um Ataque com arma, pode rerrolar o dado e caso acerte, aumente o dano em +2d6. 
+ 
+Nível 20 
+ — 
+Perfeição do Solo
+ : 1 vez por combate, Ação Bônus. 
+Seus ataques têm crítico em 19–20 e você ganha resistência a dano Perfurante, Cortante e Contundente por 3 turnos.  
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ \n---PAGE 32---\nSubclasses de Solo  
+Especialização: Especialista em 
+ Rifle
+ s  
+Focados em precisão, mobilidade e ataques rápidos, os Especialistas em Rifles são mestres em eliminar múltiplos alvos 
+com agilidade e precisão. Eles preferem armas automáticas e de precisão para manter um fluxo constante de dano. 
+ 
+Nível 
+ 3 
+— 
+Mira Tática
+ : 1 vez por combate, 1 Ataque. 
+Escolha um alvo dentro do alcance máximo do seu Rifle de Assalto ou Rifle de Precisão e realize um ataque preciso. O 
+alvo deve realizar um teste de Destreza (CD 8 + seu modificador de Destreza ou Força + seu bônus de proficiência) e em 
+caso de falha, o inimigo sofre o dano total desse ataque e fica marcado até o fim do seu próximo turno. Atacantes 
+possuem Vantagem ao atacar o alvo marcado. Em caso de sucesso, o alvo sofre o dano mínimo, e não é marcado.  
+ 
+Nível 
+ 7 
+— 
+Dano Concentrado
+ : Quando você acertar dois ataques consecutivos com um Rifle de Assalto ou Rifle 
+de Precisão no mesmo alvo em um turno, você causa 1d6 de dano adicional no segundo ataque. 
+Este dano aumenta em 1d6 nos níveis: 12, 16 e 20. 
+ 
+Nível 
+ 10 
+— 
+Instint
+ o: Reação. 
+Quando um inimigo realizar um ataque à distância contra você e errar, você pode usar uma reação para mover-se até 
+3m sem provocar ataques de oportunidade. Se você se mover dessa forma, pode realizar um ataque corpo a corpo 
+como parte da mesma reação. Você pode escolher a ordem dessas ações. 
+ 
+Nível 
+ 15 
+— 
+Finalizador: 1 vez por turno. 
+Ao usar a Ação Mirar com um Rifle de Assalto ou Rifle de Precisão, seu próximo ataque Ignora cobertura parcial. Além 
+disso, o efeito de Mira Avançada aumenta de d4 para d8. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ \n---PAGE 33---\nEspecialização: Especialista em Armas Pesadas  
+Mestres no uso de armamento pesado, esses Solos preferem armas devastadoras como lança-foguetes e 
+metralhadoras. Seu estilo é menos sobre agilidade e mais sobre destruição em massa, com ataques poderosos capazes 
+de devastar vários inimigos ao mesmo tempo. 
+ 
+Nível 3 
+ — 
+Helios
+ : Você tem acesso a uma arma especial chamada Helios. Vá a algum vendedor de armas de Night 
+City e diga a frase: O Sol sangra. Qualquer vendedor de respeito saberá do que se trata. 
+ 
+BFG
+ -
+ 9000 “Helios” (Lança
+ -
+ Foguetes)  
+Descrição Física: Arma massiva e imponente, com um acabamento metálico escuro. Sendo projetada para causar 
+destruição em larga escala em combates decisivos. 
+Dano Base: 4d10 de Energia (área de 6m) 
+Capacidade: 1 disparo antes de precisar recarregar (Ação) 
+Distância de Ação: 10m a 80m 
+Efeito Especial: A Helios só pode ser disparada uma vez por turno. O disparo atinge uma ampla área de impacto; 
+criaturas na área devem realizar um Teste de Destreza (CD 8 + modificador de Força ou Destreza + bônus de 
+proficiência). Em caso de sucesso, sofrem metade do dano. A Helios consome toda a sua Ação para ser usada. 
+O dano da Helios aumenta em +1d10 nos níveis 8, 12, 16 e 20. 
+ 
+Nível 
+ 7 
+— 
+Robustez de Combate
+ : 1 vez por turno, Ação Bônus. 
+Quando estiver usando uma Metralhadora Leve ou Escopeta, ganhe Robustez, aumentando em +1 sua Classe de 
+Armadura (CA), ganhando resistência a dano de Energia e aumentando em 1d6 a cura recebida de todas as fontes até o 
+final do próximo turno. O valor da cura aumenta em 1d6 nos níveis 12, 16 e 20. 
+ 
+Nível 
+ 10 
+— 
+Tiros Penetrantes
+ : Seus ataques com Metralhadoras Leves e Escopetas ignoram resistência a dano 
+Perfurante. Seu dano com essas armas aumenta em 1d6. Esse dano aumenta em 1d6 nos níveis 16 e 20. 
+ 
+Nível 
+ 15 
+— 
+Reação em Cadeia
+ : 1 vez por combate. 
+Se você acertar um inimigo com sua Metralhadora Leve ou Escopeta, você pode imediatamente realizar um segundo 
+ataque contra um segundo inimigo próximo (até 3 metros de distância do alvo) como parte da mesma Ação. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ \n---PAGE 35---\nTRILHA
+ -
+ REDES  
+Os Trilha-Redes são feiticeiros da era digital. Onde outros puxam o gatilho, eles puxam linhas de código. Onde há 
+silêncio eletrônico, eles escutam sussurros de dados. 
+Eles não vencem pela força, nem pela velocidade — vencem porque o inimigo não lutou em um campo justo. 
+O Cyberdeck não é uma ferramenta, é uma extensão do seu cérebro. 
+ 
+Pontos de Vida
+ : Nível 1: 16 + Mod. Constituição, Por nível: 1d6 + Mod. Constituição. 
+ 
+Proficiências
+ : Testes de resistência: Inteligência, Destreza. 
+ 
+Armas
+ : Pistolas, Submetralhadoras, Rifles de Precisão, Facas. 
+ 
+Armaduras
+ : Leves 
+ 
+Ferramentas
+ : Kit de manutenção de equipamentos. 
+ 
+Perícias
+ : Escolha quatro entre:  
+Investigação, Hacking, Tecnologia, Percepção, Furtividade, Persuasão, Prestidigitação, Enganação. 
+ 
+Classe Tecnológica (CT)
+ : 8 + Constituição + Sabedoria + bônus de proficiência e aumenta em +3 
+nos níveis 4, 8, 12, 16 e 20. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ \n---PAGE 36---\nPROGRESSÃO DE CLASSE  
+Nível 1 
+— 
+Cyberdeck Neural
+ : Você começa com -1.500 edinhos. Você começa com um Cyberdeck padrão 
+implantado e os seguintes Hacks Rápidos: Aceleração Forçada, Curto-Circuito, Ping, Superaquecer e Travar Arma. 
+RAM Total: 4 + modificador de Inteligência + bônus de proficiência. 
+Capacidade de Hacks: 3 
+CT: 3 
+Valor: 300 edinhos 
+Nível 1 
+— 
+Recarga de RAM: Você recupera 1 ponto de RAM no início de cada um de seus turnos, até o máximo. 
+Aumentando em +1 nos níveis: 4, 8, 12 e 16. 
+ 
+Nível 2 
+ — 
+Hack 
+ Mais 
+Rápido
+: 1 vez por turno, Ação Bônus. 
+Você pode executar um Hack Rápido que não cause danos em um alvo que você já tenha Invadido ou afetado por um 
+Hack Rápido neste turno. 
+ 
+Nível 5 
+ — 
+Execução Paralela
+ : 1 vez por turno. 
+Quando você acertar um ataque com arma leve, você pode executar um Ataque Hack logo em sequência, mas o Hack 
+Rápido usado deve ter um custo máximo de 4 RAM. Aumentando a RAM máxima em +2 nos níveis: 12, 16 e 20. 
+ 
+Nível 6 
+ — 
+Conexão  
+Prolongada: 1 vez por combate, custa 6 de RAM. 
+Ao hackear um alvo com sucesso você pode manter acesso até o fim do seu próximo turno, sem necessidade de 
+realizar outro Ataque Hacker. Hacks Rápidos subsequentes contra o mesmo alvo custam –1 RAM (mínimo 1) e ele 
+possui Desvantagem em testes contra esses Hacks Rápidos. 
+ 
+Nível 
+ 9 
+— 
+Controle 
+ Visual: Ao hackear uma câmera conectada a uma rede, você pode afetar até 3 outras 
+câmeras ligados a ela sem testes. Você pode usar Ping através delas. 
+ 
+Nível 11 
+— 
+Mente Concentrada
+ : Enquanto estiver Concentrado em Hacks Rápidos, você tem Vantagem em 
+testes contra Medo e Intimidação e possui resistência à dano Psíquico. 
+ 
+Nível 
+ 13 
+— 
+Supremacia Digital
+ : Você pode manter até 2 dispositivos sob seu controle ao mesmo tempo. 
+ 
+Nível 
+ 17 
+— 
+Senhor da Matriz
+ : Você pode manter a Concentração em 2 Hacks Rápidos ao mesmo tempo. 
+Em cada turno que estiver manter mantendo a Concentração em 2 Hacks Rápidos, você deve realizar um teste de 
+Inteligência (CD 16), e caso falhe, você perde a Concentração em ambos e ficará Atordoado por 1 turno. 
+ 
+Nível 
+ 20 
+— 
+Overclock
+ : 1 vez por combate, custa 8 de RAM. 
+Você entra em Overclock por 3 turnos. Durante o Overclock: 
+Você pode executar dois Ataques Hacks no mesmo turno 
+usando sua Ação, Hacks Rápidos custam –1 RAM e você 
+recebe +2 de Classe de Firewall (CF). Você deve realizar 
+um teste de Constituição (CD 16) em cada turno para 
+manter o Overclock ativo, em caso de  falha, você ficará 
+Atordoado por 1 turno. 
+Ao final do Overclock, você sofre 1 nível de exaustão.  
+ 
+ \n---PAGE 37---\nSubclasses de Trilha
+ -
+ Redes  
+Especialização: Arquiteto  
+O Arquiteto não invade sistemas apenas para abrir caminhos, ele reescreve o campo de batalha. Para esse Trilha-redes, 
+estruturas, dispositivos e redes fixas não são obstáculos, mas peças de um tabuleiro que pode ser rearranjado em 
+tempo real. Portas viram escudos, torretas se tornam aliados e o caos é mantido sob controle por pura engenharia 
+digital. 
+Nível 3 
+ — 
+Domínio Estrutural
+ : Você tem Vantagem para manter a Concentração do controle de portas, 
+torretas, câmeras ou sistemas e esses dispositivos sob seu controle recebem +2 de Classe de Firewall (CF). 
+ 
+Nível 7 
+ — 
+Explosão de Dados
+ : 1 vez por combate, custa 4 de RAM. 
+Ao encerrar antecipadamente um Hack Rápido de efeito contínuo ainda ativo em um alvo, você pode causar 3d8 de 
+dano Elétrico nele e todos a até 3m devem realizar um Teste de Destreza (CD 8 + seu modificador de Inteligência + seu 
+bônus de proficiência) em caso de falha, também recebem o dano, e em caso sucesso, recebem apenas metade do 
+dano. 
+ 
+Nível 10 
+— 
+Firewall Vivo
+ : Enquanto controla ao menos um dispositivo você ganha +2 na CF. 
+ 
+Nível 15 
+— 
+Proteção  
+Digital
+ : 1 vez por combate, custa 5 de RAM. 
+Ao ser hackeado, pode mudar o alvo do Hack Rápido para um dispositivo que você esteja controlando. Se o dispositivo 
+for destruído ao receber um Hack Rápido desviado, você recupera 2 RAM. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+\n---PAGE 39---\nEspecialização: Operador de Combate  
+O Operador de Combate sincroniza armas e hacking em um único fluxo ofensivo. Disparos abrem brechas digitais 
+enquanto invasões tornam alvos vulneráveis à execução imediata. 
+ 
+Nível 3 
+ — 
+Interface de Combate
+ : Quando atingir um alvo sob efeito de Hack ou Invadido usando uma arma à 
+distância, pode acrescentar o modificador de Inteligência no ataque. Caso acerte, causa +1d6 dano extra. 
+ 
+Nível 7 
+ — 
+Execução Sincronizada
+ : 1 vez por turno. 
+Após realizar um ataque com arma, pode aplicar um Hack Rápido de até 5 RAM com custo de Ação Bônus como parte 
+do ataque. Se o ataque for um Crítico, o Hack custará 0 RAM. 
+ 
+Nível 10 
+— 
+Vulnerabilidade Explorada
+ : Alvos sob efeitos de Hacks Rápidos ou Invadidos por você: Sofrem –2 
+de Classe de Armadura (CA). 
+ 
+Nível 15 
+— 
+Combate Neural Integrado
+ : Durante Overclock ou ao manter Concentração em Hacks Rápidos, 
+pode realizar 1 ataque com arma como Ação Bônus. Seus ataques com armas à distância causam +1d8 dano Psíquico 
+extra durante o Overclock. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ \n---PAGE 40---\n🧬 
+ANTECEDENTES  
+Antes das armas, dos implantes e dos contratos sujos, seu personagem já era alguém. 
+O Antecedente define quem ele foi antes de se tornar um mercenário — seu passado, suas escolhas e as marcas que 
+isso deixou em suas habilidades, contatos e forma de enxergar o mundo. 
+No presente, todos os personagens atuam como mercenários em Night City. Alguns lutam por dinheiro, outros por 
+sobrevivência ou pura vingança. O antecedente não muda esse fato, mas explica como cada um chegou até aqui.
+ 
+🎁 
+Benefícios do Antecedente  
+Ao escolher um Antecedente, o personagem recebe: 
+🧠 
+3 Pontos de Atributo.  
+O jogador ganha 3 pontos extras de atributo, que devem ser distribuídos exclusivamente entre os três atributos 
+indicados pelo antecedente escolhido. 
+Regras: No máximo 2 pontos no mesmo atributo. 
+Exemplos válidos: 
++2 em Força e +1 em Sabedoria 
++1 em cada um dos três atributos 
+⭐ 
+1 Talento de Origem  
+Cada antecedente concede um talento exclusivo, representando um traço marcante do passado do personagem. 
+Esses talentos oferecem vantagens iniciais limitadas, podendo ser narrativas, situacionais ou mecânicas.
+ 
+⚖️ 
+Itens Iniciais  
+Cada antecedente concede um valor inicial em dinheiro.  
+Algumas classes podem reduzir o seu dinheiro inicial, mas em troca você terá algum item inicial. 
+Alguns antecedentes fornecem itens iniciais, o que reduz o valor de dinheiro inicial.
+ 
+📖 
+Descrição Narrativa  
+O jogador é livre para criar a aparência e história do seu personagem, desde que respeite o antecedente escolhido, o 
+nível inicial da campanha e o fato de que, hoje, ele atua como mercenário em Night City. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ \n---PAGE 41---\n🧬 
+Lista de ANTECEDENTES  
+🕸️ 
+CANAL  
+Você sempre soube quem procurar, quanto pagar e qual dívida cobrar depois. Atuou como intermediário, facilitador ou 
+cérebro por trás de operações ilegais e acordos perigosos. Seu poder nunca esteve na força bruta, mas nas conexões 
+certas — e nas consequências de quebrá-las. 
+Hoje, como mercenário, você ainda joga o jogo dos favores, só que agora dentro dele. 
+ 
+Atributos Disponíveis:  Carisma, Destreza, Sabedoria 
+⭐ 
+Talento de Origem 
+ — 
+Rede de Favores  
+Você mantém contatos ativos no submundo criminal, corporativo ou mercenário. 
+Uma vez por arco de história, você pode escolher um dos efeitos abaixo: 
+Conseguir um serviço avançado viável (transporte ilegal, acesso a mercado restrito). 
+Melhorar os termos iniciais de um contrato (pagamento, prazo ou condições). 
+Cada uso mexe na sua reputação — positiva ou negativa — e pode gerar cobranças futuras. 
+ 
+Dinheiro Inicial
+ : 
+2
+.
+8
+00 edinhos
+ . 
+1x Unity (Pistola Tecnológica) 
+1x Supressor Tático Básico 
+1x Casaco de Nano-Fibra Reforçada 
+ 
+ 
+ 
+🏢 
+CORPE  
+Você fez parte da máquina. Relatórios, metas, reuniões e jogos de poder moldaram sua visão de mundo. Mesmo sendo 
+apenas mais um número no sistema, você aprendeu como as corporações pensam, reagem e escondem seus erros. 
+Agora fora da jaula dourada, você usa esse conhecimento para sobreviver — e lucrar. 
+ 
+Atributos Disponíveis:  Carisma, Inteligência, Destreza 
+⭐ 
+Talento de Origem 
+ — 
+Contato Corporativo  
+Escolha uma corporação. 
+Você mantém um contato ativo dentro dela.  
+Uma vez por arco de história, você pode obter um dos seguintes favores: 
+Informação interna não confidencial, mas relevante. 
+Acesso temporário e supervisionado a uma área restrita. 
+Esse contato não arrisca a própria carreira por você e pode cortar relações 
+se pressionado demais. 
+ 
+Dinheiro Inicial
+ : 
+3
+.
+0
+00 edinhos
+ . 
+1x DS1 Pulsar (Submetralhadora Tecnológica) 
+1x Supressor Tático Básico 
+1x Jaqueta Balística Urbana 
+ 
+ 
+ 
+ 
+ 
+\n---PAGE 42---\n🔪 
+MARGINAL  
+Você cresceu aonde a lei não chega — becos, prédios abandonados e territórios disputados. Gangues, crime e violência 
+sempre fizeram parte do cotidiano, moldando seus instintos e sua forma de sobreviver. Hoje, como mercenário, você 
+saiu das ruas, mas as ruas nunca saíram de você. 
+ 
+Atributos Disponíveis:  Carisma, Destreza, Força 
+⭐ 
+Talento de Origem 
+ — 
+Sobrevivente das Ruas  
+Escolha uma gangue com a qual você tenha ligação passada ou atual. 
+Você automaticamente reconhece: 
+Símbolos, territórios e hierarquias dessa gangue. 
+Sinais comuns de emboscadas ou zonas urbanas perigosas. 
+Uma vez por arco de história, você pode solicitar um favor à gangue: 
+Informação local, esconderijo temporário ou intermediação rápida. 
+Favores nunca são gratuitos — a conta sempre chega. 
+ 
+Dinheiro Inicial
+ : 
+2
+.
+8
+00 edinhos
+ . 
+1x Unity (Pistola Tecnológica) 
+1x Jaqueta de Gangue 
+ 
+ 
+ 
+ 
+ 
+📡 
+MÍDIA 
+Você viveu de dados, versões e exposição. Seja revelando verdades, distorcendo fatos ou vendendo silêncio, aprendeu 
+que informação é a arma mais difícil de combater. No presente, atua como mercenário da narrativa da verdade ou da 
+mentira mais bem paga. Cuidado com os inimigos que criará. 
+ 
+Atributos Disponíveis:  Sabedoria, Carisma, Inteligência 
+⭐ 
+Talento de Origem 
+ — 
+Contato Misterioso  
+A cada arco de história, você receberá uma ligação de um contato 
+Misterioso que deixa anotações sobre algum trabalho ou local onde 
+você conseguirá muito edinho. Claro que não vai ser fácil conseguir. 
+O local secreto fica a critério do mestre. Você apenas recebe uma 
+Ligação de alguém misterioso que te indica o lugar. 
+ 
+Dinheiro Inicial
+ : 
+2
+.
+8
+00 edinhos
+ . 
+1x Unity (Pistola Tecnológica) 
+1x Casaco de Nano-Fibra Reforçada 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+\n---PAGE 43---\n🎖️ 
+MILITAR  
+Você foi treinado para a guerra antes de virar mercenário. Serviu em conflitos, guerras ou operações clandestinas onde 
+disciplina e execução eram tudo. Hoje, você vende técnica, frieza e experiência não bandeiras ou juramentos. 
+ 
+Atributos Disponíveis:  Constituição, Força, Inteligência 
+⭐ 
+Talento de Origem 
+ — 
+Treinamento Avançado  
+Escolha um tipo de treinamento nos níveis 1, 8 e 16: 
+🏙️ 
+Combate Urbano  
+Você ignora terreno difícil ao se mover entre destroços de combate. 
+💣 
+Armas Pesadas  
+Você pode recarregar Rifles de Assalto, Escopetas ou Metralhadoras Leves 
+usando Ação Bônus após abater um alvo. 
+🧠 
+Tática e Comando  
+Uma vez por combate, você concede a um aliado que possa te ouvir +1d4 
+Em um teste de resistência ou ataque até o início do seu próximo turno. 
+ 
+Dinheiro Inicial
+ : 
+2.300 
+edinhos
+ . 
+1x D5 Copperhead (Rifle de Assalto Tecnológico) 
+1x Colete Tático Urbano 
+2x Granada Explosiva 
+ 
+ 
+ 
+ 
+🚙 
+NÔMADE 
+Você cresceu na estrada, entre motores, poeira e lealdade tribal. Viver fora da cidade ensinou valores diferentes: 
+palavra vale mais que contrato, e dívida se paga com ação. 
+Mesmo em Night City, você nunca está totalmente sozinho. 
+ 
+Atributos Disponíveis:  Constituição, Destreza, Sabedoria 
+⭐ 
+Talento de Origem 
+ — 
+Família  
+Você mantém laços com um clã nômade ativo nos arredores da cidade. 
+Uma vez por arco de história, você pode solicitar: 
+Abrigo seguro temporário, transporte terrestre simples, informações 
+sobre estradas, comboios ou zonas externas. 
+Caso você seja da classe Piloto, pode começar com o carro Thorton 
+Colby “Little Mule” (Carro Off-road) sem alterar seu dinheiro inicial. 
+ 
+Dinheiro Inicial
+ : 
+3
+.
+0
+00 edinhos
+ . 
+1x DR5 Nova (Revólver Tecnológico) 
+1x Roupa Urbana Reforçada 
+1x Granada de Concussão 
+ 
+ 
+ 
+\n---PAGE 44---\n🚓 
+POLICIAL  
+Você já acreditou na lei — ou aprendeu rápido demais como ela falha. Seja por expulsão, corrupção ou desilusão, seu 
+tempo na força deixou marcas e conhecimento valioso. 
+Hoje, usa o sistema que um dia serviu para sobreviver fora dele. 
+ 
+Atributos Disponíveis:  Destreza, Força, Constituição 
+⭐ 
+Talento de Origem 
+ — 
+Distintivo  
+Você possui um distintivo antigo e inválido.  
+Enquanto sua identidade não estiver comprometida, você pode: 
+Intimidar criminosos, solicitar informações em delegacias ou até 
+priorizar atendimento policial em situações justificáveis. 
+Uso excessivo gera desconfiança, investigação interna e pode 
+Resultar na perda definitiva do benefício. 
+ 
+Dinheiro Inicial
+ : 
+3
+.
+0
+00 edinhos
+ . 
+1x Unity (Pistola Tecnológica)  
+1x Uniforme Policial Padrão 
+1x Bastão Retrátil 
+ 
+ 
+ 
+ 
+🔧 
+TÉCNICO  
+Enquanto outros atiram, você garante que tudo funcione. Sistemas, armas e máquinas sempre foram mais confiáveis 
+que pessoas — e você aprendeu a lidar com ambos. 
+Como mercenário, sua utilidade é tão valiosa quanto perigosa. 
+ 
+Atributos Disponíveis:  Destreza, Inteligência, Sabedoria 
+⭐ 
+Talento de Origem 
+ — 
+Mão na Máquina 
+Você pode: 
+Consertar ou improvisar equipamentos comuns sem custo, desde 
+que tenha ferramentas básicas, identificar automaticamente falhas 
+técnicas simples ou risco iminentes em máquinas. 
+O Mestre pode limitar o efeito conforme tempo, pressão ou o quão 
+complexo é o sistema. 
+ 
+Dinheiro Inicial
+ : 
+2
+.
+8
+00 edinhos
+ . 
+1x Carnage (Escopeta Tecnológica) 
+1x Jaqueta Balística Urbana 
+2x Granada Explosiva 
+1x Granada PEM (Pulso Eletromagnético) 
+ 
+ 
+ 
+\n---PAGE 45---\n📜 
+TALENTOS  
+Talentos representam treinamentos especializados, aprimoramentos físicos, implantes, experiências extremas ou 
+adaptações adquiridas ao longo da vida como mercenário. Diferente dos Talentos de Origem, que refletem o passado 
+do personagem, os Talentos são escolhas conscientes feitas durante a campanha. 
+Eles permitem personalizar o personagem além da classe, destacando estilos de combate, sobrevivência, resistência 
+mental ou sinergias com tecnologia e implantes. 
+Aquisição de Talentos  
+Nos níveis 4, 8, 12 e 16, o personagem deve escolher uma das opções abaixo: 
+Adquirir 1 Talento 
+Receber 2 pontos de atributo, que podem ser distribuídos livremente, respeitando o limite máximo permitido pelo 
+mestre. 
+Regras Gerais dos Talentos  
+Um talento nunca substitui habilidades de classe 
+Talentos não se acumulam automaticamente entre si, a menos que seja explicitamente indicado 
+Talentos com limite de uso sempre indicam quando podem ser reutilizados 
+O Mestre tem a palavra final sobre interações abusivas ou situações não previstas 
+ 
+Exemplos de Talentos postos em prática  
+A seguir, temos alguns exemplos de talentos que podem ser adquiridos ao longo da progressão do personagem: 
+ 
+🧬 
+AUTOSSUSTENTAÇÃO  
+Uma vez por combate, quando iniciar seu turno com menos 
+da metade dos seus Pontos de Vida máximos, você recupera 
+10 + seu Bônus de Proficiência em PV. 
+ 
+Exemplo em jogo:  
+Durante um tiroteio intenso em um armazém, seu personagem 
+começa o turno gravemente ferido. Sensores internos, nanobots 
+ou pura resistência física entram em ação, estabilizando seu corpo 
+e permitindo que ele continue lutando. 
+ 
+ 
+ 
+\n---PAGE 46---\n💃 
+DANÇA NEON  
+Se você se mover pelo menos 3 metros antes de realizar um 
+ataque corpo a corpo, recebe +1 na Classe de Armadura (CA) 
+até o início do seu próximo turno. 
+ 
+Exemplo em jogo: 
+Seu personagem avança em zigue-zague entre luzes de neon e 
+destroços, atacando com fluidez e imprevisibilidade. 
+O movimento constante dificulta que inimigos consigam 
+acertá-lo logo após o ataque. 
+ 
+⚡ 
+VONTADE DA CARNE  
+Quando falhar em um teste de resistência contra Medo, 
+Controle, Paralisia ou qualquer efeito físico ou mental 
+causado por um hack rápido, você pode repetir o teste  
+ escolher o resultado. 
+Uso: uma vez por descanso longo 
+ 
+Exemplo em jogo:  
+Uma trilha-redes tenta assumir o controle dos seus implantes, 
+forçando seus músculos a travarem. Por um instante, você 
+sente o corpo falhar — mas força a consciência a reassumir o 
+controle, rompendo o hack à força. 
+ 
+Talentos e Identidade do Personagem  
+Talentos não são apenas números: eles representam decisões, implantes instalados, traumas superados ou estilos 
+únicos de combate. 
+Sempre que possível, jogadores e Mestre são encorajados a descrever como o talento se manifesta na narrativa — seja 
+por tecnologia, treinamento extremo ou pura vontade de sobreviver em Night City. 
+ 
+ 
+ 
+\n---PAGE 47---\n📜 
+Lista de  
+TALENTOS  
+🧠 
+ADAPTADOR DE GUERRA  
+Use sua Ação Bônus para observar um inimigo. Você recebe +1 de acerto nos ataques contra esse alvo até o fim do 
+combate. Além disso, obtém informação básica sobre seu padrão de combate ou ponto fraco (a critério do Mestre). 
+ 
+🩸 
+AGUENTA FIRME  
+1 vez por Descanso Longo, quando você cair a 0 PV, pode permanecer consciente até o final do seu próximo turno. 
+ 
+🎯 
+ATIRADOR PRECISO  
+Aumente sua Destreza em +1 (máx. 30). 
+Ignora meia cobertura. 
+ 
+🧬 
+AUTOSSUSTENTAÇÃO  
+1 vez por combate, quando iniciar o turno com menos da metade dos PV, recupere 10 PV + seu Bônus de Proficiência.
+ 
+🗡️ 
+CAMINHO DA LÂMINA  
++1 no dano com armas cortantes. 
+Ao reduzir um inimigo a 0 PV com um ataque corpo a corpo usando lâmina, seu próximo ataque terá Vantagem. 
+ 
+⚔️ 
+COMBATE DESARMADO APRIMORADO  
++2 no dano desarmado. 
+Pode tentar agarrar como parte do ataque, desde que possua uma mão livre. 
+ 
+🧠 
+COMBATENTE TÁTICO  
+Pré-requisito: Inteligência 13+ 
+Aumente sua Inteligência em +1. 
+1 vez por combate, gastando sua Ação Bônus, concede Vantagem a 1 ataque de um aliado que possa te ouvir. 
+ 
+🛡️ 
+CONTENÇÃO DEFENSIVA  
+Quando um inimigo erra um ataque corpo a corpo contra você, você ganha +1 na CA contra o próximo ataque dele até 
+o fim do próximo turno dele. Este efeito não acumula. 
+ 
+🦾 
+CORPO APRIMORADO  
+Pré-requisito: Constituição 13+ 
+Aumente sua Constituição em +1. 
+Vantagem em testes contra Sangramento, Veneno e Atordoamento. 
+ 
+🦾 
+CORPO CROMADO  
++8 de Classe Tecnológica. 
+ 
+💥 
+DEMOLIDOR TÁTICO  
+Você causa +2 de dano em estruturas, veículos ou coberturas. 
+Testes para destruir ou arrombar objetos têm Vantagem.  
+ 
+ \n---PAGE 68---\nSistema de Proteção Corporal  
+Em Night City, sobreviver não depende apenas do calibre da sua arma, mas do que separa seu corpo do próximo 
+disparo. A proteção corporal combina materiais avançados, tecnologia e escolhas táticas, equilibrando defesa, 
+mobilidade e estilo de vida nas ruas. 
+O sistema funciona de forma semelhante ao D&D, utilizando Classe de Armadura (CA), mas adaptado ao cenário 
+cyberpunk. 
+ 
+Estilo e Reputação  
+Em Night City, proteção corporal também comunica status; Armaduras corporativas chamam atenção de facções, 
+blindagem militar pode atrair forças da lei e roupas reforçadas de luxo aumentam reputação em certos círculos. 
+ 
+Classe de Armadura (CA)  
+A CA representa a capacidade do personagem de absorver impacto, desviar ataques e resistir a dano. 
+Cálculo padrão: 
+CA = 10 + Proteção da Armadura + Mod. de Destreza (limitado pelo tipo) 
+Algumas proteções oferecem efeitos extras, resistências ou penalidades. 
+ 
+Categorias de Proteção  
+Cada proteção pertence a uma categoria tecnológica, que define seu material, peso e função no combate. 
+ 
+🧵 
+Proteção Leve (Roupas Reforçadas)  
+Comum entre pessoas que valorizam mobilidade e discrição. 
+• Proteção: 11 a +13 de CA 
+• Destreza: Modificador total aplicado 
+• Sem penalidade em furtividade ou movimento.
+ 
+• 🛡️ 
+Proteção Média (Coletes Táticos)  
+O equilíbrio clássico entre resistência e agilidade, muito usada por solos, seguranças corporativos e gangues 
+organizadas. 
+Regras: 
+• Proteção: +14 a +16 de CA 
+• Destreza: máximo +2 
+• Desvantagem leve em furtividade.
+ 
+🧱 
+Proteção Pesada (Blindagem Corporal)  
+Equipamentos feitos para guerra urbana. Pouco sutis, extremamente eficazes. 
+Regras: 
+• Proteção: +16 ou superior de CA 
+• Destreza: não se aplica 
+• Desvantagem em furtividade 
+ 
+ 
+ 
+ 
+•  \n---PAGE 69---\nLista de Proteções Corporais  
+🧵 
+Proteção Leve 
+ — 
+Roupas Reforçadas  
+Discretas, flexíveis e fáceis de integrar ao visual urbano. Muito populares entre mercenários que precisam se misturar à 
+multidão sem abrir mão da sobrevivência.
+ 
+Jaqueta Balística Urbana  
+Uma jaqueta de corte moderno, com fibras balísticas costuradas entre camadas de tecido sintético. Visual casual, 
+proteção real. 
+• CA: 11 + Mod. de Destreza 
+• Características: Não chama atenção. 
+• Custo: 600 edinhos. 
+Jaqueta 
+ Tech 
+Uma jaqueta com tecnologia Firewall, que te protege contra trilhas. 
+• CA: 11 + Mod. de Destreza 
+• Características: +2 CF (Classe de Firewall), pode chamar atenção de membros de gangues. 
+• Custo: 800 edinhos.
+ 
+Casaco de Nano
+ -
+ Fibra Reforçada  
+Um casaco longo, elegante, com nano-malha flexível que endurece no impacto. Muito usado por canais e mercenários 
+de alto nível. 
+• CA: 12 + Mod. de Destreza 
+• Características: Aparência de luxo. 
+• Custo: 1.000 edinhos. 
+ 
+Uniforme  
+Policial Padrão  
+Equipamento oficial de forças de segurança, cobrindo torso e ombros, com visual intimidador. 
+CA: 12 + Mod. de Destreza 
+Características: Pode atrair atenção de autoridades e gangues, +1 em testes de Intimidação. 
+Custo: Não pode ser comprada.  
+•  
+Jaqueta de Gangue  
+Uma jaqueta reforçada com placas finas e LEDs sutis, ostentando cores, símbolos e grafites digitais de uma gangue 
+específica. Protege quase tanto quanto intimida. 
+• CA: 13 + Mod. de Destreza 
+• Características: Concede Vantagem em testes sociais contra membros da gangue associada, Causa Desvantagem em 
+testes sociais com gangues rivais, Chama atenção em áreas dominadas por gangues e de autoridades. 
+Custo: 1.500 edinhos. 
+ 
+Roupa Urbana Reforçada  
+Conjunto completo de roupa casual com proteção espalhada pelo tronco e membros. Ideal para quem vive em zonas 
+perigosas da cidade. 
+• CA: 13 + Mod. de Destreza 
+• Características: Não chama atenção. 
+• Custo: 1.600 edinhos. 
+ 
+ \n---PAGE 70---\n🛡️ 
+Proteção Média 
+ — 
+Coletes Táticos  
+Projetadas para confrontos diretos. Oferecem proteção confiável, mas sacrificam discrição e mobilidade.
+ 
+Uniforme  
+de Trilha
+ -
+ Redes 
+ Policial  
+Equipamento de forças de segurança especializada em ataques cibernéticos. Visualmente, é um sobretudo pesado. 
+• CA: 14 (máx. +2 Destreza) 
+• Características: Pode atrair atenção de autoridades e gangues, +2 CF (Classe de Firewall). 
+• Custo: Não pode ser comprada.
+ 
+Armadura Médica de Resposta Rápida (TRAUMA Team)  
+Um traje tático branco e vermelho, com placas balísticas leves integradas a um exoesqueleto médico discreto.  
+CA: 14 (máx. +2 de Destreza) 
+Características: Chama atenção imediata em zonas de conflito; gangues e mercenários tendem a poupar ou respeitar o 
+usuário, a critério do Mestre, Pode atrair reforços da TRAUMA Team se usada sem autorização. 
+Custo: Não pode ser comprada.
+ 
+Colete Tático Urbano  
+Colete reforçado com placas cerâmicas removíveis, comum entre gangues organizadas e seguranças privados. 
+• CA: 15 (máx. +2 Destreza) 
+• Características: Reduz em 2 o dano Perfurante e Cortante corpo a corpo (mínimo 1). 
+Custo: 2.000 edinhos.
+ 
+Colete Tático de 
+ Canal  
+Projetado para quem vive negociando entre gangues, corporações, mercenários e até a própria polícia. 
+• CA: 15 (máx. +2 de Destreza) 
+• Características: +1 em testes de Intimidação e Persuasão. 
+• Custo: 2.500 edinhos.
+ 
+Armadura Policial Reforçada (NCPD)  
+Equipamento padrão de resposta tática, com placas rígidas, visor parcial e identificação clara da NCPD.  
+• CA: 16 (máx. +2 de Destreza) 
+• Características: Vantagem em testes sociais envolvendo autoridade ou controle de multidões, Gangues tendem a 
+priorizar o usuário como alvo em combate. 
+• Custo: Não pode ser comprada.
+ 
+Terno Blindado  
+Roupa usada por seguranças de boates ou de prédios. Alguns mercenários o usam para combates táticos. 
+• CA: 16 (máx. +2 Destreza) 
+• Características: Reduz em 1d4 o dano Perfurante e Cortante (mínimo 1), +1 em testes sociais em ambientes de luxo. 
+• Custo: 3.000 edinhos.
+ 
+Equipamento Corporativo Reforçado  
+Armadura usada por seguranças de megacorporações. Materiais de alta qualidade e acabamento tecnológico. 
+• CA: 16 (máx. +2 Destreza) 
+• Características: Vantagem em testes sociais envolvendo autoridades ou corporativos. 
+• Custo: 3.200 edinhos. 
+•  \n---PAGE 71---\n🧱 
+Proteção Pesada 
+ — 
+Blindagem Corporal  
+Blindagens feitas para guerra urbana. Extremamente resistentes, nada discretas.
+ 
+Blindagem de Choque Pesada  
+Placas grossas de material composto, usadas por tropas de repressão e mercenários de assalto. 
+• CA: 17 
+• Características: Reduz pela metade o dano Perfurante recebido em uma distância de 10m ou menos. 
+• Custo: 3.800 edinhos.
+ 
+Armadura de 
+ Blindagem 
+ Eletrônica Kang Tao  
+Blindagem tecnológica feita para lidar com trilhas-redes de alto nível. 
+• CA: 18 
+• Características: +2 CF (Classe de Firewall), Atrai atenção imediata de autoridades e corporações. 
+• Custo: 4.500 edinhos.
+ 
+Exoesqueleto Leve de Combate   
+Estrutura externa motorizada que sustenta o peso da blindagem, permitindo operações prolongadas. 
+• CA: 18 
+• Características: Resistência a dano Contundente, +2 em testes de Força, -3m de deslocamento. 
+• Custo: 4.800 edinhos.
+ 
+Armadura de Supressão Tática  
+Arasaka  
+Blindagem pesada de alto padrão, desenvolvida pela Arasaka para operações pesadas e eliminação prioritária. 
+CA: 19 
+Características: Atrai atenção imediata de autoridades e corporações. 
+Custo: 5.300 edinhos.
+ 
+Armadura 
+ Militech 
+de Assalto Urbano  
+Equipamento militar de ponta, usado em operações de contenção extrema. Visual agressivo e presença absoluta. 
+• CA: 20 
+• Características: Atrai atenção imediata de autoridades e corporações. 
+• Custo: 6.800 edinhos.
+Armadura Max
+ -
+ Tac de Intervenção Extrema  
+Blindagem de elite usada exclusivamente pelas unidades Max-Tac em operações contra cyberpsicóticos de alto risco.  
+CA: 21 
+Características: Resistência a dano Psíquico, +2 CF (Classe de Firewall), Atrai atenção da NCPD, corporações e gangues. 
+• Custo: Não pode ser comprada (uso restrito — posse ilegal fora da Max-Tac ou contratos extremamente específicos).
+ 
+Exoesqueleto 
+ Pesado  
+de Combate   
+Concede blindagem extrema, e proteção contra praticamente qualquer calibre. 
+• CA: 22 
+• Características: Concede +2 CF (Classe de Firewall), Resistência a dano Contundente, +4 em testes de Força, -3m de 
+deslocamento. 
+Custo: 10.000 edinhos. 
+ \n---PAGE 74---\nSistema de 
+ Classe de Tecnologia  
+(
+C
+T) e Cyberpsicose  
+Cada um possui um limite de Classe de Tecnologia (CT), que representa a capacidade física, neural e psicológica de 
+suportar modificações cibernéticas sem sofrer colapsos mentais. Implantes além desse limite podem causar uma 
+doença conhecida como Cyberpsicose, uma condição progressiva e perigosa. 
+ 
+Cálculo 
+ de 
+Classe de Tecnologia (CT)  
+A CT é baseada tanto na resistência do corpo quanto no controle mental do personagem. 
+CT = base da classe do personagem, por exemplo 10 + Modificador de Constituição + Modificador de Sabedoria + Bônus 
+de Proficiência 
+• Constituição → resistência física, rejeição biológica 
+• Sabedoria → autocontrole, identidade e estabilidade mental 
+• Proficiência → experiência em lidar com implantes e vida cibernética 
+Exemplo 
+• Constituição 14 (+2) 
+• Sabedoria 12 (+1) 
+• Proficiência +2 
+CT = 10 + 2 + 1 + 2 = 15
+ 
+Medicânicos, Limite Seguro e Excesso de  
+CT 
+Cada implante cibernético possui um Custo de Classe de Tecnologia (CT), determinado por seu nível de invasividade, 
+complexidade tecnológica e impacto neural. Implantes passivos ou de suporte tendem a consumir menos CT, enquanto 
+implantes ativos, de combate ou militares exigem um preço muito maior do corpo e da mente. 
+Os medicânicos — especialistas que combinam medicina, engenharia e neurociência — são responsáveis por avaliar, 
+instalar e ajustar implantes. Um bom medicânico pode alertar quando um personagem está se aproximando de seu 
+limite seguro, mas nem mesmo eles podem anular completamente os riscos de ir longe demais. 
+• Limite Seguro: Enquanto o consumo total de CT não ultrapassar a CT máxima do personagem, ele permanece estável, 
+com seus implantes funcionando dentro de parâmetros seguros. 
+• Excesso de CT: Ao exceder esse limite, o personagem entra em um processo de Cyberpsicose, acumulando efeitos 
+progressivos que representam a perda gradual de controle, identidade e humanidade. 
+Em Night City, cruzar esse limite raramente é um acidente — é uma escolha. 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+\n---PAGE 81---\n🧠 
+CÉREBRO  
+Zetatech Neural Buffer 
+ — 
+“RAM Pocket” 
+Foco: gerenciamento de recursos. 
+CT: 2 
+Valor: 1.200 edinhos 
+Firewall Simples: Aumenta a Classe de Firewall (CF) em +1. 
+Reserva Emergencial:  1 vez por turno, Ação Bônus. 
+Pode acessar até 5 pontos de RAM armazenados, que podem ser usados imediatamente. A reserva é restaurada após 
+um descanso curto. 
+      Dica: simples, barato e extremamente eficiente para momentos decisivos. 
+Militech 
+Threat Analyzer 
+ — 
+“NetWatch” 
+Foco: antecipação digital 
+CT: 2 
+Valor: 1.500 edinhos 
+Firewall Simples: Aumenta a Classe de Firewall (CF) em +1. 
+Previsã
+ o
+: 1 vez por combate, Reação. 
+Ao ser atacado por um Ataque Hack, role 1d4 e adicione o valor à sua CF contra este Ataque Hack. Caso seu bônus de 
+Inteligência seja negativo, o valor será reduzido neste bônus (mínimo 1). 
+      Dica: ótimo contra trilhas iniciantes. 
+ 
+Zetatech NeuroShield 
+ — 
+“Signal Guard”  
+Foco: consistência defensiva 
+CT: 3 
+Valor: 1.600 edinhos 
+Firewall Simples: Aumenta a Classe de Firewall (CF) em +1. 
+Estabilidade:  Vantagem em testes contra efeitos causados por Hacks Rápidos que custem até 4 de RAM. 
+      Dica: simples e eficiente — padrão ouro. 
+ 
+Biotechnica Cognitive Filter 
+ — 
+“ClearMind Core”  
+Foco: sinergia com outros implantes. 
+CT: 3 
+Valor: 1.800 edinhos 
+Firewall Simples: Aumenta a Classe de Firewall (CF) em +1. 
+Blindagem Psíquica:  Aumenta a Classe Tecnológica (CT) em 2. 
+      Dica: excelente aumento de tolerância a implantes. 
+ 
+Raven Microtech Synapse Booster 
+ — 
+“Reflex Weave” 
+Foco: reação rápida. 
+CT: 4 
+Valor: 2.000 edinhos 
+Firewall Simples: Aumenta a Classe de Firewall (CF) em +1. 
+Sinapses Aceleradas:  Vantagem em testes de Iniciativa. 
+      Dica: implante ofensivo para quem quer agir antes. 
+ \n---PAGE 82---\nZetatech RAM Expander 
+ — 
+“Neural Stack+”  
+Foco: aumento direto de capacidade de hacking enquanto se defende de outro trilhas. 
+CT: 5 
+Valor: 2.800 edinhos 
+Firewall Avançado: Aumenta a Classe de Firewall (CF) em +2. 
+Amplificador de RAM Neural:  Aumenta sua RAM máxima em +2. 
+      Dica: base sólida para qualquer Trilha-Redes. 
+Arasaka Firewall Core 
+ — 
+“Black ICE Node”  
+Foco: defesa absoluta contra hacking 
+CT: 5 
+Valor: 3.200 edinhos 
+Firewall Avançado: Aumenta a Classe de Firewall (CF) em +2. 
+Contra
+ -
+ Intrusão:  1 vez por combate, Reação. 
+Ao realizar um teste de resistência contra um Hack Rápido, obtém Vantagem contra este teste.
+ 
+Dynalar Precision Cortex 
+ — 
+“DeadEye Loop”  
+Foco: precisão extrema e foco contínuo. 
+CT: 6 
+Valor: 3.400 edinhos 
+Firewall Avançado: Aumenta a Classe de Firewall (CF) em +2. 
+Córtex de Precisão:  Vantagem em ataques à distância com armas de fogo e em testes de Pilotagem em combate. 
+Foco em Alvo:  Se atacar o mesmo alvo em dois turnos seguidos, recebe +1 de CA até o início do próximo turno. 
+      Dica: ideal para atiradores e motoristas. 
+ 
+Kang Tao Algorithm Optimizer 
+ — 
+“RAM Flow” 
+Foco: eficiência máxima de hacks. 
+CT: 6 
+Valor: 3.800 edinhos 
+Firewall Avançado: Aumenta a Classe de Firewall (CF) em +2. 
+Otimização de Algoritmo:  Reduz em –1 RAM o custo de hacks que custem até 5 RAM (mínimo 1). 
+Código Fluido:  Aumenta em 1 turno a duração de hacks que duram mais de 1 turno. 
+      Dica: transforma RAM em um recurso extremamente durável ao longo do combate. 
+ 
+Militech Processor 
+ — 
+“BlackClock”  
+Foco: explosão de ações e hacks agressivos. 
+CT: 7 
+Valor: 5.000 edinhos 
+Firewall Superior: Aumenta a Classe de Firewall (CF) em +3. 
+C
+AI
+: 1 vez por combate, Reação. 
+Anula um ataque hacker contra você ou sistema em que você esteja plugado e causa 2d8 + Inteligência de dano 
+Psíquico ao atacante. 
+Estresse Neural:  1 vez por turno. 
+Ao acertar um ataque hacker, cause 10 - o bônus de Inteligência do alvo de dano Psíquico extra. 
+      Dica: brutal, poderoso e perigoso — perfeito para momentos críticos. \n---PAGE 83---\nArasaka Parallel Cortex 
+ — 
+“Shinkei Mesh” 
+Foco: multitarefa absoluta e domínio digital. 
+CT: 7 
+Valor: 5.800 edinhos 
+Firewall Superior: Aumenta a Classe de Firewall (CF) em +3. 
+C
+AI
+: 1 vez por combate, Reação. 
+Anula um ataque hacker contra você ou sistema em que você esteja plugado e causa 2d8 + Inteligência de dano 
+Psíquico ao atacante. 
+Estabilidade de Processo:  1 vez por turno. 
+Pode realizar um teste de Inteligência (CD16) para anular uma falha ao hackear um alvo e rerrolar o dado. 
+      Dica: implante de elite para hackers de alto nível — poderoso e claramente desleal. 
+ 
+\n---PAGE 84---\n👁️ 
+OLHOS  
+Kiroshi  
+Visual Assist 
+ — 
+“
+EagleSight Lite”  
+Foco: percepção aprimorada. 
+CT: 1 
+Valor: 1.300 edinhos 
+Olho de Águia:  Vantagem em testes de Percepção (Visão). 
+      Dica: implante básico e extremamente útil fora de combate. 
+Kiroshi Dual Spectrum 
+ — 
+“NightHunter” 
+Foco: utilidade de combate. 
+CT: 2 
+Valor: 1.600 edinhos 
+Visão Térmica Avançada:  Permite enxergar assinaturas de calor através de fumaça e escuridão. 
+      Dica: muito bom em locais de caos urbano. 
+Kiroshi Anti
+ -
+ Hack Optics 
+ — 
+“Static Lens”  
+Foco: interferência 
+CT: 2 
+Valor: 1.800 edinhos 
+Ruído Óptico:  Inimigos que você tem contato visual recebem -1 em Ataques de Hacks contra você. 
+      Dica: defesa indireta, stacka bem com a Classe de Firewall. 
+ 
+Kiroshi  
+Tactical HUD 
+ — 
+“ThreatWatch” 
+Foco: defesa e leitura de campo de batalha. 
+CT: 2 
+Valor: 2.000 edinhos 
+Ocular Tático:  Recebe +1 de CA, representando microajustes automáticos de postura. 
+      Dica: defesa passiva forte por um custo baixíssimo de TI. 
+Kiroshi Ghost Optics 
+ — 
+“NullSight”  
+Foco: infiltração silenciosa. 
+CT: 2 
+Valor: 2.400 edinhos 
+Filtro Fantasma:   Vantagem em Furtividade contra sensores eletrônicos e Sistemas ópticos têm Desvantagem para 
+te detectar. 
+      Dica: funciona bem para operações de invasão em locais militares e corporativos. 
+ 
+Kiroshi  
+InfraVision 
+ — 
+“ThermoScan”  
+Foco: rastreamento e combate em ambientes hostis. 
+CT: 3 
+Valor: 2.800 edinhos 
+Visão Multiespectral:  Enxerga no escuro total e ignora penalidades visuais (fumaça, chuva, neblina). 
+      Dica: absurdamente forte em emboscadas.  
+ 
+ \n---PAGE 87---\n❤️ 
+CORAÇÃO  
+Biotechnica Bio
+ -
+ Core Mk.I 
+ — 
+“PulseGreen”  
+Foco: resistência a fadiga, veneno e outras toxinas. 
+CT: 2 
+Valor: 1.600 edinhos 
+Coração Estimulante:  Resistência a dano de Veneno e Vantagem em testes de resistência contra veneno e drogas. 
+      Dica: excelente para longas missões, zonas contaminadas e sobrevivência urbana. 
+ 
+Kang Tao Kinetic Heart 
+ — 
+“VoltPulse” 
+Foco: mobilidade e integração corpo–sistema. 
+CT: 2 
+Valor: 2.500 edinhos 
+Coração Energético:  Recebe +2 metros de deslocamento. 
+Pulso Digital:  Enquanto estiver em combate, recupera +1 RAM adicional no início do seu turno. 
+      Dica: perfeito para híbridos físico + tecnológico. 
+Arasaka Neuro
+ -
+ Paced Heart 
+ — 
+“Zenith Pulse”  
+Foco: controle de ritmo e consistência. 
+CT: 3 
+Valor: 3.000 edinhos 
+Ritmo Controlado:  No início do combate, escolha um: 
++1 em jogadas de ataque  
++1 na CD de habilidades  
++3m de deslocamento  
+Estabilidade Cardíaca:  Você tem Vantagem contra efeitos de Atordoamento 
+      Dica: implante versátil — bom para quem quer consistência sem depender de burst. 
+Kang Tao Sync Core 
+ — 
+“Overlink Heart”  
+Foco: integração com sistemas (RAM / tech) 
+CT: 3 
+Valor: 3.300 edinhos 
+Sincronização Neural: Reação 
+Quando gastar RAM realizando um Ataque Hacker: Recupera PV igual a RAM gasta. (mín. 1)  
+Pulso Estável:  +1 RAM máximo 
+      Dica: fecha loop de sustain pra netrunners. 
+Zetatech Pulse Firewall 
+ — 
+“CoreShield”  
+Foco: resistência contínua 
+CT: 3 
+Valor: 3.400 edinhos 
+Pulso Defensivo:  Aumenta a Classe de Firewall (CF) em +1. 
+Ritmo Estável:  Se não sofrer um Ataque Hack no turno anterior, aumenta a Classe de Firewall (CF) em +1 (máx. +2). 
+O bônus é perdido ao ser invadido por um Ataque Hacker, ou quando o combate encerrar. 
+      Dica: recompensa posicionamento seguro.  
+ \n---PAGE 90---\n🧬 
+PELE  
+Militech
+  
+— 
+“ThermoSkin”  
+Foco: infiltração e redução de dano. 
+CT: 2 
+Valor: 1.500 edinhos 
+Assinatura Térmica Reduzida:  Vantagem em testes de Furtividade contra sensores térmicos e infravermelhos. 
+Isolamento Térmico:  Reduz em 1d8 o dano de Frio ou Térmico recebido. 
+      Dica: implante silencioso e elegante — brilha fora do combate direto e em missões de terreno hostil. 
+Biotechnica 
+ — 
+“RegenSkin”  
+Foco: sobrevivência prolongada e controle de sangramento. 
+CT: 2 
+Valor: 2.000 edinhos 
+Regeneração Leve:  No início do seu turno, se estiver consciente e com menos que 50% de PV, recupera 1d6 + 
+modificador de Constituição (mín. 1) PV. 
+Cicatrização Rápida:  Vantagem em testes para resistir ou encerrar a condição Sangramento. Sempre que encerrar 
+a condição Sangramento, recupera 1d6 PV. 
+      Dica: regeneração lenta — perfeita para quem luta por desgaste e não depende de explosões de cura. 
+ 
+Raven Microtech  
+— 
+“HazSkin”  
+Foco: alta defesa química e vitalidade. 
+CT: 3 
+Valor: 2.800 edinhos 
+Proteção Química:  Recebe resistência a dano Químico. 
+Revestimento:  Aumenta o PV em 10. 
+      Dica: simples, direto e temático — feito para ambientes contaminados e inimigos químicos. 
+ 
+Zetatech  
+— 
+“BioShock”  
+Foco: defesa ofensiva contra combate corpo a corpo. 
+CT: 3 
+Valor: 3.500 edinhos 
+Reação Elétrica:  1 vez por combate, Reação. 
+Ao ser atingido por ataque corpo a corpo ou toque direto, causa 2d8 + modificador de Inteligência de dano Elétrico ao 
+atacante. 
+      Dica: excelente contra enxames e lutadores agressivos — pune quem chega perto demais. 
+Arasaka DataSkin 
+ — 
+“Signal 
+ Scrambler”  
+Foco: camuflagem digital 
+CT: 3 
+Valor: 3.800 edinhos 
+Tecno Camaleão
+ : Aumenta a Classe de Firewall (CF) em +1. 
+Interferência:  Você tem Vantagem contra Hacks Rápidos que tentarem rastrear sua posição.  
+ 
+ 
+ \n---PAGE 97---\n🦴 
+OSSOS  
+Zetatech 
+ — 
+“Featherframe”  
+Foco: Mobilidade e leveza. 
+CT: 2 
+Valor: 1.500 edinhos 
+Agilidade Aprimorada:  Vantagem em testes de Acrobacia e Atletismo. 
+      Dica: ideal para corredores, infiltradores e builds que dependem de posicionamento sem chamar atenção. 
+ 
+Kang
+ -
+ Tao 
+— 
+“Bulwark Lite”  
+Foco: Defesa básica e resistência estrutural. 
+CT: 3 
+Valor: 2.600 edinhos 
+Redução de Impacto:  +1 na Classe de Armadura. 
+      Dica: proteção sólida e discreta. Excelente primeiro implante defensivo sem elevar demais o consumo de TI.
+ 
+Arasaka Execution Frame 
+ — 
+“BoneBreaker”  
+Foco: dano crítico 
+CT: 4 
+Valor: 3.500 edinhos 
+Impacto Crítico:  Ao acertar um acerto crítico causa +1d10 de dano extra.  
+      Dica: transforma críticos em eventos realmente perigosos. 
+ 
+Arasaka  
+— 
+“Kiba Frame”  
+Foco: Contra-ataque corporal e intimidação. 
+CT: 5 
+Valor: 4.000 edinhos 
+Retaliação Cortante:  Ataques corpo a corpo recebidos causam 1d8 + seu modificador de Destreza de dano 
+Cortante ao atacante. O dano aumenta em 1d8 no nível 16. 
+Hemorragia:  Sempre que causar dano por este efeito, o atacante deve realizar um teste de Constituição (CD 8 + 
+modificador de Destreza + bônus de proficiência) e em caso de falha; recebe a condição Sangramento. 
+      Dica: ideal para personagens que vivem cercados — você apanha, mas o inimigo paga o preço. 
+ 
+Militech 
+— 
+“SeismoCore”  
+Foco: Impacto bruto e controle de campo. 
+CT: 6 
+Valor: 5.000 edinhos 
+Descarga Sismodinâmica:  1 vez por turno. 
+Ao acertar um ataque desarmado ou com uma arma Contundente, causa +1d8 de dano extra. 
+Desequilíbrio:  Se o alvo for do mesmo tamanho ou menor, deve realizar um teste de Força (CD 8 + modificador de 
+Força + bônus de proficiência) e em caso de falha; recebe a condição Caído. 
+      Dica: dano consistente com controle — forte sem substituir armas pesadas ou implantes de combate extremo. 
+ 
+ 
+ \n---PAGE 98---\n🧠 
+SISTEMA DE HACKEAMENTO E DEFESA DIGITAL  
+Classe 
+ de Firewall  
+(C
+F
+) 
+⚡ 
+Ataque Hacking  
+Ataques de hack representam invasões digitais, sobrecarga de implantes, manipulação de sistemas e ataques diretos ao 
+sistema nervoso ou eletrônico de um alvo. 
+Um ataque de hack é resolvido da seguinte forma: 
+• O atacante realiza um teste de Inteligência + bônus de proficiência em Tecnologia ou Hacking (apenas um). 
+• O resultado é comparado à CF — Classe de Firewall do alvo 
+Resultado do teste: 
+• Sucesso (resultado maior que a CF): o hack é bem-sucedido e aplica um Hack Rápido no alvo. 
+• Falha: o hack não obtém acesso e perde a RAM gasta. 
+• Falha Crítica (1 natural): além da falha, o usuário sofre 1d8 + o bônus de Inteligência do alvo de dano Psíquico e sua 
+localização é descoberta instantaneamente. 
+ 
+🛡️ 
+Defesa Contra Hack 
+ — 
+Classe 
+ de Firewall  
+(C
+F
+) 
+A Classe de Firewall (CF) representa a capacidade de um personagem, criatura ou sistema de resistir a invasões digitais, 
+vírus, sobrecarga de implantes e manipulação de dados. 
+Ela funciona como a equivalente tecnológica da CA (Classe de Armadura). 
+Enquanto a CA protege contra os ataques físicos, a CF protege contra os ataques digitais. 
+ 
+📊 
+Cálculo da Classe 
+ de Firewall  
+(C
+F
+) 
+CF Base: 10 + modificador de Inteligência + bônus de proficiência em Tecnologia ou Hacking (apenas um).
+ 
+🔧 
+Como a C
+ F 
+pode ser aumentada?  
+1. Modificador de Inteligência  
+Assim como a Destreza influencia a CA, a Inteligência influencia diretamente a CF. 
+Personagens mais inteligentes: Reconhecem padrões de invasão, respondem melhor a ataques digitais e têm sistemas 
+mentais e neurais mais organizados.
+ 
+2. Proficiência em Hacking ou Tecnologia  
+Se o personagem possuir proficiência em Hacking ou Tecnologia (, ele adiciona seu bônus de proficiência à CF. 
+Isso representa: Treinamento técnico, conhecimento de contramedidas e capacidade de improvisar defesas digitais. 
+ 
+3. Implantes Cibernéticos 
+ Cerebrais  
+Implantes cerebrais melhoram diretamente a CF. 
+Não se esqueça de visitar um medicânico para se fortalecer contra trilhas-redes.
+ 
+4. Habilidades, Itens, Escudos Digitais e Barreiras de Dados  
+Habilidades, equipamentos ou efeitos temporários podem criar barreiras digitais, como: 
+• Aumento temporário da CF, anulação do primeiro Hack sofrido no combate, redução do dano de Hacks bem-sucedidos. 
+ 
+ 
+ 
+ \n---PAGE 107---\n🚗 
+ATRIBUTOS DOS VEÍCULOS  
+Veículos não são personagens, mas possuem atributos próprios que determinam sua resistência, mobilidade, defesa e 
+vulnerabilidade tecnológica. 
+Esses atributos definem como o veículo reage a combates, perseguições, terrenos difíceis e ataques hackers. 
+ 
+🔩 
+Pontos de Vida do Veículo (PV)  
+Representam a integridade estrutural, sistemas internos e capacidade de continuar operando. 
+Efeitos por Dano Estrutural 
+  50% dos PV ou menos: −5m no deslocamento e Desvantagem em Ações do Motorista. 
+  25% dos PV ou menos: O deslocamento é reduzido pela metade e Desvantagem em todos os testes de Pilotagem. 
+  0 PV: O veículo fica Inutilizado e o Mestre pode determinar: Incêndio, Explosão ou Travamento total. 
+Veículos destruídos raramente são recuperáveis sem manutenção pesada ou substituição. 
+ 
+🛡️ 
+Classe de Armadura do Veículo (CAV)  
+Define o quão difícil é atingir fisicamente o veículo, considerando blindagem, evasão e controle. 
+Cálculo da CAV: CAV = CA Base do Veículo + Modificador de Destreza do Motorista + Proficiência em Pilotagem (se 
+aplicável). 
+Regras Importantes  
+• Veículos Leves se beneficiam muito da Destreza do motorista. 
+• Veículos Militares e Off-road possuem CA Base alta, mas não adicionam o modificador de Destreza do motorista. 
+• Um bom motorista pode transformar um veículo comum em algo muito mais difícil de atingir 
+ 
+🔐 
+Classe de Firewall do Veículo  
+(CFV)  
+Define a defesa digital do veículo contra hacks, invasões remotas e controle eletrônico. 
+Funciona como a Classe Tecnológica (CT) dos personagens, mas aplicada ao veículo. 
+Uso da CFV 
+• Ataques de hacking contra veículos usam Teste de Hacking vs CFV 
+Referência de CFV por Categoria  
+• Veículos Populares: CFV baixa (alvos fáceis). 
+• Off-road: CFV média. 
+• Luxo: CFV média-alta. 
+• Militares e Corporativos: CFV alta ou muito alta. 
+ 
+🚗 
+Deslocamento  
+Indica quantos metros o veículo pode se mover em um turno de combate. 
+Referência Geral de Deslocamento  
+• Motos: muito alto 
+• Carros urbanos: médio 
+• Off-road: médio (ignoram terreno difícil) 
+• Caminhões e militares: médio-baixo, porém estáveis 
+O deslocamento pode ser modificado por: Dano estrutural, terreno, Ações do Motorista e colisões. 
+ 
+ 
+ 
+ 
+ \n---PAGE 125---\n 
+Drogas Médias (Nível 2 | CD 14)  
+Synapse Burn  
+Descrição: Um acelerador neural agressivo. Expande a capacidade cognitiva ao 
+extremo e frita sinapses no processo. 
+Efeito: Vantagem em testes de Investigação, Inteligência e Tecnologia 
+Duração: 10 minutos 
+Efeito Colateral: Sofre 1d8 de dano Psíquico 
+Overdose: Perde reações por 1 hora e hacks rápidos inimigos têm vantagem 
+contra você. 
+Uso: Pode ser usado como uma Ação ou Ação Bônus. 
+Valor: 70 edinhos.
+ 
+Reflex
+ -
+ X 
+Descrição: Droga de combate corporativa focada em antecipação de todos os 
+Movimentos do inimigo. 
+O mundo desacelera, mas manter o foco ofensivo se torna mais difícil depois. 
+Efeito: +2 na Classe de Defesa e Vantagem em testes de Iniciativa 
+Duração: 1 minuto 
+Efeito Colateral: Desvantagem em jogadas de ataque. 
+Overdose: Fica Atordoado por 2 rodadas. 
+Uso: Pode ser usado como uma Ação ou Ação Bônus. 
+Valor: 85 edinhos. 
+Drogas Pesadas (Nível 3 | CD 18)  
+Smash  
+Descrição: A favorita dos malucos que se tornam cyberpsicopatas.  
+Transforma dor em combustível e força em brutalidade pura. 
+Efeito: +2d6 dano corpo a corpo e resistência a todo o dano recebido. 
+Duração: 3 turnos 
+Efeito Colateral: Sofre 3d8 de dano Psíquico após o efeito e o dobro em caso 
+de falha. 
+Overdose: Entra em estado de Cyberpsicose temporária. 
+O Mestre assume controle por 1d4 rodadas. 
+Uso: Ação. 
+Valor: 120 edinhos.
+ 
+Red Mist  
+Descrição: Droga militar experimental proibida em todos os países. 
+Enquanto estiver ativa, o corpo ignora limites biológicos, até entrar em colapso.  
+Efeito: Pode agir mesmo a 0 PV e ignora dor e condições debilitantes 
+Duração: 1 minuto 
+Efeito Colateral: Cai para 1 PV e fica Exausto 
+Overdose: Teste imediato de morte ou colapso orgânico. 
+Uso: Ação. 
+Valor: 300 edinhos. 
+ 

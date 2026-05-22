@@ -10,13 +10,16 @@ import {
   CYBERPUN2080_ORIGIN_TRAITS,
   CYBERPUN2080_ORIGINS,
   CYBERPUN2080_RULES,
+  CYBERPUN2080_SUBCLASSES_BY_CLASS,
   EQUIPMENT_CATEGORIES,
   RPG_SYSTEM_OPTIONS,
   RPG_SYSTEMS,
   RpgSystemType,
   STORAGE_KEYS
 } from '../../../core/constants/rpg.constants';
+import { CyberpunkCatalog, CyberpunkTalentCatalog } from '../../../core/models/cyberpunk-catalog.model';
 import { ApiReference, DndClass, DndRace } from '../../../core/models/dnd-api.model';
+import { CyberpunkCatalogService } from '../../../core/services/cyberpunk-catalog.service';
 import { DndApiService } from '../../../core/services/dnd-api.service';
 import { FichaJogadorService } from '../../../core/services/ficha-jogador.service';
 import { StorageService } from '../../../core/services/storage.service';
@@ -58,10 +61,113 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   readonly sistemaCyberPun2080 = RPG_SYSTEMS.CYBERPUN2080;
   readonly systemOptions = RPG_SYSTEM_OPTIONS;
   readonly cyberpunPerguntasEssenciais = CYBERPUN2080_ESSENTIAL_QUESTIONS;
-  readonly cyberpunClasses = CYBERPUN2080_RULES.classes;
+  cyberpunClasses: string[] = [...CYBERPUN2080_RULES.classes];
+  cyberpunSubclassesPorPapel: Record<string, readonly string[]> = { ...CYBERPUN2080_SUBCLASSES_BY_CLASS };
   readonly cyberpunOrigins = CYBERPUN2080_ORIGINS;
+  cyberpunAntecedentes: Array<{ nome: string; descricao: string; talentoOrigem: string }> = [];
+  cyberpunTalentosCatalogo: CyberpunkTalentCatalog[] = [];
   readonly cyberpunCityForces = CYBERPUN2080_CITY_FORCES;
   readonly cyberpunModulos = CYBERPUN2080_MODULES;
+  carregandoCatalogoCyberpunk = false;
+  erroCatalogoCyberpunk = '';
+
+  get detalhesClasseCyberpunkAtual(): string {
+    const classe = String(this.jogador?.cyberpun2080?.papel || '').trim();
+    if (!classe) {
+      return '';
+    }
+
+    const fallback: Record<string, string> = {
+      'Cromado': 'Especialista em aprimoramento corporal e resistencia.',
+      'Medicânico': 'Suporte medico-tatico e manutencao em combate.',
+      'Piloto': 'Mobilidade extrema, perseguicoes e controle de rota.',
+      'Samurai': 'Execucao cirurgica com foco em precisao e ritmo.',
+      'Solo': 'Veterano de guerra urbana e confronto direto.',
+      'Trilha-Redes': 'Infiltracao digital, sabotagem e dominio da rede.'
+    };
+
+    const catalogDescription = (this.catalogoCyberpunk?.classes || []).find((item) => item.nome === classe)?.descricao;
+    return String(catalogDescription || fallback[classe] || '').trim();
+  }
+
+  get detalhesAntecedenteCyberpunkAtual(): string {
+    const antecedenteNome = String(this.jogador?.cyberpun2080?.antecedente || '').trim();
+    if (!antecedenteNome) {
+      return '';
+    }
+
+    const antecedente = this.cyberpunAntecedentes.find((item) => item.nome === antecedenteNome);
+    if (!antecedente) {
+      return '';
+    }
+
+    const detalhes: string[] = [];
+    if (antecedente.descricao) {
+      detalhes.push(antecedente.descricao);
+    }
+    if (antecedente.talentoOrigem) {
+      detalhes.push(`Talento de Origem: ${antecedente.talentoOrigem}`);
+    }
+    return detalhes.join(' | ');
+  }
+
+  get detalhesSubclasseCyberpunkAtual(): string {
+    const classeNome = String(this.jogador?.cyberpun2080?.papel || '').trim();
+    const subclasseNome = String(this.jogador?.cyberpun2080?.subclasse || '').trim();
+    if (!classeNome || !subclasseNome) {
+      return '';
+    }
+
+    const classe = (this.catalogoCyberpunk?.classes || []).find((item) => item.nome === classeNome);
+    if (!classe) {
+      return '';
+    }
+
+    const subclasse = (classe.subclasses || []).find((item: any) => {
+      if (typeof item === 'string') {
+        return item === subclasseNome;
+      }
+      return String(item?.nome || '').trim() === subclasseNome;
+    }) as any;
+
+    if (!subclasse || typeof subclasse === 'string') {
+      return '';
+    }
+
+    const partes: string[] = [];
+    if (subclasse.descricao) {
+      partes.push(String(subclasse.descricao).trim());
+    }
+
+    const progressao = Array.isArray(subclasse.progressao) ? subclasse.progressao : [];
+    if (progressao.length > 0) {
+      const resumo = progressao
+        .slice(0, 3)
+        .map((item: any) => `Nv ${item.nivel}: ${item.habilidade}`)
+        .join(' | ');
+      partes.push(resumo);
+    }
+
+    return partes.join(' | ');
+  }
+
+  get talentosCyberpunkFiltradosPorClasse(): CyberpunkTalentCatalog[] {
+    const classe = String(this.jogador?.cyberpun2080?.papel || '').trim();
+    if (!classe) {
+      return this.cyberpunTalentosCatalogo;
+    }
+
+    return this.cyberpunTalentosCatalogo.filter((talento) => {
+      return !talento.classes || talento.classes.length === 0 || talento.classes.includes(classe);
+    });
+  }
+
+  private catalogoCyberpunk?: CyberpunkCatalog;
+
+  get cyberpunSubclassesDisponiveis(): readonly string[] {
+    const papel = String(this.jogador?.cyberpun2080?.papel || '').trim();
+    return this.cyberpunSubclassesPorPapel[papel] || [];
+  }
 
   jogador: any =
     {
@@ -208,6 +314,7 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
         mochila: [],
         cyberpun2080: {
           papel: '',
+          subclasse: '',
           origem: '',
           antecedente: '',
           historia: '',
@@ -313,9 +420,80 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     private storageService: StorageService,
     private fichaService: FichaJogadorService,
     private dndApiService: DndApiService,
-    private syncBackendService: SyncBackendService
+    private syncBackendService: SyncBackendService,
+    private cyberpunkCatalogService: CyberpunkCatalogService
   ) {
 
+  }
+
+  private aplicarFallbackCatalogoCyberpunk(): void {
+    this.cyberpunClasses = [...CYBERPUN2080_RULES.classes];
+    this.cyberpunSubclassesPorPapel = { ...CYBERPUN2080_SUBCLASSES_BY_CLASS };
+    this.cyberpunAntecedentes = [];
+    this.cyberpunTalentosCatalogo = [];
+  }
+
+  private aplicarCatalogoCyberpunk(catalog: CyberpunkCatalog): void {
+    this.catalogoCyberpunk = catalog;
+    this.cyberpunClasses = (catalog.classes || []).map((item) => String(item.nome || '').trim()).filter(Boolean);
+
+    const subclassesPorClasse: Record<string, readonly string[]> = {};
+    for (const classe of catalog.classes || []) {
+      const nomeClasse = String(classe.nome || '').trim();
+      if (!nomeClasse) {
+        continue;
+      }
+
+      subclassesPorClasse[nomeClasse] = (classe.subclasses || [])
+        .map((subclasse: any) => {
+          if (typeof subclasse === 'string') {
+            return String(subclasse || '').trim();
+          }
+          return String(subclasse?.nome || '').trim();
+        })
+        .filter(Boolean);
+    }
+
+    this.cyberpunSubclassesPorPapel = Object.keys(subclassesPorClasse).length > 0
+      ? subclassesPorClasse
+      : { ...CYBERPUN2080_SUBCLASSES_BY_CLASS };
+
+    this.cyberpunAntecedentes = (catalog.antecedentes || [])
+      .map((item) => ({
+        nome: String(item.nome || '').trim(),
+        descricao: String(item.descricao || '').trim(),
+        talentoOrigem: String(item.talentoOrigem || '').trim()
+      }))
+      .filter((item) => item.nome);
+
+    this.cyberpunTalentosCatalogo = (catalog.talentos || [])
+      .map((item) => ({
+        nome: String(item.nome || '').trim(),
+        descricao: String(item.descricao || '').trim(),
+        classes: Array.isArray(item.classes)
+          ? item.classes.map((classe) => String(classe || '').trim()).filter(Boolean)
+          : []
+      }))
+      .filter((item) => item.nome);
+
+    this.normalizarSubclasseCyberpunk();
+  }
+
+  private carregarCatalogoCyberpunk(): void {
+    this.carregandoCatalogoCyberpunk = true;
+    this.erroCatalogoCyberpunk = '';
+
+    this.cyberpunkCatalogService.getCatalog().subscribe({
+      next: (catalog) => {
+        this.aplicarCatalogoCyberpunk(catalog);
+        this.carregandoCatalogoCyberpunk = false;
+      },
+      error: () => {
+        this.aplicarFallbackCatalogoCyberpunk();
+        this.erroCatalogoCyberpunk = 'Catalogo CyberPunk indisponivel no momento. Usando dados locais.';
+        this.carregandoCatalogoCyberpunk = false;
+      }
+    });
   }
 
   get chaveFichaAtual(): string {
@@ -525,6 +703,7 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   private criarDadosCyberPunPadrao() {
     return {
       papel: '',
+      subclasse: '',
       origem: '',
       antecedente: '',
       historia: '',
@@ -567,12 +746,24 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
 
     if (systemId === RPG_SYSTEMS.CYBERPUN2080) {
       this.spellClassFilter = '';
+      this.normalizarSubclasseCyberpunk();
       this.aplicarTracosCyberpunk();
     } else {
       this.loadClassesAndRaces();
     }
 
     this.saveToCache();
+  }
+
+  private normalizarSubclasseCyberpunk(): void {
+    const subclasses = this.cyberpunSubclassesDisponiveis;
+    const subclasseAtual = String(this.jogador?.cyberpun2080?.subclasse || '').trim();
+
+    if (!subclasseAtual || subclasses.includes(subclasseAtual)) {
+      return;
+    }
+
+    this.jogador.cyberpun2080.subclasse = '';
   }
 
   private aplicarTracosCyberpunk(): void {
@@ -609,7 +800,30 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   }
 
   onCyberPapelChange(): void {
+    this.normalizarSubclasseCyberpunk();
     this.aplicarTracosCyberpunk();
+    this.saveToCache();
+  }
+
+  adicionarTalentoCatalogoCyberpunk(talento: CyberpunkTalentCatalog): void {
+    if (!talento?.nome) {
+      return;
+    }
+
+    if (!Array.isArray(this.jogador.talentos)) {
+      this.jogador.talentos = [];
+    }
+
+    const jaExiste = this.jogador.talentos.some((item: any) => String(item?.nome || '').trim() === talento.nome);
+    if (jaExiste) {
+      return;
+    }
+
+    this.jogador.talentos.push({
+      nome: talento.nome,
+      descricao: talento.descricao || '',
+      origem: '[CyberCatalog]'
+    });
     this.saveToCache();
   }
 
@@ -719,6 +933,7 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.carregarCatalogoCyberpunk();
     this.carregarSessao();
     this.carregarFichaDaSessao();
     if (this.estaAutenticado) {

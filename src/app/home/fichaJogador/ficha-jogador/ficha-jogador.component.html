@@ -23,7 +23,7 @@
                                 </span>
                                 <span class="detail-badge">
                                     <i class="fas me-1" [ngClass]="isCyberPun2080 ? 'fa-user-ninja' : 'fa-hat-wizard'"></i>
-                                    {{ isCyberPun2080 ? (jogador.cyberpun2080?.papel || 'Papel') : (jogador.classe || 'Classe') }}
+                                    {{ isCyberPun2080 ? (jogador.cyberpun2080?.papel || 'Classe') : (jogador.classe || 'Classe') }}
                                 </span>
                                 <span class="detail-badge">
                                     <i class="fas me-1" [ngClass]="isCyberPun2080 ? 'fa-city' : 'fa-users'"></i>
@@ -242,25 +242,39 @@
         </div>
     </div>
 
-    <div class="row mb-4" *ngIf="isCyberPun2080">
-        <div class="col-lg-12">
-            <div class="card shadow-sm cyber-card">
-                <div class="card-header bg-dark text-info">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h5 class="mb-0"><i class="fas fa-microchip me-2"></i>CyberPun2080</h5>
-                        <small>Campos específicos do sistema</small>
+    <div class="collapse mb-4" id="collapseCamposSistema">
+        <div class="row" *ngIf="isCyberPun2080">
+            <div class="col-lg-12">
+                <div class="card shadow-sm cyber-card">
+                    <div class="card-header bg-dark text-info">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h5 class="mb-0"><i class="fas fa-microchip me-2"></i>CyberPun2080</h5>
+                            <small>Campos específicos do sistema</small>
+                        </div>
                     </div>
-                </div>
-                <div class="card-body">
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label class="form-label">Papel</label>
+                    <div class="card-body">
+                        <div class="row g-3">
+                        <div class="col-md-4">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                Classe
+                                <i class="fas fa-circle-info text-info" [title]="detalhesClasseCyberpunkAtual || 'Selecione uma classe para ver detalhes.'"></i>
+                            </label>
                             <select class="form-select" [(ngModel)]="jogador.cyberpun2080.papel" (change)="onCyberPapelChange()">
                                 <option value="">Selecione</option>
                                 <option *ngFor="let classe of cyberpunClasses" [ngValue]="classe">{{ classe }}</option>
                             </select>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                Subclasse
+                                <i class="fas fa-circle-info text-info" [title]="detalhesSubclasseCyberpunkAtual || 'Selecione uma subclasse para ver detalhes.'"></i>
+                            </label>
+                            <select class="form-select" [(ngModel)]="jogador.cyberpun2080.subclasse" (change)="saveToCache()" [disabled]="cyberpunSubclassesDisponiveis.length === 0">
+                                <option value="">{{ cyberpunSubclassesDisponiveis.length > 0 ? 'Selecione' : 'Escolha um papel primeiro' }}</option>
+                                <option *ngFor="let subclasse of cyberpunSubclassesDisponiveis" [ngValue]="subclasse">{{ subclasse }}</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
                             <label class="form-label">Origem</label>
                             <select class="form-select" [(ngModel)]="jogador.cyberpun2080.origem" (change)="onCyberOrigemChange()">
                                 <option value="">Selecione</option>
@@ -280,8 +294,17 @@
                             <input type="number" class="form-control" [(ngModel)]="jogador.cyberpun2080.estresseNeural" (change)="saveToCache()" min="0" max="100">
                         </div>
                         <div class="col-md-6">
-                            <label class="form-label">Antecedente</label>
-                            <input type="text" class="form-control" [(ngModel)]="jogador.cyberpun2080.antecedente" (change)="saveToCache()" placeholder="Ex: Ex-corp, Gangue, Militar">
+                            <label class="form-label d-flex align-items-center gap-2">
+                                Antecedente
+                                <i class="fas fa-circle-info text-info" [title]="detalhesAntecedenteCyberpunkAtual || 'Selecione um antecedente para ver detalhes.'"></i>
+                            </label>
+                            <select class="form-select" [(ngModel)]="jogador.cyberpun2080.antecedente" (change)="saveToCache()" name="antecedenteCyber">
+                                <option value="">Selecione</option>
+                                <option *ngFor="let antecedente of cyberpunAntecedentes" [ngValue]="antecedente.nome">{{ antecedente.nome }}</option>
+                            </select>
+                            <small class="text-muted" *ngIf="!carregandoCatalogoCyberpunk && cyberpunAntecedentes.length === 0">
+                                Sem antecedentes do catalogo. Cadastre em Catalogo CyberPunk.
+                            </small>
                         </div>
                         <div class="col-md-6">
                             <label class="form-label">História curta</label>
@@ -331,6 +354,7 @@
                                 placeholder="Sua resposta"
                             ></textarea>
                         </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -343,6 +367,9 @@
             <div class="card shadow-sm">
                 <div class="card-body">
                     <div class="section-buttons">
+                        <button *ngIf="isCyberPun2080" class="btn btn-outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCamposSistema">
+                            <i class="fas me-2" [ngClass]="isCyberPun2080 ? 'fa-microchip' : 'fa-layer-group'"></i>Campos do Sistema
+                        </button>
                         <button *ngIf="isDnd5e" class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseMagias">
                             <i class="fas fa-magic me-2"></i>Magias
                         </button>
@@ -595,7 +622,7 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <h5 class="mb-0"><i class="fas fa-star me-2"></i>Talentos</h5>
                     <div>
-                        <button type="button" class="btn btn-light btn-sm me-2" (click)="abrirBuscarTalento()">
+                        <button *ngIf="isDnd5e" type="button" class="btn btn-light btn-sm me-2" (click)="abrirBuscarTalento()">
                             <i class="fas fa-search me-1"></i>Buscar API
                         </button>
                         <button type="button" class="btn btn-light btn-sm" (click)="adicionarTalento()">
@@ -605,6 +632,26 @@
                 </div>
             </div>
             <div class="card-body">
+                <div *ngIf="isCyberPun2080" class="mb-4 p-3 border rounded bg-light">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="mb-0"><i class="fas fa-filter me-2"></i>Talentos do Catalogo por Classe</h6>
+                        <span class="badge bg-dark">{{ jogador.cyberpun2080?.papel || 'Sem Classe' }}</span>
+                    </div>
+                    <div *ngIf="carregandoCatalogoCyberpunk" class="text-muted small">Carregando catalogo CyberPunk...</div>
+                    <div *ngIf="erroCatalogoCyberpunk" class="text-warning small">{{ erroCatalogoCyberpunk }}</div>
+                    <div class="d-flex flex-wrap gap-2" *ngIf="!carregandoCatalogoCyberpunk">
+                        <button
+                            type="button"
+                            class="btn btn-outline-success btn-sm"
+                            *ngFor="let talentoCatalogo of talentosCyberpunkFiltradosPorClasse"
+                            (click)="adicionarTalentoCatalogoCyberpunk(talentoCatalogo)"
+                            [title]="talentoCatalogo.descricao"
+                        >
+                            <i class="fas fa-plus me-1"></i>{{ talentoCatalogo.nome }}
+                        </button>
+                    </div>
+                </div>
+
                 <div class="talent-list" *ngIf="jogador.talentos && jogador.talentos.length > 0">
                     <div class="talent-item" *ngFor="let talento of jogador.talentos; let i = index">
                         <div *ngIf="!editandoTalento[i]">
@@ -672,7 +719,7 @@
         <div class="card shadow-sm mb-3">
             <div class="card-header bg-dark text-white">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h5 class="mb-0"><i class="fas fa-scroll me-2"></i>{{ isCyberPun2080 ? 'Traços de Papel e Origem' : 'Traços de Classe e Raça' }}</h5>
+                    <h5 class="mb-0"><i class="fas fa-scroll me-2"></i>{{ isCyberPun2080 ? 'Traços de Classe e Origem' : 'Traços de Classe e Raça' }}</h5>
                 </div>
             </div>
             <div class="card-body">
@@ -680,7 +727,7 @@
                     <!-- Traços de Classe -->
                     <div *ngIf="hasTracosClasse()" class="mb-4">
                         <h6 class="text-primary mb-3">
-                            <i class="fas me-2" [ngClass]="isCyberPun2080 ? 'fa-user-ninja' : 'fa-hat-wizard'"></i>{{ isCyberPun2080 ? 'Traços de Papel' : 'Traços de Classe' }}
+                            <i class="fas me-2" [ngClass]="isCyberPun2080 ? 'fa-user-ninja' : 'fa-hat-wizard'"></i>{{ isCyberPun2080 ? 'Traços de Classe' : 'Traços de Classe' }}
                         </h6>
                         <div class="trait-item" *ngFor="let traco of getTracosClasse()">
                             <div class="trait-header">
@@ -722,7 +769,7 @@
                 <div *ngIf="!jogador.tracos || jogador.tracos.length === 0" class="text-muted text-center py-3">
                     <i class="fas fa-scroll fa-2x mb-2"></i>
                     <p>Nenhum traço adicionado ainda</p>
-                    <p class="small">{{ isCyberPun2080 ? 'Selecione papel e origem para preencher os traços automaticamente' : 'Selecione uma classe e raça para ver os traços automaticamente' }}</p>
+                    <p class="small">{{ isCyberPun2080 ? 'Selecione classe e origem para preencher os traços automaticamente' : 'Selecione uma classe e raça para ver os traços automaticamente' }}</p>
                 </div>
             </div>
         </div>
@@ -1048,7 +1095,7 @@
                                 </label>
                                 <input type="text" class="form-control" id="nome" [(ngModel)]="jogador.nome" name="nome" placeholder="Nome do personagem">
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4" *ngIf="isDnd5e">
                                 <label class="form-label">
                                     <i class="fas fa-hat-wizard me-1"></i>Classe
                                 </label>
@@ -1060,7 +1107,7 @@
                                     <i class="fas fa-search me-1"></i>{{ jogador.classe ? 'Trocar Classe' : 'Selecionar Classe' }}
                                 </button>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4" *ngIf="isDnd5e">
                                 <label class="form-label">
                                     <i class="fas fa-users me-1"></i>Raça
                                 </label>
@@ -1071,6 +1118,43 @@
                                     (click)="openRaceSelection()">
                                     <i class="fas fa-search me-1"></i>{{ jogador.raca ? 'Trocar Raça' : 'Selecionar Raça' }}
                                 </button>
+                            </div>
+                            <div class="col-md-4" *ngIf="isCyberPun2080">
+                                <label class="form-label">
+                                    <i class="fas fa-user-ninja me-1"></i>Classe
+                                </label>
+                                <select class="form-select" [(ngModel)]="jogador.cyberpun2080.papel" name="papelCyberModal" (change)="onCyberPapelChange()">
+                                    <option value="">Selecione</option>
+                                    <option *ngFor="let classe of cyberpunClasses" [ngValue]="classe">{{ classe }}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4" *ngIf="isCyberPun2080">
+                                <label class="form-label d-flex align-items-center gap-2">
+                                    <i class="fas fa-diagram-project me-1"></i>Subclasse
+                                    <i class="fas fa-circle-info text-info" [title]="detalhesSubclasseCyberpunkAtual || 'Selecione uma subclasse para ver detalhes.'"></i>
+                                </label>
+                                <select class="form-select" [(ngModel)]="jogador.cyberpun2080.subclasse" name="subclasseCyberModal" (change)="saveToCache()" [disabled]="cyberpunSubclassesDisponiveis.length === 0">
+                                    <option value="">{{ cyberpunSubclassesDisponiveis.length > 0 ? 'Selecione' : 'Escolha um papel primeiro' }}</option>
+                                    <option *ngFor="let subclasse of cyberpunSubclassesDisponiveis" [ngValue]="subclasse">{{ subclasse }}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4" *ngIf="isCyberPun2080">
+                                <label class="form-label">
+                                    <i class="fas fa-id-card me-1"></i>Antecedente
+                                </label>
+                                <select class="form-select" [(ngModel)]="jogador.cyberpun2080.antecedente" name="antecedenteCyberModal" (change)="saveToCache()">
+                                    <option value="">Selecione</option>
+                                    <option *ngFor="let antecedente of cyberpunAntecedentes" [ngValue]="antecedente.nome">{{ antecedente.nome }}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4" *ngIf="isCyberPun2080">
+                                <label class="form-label">
+                                    <i class="fas fa-city me-1"></i>Origem
+                                </label>
+                                <select class="form-select" [(ngModel)]="jogador.cyberpun2080.origem" name="origemCyberModal" (change)="onCyberOrigemChange()">
+                                    <option value="">Selecione</option>
+                                    <option *ngFor="let origem of cyberpunOrigins" [ngValue]="origem">{{ origem }}</option>
+                                </select>
                             </div>
                             <div class="col-md-6">
                                 <label for="proficiencia" class="form-label">
