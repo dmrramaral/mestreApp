@@ -276,6 +276,39 @@
                             <label class="form-label">Hacking</label>
                             <textarea class="form-control" rows="2" [(ngModel)]="jogador.cyberpun2080.hackingNotas" (change)="saveToCache()" placeholder="Invasões, protocolos e scripts"></textarea>
                         </div>
+                        <div class="col-12">
+                            <h6 class="mb-2">Hacks Rápidos (Catalogo)</h6>
+                            <div *ngIf="carregandoCatalogoCyberpunk" class="text-muted small">Carregando hacks do catalogo...</div>
+                            <div *ngIf="erroCatalogoCyberpunk" class="text-warning small">{{ erroCatalogoCyberpunk }}</div>
+                            <div class="d-flex flex-wrap gap-2 mb-2" *ngIf="!carregandoCatalogoCyberpunk">
+                                <button
+                                    type="button"
+                                    class="btn btn-outline-info btn-sm"
+                                    *ngFor="let hackCatalogo of cyberpunHacksCatalogo"
+                                    (click)="adicionarHackRapidoCatalogo(hackCatalogo)"
+                                    [title]="hackCatalogo.descricao"
+                                >
+                                    <i class="fas fa-plus me-1"></i>{{ hackCatalogo.nome }}
+                                </button>
+                            </div>
+
+                            <div class="list-group" *ngIf="jogador.cyberpun2080.hacksRapidos?.length > 0; else semHacksSelecionados">
+                                <div class="list-group-item py-2" *ngFor="let hack of jogador.cyberpun2080.hacksRapidos; let i = index">
+                                    <div class="d-flex justify-content-between align-items-start gap-2">
+                                        <div>
+                                            <strong>{{ hack.nome }}</strong>
+                                            <div class="small text-muted" *ngIf="hack.descricao">{{ hack.descricao }}</div>
+                                        </div>
+                                        <button type="button" class="btn btn-sm btn-outline-danger" (click)="removerHackRapido(i)">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <ng-template #semHacksSelecionados>
+                                <small class="text-muted">Nenhum hack rápido adicionado na ficha.</small>
+                            </ng-template>
+                        </div>
                         <div class="col-md-6">
                             <label class="form-label">Veículos</label>
                             <textarea class="form-control" rows="2" [(ngModel)]="jogador.cyberpun2080.veiculosNotas" (change)="saveToCache()" placeholder="Perseguições, montagem e suporte"></textarea>
@@ -809,8 +842,43 @@
                 </div>
             </div>
             <div class="card-body">
+                <div *ngIf="isCyberPun2080" class="mb-3 p-3 border rounded bg-light">
+                    <h6 class="mb-2"><i class="fas fa-store me-2"></i>Adicionar Equipamento da Loja Cyber</h6>
+                    <div class="row g-2 align-items-end">
+                        <div class="col-md-6">
+                            <label class="form-label mb-1">Item do Catalogo</label>
+                            <select class="form-select" [(ngModel)]="itemLojaCyberSelecionado">
+                                <option value="">Selecione um item</option>
+                                <option
+                                    *ngFor="let item of cyberpunEquipamentosCatalogo"
+                                    [value]="item.nome + '|' + item.categoria + '|' + (item.precoEdinhos ?? '')"
+                                >
+                                    {{ item.nome }} - {{ item.categoria }}{{ item.precoEdinhos !== null ? (' (' + item.precoEdinhos + ' edinhos)') : '' }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label class="form-label mb-1">Destino na Ficha</label>
+                            <select class="form-select" [(ngModel)]="categoriaEquipamentoLoja">
+                                <option value="cabeca">Cabeca</option>
+                                <option value="arma">Arma</option>
+                                <option value="armadura">Armadura</option>
+                                <option value="pes">Pes</option>
+                                <option value="escudo">Escudo</option>
+                                <option value="amuleto">Amuleto</option>
+                                <option value="anel">Anel</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <button type="button" class="btn btn-primary w-100" (click)="adicionarEquipamentoDaLoja()" [disabled]="!itemLojaCyberSelecionado">
+                                <i class="fas fa-plus me-1"></i>Adicionar da Loja
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="equipment-grid" *ngIf="hasEquipment()">
-                    <div *ngFor="let categoria of ['cabeca', 'armadura', 'pes','escudo', 'anel','amuleto']" class="equipment-category">
+                    <div *ngFor="let categoria of ['cabeca', 'arma', 'armadura', 'pes','escudo', 'anel','amuleto']" class="equipment-category">
                         <h6 class="category-title" *ngIf="jogador.equipamentos[categoria]?.length > 0">
                             <i class="fas" [ngClass]="getCategoryIcon(categoria)"></i>
                             {{ getCategoryName(categoria) }}
@@ -864,6 +932,7 @@
                             <select class="form-select" [(ngModel)]="novaCategoria">
                                 <option value="" disabled selected>Categoria</option>
                                 <option value="cabeca">Cabeça</option>
+                                <option value="arma">Arma</option>
                                 <option value="armadura">Armadura</option>
                                 <option value="pes">Pés</option>
                                 <option value="escudo">Escudo</option>

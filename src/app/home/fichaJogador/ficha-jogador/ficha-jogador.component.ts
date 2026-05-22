@@ -5,10 +5,8 @@ import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import {
   CYBERPUN2080_CITY_FORCES,
-  CYBERPUN2080_CLASS_TRAITS,
   CYBERPUN2080_ESSENTIAL_QUESTIONS,
   CYBERPUN2080_MODULES,
-  CYBERPUN2080_ORIGIN_TRAITS,
   CYBERPUN2080_ORIGINS,
   CYBERPUN2080_RULES,
   CYBERPUN2080_SUBCLASSES_BY_CLASS,
@@ -18,7 +16,7 @@ import {
   RpgSystemType,
   STORAGE_KEYS
 } from '../../../core/constants/rpg.constants';
-import { CyberpunkCatalog, CyberpunkTalentCatalog } from '../../../core/models/cyberpunk-catalog.model';
+import { CyberpunkCatalog, CyberpunkStoreItem, CyberpunkTalentCatalog } from '../../../core/models/cyberpunk-catalog.model';
 import { ApiReference, DndClass, DndRace } from '../../../core/models/dnd-api.model';
 import { CyberpunkCatalogService } from '../../../core/services/cyberpunk-catalog.service';
 import { DndApiService } from '../../../core/services/dnd-api.service';
@@ -67,6 +65,10 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   readonly cyberpunOrigins = CYBERPUN2080_ORIGINS;
   cyberpunAntecedentes: Array<{ nome: string; descricao: string; talentoOrigem: string }> = [];
   cyberpunTalentosCatalogo: CyberpunkTalentCatalog[] = [];
+  cyberpunHacksCatalogo: CyberpunkStoreItem[] = [];
+  cyberpunEquipamentosCatalogo: CyberpunkStoreItem[] = [];
+  itemLojaCyberSelecionado = '';
+  categoriaEquipamentoLoja = 'armadura';
   readonly cyberpunCityForces = CYBERPUN2080_CITY_FORCES;
   readonly cyberpunModulos = CYBERPUN2080_MODULES;
   carregandoCatalogoCyberpunk = false;
@@ -321,6 +323,7 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
           historia: '',
           perguntasEssenciais: ['', '', '', '', ''],
           implantes: [],
+          hacksRapidos: [],
           nivelAmeacaRede: null,
           creditoEurodolar: null,
           estresseNeural: null,
@@ -433,6 +436,8 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     this.cyberpunSubclassesPorPapel = { ...CYBERPUN2080_SUBCLASSES_BY_CLASS };
     this.cyberpunAntecedentes = [];
     this.cyberpunTalentosCatalogo = [];
+    this.cyberpunHacksCatalogo = [];
+    this.cyberpunEquipamentosCatalogo = [];
   }
 
   private aplicarCatalogoCyberpunk(catalog: CyberpunkCatalog): void {
@@ -475,6 +480,31 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
         classes: Array.isArray(item.classes)
           ? item.classes.map((classe) => String(classe || '').trim()).filter(Boolean)
           : []
+      }))
+      .filter((item) => item.nome);
+
+    this.cyberpunHacksCatalogo = (catalog.loja?.hacksRapidos || [])
+      .map((item) => ({
+        ...item,
+        nome: String(item.nome || '').trim(),
+        descricao: String(item.descricao || '').trim(),
+        categoria: String(item.categoria || '').trim(),
+        paginaPdf: String(item.paginaPdf || '').trim()
+      }))
+      .filter((item) => item.nome);
+
+    this.cyberpunEquipamentosCatalogo = [
+      ...(catalog.loja?.armas || []),
+      ...(catalog.loja?.acessoriosMunicoes || []),
+      ...(catalog.loja?.protecaoCorporal || []),
+      ...(catalog.loja?.classeTecnologica || [])
+    ]
+      .map((item) => ({
+        ...item,
+        nome: String(item.nome || '').trim(),
+        descricao: String(item.descricao || '').trim(),
+        categoria: String(item.categoria || '').trim(),
+        paginaPdf: String(item.paginaPdf || '').trim()
       }))
       .filter((item) => item.nome);
 
@@ -724,6 +754,7 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
       historia: '',
       perguntasEssenciais: ['', '', '', '', ''],
       implantes: [],
+      hacksRapidos: [],
       nivelAmeacaRede: null,
       creditoEurodolar: null,
       estresseNeural: null,
@@ -745,6 +776,9 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     };
     if (!Array.isArray(base.cyberpun2080.perguntasEssenciais)) {
       base.cyberpun2080.perguntasEssenciais = ['', '', '', '', ''];
+    }
+    if (!Array.isArray(base.cyberpun2080.hacksRapidos)) {
+      base.cyberpun2080.hacksRapidos = [];
     }
     while (base.cyberpun2080.perguntasEssenciais.length < 5) {
       base.cyberpun2080.perguntasEssenciais.push('');
@@ -793,22 +827,65 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     this.jogador.tracos = this.jogador.tracos.filter((t: any) => !String(t.nome || '').startsWith('[Cyber]'));
 
     const papel = String(this.jogador?.cyberpun2080?.papel || '').trim();
-    const origem = String(this.jogador?.cyberpun2080?.origem || '').trim();
+    const subclasseSelecionada = String(this.jogador?.cyberpun2080?.subclasse || '').trim();
+    const antecedenteSelecionado = String(this.jogador?.cyberpun2080?.antecedente || '').trim();
 
-    const classTraits = CYBERPUN2080_CLASS_TRAITS[papel] || [];
-    for (const trait of classTraits) {
-      this.jogador.tracos.push({
-        nome: `[Cyber] ${trait.nome}`,
-        descricao: trait.descricao,
-        origem: 'classe'
-      });
+    const classe = (this.catalogoCyberpunk?.classes || []).find((item) => item.nome === papel);
+    if (classe) {
+      if (classe.descricao) {
+        this.jogador.tracos.push({
+          nome: '[Cyber] Traco de Classe',
+          descricao: classe.descricao,
+          origem: 'classe'
+        });
+      }
+
+      const subclasse = (classe.subclasses || []).find((item: any) => {
+        if (typeof item === 'string') {
+          return item === subclasseSelecionada;
+        }
+        return String(item?.nome || '').trim() === subclasseSelecionada;
+      }) as any;
+
+      if (subclasse && typeof subclasse !== 'string') {
+        if (subclasse.descricao) {
+          this.jogador.tracos.push({
+            nome: `[Cyber] Subclasse: ${subclasse.nome || subclasseSelecionada}`,
+            descricao: String(subclasse.descricao).trim(),
+            origem: 'classe'
+          });
+        }
+
+        const progressao = Array.isArray(subclasse.progressao) ? subclasse.progressao : [];
+        for (const etapa of progressao) {
+          const habilidade = String(etapa?.habilidade || '').trim();
+          const descricao = String(etapa?.descricao || '').trim();
+          if (!habilidade) {
+            continue;
+          }
+
+          this.jogador.tracos.push({
+            nome: `[Cyber] Nv ${etapa?.nivel ?? '?'} - ${habilidade}`,
+            descricao,
+            origem: 'classe'
+          });
+        }
+      }
     }
 
-    const originTraits = CYBERPUN2080_ORIGIN_TRAITS[origem] || [];
-    for (const trait of originTraits) {
+    const antecedente = this.cyberpunAntecedentes.find((item) => item.nome === antecedenteSelecionado);
+    if (antecedente) {
+      const partes: string[] = [];
+      if (antecedente.descricao) {
+        partes.push(antecedente.descricao);
+      }
+      if (antecedente.talentoOrigem) {
+        partes.push(`Talento de Origem: ${antecedente.talentoOrigem}`);
+      }
+
       this.jogador.tracos.push({
-        nome: `[Cyber] ${trait.nome}`,
-        descricao: trait.descricao,
+        nome: `[Cyber] Traço de Origem: ${antecedente.nome}`,
+        descricao: partes.join(' | '),
         origem: 'raca'
       });
     }
@@ -844,6 +921,44 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
 
   onCyberOrigemChange(): void {
     this.aplicarTracosCyberpunk();
+    this.saveToCache();
+  }
+
+  adicionarHackRapidoCatalogo(hack: CyberpunkStoreItem): void {
+    if (!this.isCyberPun2080) {
+      return;
+    }
+
+    if (!Array.isArray(this.jogador?.cyberpun2080?.hacksRapidos)) {
+      this.jogador.cyberpun2080.hacksRapidos = [];
+    }
+
+    const nomeHack = String(hack.nome || '').trim();
+    if (!nomeHack) {
+      return;
+    }
+
+    const jaExiste = this.jogador.cyberpun2080.hacksRapidos.some((item: any) => {
+      return String(item?.nome || '').trim().toLowerCase() === nomeHack.toLowerCase();
+    });
+
+    if (jaExiste) {
+      return;
+    }
+
+    this.jogador.cyberpun2080.hacksRapidos.push({
+      nome: nomeHack,
+      descricao: String(hack.descricao || '').trim()
+    });
+    this.saveToCache();
+  }
+
+  removerHackRapido(index: number): void {
+    if (!Array.isArray(this.jogador?.cyberpun2080?.hacksRapidos)) {
+      return;
+    }
+
+    this.jogador.cyberpun2080.hacksRapidos.splice(index, 1);
     this.saveToCache();
   }
 
@@ -1186,6 +1301,41 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     this.saveToCache();
   }
 
+  adicionarEquipamentoDaLoja(): void {
+    if (!this.isCyberPun2080 || !this.itemLojaCyberSelecionado || !this.categoriaEquipamentoLoja) {
+      return;
+    }
+
+    const item = this.cyberpunEquipamentosCatalogo.find((entry) => {
+      const chave = `${entry.nome}|${entry.categoria}|${entry.precoEdinhos ?? ''}`;
+      return chave === this.itemLojaCyberSelecionado;
+    });
+
+    if (!item) {
+      return;
+    }
+
+    const descricaoPartes: string[] = [];
+    if (item.descricao) {
+      descricaoPartes.push(item.descricao);
+    }
+    if (item.precoEdinhos !== null && Number.isFinite(Number(item.precoEdinhos))) {
+      descricaoPartes.push(`Valor: ${item.precoEdinhos} edinhos`);
+    }
+    if (item.paginaPdf) {
+      descricaoPartes.push(`Fonte: ${item.paginaPdf}`);
+    }
+
+    this.fichaService.adicionarEquipamento(this.jogador, this.categoriaEquipamentoLoja, {
+      nome: item.nome,
+      descricao: descricaoPartes.join('\n\n'),
+      ca: item.ca ?? undefined
+    });
+
+    this.itemLojaCyberSelecionado = '';
+    this.saveToCache();
+  }
+
   updatePericiaValor(event: Event, pericia: any) {
     const input = event.target as HTMLInputElement;
     pericia.valor = input.checked ? 'sim' : 'nao';
@@ -1194,6 +1344,7 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   getCategoryIcon(categoria: string): string {
     const icons: { [key: string]: string } = {
       'cabeca': 'fa-hat-wizard',
+      'arma': 'fa-gun',
       'armadura': 'fa-vest',
       'pes': 'fa-socks',
       'escudo': 'fa-shield-alt',
@@ -1206,6 +1357,7 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   getCategoryName(categoria: string): string {
     const names: { [key: string]: string } = {
       'cabeca': 'Cabeça',
+      'arma': 'Arma',
       'armadura': 'Armadura',
       'pes': 'Pés',
       'escudo': 'Escudo',

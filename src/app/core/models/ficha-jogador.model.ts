@@ -12,6 +12,7 @@ export interface DadosCyberPun2080 {
   historia: string;
   perguntasEssenciais: string[];
   implantes: string[];
+  hacksRapidos: Array<{ nome: string; descricao: string }>;
   nivelAmeacaRede: number | null;
   creditoEurodolar: number | null;
   estresseNeural: number | null;

@@ -26,6 +26,7 @@ export class FichaJogadorService {
       historia: '',
       perguntasEssenciais: ['', '', '', '', ''],
       implantes: [],
+      hacksRapidos: [],
       nivelAmeacaRede: null,
       creditoEurodolar: null,
       estresseNeural: null,
@@ -85,6 +86,7 @@ export class FichaJogadorService {
       kits: [],
       equipamentos: {
         cabeca: [],
+        arma: [],
         armadura: [],
         pes: [],
         escudo: [],
@@ -185,6 +187,7 @@ export class FichaJogadorService {
     if (!ficha['equipamentos']) {
       ficha['equipamentos'] = {
         cabeca: [],
+        arma: [],
         armadura: [],
         pes: [],
         escudo: [],
