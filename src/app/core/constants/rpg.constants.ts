@@ -153,82 +153,73 @@ export const CYBERPUN2080_ORIGINS = [
 
 export const CYBERPUN2080_SUBCLASSES_BY_CLASS: Record<string, readonly string[]> = {
   'Cromado': [
-    'Titã de Cromo',
-    'Arsenal Vivo',
-    'Quebra-Linha'
+    'Adaptativo',
+    'Brutal',
+    'Juggernaut'
   ],
   'Medicânico': [
-    'Médico de Guerra',
-    'Tecnicirurgião',
-    'Anjo de Trauma'
+    'Cirurgião de Guerra',
+    'Operador de Choque',
+    'Biohacker'
   ],
   'Piloto': [
-    'Corredor Fantasma',
-    'Ás de Combate',
-    'Contrabandista'
+    'Fúria',
+    'Líder',
+    'Corredor Fantasma'
   ],
   'Samurai': [
-    'Lâmina Neon',
-    'Executor Silencioso',
-    'Vanguarda Corporativa'
+    'Lâmina Viva',
+    'Executor',
+    'Duelista Neural'
   ],
   'Solo': [
-    'Mercenário de Choque',
-    'Atirador de Elite',
-    'Guardião Urbano'
+    'Especialista em Rifles',
+    'Especialista em Armas Pesadas',
+    'Especialista em Corpo a Corpo'
   ],
   'Trilha-Redes': [
-    'Netrunner de Assalto',
-    'Fantasma de Dados',
-    'Arquiteto de Daemons'
+    'Arquiteto',
+    'Fantasma Neural',
+    'Operador de Combate'
   ]
 };
 
 export const CYBERPUN2080_CLASS_TRAITS: Record<string, Array<{ nome: string; descricao: string }>> = {
   'Cromado': [
-    { nome: 'Corpo Aprimorado', descricao: 'Você recebe vantagem narrativa em ações que dependem de resistência física e força mecânica.' },
-    { nome: 'Sobrecarga de Implantes', descricao: 'Pode forçar implantes por curto período para ganho tático, assumindo risco de estresse neural.' }
+    { nome: 'Aprimoramento Corpóreo', descricao: 'O corpo é um protótipo em evolução constante. Especialista em aprimoramento cibernético e resistência extrema.' }
   ],
   'Medicânico': [
-    { nome: 'Protocolos de Emergência', descricao: 'Consegue estabilizar aliados em combate e reduzir impacto de ferimentos críticos.' },
-    { nome: 'Manutenção de Campo', descricao: 'Repara implantes e equipamentos sob pressão com eficiência superior.' }
+    { nome: 'Suporte Médico-Tático', descricao: 'Especialista em manter aliados vivos em cenários extremos. Suporte médico-tático com biotecnologia avançada.' }
   ],
   'Piloto': [
-    { nome: 'Manobra Defensiva', descricao: 'Recebe vantagem em perseguições e evasão com veículos.' },
-    { nome: 'Leitura de Rota', descricao: 'Identifica rotas de fuga e pontos de risco com rapidez.' }
+    { nome: 'Domínio Veicular', descricao: 'Velocidade, mobilidade e controle de território urbano. Domina perseguições, fugas e combate veicular.' }
   ],
   'Samurai': [
-    { nome: 'Ataque Cirúrgico', descricao: 'Especialista em eliminar alvos rapidamente com precisão e discrição.' },
-    { nome: 'Foco Letal', descricao: 'Ganha bônus tático ao iniciar combate em vantagem posicional.' }
+    { nome: 'Eliminação Cirúrgica', descricao: 'Precisão, leitura de combate e eliminação cirúrgica. Executa alvos com foco e ritmo implacável.' }
   ],
   'Solo': [
-    { nome: 'Doutrina de Guerra Urbana', descricao: 'Desempenho aprimorado em confrontos diretos e fogo pesado.' },
-    { nome: 'Sangue Frio', descricao: 'Resiste melhor a intimidação e pressão em cenários extremos.' }
+    { nome: 'Guerra Urbana', descricao: 'Especialista em guerra urbana e confronto direto. Veterano de combate pesado em ruas e zonas de conflito.' }
   ],
   'Trilha-Redes': [
-    { nome: 'Invasão Tática', descricao: 'Consegue manipular sistemas e implantes inimigos durante operações.' },
-    { nome: 'Fantasma da Rede', descricao: 'Reduz rastros digitais e melhora infiltração em ambientes conectados.' }
+    { nome: 'Domínio Digital', descricao: 'Domina sistemas digitais, implantes e guerra de dados. Infiltração, sabotagem e controle da rede.' }
   ]
 };
 
 export const CYBERPUN2080_ORIGIN_TRAITS: Record<string, Array<{ nome: string; descricao: string }>> = {
-  'Megacorp': [
-    { nome: 'Etiqueta Corporativa', descricao: 'Facilidade para negociar com executivos, seguranças e burocracias corporativas.' }
-  ],
-  'Rua': [
-    { nome: 'Rede de Rua', descricao: 'Acesso facilitado a contatos locais, boatos e mercado paralelo.' }
+  'Ex-Corporativo': [
+    { nome: 'Rede Interna', descricao: 'Carrega contatos, vícios de poder e inimigos de megacorps. Conhece os bastidores corporativos por dentro.' }
   ],
   'Nômade': [
-    { nome: 'Sobrevivência Itinerante', descricao: 'Maior adaptação a deslocamentos longos e territórios hostis.' }
+    { nome: 'Instinto de Estrada', descricao: 'Sobrevivente de estradas, comboios e zonas de fronteira. Adaptado à vida fora das cidades controladas.' }
   ],
-  'Favela Vertical': [
-    { nome: 'Guerra de Território', descricao: 'Experiência em combate de proximidade e navegação em áreas densas.' }
+  'Ex-Militar': [
+    { nome: 'Treinamento de Guerra', descricao: 'Treinado para combate de alta pressão e disciplina tática. Formado em conflitos de alta intensidade.' }
   ],
-  'Zona de Combate': [
-    { nome: 'Instinto de Conflito', descricao: 'Percepção apurada para emboscadas e ameaças imediatas.' }
+  'Técnico': [
+    { nome: 'Mão na Máquina', descricao: 'Especialista em reparos, improviso e leitura de falhas. Resolve problemas com tecnologia e criatividade.' }
   ],
-  'Subúrbio Industrial': [
-    { nome: 'Engenharia de Sucata', descricao: 'Consegue improvisar ferramentas e soluções com recursos limitados.' }
+  'Cria da Rua': [
+    { nome: 'Código da Rua', descricao: 'Aprendeu a sobreviver nos becos, facções e mercados paralelos. Conhece as regras não escritas da cidade.' }
   ]
 };
 
