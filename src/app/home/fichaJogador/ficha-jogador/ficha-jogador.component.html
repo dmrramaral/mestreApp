@@ -134,9 +134,9 @@
                             </div>
                         </div>
                         <div class="col-4">
-                            <div class="combat-stat">
+                            <div class="combat-stat" style="cursor:pointer" (click)="mostrarDetalheCA = !mostrarDetalheCA" title="Clique para ver as fontes de CA">
                                 <i class="fas fa-shield-alt text-primary"></i>
-                                <span class="stat-label">CA</span>
+                                <span class="stat-label">CA <i class="fas fa-info-circle text-muted" style="font-size:.65em"></i></span>
                                 <span class="stat-value">{{caCalculada}}</span>
                             </div>
                         </div>
@@ -180,28 +180,36 @@
                                     <input type="number" class="stat-input" [(ngModel)]="jogador.ramAtual" (change)="saveToCache()">
                                 </div>
                             </div>
-                            <div class="col-4">
-                                <div class="combat-stat">
-                                    <i class="fas fa-shield-virus text-warning"></i>
-                                    <span class="stat-label">CT Máx</span>
-                                    <input *ngIf="editandoCombate" type="number" class="stat-input" [(ngModel)]="jogador.ct" (change)="saveToCache()">
-                                    <span *ngIf="!editandoCombate" class="stat-value">{{jogador.ct || 0}}</span>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="combat-stat active">
-                                    <i class="fas fa-virus-slash text-danger"></i>
-                                    <span class="stat-label">CT Atual</span>
-                                    <input type="number" class="stat-input" [(ngModel)]="jogador.ctAtual" (change)="saveToCache()">
-                                </div>
-                            </div>
+
                         </ng-container>
                     </div>
+
+                    <!-- Painel de Detalhes da CA -->
+                    <div *ngIf="mostrarDetalheCA" class="mt-2 pt-2 border-top border-secondary">
+                        <div class="d-flex justify-content-between align-items-center mb-1">
+                            <small class="fw-semibold text-info"><i class="fas fa-shield-alt me-1"></i>Fontes de CA</small>
+                            <button type="button" class="btn-close btn-close-white" style="font-size:.6rem" (click)="mostrarDetalheCA = false"></button>
+                        </div>
+                        <div *ngFor="let d of caDetalhes" class="d-flex justify-content-between align-items-center small py-0">
+                            <span class="text-muted">{{ d.fonte }}</span>
+                            <span class="badge" [ngClass]="d.valor >= 0 ? 'bg-primary' : 'bg-danger'">{{ d.valor >= 0 ? '+' : '' }}{{ d.valor }}</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center border-top border-secondary mt-1 pt-1 small fw-bold">
+                            <span class="text-white">Total</span>
+                            <span class="badge bg-primary fs-6">{{ caCalculada }}</span>
+                        </div>
+                        <!-- Bônus manual para itens não identificados -->
+                        <div class="mt-2 d-flex align-items-center gap-2">
+                            <label class="small text-muted mb-0 flex-shrink-0">Bônus manual:</label>
+                            <input type="number" class="form-control form-control-sm" style="max-width:80px"
+                                [(ngModel)]="jogador.caManual" (change)="saveToCache()" placeholder="0">
+                            <small class="text-muted fst-italic">itens não identificados</small>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
-
-        <!-- Attributes Section -->
         <div class="col-lg-6 mb-3">
             <div class="card shadow-sm attributes-card">
                 <div class="card-header bg-primary text-white">
@@ -316,100 +324,6 @@
         </div>
     </div>
 
-    <div class="mb-4" *ngIf="isCyberPun2080">
-        <details class="card shadow-sm cyber-card system-details-card">
-            <summary class="card-header bg-dark text-info d-flex justify-content-between align-items-center">
-                <h5 class="mb-0"><i class="fas fa-microchip me-2"></i>Campos do Sistema CyberPun2080</h5>
-                <small>Somente campos exclusivos</small>
-            </summary>
-            <div class="card-body">
-                <div class="row g-3">
-                        <div class="col-md-4">
-                            <label class="form-label">Ameaça de Rede</label>
-                            <input type="number" class="form-control" [(ngModel)]="jogador.cyberpun2080.nivelAmeacaRede" (change)="saveToCache()" min="0" max="10">
-                        </div>
-                        <div class="col-md-4">
-                            <label class="form-label">Estresse Neural</label>
-                            <input type="number" class="form-control" [(ngModel)]="jogador.cyberpun2080.estresseNeural" (change)="saveToCache()" min="0" max="100">
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">História curta</label>
-                            <textarea class="form-control" rows="2" [(ngModel)]="jogador.cyberpun2080.historia" (change)="saveToCache()" placeholder="Resumo da história e cicatrizes do personagem"></textarea>
-                        </div>
-                        <div class="col-12">
-                            <h6 class="mb-2">Módulos do Sistema</h6>
-                            <div class="d-flex flex-wrap gap-2 mb-2">
-                                <span class="badge bg-secondary" *ngFor="let modulo of cyberpunModulos">{{ modulo }}</span>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Implantes Cibernéticos</label>
-                            <textarea class="form-control" rows="2" [(ngModel)]="jogador.cyberpun2080.implantesNotas" (change)="saveToCache()" placeholder="Upgrades, custo de humanidade e riscos"></textarea>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Hacking</label>
-                            <textarea class="form-control" rows="2" [(ngModel)]="jogador.cyberpun2080.hackingNotas" (change)="saveToCache()" placeholder="Invasões, protocolos e scripts"></textarea>
-                        </div>
-                        <div class="col-12">
-                            <h6 class="mb-2">Hacks Rápidos (Catalogo)</h6>
-                            <div *ngIf="carregandoCatalogoCyberpunk" class="text-muted small">Carregando hacks do catalogo...</div>
-                            <div *ngIf="erroCatalogoCyberpunk" class="text-warning small">{{ erroCatalogoCyberpunk }}</div>
-                            <div class="d-flex flex-wrap gap-2 mb-2" *ngIf="!carregandoCatalogoCyberpunk">
-                                <button
-                                    type="button"
-                                    class="btn btn-outline-info btn-sm"
-                                    *ngFor="let hackCatalogo of cyberpunHacksCatalogo"
-                                    (click)="adicionarHackRapidoCatalogo(hackCatalogo)"
-                                    [title]="hackCatalogo.descricao"
-                                >
-                                    <i class="fas fa-plus me-1"></i>{{ hackCatalogo.nome }}
-                                </button>
-                            </div>
-
-                            <div class="list-group" *ngIf="jogador.cyberpun2080.hacksRapidos?.length > 0; else semHacksSelecionados">
-                                <div class="list-group-item py-2" *ngFor="let hack of jogador.cyberpun2080.hacksRapidos; let i = index">
-                                    <div class="d-flex justify-content-between align-items-start gap-2">
-                                        <div>
-                                            <strong>{{ hack.nome }}</strong>
-                                            <div class="small text-muted" *ngIf="hack.descricao">{{ hack.descricao }}</div>
-                                        </div>
-                                        <button type="button" class="btn btn-sm btn-outline-danger" (click)="removerHackRapido(i)">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <ng-template #semHacksSelecionados>
-                                <small class="text-muted">Nenhum hack rápido adicionado na ficha.</small>
-                            </ng-template>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Veículos</label>
-                            <textarea class="form-control" rows="2" [(ngModel)]="jogador.cyberpun2080.veiculosNotas" (change)="saveToCache()" placeholder="Perseguições, montagem e suporte"></textarea>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label">Forças da Cidade</label>
-                            <textarea class="form-control" rows="2" [(ngModel)]="jogador.cyberpun2080.forcasCidadeNotas" (change)="saveToCache()" placeholder="Contatos com corporações, gangues, polícia e Trauma Team"></textarea>
-                            <small class="text-muted d-block mt-1">Referências: {{ cyberpunCityForces.join(', ') }}</small>
-                        </div>
-                        <div class="col-12">
-                            <h6 class="mb-2">Perguntas Essenciais</h6>
-                        </div>
-                        <div class="col-12" *ngFor="let pergunta of cyberpunPerguntasEssenciais; let i = index">
-                            <label class="form-label">{{ i + 1 }}. {{ pergunta }}</label>
-                            <textarea
-                                class="form-control"
-                                rows="2"
-                                [(ngModel)]="jogador.cyberpun2080.perguntasEssenciais[i]"
-                                (change)="saveToCache()"
-                                placeholder="Sua resposta"
-                            ></textarea>
-                        </div>
-                </div>
-            </div>
-        </details>
-    </div>
-
     <!-- Collapsible Sections -->
     <div class="row mb-4">
         <div class="col-12">
@@ -425,6 +339,9 @@
                         <button class="btn btn-outline-danger" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAtaques">
                             <i class="fas fa-bolt me-2"></i>Hacks
                         </button>
+                        <button *ngIf="isCyberPun2080" class="btn btn-outline-info" type="button" data-bs-toggle="collapse" data-bs-target="#collapseImplantes">
+                            <i class="fas fa-microchip me-2"></i>Implantes
+                        </button>
                         <button class="btn btn-outline-dark" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTracos">
                             <i class="fas fa-scroll me-2"></i>Traços
                         </button>
@@ -439,6 +356,9 @@
                         </button>
                         <button class="btn btn-outline-danger" type="button" data-bs-toggle="collapse" data-bs-target="#collapseCondicoes">
                             <i class="fas fa-heart-broken me-2"></i>Condições
+                        </button>
+                        <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#collapseAnotacoes">
+                            <i class="fas fa-sticky-note me-2"></i>Anotações
                         </button>
                     </div>
                 </div>
@@ -763,6 +683,170 @@
         </div>
     </div>
 
+    <!-- Implantes Cibernéticos -->
+    <div class="collapse" id="collapseImplantes" *ngIf="isCyberPun2080">
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-info text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5 class="mb-0"><i class="fas fa-microchip me-2"></i>Implantes Cibernéticos</h5>
+                    <button type="button" class="btn btn-outline-light btn-sm" (click)="verCatalogoImplantes = !verCatalogoImplantes">
+                        <i class="fas fa-book-open me-1"></i>{{ verCatalogoImplantes ? 'Fechar Catálogo' : 'Catálogo' }}
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+
+                <!-- Barra de CT -->
+                <div class="row g-2 mb-3 align-items-center">
+                    <div class="col-auto">
+                        <div class="text-center px-3 py-2 border rounded bg-dark text-white">
+                            <div class="small text-muted">CT Máx</div>
+                            <strong class="fs-5">{{ ctMax }}</strong>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <div class="text-center px-3 py-2 border rounded" [class.bg-warning]="ctConsumida > 0 && ctExcesso === 0" [class.bg-danger]="ctExcesso > 0" [class.text-dark]="ctExcesso === 0" [class.text-white]="ctExcesso > 0">
+                            <div class="small">CT Consumida</div>
+                            <strong class="fs-5">{{ ctConsumida }}</strong>
+                        </div>
+                    </div>
+                    <div class="col-auto" *ngIf="ctExcesso > 0">
+                        <div class="text-center px-3 py-2 border rounded bg-danger text-white">
+                            <div class="small">Excesso</div>
+                            <strong class="fs-5">+{{ ctExcesso }}</strong>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="small text-muted mb-1">
+                            CT = 10 + Mod. Constituição + Mod. Sabedoria + Bônus de Proficiência
+                        </div>
+                        <div *ngIf="estagioCyberpsicose.estagio === 0" class="badge bg-success fs-6">
+                            <i class="fas fa-check-circle me-1"></i>{{ estagioCyberpsicose.label }}
+                        </div>
+                        <div *ngIf="estagioCyberpsicose.estagio > 0" class="p-2 rounded border"
+                            [class.border-warning]="estagioCyberpsicose.estagio === 1"
+                            [class.bg-warning]="estagioCyberpsicose.estagio === 1"
+                            [class.border-danger]="estagioCyberpsicose.estagio >= 2"
+                            [class.bg-danger]="estagioCyberpsicose.estagio >= 2"
+                            [class.text-dark]="estagioCyberpsicose.estagio === 1"
+                            [class.text-white]="estagioCyberpsicose.estagio >= 2">
+                            <strong><i class="fas fa-skull me-1"></i>{{ estagioCyberpsicose.label }}</strong>
+                            <div class="small mt-1">{{ estagioCyberpsicose.penalidades }}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Regras de Cyberpsicose (colapsável) -->
+                <details class="mb-3">
+                    <summary class="small text-muted" style="cursor:pointer"><i class="fas fa-info-circle me-1"></i>Regras de Cyberpsicose</summary>
+                    <div class="mt-2 small p-2 bg-dark text-light rounded">
+                        <strong>Estágio 1 (Excesso 1–3):</strong> −1 em SAB/INT/CAR. 1×/descanso longo: Mestre pode impor Desvantagem em teste social/mental.<br>
+                        <strong>Estágio 2 (Excesso 4–6):</strong> −2 em SAB/INT/CAR. Desvantagem em resistências mentais. Dano Crítico ou Falha Crítica → teste SAB CD 14 ou Mestre assume controle até o fim do próximo turno.<br>
+                        <strong>Estágio 3 (Excesso 7+):</strong> −4 em SAB/INT/CAR. Sem ajuda em testes sociais. Em estresse → teste SAB CD 18 ou Mestre assume controle até o fim do combate.<br><br>
+                        <strong>Recuperação:</strong> Remover implantes reduz o consumo de CT. Saída do Estágio 1: 1 descanso longo. Saída do Estágio 2: 2 descansos longos. Estágio 3 pode deixar marcas narrativas permanentes.
+                    </div>
+                </details>
+
+                <!-- Implantes Instalados por tipo de corpo -->
+                <div *ngIf="jogador.cyberpun2080.implantesCiberneticos?.length > 0; else semImplantes">
+                    <h6 class="text-info mb-2"><i class="fas fa-list me-1"></i>Implantes Instalados</h6>
+                    <ng-container *ngFor="let tipo of tiposImplante">
+                        <ng-container *ngIf="getImplantesInstaladosPorTipo(tipo).length > 0">
+                            <div class="mb-2">
+                                <div class="fw-semibold small text-muted border-bottom pb-1 mb-1">{{ gruposImplante[tipo] }}</div>
+                                <div class="list-group">
+                                    <div class="list-group-item list-group-item-dark py-2 px-3"
+                                        *ngFor="let instalado of getImplantesInstaladosPorTipo(tipo)">
+                                        <details>
+                                            <summary class="d-flex justify-content-between align-items-start gap-2" style="cursor:pointer;list-style:none">
+                                                <div>
+                                                    <strong class="small">{{ instalado.nome }}</strong>
+                                                    <span *ngIf="instalado.subtipo" class="badge bg-secondary ms-2 small">{{ instalado.subtipo }}</span>
+                                                </div>
+                                                <div class="d-flex gap-1 align-items-center flex-shrink-0">
+                                                    <span class="badge bg-info text-dark">CT {{ instalado.ct }}</span>
+                                                    <button type="button" class="btn btn-sm btn-outline-danger py-0 px-1" (click)="removerImplante(instalado.id); $event.preventDefault()" title="Remover implante">
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </button>
+                                                </div>
+                                            </summary>
+                                            <ng-container *ngIf="getDetalhesImplante(instalado.id) as det">
+                                                <div class="mt-2 pt-2 border-top small">
+                                                    <div class="text-muted mb-1"><em>{{ det.foco }}</em></div>
+                                                    <ul class="mb-1 ps-3">
+                                                        <li *ngFor="let h of det.habilidades">{{ h }}</li>
+                                                    </ul>
+                                                    <div class="text-info"><i class="fas fa-lightbulb me-1 text-warning"></i>{{ det.dica }}</div>
+                                                </div>
+                                            </ng-container>
+                                            <div class="mt-2 pt-2 border-top d-flex align-items-center gap-2">
+                                                <label class="small text-muted mb-0 flex-shrink-0"><i class="fas fa-shield-alt me-1"></i>Bônus CA:</label>
+                                                <input type="number" class="form-control form-control-sm" style="max-width:70px"
+                                                    [(ngModel)]="instalado.ca" (change)="saveToCache()" placeholder="0"
+                                                    title="Bônus de CA fornecido por este implante">
+                                                <small class="text-muted fst-italic">deixe vazio se não concede bônus de CA</small>
+                                            </div>
+                                        </details>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </div>
+                <ng-template #semImplantes>
+                    <p class="text-muted small">Nenhum implante instalado. Abra o catálogo para adicionar.</p>
+                </ng-template>
+
+                <!-- Catálogo de Implantes -->
+                <div *ngIf="verCatalogoImplantes" class="mt-3 border-top pt-3">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="text-info mb-0"><i class="fas fa-book-open me-1"></i>Catálogo de Implantes</h6>
+                        <select class="form-select form-select-sm w-auto" [(ngModel)]="filtroTipoImplante">
+                            <option value="">Todos os tipos</option>
+                            <option *ngFor="let t of tiposImplante" [value]="t">{{ gruposImplante[t] }}</option>
+                        </select>
+                    </div>
+                    <ng-container *ngFor="let tipo of tiposImplante">
+                        <ng-container *ngIf="!filtroTipoImplante || filtroTipoImplante === tipo">
+                            <ng-container *ngIf="getImplantesCatalogoPorTipo(tipo) as lista">
+                                <ng-container *ngIf="lista.length > 0">
+                                    <div class="fw-semibold small text-info border-bottom border-info pb-1 mb-2 mt-3">{{ gruposImplante[tipo] }}</div>
+                                    <details class="mb-1" *ngFor="let imp of lista">
+                                        <summary class="d-flex justify-content-between align-items-center gap-2 py-1 px-2 rounded" style="cursor:pointer;list-style:none;background:rgba(255,255,255,.04)">
+                                            <div class="d-flex align-items-center gap-2">
+                                                <span *ngIf="isImplanteInstalado(imp.id)" class="badge bg-success" title="Instalado"><i class="fas fa-check"></i></span>
+                                                <strong class="small">{{ imp.nome }}</strong>
+                                                <span *ngIf="imp.subtipo" class="badge bg-secondary small">{{ imp.subtipo }}</span>
+                                            </div>
+                                            <div class="d-flex gap-1 align-items-center flex-shrink-0">
+                                                <span class="badge bg-info text-dark">CT {{ imp.ct }}</span>
+                                                <span class="badge bg-dark">{{ imp.valor | number }} ₠</span>
+                                                <button type="button" class="btn btn-sm btn-outline-success py-0 px-2"
+                                                    [disabled]="isImplanteInstalado(imp.id)"
+                                                    (click)="adicionarImplante(imp); $event.preventDefault()"
+                                                    title="{{ isImplanteInstalado(imp.id) ? 'Já instalado' : 'Instalar implante' }}">
+                                                    <i class="fas" [class.fa-plus]="!isImplanteInstalado(imp.id)" [class.fa-check]="isImplanteInstalado(imp.id)"></i>
+                                                </button>
+                                            </div>
+                                        </summary>
+                                        <div class="ps-3 pt-2 pb-1 small">
+                                            <div class="text-muted mb-1"><em>{{ imp.foco }}</em></div>
+                                            <ul class="mb-1 ps-3">
+                                                <li *ngFor="let h of imp.habilidades">{{ h }}</li>
+                                            </ul>
+                                            <div class="text-info"><i class="fas fa-lightbulb me-1 text-warning"></i>{{ imp.dica }}</div>
+                                        </div>
+                                    </details>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                    </ng-container>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <!-- Hacks -->
     <div class="collapse" id="collapseAtaques">
         <div class="card shadow-sm mb-3">
@@ -808,56 +892,141 @@
                 </div>
 
                 <div *ngIf="jogador.ataques && jogador.ataques.length > 0">
-                    <div class="table-responsive">
+                    <!-- Cyberpunk: cards expansíveis por hack -->
+                    <div *ngIf="isCyberPun2080" class="d-flex flex-column gap-2">
+                        <details class="border border-secondary rounded overflow-hidden"
+                            *ngFor="let ataque of jogador.ataques; let i = index">
+                            <summary class="d-flex align-items-center gap-2 px-3 py-2"
+                                style="cursor:pointer;list-style:none;background:rgba(220,53,69,.08)">
+                                <strong class="text-danger me-1">{{ ataque.nome }}</strong>
+                                <span class="badge bg-info text-dark">{{ ataque.bonus }}</span>
+                                <span class="badge bg-secondary">{{ ataque.dano }}</span>
+                                <span class="badge bg-dark ms-1">{{ ataque.tipoDano }}</span>
+                                <div class="ms-auto d-flex gap-1">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary py-0 px-2"
+                                        (click)="toggleEditarAtaque(i); $event.preventDefault()" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger py-0 px-2"
+                                        (click)="removerAtaque(i); $event.preventDefault()" title="Remover">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </summary>
+                            <!-- Modo edição -->
+                            <div *ngIf="editandoAtaque[i]" class="p-3 border-top bg-dark">
+                                <div class="row g-2">
+                                    <div class="col-md-4">
+                                        <label class="form-label small text-muted mb-0">Nome</label>
+                                        <input type="text" class="form-control form-control-sm" [(ngModel)]="ataque.nome">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label small text-muted mb-0">RAM</label>
+                                        <input type="text" class="form-control form-control-sm" [(ngModel)]="ataque.bonus" placeholder="RAM: 2">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label class="form-label small text-muted mb-0">Recarga</label>
+                                        <input type="text" class="form-control form-control-sm" [(ngModel)]="ataque.dano" placeholder="2 turnos">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label small text-muted mb-0">Alvo</label>
+                                        <input type="text" class="form-control form-control-sm" [(ngModel)]="ataque.tipoDano" placeholder="Um inimigo">
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label small text-muted mb-0">Efeito</label>
+                                        <textarea class="form-control form-control-sm" rows="2" [(ngModel)]="ataque.notas"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label small text-muted mb-0">Descrição</label>
+                                        <textarea class="form-control form-control-sm" rows="2" [(ngModel)]="ataque.descricao"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label small text-muted mb-0">Dica</label>
+                                        <input type="text" class="form-control form-control-sm" [(ngModel)]="ataque.dica">
+                                    </div>
+                                    <div class="col-12 text-end">
+                                        <button type="button" class="btn btn-sm btn-success" (click)="toggleEditarAtaque(i)">
+                                            <i class="fas fa-check me-1"></i>Salvar
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Modo visualização -->
+                            <div *ngIf="!editandoAtaque[i]" class="px-3 py-2 small border-top">
+                                <p *ngIf="ataque.descricao" class="text-muted mb-1">{{ ataque.descricao }}</p>
+                                <div *ngIf="ataque.notas" class="mb-1">
+                                    <span class="fw-semibold text-light">Efeito: </span>{{ ataque.notas }}
+                                </div>
+                                <div *ngIf="ataque.dica" class="text-warning">
+                                    <i class="fas fa-lightbulb me-1"></i>{{ ataque.dica }}
+                                </div>
+                            </div>
+                        </details>
+                    </div>
+
+                    <!-- D&D: tabela clássica -->
+                    <div class="table-responsive" *ngIf="!isCyberPun2080">
                         <table class="table table-sm table-hover align-middle mb-0">
                             <thead class="table-dark">
                                 <tr>
+                                    <th title="Equipado / dá bônus de CA"><i class="fas fa-shield-alt"></i></th>
                                     <th>Nome</th>
-                                    <th>{{ isCyberPun2080 ? 'RAM' : 'Bônus' }}</th>
-                                    <th>{{ isCyberPun2080 ? 'Recarga' : 'Dano' }}</th>
-                                    <th>{{ isCyberPun2080 ? 'Alvo' : 'Tipo' }}</th>
-                                    <th>{{ isCyberPun2080 ? 'Efeito' : 'Notas' }}</th>
+                                    <th>Bônus</th>
+                                    <th>Dano</th>
+                                    <th>Tipo</th>
+                                    <th>Notas</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr *ngFor="let ataque of jogador.ataques; let i = index">
                                     <ng-container *ngIf="!editandoAtaque[i]">
-                                        <td><strong>{{ ataque.nome }}</strong></td>
-                                        <td>
-                                            <span *ngIf="isCyberPun2080" class="badge bg-info text-dark">{{ ataque.bonus }}</span>
-                                            <span *ngIf="!isCyberPun2080" class="badge bg-warning text-dark">{{ ataque.bonus || '—' }}</span>
+                                        <td class="text-center">
+                                            <input type="checkbox" class="form-check-input" [(ngModel)]="ataque.equipado" (change)="saveToCache()" title="Equipado">
                                         </td>
                                         <td>
-                                            <span *ngIf="isCyberPun2080" class="badge bg-secondary">{{ ataque.dano }}</span>
-                                            <span *ngIf="!isCyberPun2080" class="badge bg-danger">{{ ataque.dano }}</span>
-                                        </td>
-                                        <td><small>{{ ataque.tipoDano }}</small></td>
-                                        <td>
-                                            <ng-container *ngIf="isCyberPun2080">
-                                                <details>
-                                                    <summary class="small text-info" style="cursor:pointer;list-style:none"><i class="fas fa-chevron-right me-1"></i>Ver efeito</summary>
-                                                    <small class="d-block mt-1">{{ ataque.notas }}</small>
-                                                    <small *ngIf="ataque.dica" class="d-block mt-1 text-muted"><i class="fas fa-lightbulb me-1 text-warning"></i>{{ ataque.dica }}</small>
-                                                </details>
+                                            <strong>{{ ataque.nome }}</strong>
+                                            <span *ngIf="ataque.equipado && ataque.ca" class="badge bg-primary ms-1" title="Bônus de CA">
+                                                <i class="fas fa-shield-alt me-1"></i>+{{ ataque.ca }}
+                                            </span>
+                                            <ng-container *ngIf="ataque.acessorios && ataque.acessorios.length > 0">
+                                                <br>
+                                                <span *ngFor="let ac of ataque.acessorios"
+                                                      class="badge bg-secondary me-1 mt-1"
+                                                      [title]="ac.nome">
+                                                    <i [class]="categoriaAcessorioIcon(ac.categoria)"></i>
+                                                    {{ categoriaAcessorioLabel(ac.categoria) }}
+                                                </span>
                                             </ng-container>
-                                            <small *ngIf="!isCyberPun2080" class="text-muted">{{ ataque.notas }}</small>
                                         </td>
+                                        <td><span class="badge bg-warning text-dark">{{ ataque.bonus || '—' }}</span></td>
+                                        <td><span class="badge bg-danger">{{ ataque.dano }}</span></td>
+                                        <td><small>{{ ataque.tipoDano }}</small></td>
+                                        <td><small class="text-muted">{{ ataque.notas }}</small></td>
                                         <td class="text-end">
-                                            <button type="button" class="btn btn-sm btn-outline-secondary me-1" (click)="toggleEditarAtaque(i)">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary me-1" (click)="toggleEditarAtaque(i)" title="Editar">
                                                 <i class="fas fa-edit"></i>
                                             </button>
-                                            <button type="button" class="btn btn-sm btn-outline-danger" (click)="removerAtaque(i)">
+                                            <button type="button" class="btn btn-sm btn-outline-info me-1" (click)="abrirGerenciarAcessorios(i)" title="Gerenciar acessórios">
+                                                <i class="fas fa-wrench"></i>
+                                            </button>
+                                            <button type="button" class="btn btn-sm btn-outline-danger" (click)="removerAtaque(i)" title="Remover">
                                                 <i class="fas fa-trash-alt"></i>
                                             </button>
                                         </td>
                                     </ng-container>
                                     <ng-container *ngIf="editandoAtaque[i]">
+                                        <td class="text-center">
+                                            <input type="checkbox" class="form-check-input" [(ngModel)]="ataque.equipado" (change)="saveToCache()" title="Equipado">
+                                        </td>
                                         <td><input type="text" class="form-control form-control-sm" [(ngModel)]="ataque.nome"></td>
-                                        <td><input type="text" class="form-control form-control-sm" [(ngModel)]="ataque.bonus" [placeholder]="isCyberPun2080 ? 'RAM: 2' : '+4'"></td>
-                                        <td><input type="text" class="form-control form-control-sm" [(ngModel)]="ataque.dano" [placeholder]="isCyberPun2080 ? '2 turnos' : '1d6+2'"></td>
-                                        <td><input type="text" class="form-control form-control-sm" [(ngModel)]="ataque.tipoDano" [placeholder]="isCyberPun2080 ? 'Um inimigo' : 'Perfurante'"></td>
-                                        <td><input type="text" class="form-control form-control-sm" [(ngModel)]="ataque.notas" [placeholder]="isCyberPun2080 ? 'Descrição do efeito' : 'Notas'"></td>
+                                        <td><input type="text" class="form-control form-control-sm" [(ngModel)]="ataque.bonus" placeholder="+4"></td>
+                                        <td><input type="text" class="form-control form-control-sm" [(ngModel)]="ataque.dano" placeholder="1d6+2"></td>
+                                        <td><input type="text" class="form-control form-control-sm" [(ngModel)]="ataque.tipoDano" placeholder="Perfurante"></td>
+                                        <td>
+                                            <input type="text" class="form-control form-control-sm mb-1" [(ngModel)]="ataque.notas" placeholder="Notas">
+                                            <input type="number" class="form-control form-control-sm" [(ngModel)]="ataque.ca" placeholder="CA +bônus" (change)="saveToCache()" title="Bônus de CA desta arma (ex: escudo usado como arma)">
+                                        </td>
                                         <td class="text-end">
                                             <button type="button" class="btn btn-sm btn-success" (click)="toggleEditarAtaque(i)">
                                                 <i class="fas fa-check"></i>
@@ -869,6 +1038,114 @@
                         </table>
                     </div>
                 </div>
+
+                <!-- ═══ Painel de Gerenciamento de Acessórios ═══ -->
+                <div *ngIf="gerenciarAcessoriosAtaque !== null && !isCyberPun2080"
+                     class="mt-3 border border-info rounded p-3" style="background: rgba(13,202,240,0.05)">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="mb-0 text-info">
+                            <i class="fas fa-wrench me-1"></i>
+                            Acessórios — {{ jogador.ataques[gerenciarAcessoriosAtaque!]?.nome }}
+                        </h6>
+                        <button type="button" class="btn btn-sm btn-outline-secondary" (click)="gerenciarAcessoriosAtaque = null">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+
+                    <!-- Acessórios instalados -->
+                    <div class="mb-3" *ngIf="jogador.ataques[gerenciarAcessoriosAtaque!]?.acessorios?.length > 0">
+                        <small class="text-muted text-uppercase fw-bold d-block mb-1">Instalados</small>
+                        <div class="d-flex flex-wrap gap-2">
+                            <span *ngFor="let ac of jogador.ataques[gerenciarAcessoriosAtaque!]?.acessorios"
+                                  class="badge bg-secondary d-inline-flex align-items-center gap-1 py-1 px-2">
+                                <i [class]="categoriaAcessorioIcon(ac.categoria)"></i>
+                                {{ ac.nome }}
+                                <button type="button" class="btn-close btn-close-white ms-1"
+                                        style="font-size: 0.5rem; width: 0.7em; height: 0.7em;"
+                                        (click)="removerAcessorioArma(gerenciarAcessoriosAtaque!, ac.id)"
+                                        title="Remover acessório"></button>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="mb-2" *ngIf="!jogador.ataques[gerenciarAcessoriosAtaque!]?.acessorios?.length">
+                        <small class="text-muted"><i class="fas fa-info-circle me-1"></i>Nenhum acessório instalado.</small>
+                    </div>
+
+                    <small class="text-muted d-block mb-3">
+                        <i class="fas fa-info-circle me-1 text-warning"></i>
+                        1 slot por acessório &middot; Máx. 1 por tipo &middot; Requer 10 min + ferramentas &middot; Somente armas Tecnológicas
+                    </small>
+
+                    <!-- Catálogo: Módulos de Mira -->
+                    <div class="mb-3">
+                        <small class="text-muted text-uppercase fw-bold d-block mb-1">
+                            <i class="fas fa-crosshairs me-1"></i>Módulos de Mira
+                            <span *ngIf="temAcessorioCategoria(jogador.ataques[gerenciarAcessoriosAtaque!], 'mira')"
+                                  class="badge bg-warning text-dark ms-1">slot ocupado</span>
+                        </small>
+                        <div class="list-group list-group-flush">
+                            <button *ngFor="let ac of acessoriosPorCategoria('mira')"
+                                    type="button"
+                                    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-2"
+                                    [class.disabled]="acessorioJaInstalado(jogador.ataques[gerenciarAcessoriosAtaque!], ac.id) || temAcessorioCategoria(jogador.ataques[gerenciarAcessoriosAtaque!], 'mira')"
+                                    (click)="adicionarAcessorioArma(gerenciarAcessoriosAtaque!, ac)">
+                                <div>
+                                    <strong class="d-block">{{ ac.nome }}</strong>
+                                    <small class="text-success">{{ ac.efeito }}</small>
+                                    <small class="text-muted d-block">{{ ac.descricao }}</small>
+                                </div>
+                                <span class="badge bg-dark ms-3 text-nowrap">{{ ac.valor | number:'1.0-0' }} ₳</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Catálogo: Módulos de Carregador -->
+                    <div class="mb-3">
+                        <small class="text-muted text-uppercase fw-bold d-block mb-1">
+                            <i class="fas fa-battery-full me-1"></i>Módulos de Carregador Estendido
+                            <span *ngIf="temAcessorioCategoria(jogador.ataques[gerenciarAcessoriosAtaque!], 'carregador')"
+                                  class="badge bg-warning text-dark ms-1">slot ocupado</span>
+                        </small>
+                        <div class="list-group list-group-flush">
+                            <button *ngFor="let ac of acessoriosPorCategoria('carregador')"
+                                    type="button"
+                                    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-2"
+                                    [class.disabled]="acessorioJaInstalado(jogador.ataques[gerenciarAcessoriosAtaque!], ac.id) || temAcessorioCategoria(jogador.ataques[gerenciarAcessoriosAtaque!], 'carregador')"
+                                    (click)="adicionarAcessorioArma(gerenciarAcessoriosAtaque!, ac)">
+                                <div>
+                                    <strong class="d-block">{{ ac.nome }}</strong>
+                                    <small class="text-success">{{ ac.efeito }}</small>
+                                    <small class="text-muted d-block">{{ ac.descricao }}</small>
+                                </div>
+                                <span class="badge bg-dark ms-3 text-nowrap">{{ ac.valor | number:'1.0-0' }} ₳</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Catálogo: Módulos de Supressor -->
+                    <div class="mb-3">
+                        <small class="text-muted text-uppercase fw-bold d-block mb-1">
+                            <i class="fas fa-volume-mute me-1"></i>Módulos de Supressão Acústica
+                            <span *ngIf="temAcessorioCategoria(jogador.ataques[gerenciarAcessoriosAtaque!], 'supressor')"
+                                  class="badge bg-warning text-dark ms-1">slot ocupado</span>
+                        </small>
+                        <div class="list-group list-group-flush">
+                            <button *ngFor="let ac of acessoriosPorCategoria('supressor')"
+                                    type="button"
+                                    class="list-group-item list-group-item-action d-flex justify-content-between align-items-center py-2"
+                                    [class.disabled]="acessorioJaInstalado(jogador.ataques[gerenciarAcessoriosAtaque!], ac.id) || temAcessorioCategoria(jogador.ataques[gerenciarAcessoriosAtaque!], 'supressor')"
+                                    (click)="adicionarAcessorioArma(gerenciarAcessoriosAtaque!, ac)">
+                                <div>
+                                    <strong class="d-block">{{ ac.nome }}</strong>
+                                    <small class="text-success">{{ ac.efeito }}</small>
+                                    <small class="text-muted d-block">{{ ac.descricao }}</small>
+                                </div>
+                                <span class="badge bg-dark ms-3 text-nowrap">{{ ac.valor | number:'1.0-0' }} ₳</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
                 <div *ngIf="!jogador.ataques || jogador.ataques.length === 0" class="text-muted text-center py-3">
                     <i class="fas fa-bolt fa-2x mb-2"></i>
                     <p>{{ isCyberPun2080 ? 'Nenhum hack adicionado ainda' : 'Nenhum ataque registrado ainda' }}</p>
@@ -1280,6 +1557,24 @@
         </div>
     </div>
 
+    <!-- Anotações -->
+    <div class="collapse" id="collapseAnotacoes">
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0"><i class="fas fa-sticky-note me-2"></i>Anotações</h5>
+            </div>
+            <div class="card-body">
+                <textarea
+                    class="form-control"
+                    rows="10"
+                    [(ngModel)]="jogador.anotacoes"
+                    (change)="saveToCache()"
+                    placeholder="Escreva aqui informações importantes: NPCs, locais, segredos, lembretes de sessão..."
+                ></textarea>
+            </div>
+        </div>
+    </div>
+
     <!-- Confirmation Dialog -->
     <div *ngIf="confirmandoLimparCache" class="confirmation-overlay">
         <div class="confirmation-dialog card shadow-lg">
@@ -1424,8 +1719,8 @@
                                 <label for="ca" class="form-label">
                                     <i class="fas fa-shield me-1"></i>Classe de Armadura (CA)
                                 </label>
-                                <input type="number" class="form-control" id="ca" [value]="caCalculada" name="ca" readonly>
-                                <small class="text-muted">Calculado automaticamente baseado nos equipamentos</small>
+                                <div class="form-control bg-dark text-white text-center fw-bold">{{ caCalculada }}</div>
+                                <small class="text-muted">Calculado automaticamente. Use "Bônus manual" no card de combate para itens não identificados.</small>
                             </div>
                             <div class="col-md-4">
                                 <label for="deslocamento" class="form-label">
@@ -1458,8 +1753,9 @@
                                     <input type="number" class="form-control" [(ngModel)]="jogador.ramAtual" name="ramAtual" placeholder="Ex: 8" (change)="saveToCache()">
                                 </div>
                                 <div class="col-md-3">
-                                    <label class="form-label"><i class="fas fa-shield-virus me-1"></i>CT Máx</label>
-                                    <input type="number" class="form-control" [(ngModel)]="jogador.ct" name="ct" placeholder="Ex: 10" (change)="saveToCache()">
+                                    <label class="form-label"><i class="fas fa-shield-virus me-1"></i>CT Máx <span class="badge bg-secondary ms-1" title="Calculado automaticamente">auto</span></label>
+                                    <div class="form-control bg-dark text-white text-center fw-bold">{{ ctMax }}</div>
+                                    <div class="form-text small">10 + Mod.CON + Mod.SAB + Prof.</div>
                                 </div>
                                 <div class="col-md-3">
                                     <label class="form-label"><i class="fas fa-virus-slash me-1"></i>CT Atual</label>

@@ -4,6 +4,15 @@
 
 export type SistemaRpg = 'dnd5e' | 'cyberpun2080';
 
+export interface ImplanteInstalado {
+  id: string;
+  nome: string;
+  ct: number;
+  tipo: string;
+  subtipo?: string;
+  ca?: number;
+}
+
 export interface DadosCyberPun2080 {
   papel: string;
   subclasse: string;
@@ -11,14 +20,11 @@ export interface DadosCyberPun2080 {
   antecedente: string;
   historia: string;
   perguntasEssenciais: string[];
-  implantes: string[];
-  hacksRapidos: Array<{ nome: string; descricao: string }>;
+  implantesCiberneticos: ImplanteInstalado[];
   nivelAmeacaRede: number | null;
   creditoEurodolar: number | null;
   estresseNeural: number | null;
   equipamentosTecnologiaNotas: string;
-  implantesNotas: string;
-  hackingNotas: string;
   veiculosNotas: string;
   consumiveisViciosNotas: string;
   forcasCidadeNotas: string;
@@ -89,6 +95,15 @@ export interface Talento {
 }
 
 /**
+ * Acessório instalado em uma arma tecnológica
+ */
+export interface AcessorioInstalado {
+  id: string;
+  nome: string;
+  categoria: string;
+}
+
+/**
  * Ataque registrado na ficha
  */
 export interface Ataque {
@@ -97,6 +112,9 @@ export interface Ataque {
   dano: string;
   tipoDano: string;
   notas?: string;
+  ca?: number;
+  equipado?: boolean;
+  acessorios?: AcessorioInstalado[];
 }
 
 /**

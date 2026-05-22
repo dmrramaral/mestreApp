@@ -4,6 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
 import {
+  AcessorioArma,
+  ACESSORIOS_ARMAS,
   CYBERPUN2080_CITY_FORCES,
   CYBERPUN2080_ESSENTIAL_QUESTIONS,
   CYBERPUN2080_MODULES,
@@ -11,12 +13,16 @@ import {
   CYBERPUN2080_RULES,
   CYBERPUN2080_SUBCLASSES_BY_CLASS,
   EQUIPMENT_CATEGORIES,
+  GRUPOS_IMPLANTE,
   HACKS_RAPIDOS,
+  IMPLANTES,
   RPG_SYSTEM_OPTIONS,
   RPG_SYSTEMS,
   RpgSystemType,
   SKILLS,
-  STORAGE_KEYS
+  STORAGE_KEYS,
+  TipoImplante,
+  TIPOS_IMPLANTE
 } from '../../../core/constants/rpg.constants';
 import { CyberpunkCatalog, CyberpunkStoreItem, CyberpunkTalentCatalog } from '../../../core/models/cyberpunk-catalog.model';
 import { ApiReference, DndClass, DndRace } from '../../../core/models/dnd-api.model';
@@ -25,7 +31,7 @@ import { DndApiService } from '../../../core/services/dnd-api.service';
 import { FichaJogadorService } from '../../../core/services/ficha-jogador.service';
 import { StorageService } from '../../../core/services/storage.service';
 import { RegistroSync, SyncBackendService } from '../../../core/services/sync-backend.service';
-import { calcularCA, calcularModificador, formatarModificador } from '../../../core/utils/rpg.utils';
+import { calcularModificador, formatarModificador } from '../../../core/utils/rpg.utils';
 
 // Tempo de delay para transições entre modais (em milissegundos)
 const MODAL_TRANSITION_DELAY = 300;
@@ -340,14 +346,11 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
           antecedente: '',
           historia: '',
           perguntasEssenciais: ['', '', '', '', ''],
-          implantes: [],
-          hacksRapidos: [],
+          implantesCiberneticos: [],
           nivelAmeacaRede: null,
           creditoEurodolar: null,
           estresseNeural: null,
           equipamentosTecnologiaNotas: '',
-          implantesNotas: '',
-          hackingNotas: '',
           veiculosNotas: '',
           consumiveisViciosNotas: '',
           forcasCidadeNotas: ''
@@ -378,10 +381,98 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   novoItem: any = { nome: '', descricao: '' };
 
   adicionandoAtaque: boolean = false;
-  novoAtaque: any = { nome: '', bonus: '', dano: '', tipoDano: '', notas: '' };
+  novoAtaque: any = { nome: '', bonus: '', dano: '', tipoDano: '', notas: '', ca: null, equipado: false, acessorios: [] };
   editandoAtaque: { [key: number]: boolean } = {};
+  mostrarDetalheCA = false;
+  gerenciarAcessoriosAtaque: number | null = null;
+  readonly catalogoAcessorios = ACESSORIOS_ARMAS;
   hacksRapidosCatalogo = HACKS_RAPIDOS;
   verCatalogoHacks = false;
+
+  // Implantes cibernéticos
+  readonly catalogoImplantes = IMPLANTES;
+  readonly tiposImplante = TIPOS_IMPLANTE;
+  readonly gruposImplante = GRUPOS_IMPLANTE;
+  verCatalogoImplantes = false;
+  filtroTipoImplante: TipoImplante | '' = '';
+
+  get ctMax(): number {
+    const modCon = calcularModificador(this.jogador?.atributos?.constituicao) ?? 0;
+    const modSab = calcularModificador(this.jogador?.atributos?.sabedoria) ?? 0;
+    const prof = Number(this.jogador?.proficiencia) || 0;
+    return 10 + modCon + modSab + prof;
+  }
+
+  get ctConsumida(): number {
+    const lista = this.jogador?.cyberpun2080?.implantesCiberneticos;
+    if (!Array.isArray(lista)) return 0;
+    return lista.reduce((sum: number, i: any) => sum + (Number(i.ct) || 0), 0);
+  }
+
+  get ctExcesso(): number {
+    return Math.max(0, this.ctConsumida - this.ctMax);
+  }
+
+  get estagioCyberpsicose(): { estagio: number; label: string; cor: string; penalidades: string } {
+    const e = this.ctExcesso;
+    if (e === 0) return { estagio: 0, label: 'Estável', cor: 'success', penalidades: '' };
+    if (e <= 3) return {
+      estagio: 1, label: 'Estágio 1 — Instabilidade Inicial', cor: 'warning',
+      penalidades: '−1 em testes de SAB, INT e CAR. 1×/descanso longo: Mestre pode impor Desvantagem em um teste social ou mental.'
+    };
+    if (e <= 6) return {
+      estagio: 2, label: 'Estágio 2 — Descontrole Progressivo', cor: 'orange',
+      penalidades: '−2 em testes de SAB, INT e CAR. Desvantagem em resistências mentais/emocionais. Ao sofrer Dano Crítico ou Falha Crítica: teste de SAB (CD 14) ou o Mestre assume controle até o fim do próximo turno.'
+    };
+    return {
+      estagio: 3, label: 'Estágio 3 — Cyberpsicose Avançada', cor: 'danger',
+      penalidades: '−4 em testes de SAB, INT e CAR. Sem bônus de ajuda em testes sociais. Em situações de estresse: teste de SAB (CD 18) ou o Mestre assume controle até o fim do combate/situação.'
+    };
+  }
+
+  isImplanteInstalado(id: string): boolean {
+    const lista = this.jogador?.cyberpun2080?.implantesCiberneticos;
+    if (!Array.isArray(lista)) return false;
+    return lista.some((i: any) => i.id === id);
+  }
+
+  adicionarImplante(implante: any): void {
+    if (!Array.isArray(this.jogador.cyberpun2080.implantesCiberneticos)) {
+      this.jogador.cyberpun2080.implantesCiberneticos = [];
+    }
+    if (this.isImplanteInstalado(implante.id)) return;
+    this.jogador.cyberpun2080.implantesCiberneticos.push({
+      id: implante.id,
+      nome: implante.nome,
+      ct: implante.ct,
+      tipo: implante.tipo,
+      subtipo: implante.subtipo
+    });
+    this.saveToCache();
+  }
+
+  removerImplante(id: string): void {
+    if (!Array.isArray(this.jogador?.cyberpun2080?.implantesCiberneticos)) return;
+    this.jogador.cyberpun2080.implantesCiberneticos =
+      this.jogador.cyberpun2080.implantesCiberneticos.filter((i: any) => i.id !== id);
+    this.saveToCache();
+  }
+
+  getImplantesInstaladosPorTipo(tipo: string): any[] {
+    const lista = this.jogador?.cyberpun2080?.implantesCiberneticos;
+    if (!Array.isArray(lista)) return [];
+    return lista.filter((i: any) => i.tipo === tipo);
+  }
+
+  getDetalhesImplante(id: string): any {
+    return this.catalogoImplantes.find(i => i.id === id) || null;
+  }
+
+  getImplantesCatalogoPorTipo(tipo: string): any[] {
+    const filtro = this.filtroTipoImplante;
+    if (filtro && filtro !== tipo) return [];
+    return this.catalogoImplantes.filter(i => i.tipo === tipo);
+  }
 
   adicionandoTalento: boolean = false;
   novoTalento: any = { nome: '', descricao: '' };
@@ -777,14 +868,11 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
       antecedente: '',
       historia: '',
       perguntasEssenciais: ['', '', '', '', ''],
-      implantes: [],
-      hacksRapidos: [],
+      implantesCiberneticos: [],
       nivelAmeacaRede: null,
       creditoEurodolar: null,
       estresseNeural: null,
       equipamentosTecnologiaNotas: '',
-      implantesNotas: '',
-      hackingNotas: '',
       veiculosNotas: '',
       consumiveisViciosNotas: '',
       forcasCidadeNotas: ''
@@ -801,8 +889,8 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     if (!Array.isArray(base.cyberpun2080.perguntasEssenciais)) {
       base.cyberpun2080.perguntasEssenciais = ['', '', '', '', ''];
     }
-    if (!Array.isArray(base.cyberpun2080.hacksRapidos)) {
-      base.cyberpun2080.hacksRapidos = [];
+    if (!Array.isArray(base.cyberpun2080.implantesCiberneticos)) {
+      base.cyberpun2080.implantesCiberneticos = [];
     }
     if (!Array.isArray(base.ataques)) {
       base.ataques = [];
@@ -966,44 +1054,6 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
 
   onCyberOrigemChange(): void {
     this.aplicarTracosCyberpunk();
-    this.saveToCache();
-  }
-
-  adicionarHackRapidoCatalogo(hack: CyberpunkStoreItem): void {
-    if (!this.isCyberPun2080) {
-      return;
-    }
-
-    if (!Array.isArray(this.jogador?.cyberpun2080?.hacksRapidos)) {
-      this.jogador.cyberpun2080.hacksRapidos = [];
-    }
-
-    const nomeHack = String(hack.nome || '').trim();
-    if (!nomeHack) {
-      return;
-    }
-
-    const jaExiste = this.jogador.cyberpun2080.hacksRapidos.some((item: any) => {
-      return String(item?.nome || '').trim().toLowerCase() === nomeHack.toLowerCase();
-    });
-
-    if (jaExiste) {
-      return;
-    }
-
-    this.jogador.cyberpun2080.hacksRapidos.push({
-      nome: nomeHack,
-      descricao: String(hack.descricao || '').trim()
-    });
-    this.saveToCache();
-  }
-
-  removerHackRapido(index: number): void {
-    if (!Array.isArray(this.jogador?.cyberpun2080?.hacksRapidos)) {
-      return;
-    }
-
-    this.jogador.cyberpun2080.hacksRapidos.splice(index, 1);
     this.saveToCache();
   }
 
@@ -1262,11 +1312,90 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Obtém a CA calculada baseada nos equipamentos e modificador de destreza
+   * Obtém a CA calculada somando: base (10+DEX ou armadura), equipamentos, armas equipadas, implantes e bônus manual
    */
   get caCalculada(): number {
-    const modificadorDestreza = this.calcularModificador(this.jogador.atributos.destreza);
-    return calcularCA(this.jogador.equipamentos, modificadorDestreza);
+    const modDex = this.calcularModificador(this.jogador?.atributos?.destreza) ?? 0;
+    const equip = this.jogador?.equipamentos;
+
+    // Base: armadura ou 10 + DEX
+    const armadura = equip?.['armadura']?.[0];
+    let ca = armadura?.ca ? armadura.ca + modDex : 10 + modDex;
+
+    // Escudo
+    const escudo = equip?.['escudo']?.[0];
+    if (escudo?.ca) ca += escudo.ca;
+
+    // Demais categorias
+    for (const cat of ['cabeca', 'pes', 'amuleto', 'anel']) {
+      const e = equip?.[cat]?.[0];
+      if (e?.ca) ca += e.ca;
+    }
+
+    // Armas equipadas com bônus de CA
+    if (Array.isArray(this.jogador?.ataques)) {
+      for (const ataque of this.jogador.ataques) {
+        if (ataque.equipado && Number(ataque.ca) > 0) {
+          ca += Number(ataque.ca);
+        }
+      }
+    }
+
+    // Implantes cibernéticos com bônus de CA
+    if (Array.isArray(this.jogador?.cyberpun2080?.implantesCiberneticos)) {
+      for (const imp of this.jogador.cyberpun2080.implantesCiberneticos) {
+        if (Number(imp.ca) > 0) ca += Number(imp.ca);
+      }
+    }
+
+    // Bônus manual (itens não identificados)
+    ca += Number(this.jogador?.caManual) || 0;
+
+    return ca;
+  }
+
+  /**
+   * Detalhamento das fontes de CA para exibição ao clicar no ícone
+   */
+  get caDetalhes(): Array<{fonte: string, valor: number}> {
+    const det: Array<{fonte: string, valor: number}> = [];
+    const modDex = this.calcularModificador(this.jogador?.atributos?.destreza) ?? 0;
+    const equip = this.jogador?.equipamentos;
+
+    const armadura = equip?.['armadura']?.[0];
+    if (armadura?.ca) {
+      det.push({ fonte: `Armadura: ${armadura.nome || 'Armadura'}`, valor: armadura.ca });
+    } else {
+      det.push({ fonte: 'Base', valor: 10 });
+    }
+    if (modDex !== 0) det.push({ fonte: 'Mod. Destreza', valor: modDex });
+
+    const escudo = equip?.['escudo']?.[0];
+    if (escudo?.ca) det.push({ fonte: `Escudo: ${escudo.nome || 'Escudo'}`, valor: escudo.ca });
+
+    for (const cat of ['cabeca', 'pes', 'amuleto', 'anel']) {
+      const e = equip?.[cat]?.[0];
+      if (e?.ca) det.push({ fonte: e.nome || cat, valor: e.ca });
+    }
+
+    if (Array.isArray(this.jogador?.ataques)) {
+      for (const ataque of this.jogador.ataques) {
+        if (ataque.equipado && Number(ataque.ca) > 0) {
+          det.push({ fonte: `Arma: ${ataque.nome}`, valor: Number(ataque.ca) });
+        }
+      }
+    }
+
+    if (Array.isArray(this.jogador?.cyberpun2080?.implantesCiberneticos)) {
+      for (const imp of this.jogador.cyberpun2080.implantesCiberneticos) {
+        if (Number(imp.ca) > 0) det.push({ fonte: `Implante: ${imp.nome}`, valor: Number(imp.ca) });
+      }
+    }
+
+    const manual = Number(this.jogador?.caManual) || 0;
+    if (manual !== 0) det.push({ fonte: 'Bônus manual', valor: manual });
+
+    return det;
   }
 
 
@@ -1330,14 +1459,14 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
         this.jogador.ataques = [];
       }
       this.jogador.ataques.push({ ...this.novoAtaque });
-      this.novoAtaque = { nome: '', bonus: '', dano: '', tipoDano: '', notas: '' };
+      this.novoAtaque = { nome: '', bonus: '', dano: '', tipoDano: '', notas: '', ca: null, equipado: false, acessorios: [] };
       this.adicionandoAtaque = false;
       this.saveToCache();
     }
   }
 
   cancelarAdicionarAtaque() {
-    this.novoAtaque = { nome: '', bonus: '', dano: '', tipoDano: '', notas: '' };
+    this.novoAtaque = { nome: '', bonus: '', dano: '', tipoDano: '', notas: '', ca: null, equipado: false, acessorios: [] };
     this.adicionandoAtaque = false;
   }
 
@@ -1351,8 +1480,57 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   toggleEditarAtaque(index: number) {
     this.editandoAtaque[index] = !this.editandoAtaque[index];
     if (!this.editandoAtaque[index]) {
+      this.gerenciarAcessoriosAtaque = null;
       this.saveToCache();
     }
+  }
+
+  abrirGerenciarAcessorios(index: number) {
+    this.gerenciarAcessoriosAtaque = this.gerenciarAcessoriosAtaque === index ? null : index;
+  }
+
+  temAcessorioCategoria(ataque: any, categoria: string): boolean {
+    return Array.isArray(ataque?.acessorios) &&
+      ataque.acessorios.some((a: any) => a.categoria === categoria);
+  }
+
+  acessorioJaInstalado(ataque: any, id: string): boolean {
+    return Array.isArray(ataque?.acessorios) &&
+      ataque.acessorios.some((a: any) => a.id === id);
+  }
+
+  adicionarAcessorioArma(ataqueIndex: number, acessorio: AcessorioArma) {
+    const ataque = this.jogador.ataques?.[ataqueIndex];
+    if (!ataque) return;
+    if (!Array.isArray(ataque.acessorios)) ataque.acessorios = [];
+    if (this.temAcessorioCategoria(ataque, acessorio.categoria)) return; // regra: 1 por tipo
+    ataque.acessorios.push({ id: acessorio.id, nome: acessorio.nome, categoria: acessorio.categoria });
+    this.saveToCache();
+  }
+
+  removerAcessorioArma(ataqueIndex: number, acessorioId: string) {
+    const ataque = this.jogador.ataques?.[ataqueIndex];
+    if (!Array.isArray(ataque?.acessorios)) return;
+    ataque.acessorios = ataque.acessorios.filter((a: any) => a.id !== acessorioId);
+    this.saveToCache();
+  }
+
+  categoriaAcessorioLabel(categoria: string): string {
+    const labels: Record<string, string> = {
+      mira: 'Mira', carregador: 'Carregador', supressor: 'Supressor'
+    };
+    return labels[categoria] ?? categoria;
+  }
+
+  categoriaAcessorioIcon(categoria: string): string {
+    const icons: Record<string, string> = {
+      mira: 'fas fa-crosshairs', carregador: 'fas fa-battery-full', supressor: 'fas fa-volume-mute'
+    };
+    return icons[categoria] ?? 'fas fa-cog';
+  }
+
+  acessoriosPorCategoria(categoria: string): AcessorioArma[] {
+    return this.catalogoAcessorios.filter(a => a.categoria === categoria) as AcessorioArma[];
   }
 
   togglePericiaProf(pericia: any) {
@@ -1373,14 +1551,19 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     if (!Array.isArray(this.jogador.ataques)) {
       this.jogador.ataques = [];
     }
+    console.log(hack);
     this.jogador.ataques.push({
       nome: hack.nome,
       bonus: `RAM: ${hack.ram}`,
       dano: hack.recarga,
       tipoDano: hack.alvo,
       notas: hack.efeito,
-      dica: hack.dica
+      dica: hack.dica,
+      descricao: hack.descricao,
+
+
     });
+    console.log(this.jogador.ataques);
     this.saveToCache();
   }
 
