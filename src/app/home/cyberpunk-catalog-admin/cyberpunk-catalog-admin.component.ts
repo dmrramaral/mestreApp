@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { finalize, timeout } from 'rxjs';
 import {
     CyberpunkCatalog,
     CyberpunkSubclassCatalog,
@@ -49,14 +50,17 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
     this.erro = '';
     this.sucesso = '';
 
-    this.catalogService.getCatalog().subscribe({
+    this.catalogService.getCatalog().pipe(
+      timeout(12000),
+      finalize(() => {
+        this.loading = false;
+      })
+    ).subscribe({
       next: (catalog) => {
         this.catalog = catalog;
-        this.loading = false;
       },
       error: () => {
-        this.loading = false;
-        this.erro = 'Nao foi possivel carregar o catalogo CyberPunk.';
+        this.erro = 'Nao foi possivel carregar o catalogo CyberPunk. Verifique a conexao/backend e tente novamente.';
       }
     });
   }
@@ -91,15 +95,18 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
       talentos: this.catalog.talentos.filter((item) => item.nome.trim().length > 0)
     };
 
-    this.catalogService.updateCatalog(payload).subscribe({
+    this.catalogService.updateCatalog(payload).pipe(
+      timeout(12000),
+      finalize(() => {
+        this.saving = false;
+      })
+    ).subscribe({
       next: (saved) => {
         this.catalog = saved;
-        this.saving = false;
         this.sucesso = 'Catalogo salvo com sucesso.';
       },
       error: () => {
-        this.saving = false;
-        this.erro = 'Falha ao salvar catalogo no backend.';
+        this.erro = 'Falha ao salvar catalogo no backend. Tente novamente em instantes.';
       }
     });
   }

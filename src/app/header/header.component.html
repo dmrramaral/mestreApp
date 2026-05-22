@@ -1,6 +1,6 @@
     <nav class="navbar navbar-light fixed-top navbar-rpg">
         <div class="container-fluid">
-            <a class="navbar-brand fw-bold" href="#">
+            <a class="navbar-brand fw-bold" [routerLink]="'/home'">
                 <i class="fas fa-dice-d20 me-2"></i>Mestre App
             </a>
             <div class="d-flex align-items-center">
@@ -35,42 +35,42 @@
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">
+                            <a class="nav-link active" aria-current="page" [routerLink]="'/home'">
                                 <i class="fas fa-home me-2"></i>Inicio
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="/iniciativa" aria-current="page">
+                            <a class="nav-link active" [routerLink]="'/iniciativa'" aria-current="page">
                                 <i class="fas fa-stopwatch me-2"></i>Iniciativa
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="/itens" aria-current="page">
+                            <a class="nav-link active" [routerLink]="'/itens'" aria-current="page">
                                 <i class="fas fa-box-open me-2"></i>Itens
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="/mercado" aria-current="page">
+                            <a class="nav-link active" [routerLink]="'/mercado'" aria-current="page">
                                 <i class="fas fa-store me-2"></i>Mercado
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="/monstros" aria-current="page">
+                            <a class="nav-link active" [routerLink]="'/monstros'" aria-current="page">
                                 <i class="fas fa-dragon me-2"></i>Monstros
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="/ficha-jogador" aria-current="page">
+                            <a class="nav-link active" [routerLink]="'/ficha-jogador'" aria-current="page">
                                 <i class="fas fa-user-shield me-2"></i>Ficha
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="/dnd-api-example" aria-current="page">
+                            <a class="nav-link active" [routerLink]="'/dnd-api-example'" aria-current="page">
                                 <i class="fas fa-code me-2"></i>D&D API
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="/cyberpunk-catalogo" aria-current="page">
+                            <a class="nav-link active" [routerLink]="'/cyberpunk-catalogo'" aria-current="page">
                                 <i class="fas fa-diagram-project me-2"></i>Catalogo CyberPunk
                             </a>
                         </li>
