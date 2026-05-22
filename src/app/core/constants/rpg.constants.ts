@@ -35,7 +35,7 @@ export const ATTRIBUTE_MODIFIER_RANGES = [
  * URLs das APIs externas
  */
 export const API_URLS = {
-  BACKEND_SYNC: 'https://mestre-app-backend-dmrramarals-projects.vercel.app',
+  BACKEND_SYNC: 'https://mestre-app-backend.vercel.app',
   DND_MONSTERS: 'https://www.dnd5eapi.co/api/monsters',
   DND_EQUIPMENT: 'https://www.dnd5eapi.co/api/2024/equipment',
   DND_API_2024: 'https://www.dnd5eapi.co/api/2024',
