@@ -24,6 +24,8 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
   sucesso = '';
 
   classFilter = '';
+  classesDisponiveis: string[] = [];
+  talentosFiltrados: CyberpunkTalentRow[] = [];
 
   constructor(private catalogService: CyberpunkCatalogService) {}
 
@@ -31,18 +33,27 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
     this.carregar();
   }
 
-  get classesDisponiveis(): string[] {
-    if (!this.catalog) return [];
-    return this.catalog.classes.map((item) => item.nome);
-  }
+  private atualizarListasDerivadas(): void {
+    if (!this.catalog) {
+      this.classesDisponiveis = [];
+      this.talentosFiltrados = [];
+      return;
+    }
 
-  get talentosFiltrados(): CyberpunkTalentRow[] {
-    if (!this.catalog) return [];
-
+    this.classesDisponiveis = this.catalog.classes.map((item) => item.nome);
     const filter = this.classFilter.trim();
-    return this.catalog.talentos
+
+    this.talentosFiltrados = this.catalog.talentos
       .map((talento, index) => ({ talento, index }))
       .filter((item) => !filter || item.talento.classes.includes(filter));
+  }
+
+  onClassFilterChange(): void {
+    this.atualizarListasDerivadas();
+  }
+
+  trackByTalentIndex(_index: number, item: CyberpunkTalentRow): number {
+    return item.index;
   }
 
   carregar(): void {
@@ -58,6 +69,7 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
     ).subscribe({
       next: (catalog) => {
         this.catalog = catalog;
+        this.atualizarListasDerivadas();
       },
       error: () => {
         this.erro = 'Nao foi possivel carregar o catalogo CyberPunk. Verifique a conexao/backend e tente novamente.';
@@ -103,6 +115,7 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
     ).subscribe({
       next: (saved) => {
         this.catalog = saved;
+        this.atualizarListasDerivadas();
         this.sucesso = 'Catalogo salvo com sucesso.';
       },
       error: () => {
@@ -114,11 +127,21 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
   adicionarClasse(): void {
     if (!this.catalog) return;
     this.catalog.classes.push({ nome: '', descricao: '', subclasses: [] });
+    this.atualizarListasDerivadas();
   }
 
   removerClasse(index: number): void {
     if (!this.catalog) return;
+    const classeRemovida = this.catalog.classes[index]?.nome;
     this.catalog.classes.splice(index, 1);
+
+    if (classeRemovida) {
+      this.catalog.talentos.forEach((talento) => {
+        talento.classes = talento.classes.filter((className) => className !== classeRemovida);
+      });
+    }
+
+    this.atualizarListasDerivadas();
   }
 
   adicionarSubclasse(classIndex: number): void {
@@ -164,11 +187,13 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
   adicionarTalento(): void {
     if (!this.catalog) return;
     this.catalog.talentos.push({ nome: '', descricao: '', classes: [] });
+    this.atualizarListasDerivadas();
   }
 
   removerTalento(index: number): void {
     if (!this.catalog) return;
     this.catalog.talentos.splice(index, 1);
+    this.atualizarListasDerivadas();
   }
 
   isClasseMarcada(talentoIndex: number, className: string): boolean {
@@ -184,11 +209,13 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
 
     if (checked && idx < 0) {
       classes.push(className);
+      this.atualizarListasDerivadas();
       return;
     }
 
     if (!checked && idx >= 0) {
       classes.splice(idx, 1);
+      this.atualizarListasDerivadas();
     }
   }
 }

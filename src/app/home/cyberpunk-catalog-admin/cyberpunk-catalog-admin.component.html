@@ -121,14 +121,14 @@
         <div class="row g-2 align-items-end mb-3">
           <div class="col-md-4">
             <label class="form-label">Filtro por Classe (visualizacao)</label>
-            <select class="form-select" [(ngModel)]="classFilter">
+            <select class="form-select" [(ngModel)]="classFilter" (ngModelChange)="onClassFilterChange()">
               <option value="">Todas</option>
               <option *ngFor="let classe of classesDisponiveis" [ngValue]="classe">{{ classe }}</option>
             </select>
           </div>
         </div>
 
-        <div class="border rounded p-3 mb-3" *ngFor="let item of talentosFiltrados; let i = index">
+        <div class="border rounded p-3 mb-3" *ngFor="let item of talentosFiltrados; let i = index; trackBy: trackByTalentIndex">
           <div class="d-flex justify-content-end mb-2">
             <button class="btn btn-sm btn-outline-danger" (click)="removerTalento(item.index)">Remover</button>
           </div>
