@@ -4,8 +4,11 @@ import { FormsModule } from '@angular/forms';
 import { firstValueFrom } from 'rxjs';
 import {
   CYBERPUN2080_CITY_FORCES,
+  CYBERPUN2080_CLASS_TRAITS,
   CYBERPUN2080_ESSENTIAL_QUESTIONS,
   CYBERPUN2080_MODULES,
+  CYBERPUN2080_ORIGINS,
+  CYBERPUN2080_ORIGIN_TRAITS,
   CYBERPUN2080_RULES,
   EQUIPMENT_CATEGORIES,
   RPG_SYSTEM_OPTIONS,
@@ -56,6 +59,7 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   readonly systemOptions = RPG_SYSTEM_OPTIONS;
   readonly cyberpunPerguntasEssenciais = CYBERPUN2080_ESSENTIAL_QUESTIONS;
   readonly cyberpunClasses = CYBERPUN2080_RULES.classes;
+  readonly cyberpunOrigins = CYBERPUN2080_ORIGINS;
   readonly cyberpunCityForces = CYBERPUN2080_CITY_FORCES;
   readonly cyberpunModulos = CYBERPUN2080_MODULES;
 
@@ -563,10 +567,54 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
 
     if (systemId === RPG_SYSTEMS.CYBERPUN2080) {
       this.spellClassFilter = '';
+      this.aplicarTracosCyberpunk();
     } else {
       this.loadClassesAndRaces();
     }
 
+    this.saveToCache();
+  }
+
+  private aplicarTracosCyberpunk(): void {
+    if (!this.isCyberPun2080) {
+      return;
+    }
+
+    if (!this.jogador.tracos) {
+      this.jogador.tracos = [];
+    }
+
+    this.jogador.tracos = this.jogador.tracos.filter((t: any) => !String(t.nome || '').startsWith('[Cyber]'));
+
+    const papel = String(this.jogador?.cyberpun2080?.papel || '').trim();
+    const origem = String(this.jogador?.cyberpun2080?.origem || '').trim();
+
+    const classTraits = CYBERPUN2080_CLASS_TRAITS[papel] || [];
+    for (const trait of classTraits) {
+      this.jogador.tracos.push({
+        nome: `[Cyber] ${trait.nome}`,
+        descricao: trait.descricao,
+        origem: 'classe'
+      });
+    }
+
+    const originTraits = CYBERPUN2080_ORIGIN_TRAITS[origem] || [];
+    for (const trait of originTraits) {
+      this.jogador.tracos.push({
+        nome: `[Cyber] ${trait.nome}`,
+        descricao: trait.descricao,
+        origem: 'raca'
+      });
+    }
+  }
+
+  onCyberPapelChange(): void {
+    this.aplicarTracosCyberpunk();
+    this.saveToCache();
+  }
+
+  onCyberOrigemChange(): void {
+    this.aplicarTracosCyberpunk();
     this.saveToCache();
   }
 

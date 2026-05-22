@@ -142,6 +142,63 @@ export const CYBERPUN2080_CITY_FORCES = [
   'Trauma Team'
 ] as const;
 
+export const CYBERPUN2080_ORIGINS = [
+  'Megacorp',
+  'Rua',
+  'Nômade',
+  'Favela Vertical',
+  'Zona de Combate',
+  'Subúrbio Industrial'
+] as const;
+
+export const CYBERPUN2080_CLASS_TRAITS: Record<string, Array<{ nome: string; descricao: string }>> = {
+  'Cromado': [
+    { nome: 'Corpo Aprimorado', descricao: 'Você recebe vantagem narrativa em ações que dependem de resistência física e força mecânica.' },
+    { nome: 'Sobrecarga de Implantes', descricao: 'Pode forçar implantes por curto período para ganho tático, assumindo risco de estresse neural.' }
+  ],
+  'Medicânico': [
+    { nome: 'Protocolos de Emergência', descricao: 'Consegue estabilizar aliados em combate e reduzir impacto de ferimentos críticos.' },
+    { nome: 'Manutenção de Campo', descricao: 'Repara implantes e equipamentos sob pressão com eficiência superior.' }
+  ],
+  'Piloto': [
+    { nome: 'Manobra Defensiva', descricao: 'Recebe vantagem em perseguições e evasão com veículos.' },
+    { nome: 'Leitura de Rota', descricao: 'Identifica rotas de fuga e pontos de risco com rapidez.' }
+  ],
+  'Samurai': [
+    { nome: 'Ataque Cirúrgico', descricao: 'Especialista em eliminar alvos rapidamente com precisão e discrição.' },
+    { nome: 'Foco Letal', descricao: 'Ganha bônus tático ao iniciar combate em vantagem posicional.' }
+  ],
+  'Solo': [
+    { nome: 'Doutrina de Guerra Urbana', descricao: 'Desempenho aprimorado em confrontos diretos e fogo pesado.' },
+    { nome: 'Sangue Frio', descricao: 'Resiste melhor a intimidação e pressão em cenários extremos.' }
+  ],
+  'Trilha-Redes': [
+    { nome: 'Invasão Tática', descricao: 'Consegue manipular sistemas e implantes inimigos durante operações.' },
+    { nome: 'Fantasma da Rede', descricao: 'Reduz rastros digitais e melhora infiltração em ambientes conectados.' }
+  ]
+};
+
+export const CYBERPUN2080_ORIGIN_TRAITS: Record<string, Array<{ nome: string; descricao: string }>> = {
+  'Megacorp': [
+    { nome: 'Etiqueta Corporativa', descricao: 'Facilidade para negociar com executivos, seguranças e burocracias corporativas.' }
+  ],
+  'Rua': [
+    { nome: 'Rede de Rua', descricao: 'Acesso facilitado a contatos locais, boatos e mercado paralelo.' }
+  ],
+  'Nômade': [
+    { nome: 'Sobrevivência Itinerante', descricao: 'Maior adaptação a deslocamentos longos e territórios hostis.' }
+  ],
+  'Favela Vertical': [
+    { nome: 'Guerra de Território', descricao: 'Experiência em combate de proximidade e navegação em áreas densas.' }
+  ],
+  'Zona de Combate': [
+    { nome: 'Instinto de Conflito', descricao: 'Percepção apurada para emboscadas e ameaças imediatas.' }
+  ],
+  'Subúrbio Industrial': [
+    { nome: 'Engenharia de Sucata', descricao: 'Consegue improvisar ferramentas e soluções com recursos limitados.' }
+  ]
+};
+
 /**
  * Avatar padrão
  */
