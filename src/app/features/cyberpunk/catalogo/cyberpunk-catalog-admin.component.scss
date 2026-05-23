@@ -93,6 +93,13 @@
     }
   }
 
+  .details-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.35rem;
+    margin-bottom: 0.35rem;
+  }
+
   .catalog-details + .catalog-details {
     margin-top: 0.5rem;
   }

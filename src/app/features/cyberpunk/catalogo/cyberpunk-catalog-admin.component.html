@@ -147,8 +147,10 @@
           <details [open]="i === 0" class="catalog-details">
             <summary>
               <span>Classe #{{ classRow.index + 1 }} - {{ classRow.classe.nome || 'Sem nome' }}</span>
-              <button class="btn btn-sm btn-outline-danger" (click)="$event.preventDefault(); removerClasse(classRow.index)">Remover</button>
             </summary>
+            <div class="details-actions">
+              <button type="button" class="btn btn-sm btn-outline-danger" (click)="removerClasse(classRow.index)">Remover</button>
+            </div>
 
             <div class="row g-2 mt-2">
               <div class="col-md-4">
@@ -272,8 +274,10 @@
                 <details [open]="j === 0" class="catalog-details nested">
                   <summary>
                     <span>Subclasse #{{ j + 1 }} - {{ subclasse.nome || 'Sem nome' }}</span>
-                    <button class="btn btn-sm btn-outline-danger" (click)="$event.preventDefault(); removerSubclasse(classRow.index, j)">Remover</button>
                   </summary>
+                  <div class="details-actions">
+                    <button type="button" class="btn btn-sm btn-outline-danger" (click)="removerSubclasse(classRow.index, j)">Remover</button>
+                  </div>
                   <div class="row g-2 mt-2">
                     <div class="col-md-4">
                       <label class="form-label">Nome</label>
@@ -332,8 +336,10 @@
           <details [open]="i === 0" class="catalog-details">
             <summary>
               <span>Antecedente #{{ row.index + 1 }} - {{ row.antecedente.nome || 'Sem nome' }}</span>
-              <button class="btn btn-sm btn-outline-danger" (click)="$event.preventDefault(); removerAntecedente(row.index)">Remover</button>
             </summary>
+            <div class="details-actions">
+              <button type="button" class="btn btn-sm btn-outline-danger" (click)="removerAntecedente(row.index)">Remover</button>
+            </div>
             <div class="row g-2 mt-2">
               <div class="col-md-1">
                 <label class="form-label">Emoji</label>
@@ -415,8 +421,10 @@
           <details [open]="i < 2" class="catalog-details">
             <summary>
               <span>Talento #{{ i + 1 }} - {{ item.talento.nome || 'Sem nome' }}</span>
-              <button class="btn btn-sm btn-outline-danger" (click)="$event.preventDefault(); removerTalento(item.index)">Remover</button>
             </summary>
+            <div class="details-actions">
+              <button type="button" class="btn btn-sm btn-outline-danger" (click)="removerTalento(item.index)">Remover</button>
+            </div>
             <div class="row g-2 mt-2">
               <div class="col-md-4">
                 <label class="form-label">Nome</label>
