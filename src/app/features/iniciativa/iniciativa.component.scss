@@ -76,6 +76,69 @@
     }
 }
 
+.quick-sheet-section,
+.quick-sheet-list-section {
+    margin-bottom: 2rem;
+
+    .card {
+        border: none;
+        border-radius: 0.75rem;
+
+        .card-body {
+            padding: 1.5rem;
+        }
+    }
+
+    .section-title {
+        font-weight: 600;
+        color: #2d3748;
+        font-size: 1.1rem;
+    }
+
+    .form-label {
+        font-weight: 500;
+        color: #4a5568;
+        font-size: 0.9rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-control,
+    .form-select {
+        border-radius: 0.5rem;
+        border: 1px solid #e2e8f0;
+        padding: 0.625rem 0.875rem;
+
+        &:focus {
+            border-color: #4a5568;
+            box-shadow: 0 0 0 0.2rem rgba(74, 85, 104, 0.25);
+        }
+    }
+
+    textarea.form-control {
+        resize: vertical;
+    }
+}
+
+.quick-sheet-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 0.75rem;
+    padding: 0.9rem;
+    margin-bottom: 0.8rem;
+    background-color: #fff;
+}
+
+.sheet-status {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    font-size: 0.9rem;
+    color: #4a5568;
+}
+
+.sheet-block ul {
+    padding-left: 1.2rem;
+}
+
 .initiative-table-section {
     .card {
         border: none;
@@ -181,6 +244,10 @@
         .btn-primary {
             margin-top: 0.5rem;
         }
+    }
+
+    .sheet-status {
+        gap: 0.5rem;
     }
     
     .table {

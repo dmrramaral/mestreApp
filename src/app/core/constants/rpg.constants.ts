@@ -71,6 +71,7 @@ export const STORAGE_KEYS = {
   PLAYER_LAST_SYNC_PREFIX: 'jogador:last-sync:',
   PLAYER_SESSION: 'jogador_sessao',
   INITIATIVE_LIST: 'listaIniciativa',
+  INITIATIVE_SHEETS: 'fichasIniciativa',
   MARKET_CACHE: 'mercado_cache'
 } as const;
 
