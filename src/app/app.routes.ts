@@ -31,6 +31,26 @@ export const routes: Routes = [
       loadComponent: () => import('./features/cyberpunk/catalogo/cyberpunk-catalog-admin.component').then(m => m.CyberpunkCatalogAdminComponent)
     },
     {
+      path: 'cyberpunk-catalogo/dashboard',
+      data: { pagina: 'dashboard' },
+      loadComponent: () => import('./features/cyberpunk/catalogo/cyberpunk-catalog-admin.component').then(m => m.CyberpunkCatalogAdminComponent)
+    },
+    {
+      path: 'cyberpunk-catalogo/classes',
+      data: { pagina: 'classes' },
+      loadComponent: () => import('./features/cyberpunk/catalogo/cyberpunk-catalog-admin.component').then(m => m.CyberpunkCatalogAdminComponent)
+    },
+    {
+      path: 'cyberpunk-catalogo/conteudo',
+      data: { pagina: 'conteudo' },
+      loadComponent: () => import('./features/cyberpunk/catalogo/cyberpunk-catalog-admin.component').then(m => m.CyberpunkCatalogAdminComponent)
+    },
+    {
+      path: 'cyberpunk-catalogo/loja',
+      data: { pagina: 'loja' },
+      loadComponent: () => import('./features/cyberpunk/catalogo/cyberpunk-catalog-admin.component').then(m => m.CyberpunkCatalogAdminComponent)
+    },
+    {
       path: 'cyberpunk-loja',
       loadComponent: () => import('./features/cyberpunk/loja/cyberpunk-loja.component').then(m => m.CyberpunkLojaComponent)
     },

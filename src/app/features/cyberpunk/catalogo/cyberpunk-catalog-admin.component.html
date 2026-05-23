@@ -1,20 +1,27 @@
 <div class="container py-4 catalog-admin">
-  <div class="d-flex justify-content-between align-items-center mb-3">
+  <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
     <div>
       <h2 class="mb-1">Catalogo CyberPunk 2080</h2>
-      <p class="text-muted mb-0">Gerencie classes, subclasses, antecedentes e talentos salvos no banco.</p>
+      <p class="text-muted mb-0">Dashboard, filtros e edicao por paginas para todos os dados usados na ficha.</p>
     </div>
     <div class="d-flex gap-2 flex-wrap justify-content-end">
       <button class="btn btn-outline-secondary" (click)="carregar()" [disabled]="loading || saving">Recarregar</button>
       <button class="btn btn-outline-warning" (click)="confirmandoPopular = !confirmandoPopular" [disabled]="loading || saving">
-        <i class="fas fa-database me-1"></i>Pré-popular com dados locais
+        <i class="fas fa-database me-1"></i>Pre-popular com dados locais
       </button>
       <button class="btn btn-primary" (click)="salvar()" [disabled]="loading || saving || !catalog">{{ saving ? 'Salvando...' : 'Salvar no Banco' }}</button>
     </div>
   </div>
 
+  <nav class="catalog-nav mb-4">
+    <a class="btn btn-outline-primary" routerLink="/cyberpunk-catalogo/dashboard" routerLinkActive="active">Dashboard</a>
+    <a class="btn btn-outline-primary" routerLink="/cyberpunk-catalogo/classes" routerLinkActive="active">Classes e Subclasses</a>
+    <a class="btn btn-outline-primary" routerLink="/cyberpunk-catalogo/conteudo" routerLinkActive="active">Antecedentes e Talentos</a>
+    <a class="btn btn-outline-primary" routerLink="/cyberpunk-catalogo/loja" routerLinkActive="active">Loja e Hacks</a>
+  </nav>
+
   <div *ngIf="confirmandoPopular" class="alert alert-warning d-flex align-items-center justify-content-between gap-2 mb-3">
-    <span><strong>Atenção:</strong> Isso substituirá qualquer alteração não salva pelo conteúdo de <code>rpg.constants.ts</code>. Deseja continuar?</span>
+    <span><strong>Atencao:</strong> Isso substitui alteracoes nao salvas pelo conteudo de <code>rpg.constants.ts</code>. Deseja continuar?</span>
     <div class="d-flex gap-2">
       <button class="btn btn-sm btn-warning" (click)="popularComDadosLocais()">Confirmar</button>
       <button class="btn btn-sm btn-outline-secondary" (click)="confirmandoPopular = false">Cancelar</button>
@@ -33,133 +40,214 @@
   <div *ngIf="sucesso" class="alert alert-success">{{ sucesso }}</div>
 
   <div *ngIf="!loading && !catalog && !erro" class="alert alert-secondary d-flex align-items-center justify-content-between gap-2">
-    <span>Nenhum catálogo encontrado no banco. Clique em <strong>Pré-popular com dados locais</strong> para carregar os dados de <code>rpg.constants.ts</code> e depois salvar.</span>
+    <span>Nenhum catalogo encontrado no banco. Clique em <strong>Pre-popular com dados locais</strong> para carregar os dados de <code>rpg.constants.ts</code> e depois salvar.</span>
     <button class="btn btn-sm btn-warning flex-shrink-0" (click)="popularComDadosLocais()">
-      <i class="fas fa-database me-1"></i>Pré-popular agora
+      <i class="fas fa-database me-1"></i>Pre-popular agora
     </button>
   </div>
 
   <ng-container *ngIf="catalog">
-    <div class="card mb-4">
-      <div class="card-header d-flex justify-content-between align-items-center">
-        <strong>Classes e Subclasses</strong>
-        <div class="d-flex gap-2">
-          <button class="btn btn-sm btn-outline-light" (click)="toggleSecao('classes')">
-            {{ mostrarClasses ? 'Encolher' : 'Expandir' }}
-          </button>
-          <button class="btn btn-sm btn-success" (click)="adicionarClasse()">Adicionar Classe</button>
+    <section *ngIf="paginaAtiva === 'dashboard'" class="dashboard-grid mb-4">
+      <article class="metric-card">
+        <small>Classes</small>
+        <strong>{{ resumoCatalogo.classes }}</strong>
+      </article>
+      <article class="metric-card">
+        <small>Subclasses</small>
+        <strong>{{ resumoCatalogo.subclasses }}</strong>
+      </article>
+      <article class="metric-card">
+        <small>Progressoes de Classe</small>
+        <strong>{{ resumoCatalogo.progressaoClasses }}</strong>
+      </article>
+      <article class="metric-card">
+        <small>Progressoes de Subclasse</small>
+        <strong>{{ resumoCatalogo.progressaoSubclasses }}</strong>
+      </article>
+      <article class="metric-card">
+        <small>Antecedentes</small>
+        <strong>{{ resumoCatalogo.antecedentes }}</strong>
+      </article>
+      <article class="metric-card">
+        <small>Talentos</small>
+        <strong>{{ resumoCatalogo.talentos }}</strong>
+      </article>
+      <article class="metric-card">
+        <small>Talentos c/ Classe</small>
+        <strong>{{ resumoCatalogo.talentosComClasse }}</strong>
+      </article>
+      <article class="metric-card">
+        <small>Itens de Loja</small>
+        <strong>{{ resumoCatalogo.itensLoja }}</strong>
+      </article>
+      <article class="metric-card">
+        <small>Hacks Rapidos</small>
+        <strong>{{ resumoCatalogo.hacks }}</strong>
+      </article>
+      <article class="metric-card">
+        <small>Armas</small>
+        <strong>{{ resumoCatalogo.armas }}</strong>
+      </article>
+      <article class="metric-card metric-card-danger">
+        <small>Entradas com Ataque/Golpe</small>
+        <strong>{{ resumoCatalogo.ataquesCatalogados }}</strong>
+      </article>
+    </section>
+
+    <div *ngIf="paginaAtiva === 'dashboard'" class="card mb-4">
+      <div class="card-header"><strong>Cobertura dos Dados da Ficha</strong></div>
+      <div class="card-body">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="coverage-box">
+              <h6>Estrutura de Personagem</h6>
+              <ul>
+                <li>Classes + Subclasses: {{ resumoCatalogo.classes + resumoCatalogo.subclasses }}</li>
+                <li>Progressao total: {{ resumoCatalogo.progressaoClasses + resumoCatalogo.progressaoSubclasses }}</li>
+                <li>Antecedentes: {{ resumoCatalogo.antecedentes }}</li>
+                <li>Talentos: {{ resumoCatalogo.talentos }}</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="coverage-box">
+              <h6>Combate e Economia</h6>
+              <ul>
+                <li>Entradas de ataque/golpe: {{ resumoCatalogo.ataquesCatalogados }}</li>
+                <li>Itens totais da loja: {{ resumoCatalogo.itensLoja }}</li>
+                <li>Armas: {{ resumoCatalogo.armas }}</li>
+                <li>Hacks rapidos: {{ resumoCatalogo.hacks }}</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="card-body" *ngIf="mostrarClasses">
-        <div class="class-block border rounded p-3 mb-3" *ngFor="let classe of catalog.classes; let i = index">
+    </div>
+
+    <div class="card mb-4" *ngIf="paginaAtiva === 'classes'">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <strong>Classes e Subclasses</strong>
+        <button class="btn btn-sm btn-success" (click)="adicionarClasse()">Adicionar Classe</button>
+      </div>
+      <div class="card-body">
+        <div class="row g-2 mb-3">
+          <div class="col-md-6">
+            <label class="form-label">Filtro de Classe</label>
+            <input class="form-control" [(ngModel)]="classNameFilter" placeholder="Nome ou descricao da classe" />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Filtro de Subclasse</label>
+            <input class="form-control" [(ngModel)]="subclassNameFilter" placeholder="Nome da subclasse" />
+          </div>
+        </div>
+
+        <div class="text-muted small mb-2">Resultados: {{ classesFiltradas.length }}</div>
+
+        <div class="class-block border rounded p-3 mb-3" *ngFor="let classRow of classesFiltradas; let i = index">
           <details [open]="i === 0" class="catalog-details">
             <summary>
-              <span>Classe #{{ i + 1 }} - {{ classe.nome || 'Sem nome' }}</span>
-              <button class="btn btn-sm btn-outline-danger" (click)="$event.preventDefault(); removerClasse(i)">Remover</button>
+              <span>Classe #{{ classRow.index + 1 }} - {{ classRow.classe.nome || 'Sem nome' }}</span>
+              <button class="btn btn-sm btn-outline-danger" (click)="$event.preventDefault(); removerClasse(classRow.index)">Remover</button>
             </summary>
 
             <div class="row g-2 mt-2">
               <div class="col-md-4">
                 <label class="form-label">Nome da Classe</label>
-                <input class="form-control" [(ngModel)]="classe.nome" />
+                <input class="form-control" [(ngModel)]="classRow.classe.nome" />
               </div>
               <div class="col-md-8">
                 <label class="form-label">Descricao</label>
-                <input class="form-control" [(ngModel)]="classe.descricao" />
+                <input class="form-control" [(ngModel)]="classRow.classe.descricao" />
               </div>
             </div>
 
-            <!-- Flavor Text -->
             <div class="mt-3">
               <div class="d-flex justify-content-between align-items-center mb-1">
                 <label class="form-label mb-0 fw-semibold">Textos de Sabor (Flavor Text)</label>
-                <button class="btn btn-sm btn-outline-secondary" (click)="adicionarFlavorText(i)">Adicionar</button>
+                <button class="btn btn-sm btn-outline-secondary" (click)="adicionarFlavorText(classRow.index)">Adicionar</button>
               </div>
-              <div class="input-group mb-1" *ngFor="let texto of (classe.flavorText || []); let ti = index">
-                <input class="form-control" [(ngModel)]="classe.flavorText![ti]" placeholder="Texto de sabor..." />
-                <button class="btn btn-outline-danger" (click)="removerFlavorText(i, ti)"><i class="fas fa-times"></i></button>
+              <div class="input-group mb-1" *ngFor="let texto of (classRow.classe.flavorText || []); let ti = index">
+                <input class="form-control" [(ngModel)]="classRow.classe.flavorText![ti]" placeholder="Texto de sabor..." />
+                <button class="btn btn-outline-danger" (click)="removerFlavorText(classRow.index, ti)"><i class="fas fa-times"></i></button>
               </div>
             </div>
 
-            <!-- HP e CT -->
             <div class="row g-2 mt-2">
               <div class="col-md-4">
                 <label class="form-label">HP Nivel 1</label>
-                <input class="form-control" [(ngModel)]="classe.hpNivel1" placeholder="Ex: 18 + mod de Constituição" />
+                <input class="form-control" [(ngModel)]="classRow.classe.hpNivel1" placeholder="Ex: 18 + mod de Constituicao" />
               </div>
               <div class="col-md-4">
                 <label class="form-label">HP por Nivel</label>
-                <input class="form-control" [(ngModel)]="classe.hpPorNivel" placeholder="Ex: 1d8 + mod de Constituição" />
+                <input class="form-control" [(ngModel)]="classRow.classe.hpPorNivel" placeholder="Ex: 1d8 + mod de Constituicao" />
               </div>
               <div class="col-md-2">
                 <label class="form-label">CT Base</label>
-                <input type="number" class="form-control" [(ngModel)]="classe.ctBase" />
+                <input type="number" class="form-control" [(ngModel)]="classRow.classe.ctBase" />
               </div>
               <div class="col-md-2">
                 <label class="form-label">RAM Base</label>
-                <input type="number" class="form-control" [(ngModel)]="classe.ramBase" placeholder="null se N/A" />
+                <input type="number" class="form-control" [(ngModel)]="classRow.classe.ramBase" placeholder="null se N/A" />
               </div>
             </div>
 
-            <!-- Proficiencias -->
             <div class="mt-3 border rounded p-2">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <label class="form-label mb-0 fw-semibold">Proficiencias</label>
-                <button class="btn btn-sm btn-outline-info" (click)="garantirProficienciasClasse(i)">Inicializar</button>
+                <button class="btn btn-sm btn-outline-info" (click)="garantirProficienciasClasse(classRow.index)">Inicializar</button>
               </div>
-              <ng-container *ngIf="classe.proficiencias">
+              <ng-container *ngIf="classRow.classe.proficiencias">
                 <div class="row g-2">
                   <div class="col-md-6">
-                    <label class="form-label small">Resistencias (vírgula)</label>
+                    <label class="form-label small">Resistencias (virgula)</label>
                     <input class="form-control form-control-sm"
-                      [ngModel]="(classe.proficiencias.resistencias || []).join(', ')"
-                      (ngModelChange)="setProficienciaField(i, 'resistencias', $event)"
-                      placeholder="Constituição, Sabedoria" />
+                      [ngModel]="(classRow.classe.proficiencias.resistencias || []).join(', ')"
+                      (ngModelChange)="setProficienciaField(classRow.index, 'resistencias', $event)"
+                      placeholder="Constituicao, Sabedoria" />
                   </div>
                   <div class="col-md-6">
-                    <label class="form-label small">Armaduras (vírgula)</label>
+                    <label class="form-label small">Armaduras (virgula)</label>
                     <input class="form-control form-control-sm"
-                      [ngModel]="(classe.proficiencias.armaduras || []).join(', ')"
-                      (ngModelChange)="setProficienciaField(i, 'armaduras', $event)"
-                      placeholder="Leves, Médias, Pesadas" />
+                      [ngModel]="(classRow.classe.proficiencias.armaduras || []).join(', ')"
+                      (ngModelChange)="setProficienciaField(classRow.index, 'armaduras', $event)"
+                      placeholder="Leves, Medias, Pesadas" />
                   </div>
                   <div class="col-12">
-                    <label class="form-label small">Armas (vírgula)</label>
+                    <label class="form-label small">Armas (virgula)</label>
                     <input class="form-control form-control-sm"
-                      [ngModel]="(classe.proficiencias.armas || []).join(', ')"
-                      (ngModelChange)="setProficienciaField(i, 'armas', $event)"
+                      [ngModel]="(classRow.classe.proficiencias.armas || []).join(', ')"
+                      (ngModelChange)="setProficienciaField(classRow.index, 'armas', $event)"
                       placeholder="Pistolas, Rifles, Facas..." />
                   </div>
                   <div class="col-12">
-                    <label class="form-label small">Ferramentas (vírgula)</label>
+                    <label class="form-label small">Ferramentas (virgula)</label>
                     <input class="form-control form-control-sm"
-                      [ngModel]="(classe.proficiencias.ferramentas || []).join(', ')"
-                      (ngModelChange)="setProficienciaField(i, 'ferramentas', $event)"
-                      placeholder="Kit Médico, Kit de Ladrão..." />
+                      [ngModel]="(classRow.classe.proficiencias.ferramentas || []).join(', ')"
+                      (ngModelChange)="setProficienciaField(classRow.index, 'ferramentas', $event)"
+                      placeholder="Kit Medico, Kit de Ladrao..." />
                   </div>
                   <div class="col-md-2">
-                    <label class="form-label small">Escolher perícias</label>
-                    <input type="number" class="form-control form-control-sm" [(ngModel)]="classe.proficiencias!.pericias!.escolher" />
+                    <label class="form-label small">Escolher pericias</label>
+                    <input type="number" class="form-control form-control-sm" [(ngModel)]="classRow.classe.proficiencias.pericias.escolher" />
                   </div>
                   <div class="col-md-10">
-                    <label class="form-label small">Opções de perícias (vírgula)</label>
+                    <label class="form-label small">Opcoes de pericias (virgula)</label>
                     <input class="form-control form-control-sm"
-                      [ngModel]="(classe.proficiencias!.pericias?.opcoes || []).join(', ')"
-                      (ngModelChange)="setPericiaOpcoes(i, $event)"
-                      placeholder="Medicina, Furtividade, Percepção..." />
+                      [ngModel]="(classRow.classe.proficiencias.pericias.opcoes || []).join(', ')"
+                      (ngModelChange)="setPericiaOpcoes(classRow.index, $event)"
+                      placeholder="Medicina, Furtividade, Percepcao..." />
                   </div>
                 </div>
               </ng-container>
-              <p *ngIf="!classe.proficiencias" class="text-muted small mb-0">Clique em "Inicializar" para criar a estrutura de proficiências.</p>
+              <p *ngIf="!classRow.classe.proficiencias" class="text-muted small mb-0">Clique em "Inicializar" para criar a estrutura de proficiencias.</p>
             </div>
 
-            <!-- Progressao da Classe -->
             <div class="mt-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <label class="form-label mb-0 fw-semibold">Progressao por Nivel (Classe Base)</label>
-                <button class="btn btn-sm btn-outline-secondary" (click)="adicionarNivelClasse(i)">Adicionar Nivel</button>
+                <button class="btn btn-sm btn-outline-secondary" (click)="adicionarNivelClasse(classRow.index)">Adicionar Nivel</button>
               </div>
-              <div class="row g-2 mb-2" *ngFor="let nivelInfo of (classe.progressao || []); let k = index">
+              <div class="row g-2 mb-2" *ngFor="let nivelInfo of (classRow.classe.progressao || []); let k = index">
                 <div class="col-md-1">
                   <input type="number" class="form-control form-control-sm" [(ngModel)]="nivelInfo.nivel" placeholder="Nv" />
                 </div>
@@ -170,7 +258,7 @@
                   <input class="form-control form-control-sm" [(ngModel)]="nivelInfo.descricao" placeholder="Descricao" />
                 </div>
                 <div class="col-md-1">
-                  <button class="btn btn-outline-danger btn-sm w-100" (click)="removerNivelClasse(i, k)">X</button>
+                  <button class="btn btn-outline-danger btn-sm w-100" (click)="removerNivelClasse(classRow.index, k)">X</button>
                 </div>
               </div>
             </div>
@@ -178,13 +266,13 @@
             <div class="mt-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <label class="form-label mb-0">Subclasses</label>
-                <button class="btn btn-sm btn-outline-primary" (click)="adicionarSubclasse(i)">Adicionar Subclasse</button>
+                <button class="btn btn-sm btn-outline-primary" (click)="adicionarSubclasse(classRow.index)">Adicionar Subclasse</button>
               </div>
-              <div class="border rounded p-2 mb-2" *ngFor="let subclasse of classe.subclasses; let j = index">
+              <div class="border rounded p-2 mb-2" *ngFor="let subclasse of classRow.classe.subclasses; let j = index">
                 <details [open]="j === 0" class="catalog-details nested">
                   <summary>
                     <span>Subclasse #{{ j + 1 }} - {{ subclasse.nome || 'Sem nome' }}</span>
-                    <button class="btn btn-sm btn-outline-danger" (click)="$event.preventDefault(); removerSubclasse(i, j)">Remover</button>
+                    <button class="btn btn-sm btn-outline-danger" (click)="$event.preventDefault(); removerSubclasse(classRow.index, j)">Remover</button>
                   </summary>
                   <div class="row g-2 mt-2">
                     <div class="col-md-4">
@@ -200,7 +288,7 @@
                   <div class="mt-2">
                     <div class="d-flex justify-content-between align-items-center mb-2">
                       <label class="form-label mb-0">Progressao por Nivel</label>
-                      <button class="btn btn-sm btn-outline-secondary" (click)="adicionarNivelSubclasse(i, j)">Adicionar Nivel</button>
+                      <button class="btn btn-sm btn-outline-secondary" (click)="adicionarNivelSubclasse(classRow.index, j)">Adicionar Nivel</button>
                     </div>
                     <div class="row g-2 mb-2" *ngFor="let nivelInfo of subclasse.progressao; let k = index">
                       <div class="col-md-2">
@@ -213,7 +301,7 @@
                         <input class="form-control" [(ngModel)]="nivelInfo.descricao" placeholder="Descricao" />
                       </div>
                       <div class="col-md-1">
-                        <button class="btn btn-outline-danger w-100" (click)="removerNivelSubclasse(i, j, k)">X</button>
+                        <button class="btn btn-outline-danger w-100" (click)="removerNivelSubclasse(classRow.index, j, k)">X</button>
                       </div>
                     </div>
                   </div>
@@ -225,73 +313,75 @@
       </div>
     </div>
 
-    <div class="card mb-4">
+    <div class="card mb-4" *ngIf="paginaAtiva === 'conteudo'">
       <div class="card-header d-flex justify-content-between align-items-center">
         <strong>Antecedentes</strong>
-        <div class="d-flex gap-2">
-          <button class="btn btn-sm btn-outline-light" (click)="toggleSecao('antecedentes')">
-            {{ mostrarAntecedentes ? 'Encolher' : 'Expandir' }}
-          </button>
-          <button class="btn btn-sm btn-success" (click)="adicionarAntecedente()">Adicionar Antecedente</button>
-        </div>
+        <button class="btn btn-sm btn-success" (click)="adicionarAntecedente()">Adicionar Antecedente</button>
       </div>
-      <div class="card-body" *ngIf="mostrarAntecedentes">
-        <div class="border rounded p-3 mb-3" *ngFor="let antecedente of catalog.antecedentes; let i = index">
+      <div class="card-body">
+        <div class="row g-2 mb-3">
+          <div class="col-md-6">
+            <label class="form-label">Filtro de Antecedente</label>
+            <input class="form-control" [(ngModel)]="antecedenteFilter" placeholder="Nome, descricao ou talento" />
+          </div>
+        </div>
+
+        <div class="text-muted small mb-2">Resultados: {{ antecedentesFiltrados.length }}</div>
+
+        <div class="border rounded p-3 mb-3" *ngFor="let row of antecedentesFiltrados; let i = index">
           <details [open]="i === 0" class="catalog-details">
             <summary>
-              <span>Antecedente #{{ i + 1 }} - {{ antecedente.nome || 'Sem nome' }}</span>
-              <button class="btn btn-sm btn-outline-danger" (click)="$event.preventDefault(); removerAntecedente(i)">Remover</button>
+              <span>Antecedente #{{ row.index + 1 }} - {{ row.antecedente.nome || 'Sem nome' }}</span>
+              <button class="btn btn-sm btn-outline-danger" (click)="$event.preventDefault(); removerAntecedente(row.index)">Remover</button>
             </summary>
             <div class="row g-2 mt-2">
               <div class="col-md-1">
                 <label class="form-label">Emoji</label>
-                <input class="form-control" [(ngModel)]="antecedente.emoji" placeholder="🕸️" />
+                <input class="form-control" [(ngModel)]="row.antecedente.emoji" placeholder="*" />
               </div>
               <div class="col-md-3">
                 <label class="form-label">Nome</label>
-                <input class="form-control" [(ngModel)]="antecedente.nome" />
+                <input class="form-control" [(ngModel)]="row.antecedente.nome" />
               </div>
               <div class="col-md-5">
                 <label class="form-label">Descricao</label>
-                <textarea class="form-control" rows="2" [(ngModel)]="antecedente.descricao"></textarea>
+                <textarea class="form-control" rows="2" [(ngModel)]="row.antecedente.descricao"></textarea>
               </div>
               <div class="col-md-3">
                 <label class="form-label">Talento de Origem</label>
-                <input class="form-control" [(ngModel)]="antecedente.talentoOrigem" />
+                <input class="form-control" [(ngModel)]="row.antecedente.talentoOrigem" />
               </div>
             </div>
             <div class="row g-2 mt-2">
               <div class="col-12">
                 <label class="form-label">Descricao do Talento de Origem</label>
-                <textarea class="form-control" rows="2" [(ngModel)]="antecedente.talentoDescricao"></textarea>
+                <textarea class="form-control" rows="2" [(ngModel)]="row.antecedente.talentoDescricao"></textarea>
               </div>
               <div class="col-md-3">
                 <label class="form-label">Dinheiro Inicial (edinhos)</label>
-                <input type="number" class="form-control" [(ngModel)]="antecedente.dinheiroInicial" />
+                <input type="number" class="form-control" [(ngModel)]="row.antecedente.dinheiroInicial" />
               </div>
             </div>
 
-            <!-- Atributos -->
             <div class="mt-2">
               <div class="d-flex justify-content-between align-items-center mb-1">
                 <label class="form-label mb-0">Atributos Principais</label>
-                <button class="btn btn-sm btn-outline-secondary" (click)="adicionarAtributoAntecedente(i)">Adicionar</button>
+                <button class="btn btn-sm btn-outline-secondary" (click)="adicionarAtributoAntecedente(row.index)">Adicionar</button>
               </div>
-              <div class="input-group mb-1" *ngFor="let atr of (antecedente.atributos || []); let ai = index">
-                <input class="form-control form-control-sm" [(ngModel)]="antecedente.atributos[ai]" placeholder="Ex: Carisma" />
-                <button class="btn btn-outline-danger btn-sm" (click)="removerAtributoAntecedente(i, ai)">X</button>
+              <div class="input-group mb-1" *ngFor="let atr of (row.antecedente.atributos || []); let ai = index">
+                <input class="form-control form-control-sm" [(ngModel)]="row.antecedente.atributos[ai]" placeholder="Ex: Carisma" />
+                <button class="btn btn-outline-danger btn-sm" (click)="removerAtributoAntecedente(row.index, ai)">X</button>
               </div>
             </div>
 
-            <!-- Itens Iniciais -->
             <div class="mt-2">
               <div class="d-flex justify-content-between align-items-center mb-1">
                 <label class="form-label mb-0">Itens Iniciais</label>
-                <button class="btn btn-sm btn-outline-secondary" (click)="adicionarItemInicialAntecedente(i)">Adicionar</button>
+                <button class="btn btn-sm btn-outline-secondary" (click)="adicionarItemInicialAntecedente(row.index)">Adicionar</button>
               </div>
-              <div class="input-group mb-1" *ngFor="let item of (antecedente.itensIniciais || []); let ii = index">
-                <input class="form-control form-control-sm" [(ngModel)]="antecedente.itensIniciais[ii]" placeholder="Ex: Pistola" />
-                <button class="btn btn-outline-danger btn-sm" (click)="removerItemInicialAntecedente(i, ii)">X</button>
+              <div class="input-group mb-1" *ngFor="let item of (row.antecedente.itensIniciais || []); let ii = index">
+                <input class="form-control form-control-sm" [(ngModel)]="row.antecedente.itensIniciais[ii]" placeholder="Ex: Pistola" />
+                <button class="btn btn-outline-danger btn-sm" (click)="removerItemInicialAntecedente(row.index, ii)">X</button>
               </div>
             </div>
           </details>
@@ -299,26 +389,27 @@
       </div>
     </div>
 
-    <div class="card">
+    <div class="card mb-4" *ngIf="paginaAtiva === 'conteudo'">
       <div class="card-header d-flex justify-content-between align-items-center">
         <strong>Talentos</strong>
-        <div class="d-flex gap-2">
-          <button class="btn btn-sm btn-outline-light" (click)="toggleSecao('talentos')">
-            {{ mostrarTalentos ? 'Encolher' : 'Expandir' }}
-          </button>
-          <button class="btn btn-sm btn-success" (click)="adicionarTalento()">Adicionar Talento</button>
-        </div>
+        <button class="btn btn-sm btn-success" (click)="adicionarTalento()">Adicionar Talento</button>
       </div>
-      <div class="card-body" *ngIf="mostrarTalentos">
+      <div class="card-body">
         <div class="row g-2 align-items-end mb-3">
           <div class="col-md-4">
-            <label class="form-label">Filtro por Classe (visualizacao)</label>
+            <label class="form-label">Filtro por Classe</label>
             <select class="form-select" [(ngModel)]="classFilter" (ngModelChange)="onClassFilterChange()">
               <option value="">Todas</option>
               <option *ngFor="let classe of classesDisponiveis" [ngValue]="classe">{{ classe }}</option>
             </select>
           </div>
+          <div class="col-md-8">
+            <label class="form-label">Filtro por Nome/Descricao</label>
+            <input class="form-control" [(ngModel)]="talentoNomeFilter" (ngModelChange)="onTalentoNomeFilterChange()" placeholder="Ex: evasivo, combate, dano..." />
+          </div>
         </div>
+
+        <div class="text-muted small mb-2">Resultados: {{ talentosFiltrados.length }}</div>
 
         <div class="border rounded p-3 mb-3" *ngFor="let item of talentosFiltrados; let i = index; trackBy: trackByTalentIndex">
           <details [open]="i < 2" class="catalog-details">
@@ -354,73 +445,79 @@
       </div>
     </div>
 
-    <div class="card mt-4">
-      <div class="card-header d-flex justify-content-between align-items-center">
+    <div class="card mt-4" *ngIf="paginaAtiva === 'loja'">
+      <div class="card-header">
         <strong>Loja Cyber (Banco)</strong>
-        <div class="d-flex gap-2">
-          <button class="btn btn-sm btn-outline-light" (click)="mostrarLoja = !mostrarLoja">
-            {{ mostrarLoja ? 'Encolher' : 'Expandir' }}
-          </button>
-        </div>
       </div>
-      <div class="card-body" *ngIf="mostrarLoja && catalog.loja">
-        <p class="text-muted small mb-3">Categorias separadas da loja D&amp;D: armas, acessorios/municoes, protecao corporal, itens de CT e hacks rapidos.</p>
+      <div class="card-body" *ngIf="catalog.loja">
+        <p class="text-muted small mb-3">Categorias separadas da loja D&D: armas, acessorios/municoes, protecao corporal, itens de CT e hacks rapidos.</p>
+
+        <div class="row g-2 mb-3">
+          <div class="col-md-6">
+            <label class="form-label">Filtro por Nome/Descricao</label>
+            <input class="form-control" [(ngModel)]="lojaNomeFilter" placeholder="Ex: pistola, firewall, colete" />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Filtro por Categoria (texto)</label>
+            <input class="form-control" [(ngModel)]="lojaCategoriaFilter" placeholder="Ex: armas, hacks, CT" />
+          </div>
+        </div>
 
         <div class="border rounded p-3 mb-3" *ngFor="let categoria of categoriasLoja">
           <div class="d-flex justify-content-between align-items-center mb-2">
-            <h6 class="mb-0">{{ categoria.label }}</h6>
+            <h6 class="mb-0">{{ categoria.label }} ({{ listarItensLojaFiltrados(categoria.key).length }})</h6>
             <button class="btn btn-sm btn-outline-primary" (click)="adicionarItemLoja(categoria.key)">Adicionar Item</button>
           </div>
 
-          <div class="catalog-details mb-2" *ngFor="let item of listarItensLoja(categoria.key); let i = index">
+          <div class="catalog-details mb-2" *ngFor="let itemRow of listarItensLojaFiltrados(categoria.key); let i = index">
             <div class="d-flex justify-content-between align-items-center mb-2">
-              <strong>{{ item.nome || ('Item #' + (i + 1)) }}</strong>
-              <button class="btn btn-sm btn-outline-danger" (click)="removerItemLoja(categoria.key, i)">Remover</button>
+              <strong>{{ itemRow.item.nome || ('Item #' + (i + 1)) }}</strong>
+              <button class="btn btn-sm btn-outline-danger" (click)="removerItemLoja(categoria.key, itemRow.index)">Remover</button>
             </div>
             <div class="row g-2">
               <div class="col-md-4">
                 <label class="form-label">Nome</label>
-                <input class="form-control" [(ngModel)]="item.nome" />
+                <input class="form-control" [(ngModel)]="itemRow.item.nome" />
               </div>
               <div class="col-md-2">
                 <label class="form-label">Preco (edinhos)</label>
-                <input type="number" class="form-control" [(ngModel)]="item.precoEdinhos" />
+                <input type="number" class="form-control" [(ngModel)]="itemRow.item.precoEdinhos" />
               </div>
               <div class="col-md-2">
                 <label class="form-label">CA</label>
-                <input type="number" class="form-control" [(ngModel)]="item.ca" />
+                <input type="number" class="form-control" [(ngModel)]="itemRow.item.ca" />
               </div>
               <div class="col-md-2">
                 <label class="form-label">CF</label>
-                <input type="number" class="form-control" [(ngModel)]="item.cf" />
+                <input type="number" class="form-control" [(ngModel)]="itemRow.item.cf" />
               </div>
               <div class="col-md-2">
                 <label class="form-label">CT</label>
-                <input type="number" class="form-control" [(ngModel)]="item.ct" />
+                <input type="number" class="form-control" [(ngModel)]="itemRow.item.ct" />
               </div>
               <div class="col-md-4">
                 <label class="form-label">Categoria</label>
-                <input class="form-control" [(ngModel)]="item.categoria" />
+                <input class="form-control" [(ngModel)]="itemRow.item.categoria" />
               </div>
               <div class="col-md-4">
                 <label class="form-label">Pagina PDF</label>
-                <input class="form-control" [(ngModel)]="item.paginaPdf" placeholder="Ex: Pag. 69" />
+                <input class="form-control" [(ngModel)]="itemRow.item.paginaPdf" placeholder="Ex: Pag. 69" />
               </div>
               <div class="col-md-4 d-flex align-items-end">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" [(ngModel)]="item.restrito" [id]="'restrito_' + categoria.key + '_' + i" />
+                  <input class="form-check-input" type="checkbox" [(ngModel)]="itemRow.item.restrito" [id]="'restrito_' + categoria.key + '_' + i" />
                   <label class="form-check-label" [for]="'restrito_' + categoria.key + '_' + i">Item restrito (nao compravel)</label>
                 </div>
               </div>
               <div class="col-12">
                 <label class="form-label">Descricao</label>
-                <textarea class="form-control" rows="2" [(ngModel)]="item.descricao"></textarea>
+                <textarea class="form-control" rows="2" [(ngModel)]="itemRow.item.descricao"></textarea>
               </div>
             </div>
           </div>
 
-          <div class="text-muted small" *ngIf="listarItensLoja(categoria.key).length === 0">
-            Sem itens nesta categoria. Clique em Adicionar Item para cadastrar.
+          <div class="text-muted small" *ngIf="listarItensLojaFiltrados(categoria.key).length === 0">
+            Sem itens para os filtros atuais nesta categoria.
           </div>
         </div>
       </div>
