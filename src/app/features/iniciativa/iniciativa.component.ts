@@ -87,6 +87,7 @@ export class IniciativaComponent implements OnInit {
   listaIniciativa: ParticipanteIniciativa[] = [];
   fichasRapidas: FichaRapidaIniciativa[] = [];
   novaFicha: NovaFichaRapidaForm = this.criarNovaFicha();
+  formularioFichaVisivel = true;
 
   constructor(private storageService: StorageService) { }
 
@@ -185,6 +186,10 @@ export class IniciativaComponent implements OnInit {
     });
     this.listaIniciativa.sort((a, b) => b.iniciativa - a.iniciativa);
     this.storageService.setObject(STORAGE_KEYS.INITIATIVE_LIST, this.listaIniciativa);
+  }
+
+  alternarFormularioFichaRapida() {
+    this.formularioFichaVisivel = !this.formularioFichaVisivel;
   }
 
   private converterTextoEmLista(texto: string): string[] {
