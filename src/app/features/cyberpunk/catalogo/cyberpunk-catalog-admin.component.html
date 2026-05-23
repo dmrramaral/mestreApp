@@ -481,6 +481,18 @@
       <div class="card-body" *ngIf="catalog.loja">
         <p class="text-muted small mb-3">Categorias separadas da loja D&D: armas, acessorios/municoes, protecao corporal, itens de CT e hacks rapidos.</p>
 
+        <div class="d-flex gap-2 flex-wrap mb-3">
+          <button class="btn btn-sm btn-outline-dark" [class.active]="lojaAbaAtiva === 'todas'" (click)="mostrarTodasCategoriasLoja()">
+            Ver Todas as Categorias
+          </button>
+          <button class="btn btn-sm btn-outline-primary" [class.active]="lojaAbaAtiva === 'hacksRapidos'" (click)="mostrarSomenteHacks()">
+            Somente Hacks
+          </button>
+          <button class="btn btn-sm btn-warning" (click)="sincronizarHacksPdfNoBanco()" [disabled]="loading || saving">
+            <i class="fas fa-bolt me-1"></i>Sincronizar Hacks do PDF no Banco
+          </button>
+        </div>
+
         <div class="row g-2 mb-3">
           <div class="col-md-6">
             <label class="form-label">Filtro por Nome/Descricao</label>

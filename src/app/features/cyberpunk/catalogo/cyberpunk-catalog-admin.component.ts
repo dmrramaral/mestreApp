@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { finalize, timeout } from 'rxjs';
-import { CYBERPUN2080_ANTECEDENTES, CYBERPUN2080_CLASSES_FULL_DATA } from '../../../core/constants/rpg.constants';
+import { finalize, forkJoin, timeout } from 'rxjs';
+import { CYBERPUN2080_ANTECEDENTES, CYBERPUN2080_CLASSES_FULL_DATA, HACKS_RAPIDOS } from '../../../core/constants/rpg.constants';
 import {
     CyberpunkAntecedenteCatalog,
     CyberpunkCatalog,
@@ -12,12 +12,15 @@ import {
     CyberpunkStoreCatalog,
     CyberpunkStoreItem,
     CyberpunkSubclassCatalog,
+    CyberpunkSubclassEntity,
+    CyberpunkTalentCatalog,
     CyberpunkTalentRow
 } from '../../../core/models/cyberpunk-catalog.model';
 import { CyberpunkCatalogService } from '../../../core/services/cyberpunk-catalog.service';
 
 type StoreCategoryKey = keyof CyberpunkStoreCatalog;
 type CatalogPage = 'dashboard' | 'classes' | 'conteudo' | 'loja';
+type LojaAba = 'todas' | StoreCategoryKey;
 
 interface ClassRow {
   classe: CyberpunkClassCatalog;
@@ -58,6 +61,7 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
   talentoNomeFilter = '';
   lojaNomeFilter = '';
   lojaCategoriaFilter = '';
+  lojaAbaAtiva: LojaAba = 'todas';
   conteudoTabAtiva: ConteudoTab = 'antecedentes';
   classesDisponiveis: string[] = [];
   classesFiltradas: ClassRow[] = [];
@@ -394,19 +398,91 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
     this.mostrarTalentos = !this.mostrarTalentos;
   }
 
+  private montarClassesComSubclasses(classes: CyberpunkClassCatalog[], subclasses: CyberpunkSubclassEntity[]): CyberpunkClassCatalog[] {
+    const classesMap = new Map<string, CyberpunkClassCatalog>();
+
+    const baseClasses = classes.map((classe) => {
+      const classId = String(classe?.id || '').trim();
+      const novaClasse: CyberpunkClassCatalog = {
+        ...classe,
+        subclasses: []
+      };
+
+      if (classId) {
+        classesMap.set(classId, novaClasse);
+      }
+
+      return novaClasse;
+    });
+
+    subclasses.forEach((sub) => {
+      const classId = String(sub?.classId || '').trim();
+      const target = classesMap.get(classId);
+      if (!target) {
+        return;
+      }
+
+      target.subclasses.push({
+        id: sub.id,
+        slug: sub.slug,
+        source: sub.source,
+        sourceRef: sub.sourceRef,
+        updatedAt: sub.updatedAt,
+        nome: String(sub?.nome || '').trim(),
+        descricao: String(sub?.descricao || '').trim(),
+        progressao: Array.isArray(sub?.progressao) ? sub.progressao : []
+      });
+    });
+
+    return baseClasses;
+  }
+
+  private montarCatalogoDeEntidades(payload: {
+    classes: { system: string; version: number; seedVersion?: string; items: CyberpunkClassCatalog[] };
+    subclasses: { items: CyberpunkSubclassEntity[] };
+    antecedentes: { items: CyberpunkAntecedenteCatalog[] };
+    talentos: { items: CyberpunkTalentCatalog[] };
+    loja: { loja: Omit<CyberpunkStoreCatalog, 'hacksRapidos'> };
+    hacks: { items: CyberpunkStoreItem[] };
+  }): CyberpunkCatalog {
+    return {
+      system: 'cyberpun2080',
+      version: Number(payload.classes?.version || 1),
+      seedVersion: payload.classes?.seedVersion || 'backend-seed-v1',
+      classes: this.montarClassesComSubclasses(payload.classes?.items || [], payload.subclasses?.items || []),
+      antecedentes: payload.antecedentes?.items || [],
+      talentos: payload.talentos?.items || [],
+      loja: {
+        armas: payload.loja?.loja?.armas || [],
+        acessoriosMunicoes: payload.loja?.loja?.acessoriosMunicoes || [],
+        protecaoCorporal: payload.loja?.loja?.protecaoCorporal || [],
+        classeTecnologica: payload.loja?.loja?.classeTecnologica || [],
+        hacksRapidos: payload.hacks?.items || []
+      },
+      updatedAt: new Date().toISOString()
+    };
+  }
+
   carregar(): void {
     this.loading = true;
     this.erro = '';
     this.sucesso = '';
 
-    this.catalogService.getCatalog().pipe(
+    forkJoin({
+      classes: this.catalogService.getClassesEntity(),
+      subclasses: this.catalogService.getSubclassesEntity(),
+      antecedentes: this.catalogService.getAntecedentesEntity(),
+      talentos: this.catalogService.getTalentosEntity(),
+      loja: this.catalogService.getLojaEntity(),
+      hacks: this.catalogService.getHacksEntity()
+    }).pipe(
       timeout(12000),
       finalize(() => {
         this.loading = false;
       })
     ).subscribe({
-      next: (catalog) => {
-        this.catalog = catalog;
+      next: (payload) => {
+        this.catalog = this.montarCatalogoDeEntidades(payload);
         this.garantirLojaNoCatalogo();
         this.garantirIdentificadoresCatalogo();
         this.atualizarListasDerivadas();
@@ -462,14 +538,43 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
       seedVersion: this.catalog.seedVersion || 'front-seed-v1'
     };
 
-    this.catalogService.updateCatalog(payload).pipe(
+    const classEntities = payload.classes.map((classe) => ({
+      ...classe,
+      subclasses: []
+    }));
+
+    const subclassEntities: CyberpunkSubclassEntity[] = payload.classes.flatMap((classe) =>
+      (classe.subclasses || []).map((subclasse) => ({
+        ...subclasse,
+        classId: String(classe.id || ''),
+        classNome: classe.nome
+      }))
+    );
+
+    const lojaSemHacks = {
+      armas: payload.loja.armas,
+      acessoriosMunicoes: payload.loja.acessoriosMunicoes,
+      protecaoCorporal: payload.loja.protecaoCorporal,
+      classeTecnologica: payload.loja.classeTecnologica
+    };
+
+    forkJoin({
+      classes: this.catalogService.updateClassesEntity(classEntities),
+      subclasses: this.catalogService.updateSubclassesEntity(subclassEntities),
+      antecedentes: this.catalogService.updateAntecedentesEntity(payload.antecedentes),
+      talentos: this.catalogService.updateTalentosEntity(payload.talentos),
+      loja: this.catalogService.updateLojaEntity(lojaSemHacks),
+      hacks: this.catalogService.updateHacksEntity(payload.loja.hacksRapidos)
+    }).pipe(
       timeout(12000),
       finalize(() => {
         this.saving = false;
       })
     ).subscribe({
-      next: (saved) => {
-        this.catalog = saved;
+      next: (savedEntities) => {
+        this.catalog = this.montarCatalogoDeEntidades(savedEntities);
+        this.garantirLojaNoCatalogo();
+        this.garantirIdentificadoresCatalogo();
         this.atualizarListasDerivadas();
         this.sucesso = 'Catalogo salvo com sucesso.';
       },
@@ -734,20 +839,73 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
   }
 
   listarItensLojaFiltrados(key: StoreCategoryKey): StoreItemRow[] {
+    if (this.lojaAbaAtiva !== 'todas' && this.lojaAbaAtiva !== key) {
+      return [];
+    }
+
     const termoNome = this.lojaNomeFilter.trim().toLowerCase();
     const termoCategoria = this.lojaCategoriaFilter.trim().toLowerCase();
 
     return this.listarItensLoja(key)
       .map((item, index) => ({ item, index }))
       .filter((row) => {
+        const nome = String(row.item?.nome || '').toLowerCase();
+        const descricao = String(row.item?.descricao || '').toLowerCase();
+        const categoria = String(row.item?.categoria || '').toLowerCase();
+
         const atendeNome = !termoNome
-          || row.item.nome.toLowerCase().includes(termoNome)
-          || row.item.descricao.toLowerCase().includes(termoNome);
+          || nome.includes(termoNome)
+          || descricao.includes(termoNome);
         const atendeCategoria = !termoCategoria
-          || row.item.categoria.toLowerCase().includes(termoCategoria);
+          || categoria.includes(termoCategoria);
 
         return atendeNome && atendeCategoria;
       });
+  }
+
+  mostrarSomenteHacks(): void {
+    this.lojaAbaAtiva = 'hacksRapidos';
+  }
+
+  mostrarTodasCategoriasLoja(): void {
+    this.lojaAbaAtiva = 'todas';
+  }
+
+  sincronizarHacksPdfNoBanco(): void {
+    if (!this.catalog || this.loading || this.saving) {
+      return;
+    }
+
+    this.garantirLojaNoCatalogo();
+
+    const now = new Date().toISOString();
+    this.catalog.loja.hacksRapidos = HACKS_RAPIDOS.map((hack) => ({
+      id: `item:hacksRapidos:hack-${hack.id}`,
+      slug: this.slugify(hack.nome),
+      source: 'constants',
+      sourceRef: `HACKS_RAPIDOS#${hack.id}`,
+      updatedAt: now,
+      nome: hack.nome,
+      descricao: [
+        `Descricao: ${hack.descricao}`,
+        `Efeito: ${hack.efeito}`,
+        `RAM: ${hack.ram}`,
+        `Recarga: ${hack.recarga}`,
+        `Alvo: ${hack.alvo}`,
+        `Dica: ${hack.dica}`
+      ].join('\n'),
+      precoEdinhos: Number(hack.valor),
+      categoria: 'Hacks Rapidos',
+      paginaPdf: 'Secao de Hacks Rapidos',
+      ca: null,
+      cf: null,
+      ct: null,
+      restrito: false
+    }));
+
+    this.lojaAbaAtiva = 'hacksRapidos';
+    this.sucesso = `Hacks do PDF carregados (${this.catalog.loja.hacksRapidos.length}). Salvando no banco...`;
+    this.salvar();
   }
 
   adicionarItemLoja(key: StoreCategoryKey): void {
