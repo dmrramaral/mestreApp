@@ -5,9 +5,13 @@
     "ng": "ng",
     "start": "ng serve --host 0.0.0.0",
     "build": "ng build",
+    "build:vercel": "ng build --configuration production --prerender=false --ssr=false",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:mestreApp": "node dist/mestre-app/server/server.mjs"
+  },
+  "engines": {
+    "node": "20.x"
   },
   "private": true,
   "dependencies": {
