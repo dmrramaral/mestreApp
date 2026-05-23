@@ -60,7 +60,7 @@ export class MercadoComponent implements OnInit {
 
     // Load weapons from D&D API
     this.loadWeaponsFromDndApi();
-
+    
     // Load armors from D&D API
     this.loadArmorsFromDndApi();
   }
@@ -71,7 +71,7 @@ export class MercadoComponent implements OnInit {
   loadWeaponsFromDndApi() {
     // Load weapons from local equipments.json file
     this.mercadoService.getMercadoDnD().subscribe((data: any) => {
-      this.weapons = data.filter((item: any) =>
+      this.weapons = data.filter((item: any) => 
         item.equipment_category && item.equipment_category.index === 'weapon'
       );
     });
@@ -83,7 +83,7 @@ export class MercadoComponent implements OnInit {
   loadArmorsFromDndApi() {
     // Load armors from local equipments.json file
     this.mercadoService.getMercadoDnD().subscribe((data: any) => {
-      this.armors = data.filter((item: any) =>
+      this.armors = data.filter((item: any) => 
         item.equipment_category && item.equipment_category.index === 'armor'
       );
     });

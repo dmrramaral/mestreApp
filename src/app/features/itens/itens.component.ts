@@ -1,9 +1,10 @@
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { LOOT_RARITY_RANGES } from '../../core/constants/rpg.constants';
-import { Item } from '../../core/models/item.model';
+import { OnInit } from '@angular/core';
 import { ItensService } from './itens.service';
+import { Item } from '../../core/models/item.model';
+import { LOOT_RARITY_RANGES } from '../../core/constants/rpg.constants';
 
 /**
  * Componente para geração de loot/itens aleatórios
@@ -60,13 +61,13 @@ export class ItensComponent implements OnInit {
   geradorRange() {
     if (this.sorteJogador === undefined) {
       this.rangeItens = 'critico';
-    } else if (this.sorteJogador >= LOOT_RARITY_RANGES.BAIXA.min &&
+    } else if (this.sorteJogador >= LOOT_RARITY_RANGES.BAIXA.min && 
                this.sorteJogador <= LOOT_RARITY_RANGES.BAIXA.max) {
       this.rangeItens = LOOT_RARITY_RANGES.BAIXA.nome;
-    } else if (this.sorteJogador >= LOOT_RARITY_RANGES.MEDIA.min &&
+    } else if (this.sorteJogador >= LOOT_RARITY_RANGES.MEDIA.min && 
                this.sorteJogador <= LOOT_RARITY_RANGES.MEDIA.max) {
       this.rangeItens = LOOT_RARITY_RANGES.MEDIA.nome;
-    } else if (this.sorteJogador >= LOOT_RARITY_RANGES.ALTA.min &&
+    } else if (this.sorteJogador >= LOOT_RARITY_RANGES.ALTA.min && 
                this.sorteJogador <= LOOT_RARITY_RANGES.ALTA.max) {
       this.rangeItens = LOOT_RARITY_RANGES.ALTA.nome;
     } else if (this.sorteJogador >= LOOT_RARITY_RANGES.LENDARIA.min) {

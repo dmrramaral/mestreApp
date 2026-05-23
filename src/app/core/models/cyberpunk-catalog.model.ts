@@ -10,16 +10,43 @@ export interface CyberpunkSubclassCatalog {
   progressao: CyberpunkSubclassLevel[];
 }
 
+export interface CyberpunkClassProficiencias {
+  resistencias: string[];
+  armas: string[];
+  armaduras: string[];
+  ferramentas: string[];
+  pericias: { escolher: number; opcoes: string[] };
+}
+
+export interface CyberpunkClassProgression {
+  nivel: number;
+  habilidade: string;
+  descricao: string;
+}
+
 export interface CyberpunkClassCatalog {
   nome: string;
   descricao: string;
+  flavorText?: string[];
+  hpNivel1?: string;
+  hpPorNivel?: string;
+  ctBase?: number;
+  ctBonusNiveis?: number[];
+  ramBase?: number | null;
+  proficiencias?: CyberpunkClassProficiencias;
+  progressao?: CyberpunkClassProgression[];
   subclasses: CyberpunkSubclassCatalog[];
 }
 
 export interface CyberpunkAntecedenteCatalog {
   nome: string;
+  emoji?: string;
   descricao: string;
+  atributos: string[];
   talentoOrigem: string;
+  talentoDescricao: string;
+  dinheiroInicial: number;
+  itensIniciais: string[];
 }
 
 export interface CyberpunkTalentCatalog {
@@ -38,6 +65,7 @@ export interface CyberpunkStoreItem {
   cf?: number | null;
   ct?: number | null;
   restrito?: boolean;
+  grupoLoja?: string; // 'armas' | 'acessorios' | 'protecao' | 'ct'
 }
 
 export interface CyberpunkStoreCatalog {

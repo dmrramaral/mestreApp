@@ -3,13 +3,16 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { finalize, timeout } from 'rxjs';
 import {
+    CyberpunkAntecedenteCatalog,
     CyberpunkCatalog,
+    CyberpunkClassCatalog,
+    CyberpunkClassProgression,
     CyberpunkStoreCatalog,
     CyberpunkStoreItem,
     CyberpunkSubclassCatalog,
     CyberpunkTalentRow
-} from '../../core/models/cyberpunk-catalog.model';
-import { CyberpunkCatalogService } from '../../core/services/cyberpunk-catalog.service';
+} from '../../../core/models/cyberpunk-catalog.model';
+import { CyberpunkCatalogService } from '../../../core/services/cyberpunk-catalog.service';
 
 type StoreCategoryKey = keyof CyberpunkStoreCatalog;
 
@@ -207,7 +210,26 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
 
   adicionarClasse(): void {
     if (!this.catalog) return;
-    this.catalog.classes.push({ nome: '', descricao: '', subclasses: [] });
+    const novaClasse: CyberpunkClassCatalog = {
+      nome: '',
+      descricao: '',
+      flavorText: [],
+      hpNivel1: '',
+      hpPorNivel: '',
+      ctBase: 0,
+      ctBonusNiveis: [],
+      ramBase: null,
+      proficiencias: {
+        resistencias: [],
+        armas: [],
+        armaduras: [],
+        ferramentas: [],
+        pericias: { escolher: 4, opcoes: [] }
+      },
+      progressao: [],
+      subclasses: []
+    };
+    this.catalog.classes.push(novaClasse);
     this.atualizarListasDerivadas();
   }
 
@@ -240,6 +262,66 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
     this.catalog.classes[classIndex].subclasses.splice(subIndex, 1);
   }
 
+  adicionarFlavorText(classIndex: number): void {
+    if (!this.catalog) return;
+    if (!Array.isArray(this.catalog.classes[classIndex].flavorText)) {
+      this.catalog.classes[classIndex].flavorText = [];
+    }
+    this.catalog.classes[classIndex].flavorText!.push('');
+  }
+
+  removerFlavorText(classIndex: number, textIndex: number): void {
+    if (!this.catalog) return;
+    this.catalog.classes[classIndex].flavorText!.splice(textIndex, 1);
+  }
+
+  garantirProficienciasClasse(classIndex: number): void {
+    if (!this.catalog) return;
+    const classe = this.catalog.classes[classIndex];
+    if (!classe.proficiencias) {
+      classe.proficiencias = {
+        resistencias: [],
+        armas: [],
+        armaduras: [],
+        ferramentas: [],
+        pericias: { escolher: 4, opcoes: [] }
+      };
+    }
+    if (!classe.proficiencias.pericias) {
+      classe.proficiencias.pericias = { escolher: 4, opcoes: [] };
+    }
+  }
+
+  setProficienciaField(classIndex: number, field: 'resistencias' | 'armaduras' | 'armas' | 'ferramentas', value: string): void {
+    if (!this.catalog) return;
+    const prof = this.catalog.classes[classIndex].proficiencias;
+    if (prof) {
+      prof[field] = value.split(',').map(s => s.trim()).filter(Boolean);
+    }
+  }
+
+  setPericiaOpcoes(classIndex: number, value: string): void {
+    if (!this.catalog) return;
+    const prof = this.catalog.classes[classIndex].proficiencias;
+    if (prof?.pericias) {
+      prof.pericias.opcoes = value.split(',').map(s => s.trim()).filter(Boolean);
+    }
+  }
+
+  adicionarNivelClasse(classIndex: number): void {
+    if (!this.catalog) return;
+    if (!Array.isArray(this.catalog.classes[classIndex].progressao)) {
+      this.catalog.classes[classIndex].progressao = [];
+    }
+    const novoNivel: CyberpunkClassProgression = { nivel: 1, habilidade: '', descricao: '' };
+    this.catalog.classes[classIndex].progressao!.push(novoNivel);
+  }
+
+  removerNivelClasse(classIndex: number, levelIndex: number): void {
+    if (!this.catalog) return;
+    this.catalog.classes[classIndex].progressao!.splice(levelIndex, 1);
+  }
+
   adicionarNivelSubclasse(classIndex: number, subIndex: number): void {
     if (!this.catalog) return;
 
@@ -257,7 +339,43 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
 
   adicionarAntecedente(): void {
     if (!this.catalog) return;
-    this.catalog.antecedentes.push({ nome: '', descricao: '', talentoOrigem: '' });
+    const novoAntecedente: CyberpunkAntecedenteCatalog = {
+      nome: '',
+      emoji: '',
+      descricao: '',
+      atributos: [],
+      talentoOrigem: '',
+      talentoDescricao: '',
+      dinheiroInicial: 0,
+      itensIniciais: []
+    };
+    this.catalog.antecedentes.push(novoAntecedente);
+  }
+
+  adicionarAtributoAntecedente(antIndex: number): void {
+    if (!this.catalog) return;
+    if (!Array.isArray(this.catalog.antecedentes[antIndex].atributos)) {
+      this.catalog.antecedentes[antIndex].atributos = [];
+    }
+    this.catalog.antecedentes[antIndex].atributos.push('');
+  }
+
+  removerAtributoAntecedente(antIndex: number, atrIndex: number): void {
+    if (!this.catalog) return;
+    this.catalog.antecedentes[antIndex].atributos.splice(atrIndex, 1);
+  }
+
+  adicionarItemInicialAntecedente(antIndex: number): void {
+    if (!this.catalog) return;
+    if (!Array.isArray(this.catalog.antecedentes[antIndex].itensIniciais)) {
+      this.catalog.antecedentes[antIndex].itensIniciais = [];
+    }
+    this.catalog.antecedentes[antIndex].itensIniciais.push('');
+  }
+
+  removerItemInicialAntecedente(antIndex: number, itemIndex: number): void {
+    if (!this.catalog) return;
+    this.catalog.antecedentes[antIndex].itensIniciais.splice(itemIndex, 1);
   }
 
   removerAntecedente(index: number): void {

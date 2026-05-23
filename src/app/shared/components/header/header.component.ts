@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { PwaService } from '../core/services/pwa.service';
-import { ThemeService } from '../core/services/theme.service';
+import { PwaService } from '../../../core/services/pwa.service';
+import { ThemeService } from '../../../core/services/theme.service';
 
 @Component({
   selector: 'app-header',

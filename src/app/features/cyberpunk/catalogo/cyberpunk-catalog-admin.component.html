@@ -44,6 +44,112 @@
               </div>
             </div>
 
+            <!-- Flavor Text -->
+            <div class="mt-3">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <label class="form-label mb-0 fw-semibold">Textos de Sabor (Flavor Text)</label>
+                <button class="btn btn-sm btn-outline-secondary" (click)="adicionarFlavorText(i)">Adicionar</button>
+              </div>
+              <div class="input-group mb-1" *ngFor="let texto of (classe.flavorText || []); let ti = index">
+                <input class="form-control" [(ngModel)]="classe.flavorText![ti]" placeholder="Texto de sabor..." />
+                <button class="btn btn-outline-danger" (click)="removerFlavorText(i, ti)"><i class="fas fa-times"></i></button>
+              </div>
+            </div>
+
+            <!-- HP e CT -->
+            <div class="row g-2 mt-2">
+              <div class="col-md-4">
+                <label class="form-label">HP Nivel 1</label>
+                <input class="form-control" [(ngModel)]="classe.hpNivel1" placeholder="Ex: 18 + mod de Constituição" />
+              </div>
+              <div class="col-md-4">
+                <label class="form-label">HP por Nivel</label>
+                <input class="form-control" [(ngModel)]="classe.hpPorNivel" placeholder="Ex: 1d8 + mod de Constituição" />
+              </div>
+              <div class="col-md-2">
+                <label class="form-label">CT Base</label>
+                <input type="number" class="form-control" [(ngModel)]="classe.ctBase" />
+              </div>
+              <div class="col-md-2">
+                <label class="form-label">RAM Base</label>
+                <input type="number" class="form-control" [(ngModel)]="classe.ramBase" placeholder="null se N/A" />
+              </div>
+            </div>
+
+            <!-- Proficiencias -->
+            <div class="mt-3 border rounded p-2">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label class="form-label mb-0 fw-semibold">Proficiencias</label>
+                <button class="btn btn-sm btn-outline-info" (click)="garantirProficienciasClasse(i)">Inicializar</button>
+              </div>
+              <ng-container *ngIf="classe.proficiencias">
+                <div class="row g-2">
+                  <div class="col-md-6">
+                    <label class="form-label small">Resistencias (vírgula)</label>
+                    <input class="form-control form-control-sm"
+                      [ngModel]="(classe.proficiencias.resistencias || []).join(', ')"
+                      (ngModelChange)="setProficienciaField(i, 'resistencias', $event)"
+                      placeholder="Constituição, Sabedoria" />
+                  </div>
+                  <div class="col-md-6">
+                    <label class="form-label small">Armaduras (vírgula)</label>
+                    <input class="form-control form-control-sm"
+                      [ngModel]="(classe.proficiencias.armaduras || []).join(', ')"
+                      (ngModelChange)="setProficienciaField(i, 'armaduras', $event)"
+                      placeholder="Leves, Médias, Pesadas" />
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label small">Armas (vírgula)</label>
+                    <input class="form-control form-control-sm"
+                      [ngModel]="(classe.proficiencias.armas || []).join(', ')"
+                      (ngModelChange)="setProficienciaField(i, 'armas', $event)"
+                      placeholder="Pistolas, Rifles, Facas..." />
+                  </div>
+                  <div class="col-12">
+                    <label class="form-label small">Ferramentas (vírgula)</label>
+                    <input class="form-control form-control-sm"
+                      [ngModel]="(classe.proficiencias.ferramentas || []).join(', ')"
+                      (ngModelChange)="setProficienciaField(i, 'ferramentas', $event)"
+                      placeholder="Kit Médico, Kit de Ladrão..." />
+                  </div>
+                  <div class="col-md-2">
+                    <label class="form-label small">Escolher perícias</label>
+                    <input type="number" class="form-control form-control-sm" [(ngModel)]="classe.proficiencias!.pericias!.escolher" />
+                  </div>
+                  <div class="col-md-10">
+                    <label class="form-label small">Opções de perícias (vírgula)</label>
+                    <input class="form-control form-control-sm"
+                      [ngModel]="(classe.proficiencias!.pericias?.opcoes || []).join(', ')"
+                      (ngModelChange)="setPericiaOpcoes(i, $event)"
+                      placeholder="Medicina, Furtividade, Percepção..." />
+                  </div>
+                </div>
+              </ng-container>
+              <p *ngIf="!classe.proficiencias" class="text-muted small mb-0">Clique em "Inicializar" para criar a estrutura de proficiências.</p>
+            </div>
+
+            <!-- Progressao da Classe -->
+            <div class="mt-3">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <label class="form-label mb-0 fw-semibold">Progressao por Nivel (Classe Base)</label>
+                <button class="btn btn-sm btn-outline-secondary" (click)="adicionarNivelClasse(i)">Adicionar Nivel</button>
+              </div>
+              <div class="row g-2 mb-2" *ngFor="let nivelInfo of (classe.progressao || []); let k = index">
+                <div class="col-md-1">
+                  <input type="number" class="form-control form-control-sm" [(ngModel)]="nivelInfo.nivel" placeholder="Nv" />
+                </div>
+                <div class="col-md-3">
+                  <input class="form-control form-control-sm" [(ngModel)]="nivelInfo.habilidade" placeholder="Habilidade" />
+                </div>
+                <div class="col-md-7">
+                  <input class="form-control form-control-sm" [(ngModel)]="nivelInfo.descricao" placeholder="Descricao" />
+                </div>
+                <div class="col-md-1">
+                  <button class="btn btn-outline-danger btn-sm w-100" (click)="removerNivelClasse(i, k)">X</button>
+                </div>
+              </div>
+            </div>
+
             <div class="mt-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
                 <label class="form-label mb-0">Subclasses</label>
@@ -112,17 +218,55 @@
               <button class="btn btn-sm btn-outline-danger" (click)="$event.preventDefault(); removerAntecedente(i)">Remover</button>
             </summary>
             <div class="row g-2 mt-2">
-              <div class="col-md-4">
+              <div class="col-md-1">
+                <label class="form-label">Emoji</label>
+                <input class="form-control" [(ngModel)]="antecedente.emoji" placeholder="🕸️" />
+              </div>
+              <div class="col-md-3">
                 <label class="form-label">Nome</label>
                 <input class="form-control" [(ngModel)]="antecedente.nome" />
               </div>
               <div class="col-md-5">
                 <label class="form-label">Descricao</label>
-                <input class="form-control" [(ngModel)]="antecedente.descricao" />
+                <textarea class="form-control" rows="2" [(ngModel)]="antecedente.descricao"></textarea>
               </div>
               <div class="col-md-3">
                 <label class="form-label">Talento de Origem</label>
                 <input class="form-control" [(ngModel)]="antecedente.talentoOrigem" />
+              </div>
+            </div>
+            <div class="row g-2 mt-2">
+              <div class="col-12">
+                <label class="form-label">Descricao do Talento de Origem</label>
+                <textarea class="form-control" rows="2" [(ngModel)]="antecedente.talentoDescricao"></textarea>
+              </div>
+              <div class="col-md-3">
+                <label class="form-label">Dinheiro Inicial (edinhos)</label>
+                <input type="number" class="form-control" [(ngModel)]="antecedente.dinheiroInicial" />
+              </div>
+            </div>
+
+            <!-- Atributos -->
+            <div class="mt-2">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <label class="form-label mb-0">Atributos Principais</label>
+                <button class="btn btn-sm btn-outline-secondary" (click)="adicionarAtributoAntecedente(i)">Adicionar</button>
+              </div>
+              <div class="input-group mb-1" *ngFor="let atr of (antecedente.atributos || []); let ai = index">
+                <input class="form-control form-control-sm" [(ngModel)]="antecedente.atributos[ai]" placeholder="Ex: Carisma" />
+                <button class="btn btn-outline-danger btn-sm" (click)="removerAtributoAntecedente(i, ai)">X</button>
+              </div>
+            </div>
+
+            <!-- Itens Iniciais -->
+            <div class="mt-2">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <label class="form-label mb-0">Itens Iniciais</label>
+                <button class="btn btn-sm btn-outline-secondary" (click)="adicionarItemInicialAntecedente(i)">Adicionar</button>
+              </div>
+              <div class="input-group mb-1" *ngFor="let item of (antecedente.itensIniciais || []); let ii = index">
+                <input class="form-control form-control-sm" [(ngModel)]="antecedente.itensIniciais[ii]" placeholder="Ex: Pistola" />
+                <button class="btn btn-outline-danger btn-sm" (click)="removerItemInicialAntecedente(i, ii)">X</button>
               </div>
             </div>
           </details>

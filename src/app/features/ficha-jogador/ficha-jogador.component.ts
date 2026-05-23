@@ -6,7 +6,9 @@ import { firstValueFrom } from 'rxjs';
 import {
   AcessorioArma,
   ACESSORIOS_ARMAS,
+  CYBERPUN2080_ANTECEDENTES,
   CYBERPUN2080_CITY_FORCES,
+  CYBERPUN2080_CLASSES_FULL_DATA,
   CYBERPUN2080_ESSENTIAL_QUESTIONS,
   CYBERPUN2080_MODULES,
   CYBERPUN2080_ORIGINS,
@@ -23,15 +25,15 @@ import {
   STORAGE_KEYS,
   TipoImplante,
   TIPOS_IMPLANTE
-} from '../../../core/constants/rpg.constants';
-import { CyberpunkCatalog, CyberpunkStoreItem, CyberpunkTalentCatalog } from '../../../core/models/cyberpunk-catalog.model';
-import { ApiReference, DndClass, DndRace } from '../../../core/models/dnd-api.model';
-import { CyberpunkCatalogService } from '../../../core/services/cyberpunk-catalog.service';
-import { DndApiService } from '../../../core/services/dnd-api.service';
-import { FichaJogadorService } from '../../../core/services/ficha-jogador.service';
-import { StorageService } from '../../../core/services/storage.service';
-import { RegistroSync, SyncBackendService } from '../../../core/services/sync-backend.service';
-import { calcularModificador, formatarModificador } from '../../../core/utils/rpg.utils';
+} from '../../core/constants/rpg.constants';
+import { CyberpunkAntecedenteCatalog, CyberpunkCatalog, CyberpunkClassCatalog, CyberpunkStoreItem, CyberpunkSubclassCatalog, CyberpunkTalentCatalog } from '../../core/models/cyberpunk-catalog.model';
+import { ApiReference, DndClass, DndRace } from '../../core/models/dnd-api.model';
+import { CyberpunkCatalogService } from '../../core/services/cyberpunk-catalog.service';
+import { DndApiService } from '../../core/services/dnd-api.service';
+import { FichaJogadorService } from '../../core/services/ficha-jogador.service';
+import { StorageService } from '../../core/services/storage.service';
+import { RegistroSync, SyncBackendService } from '../../core/services/sync-backend.service';
+import { calcularModificador, formatarModificador } from '../../core/utils/rpg.utils';
 
 // Tempo de delay para transições entre modais (em milissegundos)
 const MODAL_TRANSITION_DELAY = 300;
@@ -71,16 +73,36 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   cyberpunClasses: string[] = [...CYBERPUN2080_RULES.classes];
   cyberpunSubclassesPorPapel: Record<string, readonly string[]> = { ...CYBERPUN2080_SUBCLASSES_BY_CLASS };
   readonly cyberpunOrigins = CYBERPUN2080_ORIGINS;
-  cyberpunAntecedentes: Array<{ nome: string; descricao: string; talentoOrigem: string }> = [];
+  cyberpunAntecedentes: CyberpunkAntecedenteCatalog[] = [...CYBERPUN2080_ANTECEDENTES];
+  cyberpunClassesFullData: CyberpunkClassCatalog[] = [...CYBERPUN2080_CLASSES_FULL_DATA];
   cyberpunTalentosCatalogo: CyberpunkTalentCatalog[] = [];
   cyberpunHacksCatalogo: CyberpunkStoreItem[] = [];
   cyberpunEquipamentosCatalogo: CyberpunkStoreItem[] = [];
   itemLojaCyberSelecionado = '';
   categoriaEquipamentoLoja = 'armadura';
+  lojaEquipAberta = false;
+  filtroLojaEquip = 'todos';
+
+  get itensFiltradosLoja(): CyberpunkStoreItem[] {
+    if (this.filtroLojaEquip === 'todos') return this.cyberpunEquipamentosCatalogo;
+    return this.cyberpunEquipamentosCatalogo.filter(i => i.grupoLoja === this.filtroLojaEquip);
+  }
+
+  get itemLojaPreview(): CyberpunkStoreItem | null {
+    if (!this.itemLojaCyberSelecionado) return null;
+    return this.cyberpunEquipamentosCatalogo.find(
+      i => `${i.nome}|${i.categoria}|${i.precoEdinhos ?? ''}` === this.itemLojaCyberSelecionado
+    ) ?? null;
+  }
+
   readonly cyberpunCityForces = CYBERPUN2080_CITY_FORCES;
   readonly cyberpunModulos = CYBERPUN2080_MODULES;
   carregandoCatalogoCyberpunk = false;
   erroCatalogoCyberpunk = '';
+
+  // Rolagem de dados interativa
+  resultadoRolagem: { campo: string; d20: number; mod: number; total: number } | null = null;
+  private rolagemTimer: ReturnType<typeof setTimeout> | null = null;
 
   get detalhesClasseCyberpunkAtual(): string {
     const classe = String(this.jogador?.cyberpun2080?.papel || '').trim();
@@ -384,6 +406,8 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   novoAtaque: any = { nome: '', bonus: '', dano: '', tipoDano: '', notas: '', ca: null, equipado: false, acessorios: [] };
   editandoAtaque: { [key: number]: boolean } = {};
   mostrarDetalheCA = false;
+  mostrarInfoAntecedente = false;       // toggle no painel de Traços (view)
+  mostrarInfoAntecedentModal = false;   // toggle no painel de edição (modal)
   gerenciarAcessoriosAtaque: number | null = null;
   readonly catalogoAcessorios = ACESSORIOS_ARMAS;
   hacksRapidosCatalogo = HACKS_RAPIDOS;
@@ -397,10 +421,39 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   filtroTipoImplante: TipoImplante | '' = '';
 
   get ctMax(): number {
+    const papel = this.jogador?.cyberpun2080?.papel || '';
+    const classeData = CYBERPUN2080_CLASSES_FULL_DATA.find(c => c.nome === papel);
+    const ctBase = classeData?.ctBase ?? 10;
+    const bonusNiveis = classeData?.ctBonusNiveis ?? [];
+    const nivel = Number(this.jogador?.nivel) || 1;
+    const ctLevelBonus = bonusNiveis.filter(n => nivel >= n).length * 3;
     const modCon = calcularModificador(this.jogador?.atributos?.constituicao) ?? 0;
     const modSab = calcularModificador(this.jogador?.atributos?.sabedoria) ?? 0;
     const prof = Number(this.jogador?.proficiencia) || 0;
-    return 10 + modCon + modSab + prof;
+    return ctBase + ctLevelBonus + modCon + modSab + prof;
+  }
+
+  get classeCatalogCompleto(): CyberpunkClassCatalog | null {
+    const papel = this.jogador?.cyberpun2080?.papel || '';
+    return CYBERPUN2080_CLASSES_FULL_DATA.find(c => c.nome === papel) ?? null;
+  }
+
+  get subclasseCatalogCompleto(): CyberpunkSubclassCatalog | null {
+    const sub = this.jogador?.cyberpun2080?.subclasse || '';
+    return this.classeCatalogCompleto?.subclasses.find(s => s.nome === sub) ?? null;
+  }
+
+  get antecedenteCatalogCompleto(): CyberpunkAntecedenteCatalog | null {
+    const ant = this.jogador?.cyberpun2080?.antecedente || '';
+    return this.cyberpunAntecedentes.find(a => a.nome === ant) ?? null;
+  }
+
+  get ctFormulaLabel(): string {
+    const classe = this.classeCatalogCompleto;
+    if (!classe?.ctBase) return 'CT: 10 + CON + SAB + Prof';
+    const bonusNiveis = classe.ctBonusNiveis ?? [];
+    const bonusStr = bonusNiveis.length ? ` (+3 nos níveis ${bonusNiveis.join(', ')})` : '';
+    return `CT: ${classe.ctBase} + CON + SAB + Prof${bonusStr}`;
   }
 
   get ctConsumida(): number {
@@ -549,7 +602,8 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   private aplicarFallbackCatalogoCyberpunk(): void {
     this.cyberpunClasses = [...CYBERPUN2080_RULES.classes];
     this.cyberpunSubclassesPorPapel = { ...CYBERPUN2080_SUBCLASSES_BY_CLASS };
-    this.cyberpunAntecedentes = [];
+    this.cyberpunAntecedentes = [...CYBERPUN2080_ANTECEDENTES];
+    this.cyberpunClassesFullData = [...CYBERPUN2080_CLASSES_FULL_DATA];
     this.cyberpunTalentosCatalogo = [];
     this.cyberpunHacksCatalogo = [];
     this.cyberpunEquipamentosCatalogo = [];
@@ -580,13 +634,36 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
       ? subclassesPorClasse
       : { ...CYBERPUN2080_SUBCLASSES_BY_CLASS };
 
-    this.cyberpunAntecedentes = (catalog.antecedentes || [])
-      .map((item) => ({
-        nome: String(item.nome || '').trim(),
-        descricao: String(item.descricao || '').trim(),
-        talentoOrigem: String(item.talentoOrigem || '').trim()
-      }))
-      .filter((item) => item.nome);
+    // Mescla classes do backend com dados locais (dados locais têm prioridade para campos enriquecidos)
+    const classesBackend = (catalog.classes || []).filter((item) => item.nome);
+    if (classesBackend.length > 0) {
+      this.cyberpunClassesFullData = CYBERPUN2080_CLASSES_FULL_DATA.map((local) => {
+        const backend = classesBackend.find((b) => b.nome === local.nome);
+        if (!backend) return local;
+        // Backend só substitui campos não presentes localmente (progressao e subclasses com dados têm prioridade local)
+        const temProgressaoLocal = local.progressao && local.progressao.length > 0;
+        const temSubclassesLocal = local.subclasses && local.subclasses.some(s => s.progressao && s.progressao.length > 0);
+        return {
+          ...local,
+          ...backend,
+          progressao: temProgressaoLocal ? local.progressao : (backend.progressao ?? local.progressao),
+          subclasses: temSubclassesLocal ? local.subclasses : (backend.subclasses ?? local.subclasses)
+        };
+      });
+    } else {
+      this.cyberpunClassesFullData = [...CYBERPUN2080_CLASSES_FULL_DATA];
+    }
+
+    // Mescla dados do backend com dados locais: dados locais têm prioridade para campos enriquecidos
+    const antecedentesBackend = (catalog.antecedentes || []).filter((item) => item.nome);
+    if (antecedentesBackend.length > 0) {
+      this.cyberpunAntecedentes = CYBERPUN2080_ANTECEDENTES.map((local) => {
+        const backend = antecedentesBackend.find((b) => b.nome === local.nome);
+        return backend ? { ...local, ...backend, atributos: local.atributos, talentoDescricao: local.talentoDescricao, dinheiroInicial: local.dinheiroInicial, itensIniciais: local.itensIniciais } : local;
+      });
+    } else {
+      this.cyberpunAntecedentes = [...CYBERPUN2080_ANTECEDENTES];
+    }
 
     this.cyberpunTalentosCatalogo = (catalog.talentos || [])
       .map((item) => ({
@@ -609,10 +686,9 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
       .filter((item) => item.nome);
 
     this.cyberpunEquipamentosCatalogo = [
-      ...(catalog.loja?.armas || []),
-      ...(catalog.loja?.acessoriosMunicoes || []),
-      ...(catalog.loja?.protecaoCorporal || []),
-      ...(catalog.loja?.classeTecnologica || [])
+      ...(catalog.loja?.armas || []).map((i) => ({ ...i, grupoLoja: 'armas' })),
+      ...(catalog.loja?.acessoriosMunicoes || []).map((i) => ({ ...i, grupoLoja: 'acessorios' })),
+      ...(catalog.loja?.protecaoCorporal || []).map((i) => ({ ...i, grupoLoja: 'protecao' }))
     ]
       .map((item) => ({
         ...item,
@@ -1302,6 +1378,13 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
    */
   calcularModificador(valor: any): number | null {
     return calcularModificador(valor);
+  }
+
+  rolarDado(campo: string, mod: number): void {
+    const d20 = Math.floor(Math.random() * 20) + 1;
+    this.resultadoRolagem = { campo, d20, mod, total: d20 + mod };
+    if (this.rolagemTimer) clearTimeout(this.rolagemTimer);
+    this.rolagemTimer = setTimeout(() => { this.resultadoRolagem = null; }, 4000);
   }
 
   /**
@@ -2097,6 +2180,7 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
    * Verifica se existem traços de classe
    */
   hasTracosClasse(): boolean {
+    console.log('Traços de classe:', this.getTracosClasse());
     return this.getTracosClasse().length > 0;
   }
 

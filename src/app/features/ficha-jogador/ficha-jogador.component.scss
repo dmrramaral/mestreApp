@@ -373,11 +373,30 @@
     .hack-details {
         padding: 10px 14px;
         background: #0d0d1a;
-        color: #ccc;
+        color: #ccc !important;
         border-top: 1px solid #e53e3e33;
 
-        p { margin-bottom: 4px; }
+        p { margin-bottom: 4px; color: #ccc !important; }
+        .text-muted { color: #8a96a8 !important; }
         .hack-dica { color: #63b3ed !important; }
+    }
+}
+
+// CT Max / Cyberpsicose boxes
+.ct-max-box {
+    background: #1a1a2e;
+    border-color: #4a5568 !important;
+
+    .ct-max-label {
+        color: #a0aec0;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .ct-max-value {
+        color: #fff;
+        font-size: 1.5rem;
     }
 }
 
@@ -1120,4 +1139,69 @@
       line-height: 1.5;
     }
   }
+}
+
+// Ícone de rolagem de dado nos atributos
+.dice-roll-btn {
+  display: block;
+  background: none;
+  border: none;
+  padding: 0;
+  margin-top: 2px;
+  cursor: pointer;
+  color: #f59e0b;
+  opacity: 0.5;
+  font-size: 0.85rem;
+  transition: opacity 0.2s, transform 0.15s;
+
+  &:hover {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+// Toast flutuante de resultado de rolagem
+.rolagem-toast {
+  position: fixed;
+  bottom: 1.2rem;
+  right: 1.2rem;
+  z-index: 9999;
+  background: #1a1a2e;
+  border: 1px solid #f59e0b;
+  border-radius: 10px;
+  padding: 0.75rem 1.1rem;
+  min-width: 150px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+  animation: rolagemFadeIn 0.2s ease-out;
+
+  .rolagem-toast-campo {
+    font-size: 0.78rem;
+    color: #f59e0b;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.15rem;
+  }
+
+  .rolagem-toast-total {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 0.15rem;
+  }
+
+  .rolagem-toast-detalhe {
+    font-size: 0.75rem;
+    color: #aaa;
+  }
+}
+
+@keyframes rolagemFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

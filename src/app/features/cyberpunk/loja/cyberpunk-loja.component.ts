@@ -3,8 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { finalize, timeout } from 'rxjs';
-import { CyberpunkCatalog, CyberpunkStoreCatalog, CyberpunkStoreItem } from '../../core/models/cyberpunk-catalog.model';
-import { CyberpunkCatalogService } from '../../core/services/cyberpunk-catalog.service';
+import { CyberpunkCatalog, CyberpunkStoreCatalog, CyberpunkStoreItem } from '../../../core/models/cyberpunk-catalog.model';
+import { CyberpunkCatalogService } from '../../../core/services/cyberpunk-catalog.service';
 
 type LojaCategoria = keyof CyberpunkStoreCatalog;
 
