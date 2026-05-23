@@ -1,4 +1,16 @@
 .catalog-admin {
+  .content-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .content-tabs .btn.active {
+    background: #0f172a;
+    border-color: #0f172a;
+    color: #fff;
+  }
+
   .catalog-nav {
     display: flex;
     flex-wrap: wrap;
@@ -100,6 +112,12 @@
     margin-bottom: 0.35rem;
   }
 
+  .entity-meta {
+    margin-top: 0.35rem;
+    margin-bottom: 0.25rem;
+    font-family: Consolas, 'Courier New', monospace;
+  }
+
   .catalog-details + .catalog-details {
     margin-top: 0.5rem;
   }
@@ -111,6 +129,12 @@
 
 body.dark-theme {
   .catalog-admin {
+    .content-tabs .btn.active {
+      background: #63b3ed;
+      border-color: #63b3ed;
+      color: #0a0f1e;
+    }
+
     .catalog-nav .btn.active {
       background: #63b3ed;
       border-color: #63b3ed;

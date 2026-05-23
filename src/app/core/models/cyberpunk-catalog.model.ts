@@ -1,10 +1,18 @@
-export interface CyberpunkSubclassLevel {
+export interface CyberpunkCatalogMeta {
+  id?: string;
+  slug?: string;
+  source?: 'constants' | 'backend' | 'manual';
+  sourceRef?: string;
+  updatedAt?: string;
+}
+
+export interface CyberpunkSubclassLevel extends CyberpunkCatalogMeta {
   nivel: number;
   habilidade: string;
   descricao: string;
 }
 
-export interface CyberpunkSubclassCatalog {
+export interface CyberpunkSubclassCatalog extends CyberpunkCatalogMeta {
   nome: string;
   descricao: string;
   progressao: CyberpunkSubclassLevel[];
@@ -18,13 +26,13 @@ export interface CyberpunkClassProficiencias {
   pericias: { escolher: number; opcoes: string[] };
 }
 
-export interface CyberpunkClassProgression {
+export interface CyberpunkClassProgression extends CyberpunkCatalogMeta {
   nivel: number;
   habilidade: string;
   descricao: string;
 }
 
-export interface CyberpunkClassCatalog {
+export interface CyberpunkClassCatalog extends CyberpunkCatalogMeta {
   nome: string;
   descricao: string;
   flavorText?: string[];
@@ -38,7 +46,7 @@ export interface CyberpunkClassCatalog {
   subclasses: CyberpunkSubclassCatalog[];
 }
 
-export interface CyberpunkAntecedenteCatalog {
+export interface CyberpunkAntecedenteCatalog extends CyberpunkCatalogMeta {
   nome: string;
   emoji?: string;
   descricao: string;
@@ -49,13 +57,13 @@ export interface CyberpunkAntecedenteCatalog {
   itensIniciais: string[];
 }
 
-export interface CyberpunkTalentCatalog {
+export interface CyberpunkTalentCatalog extends CyberpunkCatalogMeta {
   nome: string;
   descricao: string;
   classes: string[];
 }
 
-export interface CyberpunkStoreItem {
+export interface CyberpunkStoreItem extends CyberpunkCatalogMeta {
   nome: string;
   descricao: string;
   precoEdinhos: number | null;
@@ -79,6 +87,7 @@ export interface CyberpunkStoreCatalog {
 export interface CyberpunkCatalog {
   system: 'cyberpun2080';
   version: number;
+  seedVersion?: string;
   classes: CyberpunkClassCatalog[];
   antecedentes: CyberpunkAntecedenteCatalog[];
   talentos: CyberpunkTalentCatalog[];

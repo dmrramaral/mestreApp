@@ -133,21 +133,24 @@
         <div class="row g-2 mb-3">
           <div class="col-md-6">
             <label class="form-label">Filtro de Classe</label>
-            <input class="form-control" [(ngModel)]="classNameFilter" placeholder="Nome ou descricao da classe" />
+            <input class="form-control" [(ngModel)]="classNameFilter" (ngModelChange)="onClassNameFilterChange()" placeholder="Nome ou descricao da classe" />
           </div>
           <div class="col-md-6">
             <label class="form-label">Filtro de Subclasse</label>
-            <input class="form-control" [(ngModel)]="subclassNameFilter" placeholder="Nome da subclasse" />
+            <input class="form-control" [(ngModel)]="subclassNameFilter" (ngModelChange)="onSubclassNameFilterChange()" placeholder="Nome da subclasse" />
           </div>
         </div>
 
         <div class="text-muted small mb-2">Resultados: {{ classesFiltradas.length }}</div>
 
-        <div class="class-block border rounded p-3 mb-3" *ngFor="let classRow of classesFiltradas; let i = index">
+        <div class="class-block border rounded p-3 mb-3" *ngFor="let classRow of classesFiltradas; let i = index; trackBy: trackByClassIndex">
           <details [open]="i === 0" class="catalog-details">
             <summary>
               <span>Classe #{{ classRow.index + 1 }} - {{ classRow.classe.nome || 'Sem nome' }}</span>
             </summary>
+            <div class="entity-meta small text-muted">
+              ID: {{ classRow.classe.id || 'gerado ao salvar' }} | Slug: {{ classRow.classe.slug || 'pendente' }}
+            </div>
             <div class="details-actions">
               <button type="button" class="btn btn-sm btn-outline-danger" (click)="removerClasse(classRow.index)">Remover</button>
             </div>
@@ -275,6 +278,9 @@
                   <summary>
                     <span>Subclasse #{{ j + 1 }} - {{ subclasse.nome || 'Sem nome' }}</span>
                   </summary>
+                  <div class="entity-meta small text-muted">
+                    ID: {{ subclasse.id || 'gerado ao salvar' }} | Slug: {{ subclasse.slug || 'pendente' }}
+                  </div>
                   <div class="details-actions">
                     <button type="button" class="btn btn-sm btn-outline-danger" (click)="removerSubclasse(classRow.index, j)">Remover</button>
                   </div>
@@ -317,7 +323,16 @@
       </div>
     </div>
 
-    <div class="card mb-4" *ngIf="paginaAtiva === 'conteudo'">
+    <div class="content-tabs mb-3" *ngIf="paginaAtiva === 'conteudo'">
+      <button type="button" class="btn btn-outline-primary" [class.active]="conteudoTabAtiva === 'antecedentes'" (click)="conteudoTabAtiva = 'antecedentes'">
+        Antecedentes
+      </button>
+      <button type="button" class="btn btn-outline-primary" [class.active]="conteudoTabAtiva === 'talentos'" (click)="conteudoTabAtiva = 'talentos'">
+        Talentos
+      </button>
+    </div>
+
+    <div class="card mb-4" *ngIf="paginaAtiva === 'conteudo' && conteudoTabAtiva === 'antecedentes'">
       <div class="card-header d-flex justify-content-between align-items-center">
         <strong>Antecedentes</strong>
         <button class="btn btn-sm btn-success" (click)="adicionarAntecedente()">Adicionar Antecedente</button>
@@ -326,17 +341,20 @@
         <div class="row g-2 mb-3">
           <div class="col-md-6">
             <label class="form-label">Filtro de Antecedente</label>
-            <input class="form-control" [(ngModel)]="antecedenteFilter" placeholder="Nome, descricao ou talento" />
+            <input class="form-control" [(ngModel)]="antecedenteFilter" (ngModelChange)="onAntecedenteFilterChange()" placeholder="Nome, descricao ou talento" />
           </div>
         </div>
 
         <div class="text-muted small mb-2">Resultados: {{ antecedentesFiltrados.length }}</div>
 
-        <div class="border rounded p-3 mb-3" *ngFor="let row of antecedentesFiltrados; let i = index">
+        <div class="border rounded p-3 mb-3" *ngFor="let row of antecedentesFiltrados; let i = index; trackBy: trackByAntecedenteIndex">
           <details [open]="i === 0" class="catalog-details">
             <summary>
               <span>Antecedente #{{ row.index + 1 }} - {{ row.antecedente.nome || 'Sem nome' }}</span>
             </summary>
+            <div class="entity-meta small text-muted">
+              ID: {{ row.antecedente.id || 'gerado ao salvar' }} | Slug: {{ row.antecedente.slug || 'pendente' }}
+            </div>
             <div class="details-actions">
               <button type="button" class="btn btn-sm btn-outline-danger" (click)="removerAntecedente(row.index)">Remover</button>
             </div>
@@ -395,7 +413,7 @@
       </div>
     </div>
 
-    <div class="card mb-4" *ngIf="paginaAtiva === 'conteudo'">
+    <div class="card mb-4" *ngIf="paginaAtiva === 'conteudo' && conteudoTabAtiva === 'talentos'">
       <div class="card-header d-flex justify-content-between align-items-center">
         <strong>Talentos</strong>
         <button class="btn btn-sm btn-success" (click)="adicionarTalento()">Adicionar Talento</button>
@@ -422,6 +440,9 @@
             <summary>
               <span>Talento #{{ i + 1 }} - {{ item.talento.nome || 'Sem nome' }}</span>
             </summary>
+            <div class="entity-meta small text-muted">
+              ID: {{ item.talento.id || 'gerado ao salvar' }} | Slug: {{ item.talento.slug || 'pendente' }}
+            </div>
             <div class="details-actions">
               <button type="button" class="btn btn-sm btn-outline-danger" (click)="removerTalento(item.index)">Remover</button>
             </div>
@@ -481,6 +502,9 @@
             <div class="d-flex justify-content-between align-items-center mb-2">
               <strong>{{ itemRow.item.nome || ('Item #' + (i + 1)) }}</strong>
               <button class="btn btn-sm btn-outline-danger" (click)="removerItemLoja(categoria.key, itemRow.index)">Remover</button>
+            </div>
+            <div class="entity-meta small text-muted mb-2">
+              ID: {{ itemRow.item.id || 'gerado ao salvar' }} | Slug: {{ itemRow.item.slug || 'pendente' }}
             </div>
             <div class="row g-2">
               <div class="col-md-4">

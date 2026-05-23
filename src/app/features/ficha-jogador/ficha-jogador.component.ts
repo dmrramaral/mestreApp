@@ -1,4 +1,5 @@
 import { CommonModule } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -609,6 +610,67 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     this.cyberpunEquipamentosCatalogo = [];
   }
 
+  private limparCatalogoCyberpunkCarregado(): void {
+    this.cyberpunClasses = [];
+    this.cyberpunSubclassesPorPapel = {};
+    this.cyberpunAntecedentes = [];
+    this.cyberpunClassesFullData = [];
+    this.cyberpunTalentosCatalogo = [];
+    this.cyberpunHacksCatalogo = [];
+    this.cyberpunEquipamentosCatalogo = [];
+  }
+
+  private erroIndisponibilidadeCatalogo(error: unknown): boolean {
+    if (!(error instanceof HttpErrorResponse)) {
+      return false;
+    }
+
+    return error.status === 0 || error.status >= 500;
+  }
+
+  private validarCatalogoRemoto(catalog: CyberpunkCatalog): void {
+    if (!catalog || catalog.system !== RPG_SYSTEMS.CYBERPUN2080) {
+      throw new Error('invalid_remote_catalog_system');
+    }
+
+    if (!Array.isArray(catalog.classes) || !Array.isArray(catalog.antecedentes) || !Array.isArray(catalog.talentos)) {
+      throw new Error('invalid_remote_catalog_shape');
+    }
+
+    if (!catalog.loja || typeof catalog.loja !== 'object') {
+      throw new Error('invalid_remote_catalog_store');
+    }
+  }
+
+  private normalizarChaveCatalogo(value: string | undefined | null): string {
+    return String(value || '')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .trim();
+  }
+
+  private ehMesmoRegistroCatalogo(
+    local: { id?: string; slug?: string; nome?: string },
+    backend: { id?: string; slug?: string; nome?: string }
+  ): boolean {
+    const localId = this.normalizarChaveCatalogo(local.id);
+    const backendId = this.normalizarChaveCatalogo(backend.id);
+    if (localId && backendId && localId === backendId) {
+      return true;
+    }
+
+    const localSlug = this.normalizarChaveCatalogo(local.slug);
+    const backendSlug = this.normalizarChaveCatalogo(backend.slug);
+    if (localSlug && backendSlug && localSlug === backendSlug) {
+      return true;
+    }
+
+    const localNome = this.normalizarChaveCatalogo(local.nome);
+    const backendNome = this.normalizarChaveCatalogo(backend.nome);
+    return Boolean(localNome && backendNome && localNome === backendNome);
+  }
+
   private aplicarCatalogoCyberpunk(catalog: CyberpunkCatalog): void {
     this.catalogoCyberpunk = catalog;
     this.cyberpunClasses = (catalog.classes || []).map((item) => String(item.nome || '').trim()).filter(Boolean);
@@ -634,36 +696,49 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
       ? subclassesPorClasse
       : { ...CYBERPUN2080_SUBCLASSES_BY_CLASS };
 
-    // Mescla classes do backend com dados locais (dados locais têm prioridade para campos enriquecidos)
-    const classesBackend = (catalog.classes || []).filter((item) => item.nome);
-    if (classesBackend.length > 0) {
-      this.cyberpunClassesFullData = CYBERPUN2080_CLASSES_FULL_DATA.map((local) => {
-        const backend = classesBackend.find((b) => b.nome === local.nome);
-        if (!backend) return local;
-        // Backend só substitui campos não presentes localmente (progressao e subclasses com dados têm prioridade local)
-        const temProgressaoLocal = local.progressao && local.progressao.length > 0;
-        const temSubclassesLocal = local.subclasses && local.subclasses.some(s => s.progressao && s.progressao.length > 0);
-        return {
-          ...local,
-          ...backend,
-          progressao: temProgressaoLocal ? local.progressao : (backend.progressao ?? local.progressao),
-          subclasses: temSubclassesLocal ? local.subclasses : (backend.subclasses ?? local.subclasses)
-        };
-      });
-    } else {
-      this.cyberpunClassesFullData = [...CYBERPUN2080_CLASSES_FULL_DATA];
-    }
+    this.cyberpunClassesFullData = (catalog.classes || [])
+      .map((item) => ({
+        ...item,
+        nome: String(item.nome || '').trim(),
+        descricao: String(item.descricao || '').trim(),
+        subclasses: Array.isArray(item.subclasses)
+          ? item.subclasses
+              .map((subclasse) => ({
+                ...subclasse,
+                nome: String(subclasse.nome || '').trim(),
+                descricao: String(subclasse.descricao || '').trim(),
+                progressao: Array.isArray(subclasse.progressao)
+                  ? subclasse.progressao
+                      .map((progressao) => ({
+                        ...progressao,
+                        nivel: Number.isFinite(Number(progressao.nivel)) ? Number(progressao.nivel) : 1,
+                        habilidade: String(progressao.habilidade || '').trim(),
+                        descricao: String(progressao.descricao || '').trim()
+                      }))
+                      .filter((progressao) => progressao.habilidade)
+                  : []
+              }))
+              .filter((subclasse) => subclasse.nome)
+          : []
+      }))
+      .filter((item) => item.nome);
 
-    // Mescla dados do backend com dados locais: dados locais têm prioridade para campos enriquecidos
-    const antecedentesBackend = (catalog.antecedentes || []).filter((item) => item.nome);
-    if (antecedentesBackend.length > 0) {
-      this.cyberpunAntecedentes = CYBERPUN2080_ANTECEDENTES.map((local) => {
-        const backend = antecedentesBackend.find((b) => b.nome === local.nome);
-        return backend ? { ...local, ...backend, atributos: local.atributos, talentoDescricao: local.talentoDescricao, dinheiroInicial: local.dinheiroInicial, itensIniciais: local.itensIniciais } : local;
-      });
-    } else {
-      this.cyberpunAntecedentes = [...CYBERPUN2080_ANTECEDENTES];
-    }
+    this.cyberpunAntecedentes = (catalog.antecedentes || [])
+      .map((item) => ({
+        ...item,
+        nome: String(item.nome || '').trim(),
+        descricao: String(item.descricao || '').trim(),
+        atributos: Array.isArray(item.atributos)
+          ? item.atributos.map((atributo) => String(atributo || '').trim()).filter(Boolean)
+          : [],
+        talentoOrigem: String(item.talentoOrigem || '').trim(),
+        talentoDescricao: String(item.talentoDescricao || '').trim(),
+        dinheiroInicial: Number.isFinite(Number(item.dinheiroInicial)) ? Number(item.dinheiroInicial) : 0,
+        itensIniciais: Array.isArray(item.itensIniciais)
+          ? item.itensIniciais.map((valor) => String(valor || '').trim()).filter(Boolean)
+          : []
+      }))
+      .filter((item) => item.nome);
 
     this.cyberpunTalentosCatalogo = (catalog.talentos || [])
       .map((item) => ({
@@ -708,12 +783,24 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
 
     this.cyberpunkCatalogService.getCatalog().subscribe({
       next: (catalog) => {
-        this.aplicarCatalogoCyberpunk(catalog);
-        this.carregandoCatalogoCyberpunk = false;
+        try {
+          this.validarCatalogoRemoto(catalog);
+          this.aplicarCatalogoCyberpunk(catalog);
+          this.carregandoCatalogoCyberpunk = false;
+        } catch {
+          this.limparCatalogoCyberpunkCarregado();
+          this.erroCatalogoCyberpunk = 'Catalogo remoto invalido. Verifique a integridade no backend.';
+          this.carregandoCatalogoCyberpunk = false;
+        }
       },
-      error: () => {
-        this.aplicarFallbackCatalogoCyberpunk();
-        this.erroCatalogoCyberpunk = 'Catalogo CyberPunk indisponivel no momento. Usando dados locais.';
+      error: (error) => {
+        if (this.erroIndisponibilidadeCatalogo(error)) {
+          this.aplicarFallbackCatalogoCyberpunk();
+          this.erroCatalogoCyberpunk = 'Catalogo CyberPunk indisponivel no momento. Usando dados locais.';
+        } else {
+          this.limparCatalogoCyberpunkCarregado();
+          this.erroCatalogoCyberpunk = 'Falha ao carregar catalogo remoto por erro de integridade/validacao.';
+        }
         this.carregandoCatalogoCyberpunk = false;
       }
     });

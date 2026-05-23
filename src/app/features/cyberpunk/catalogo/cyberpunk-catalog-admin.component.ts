@@ -34,6 +34,8 @@ interface StoreItemRow {
   index: number;
 }
 
+type ConteudoTab = 'antecedentes' | 'talentos';
+
 @Component({
   selector: 'app-cyberpunk-catalog-admin',
   standalone: true,
@@ -56,7 +58,10 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
   talentoNomeFilter = '';
   lojaNomeFilter = '';
   lojaCategoriaFilter = '';
+  conteudoTabAtiva: ConteudoTab = 'antecedentes';
   classesDisponiveis: string[] = [];
+  classesFiltradas: ClassRow[] = [];
+  antecedentesFiltrados: AntecedenteRow[] = [];
   talentosFiltrados: CyberpunkTalentRow[] = [];
   mostrarClasses = true;
   mostrarAntecedentes = false;
@@ -76,6 +81,87 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
     private catalogService: CyberpunkCatalogService,
     private route: ActivatedRoute
   ) {}
+
+  private slugify(value: string): string {
+    return String(value || '')
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '')
+      .trim();
+  }
+
+  private garantirIdentificadoresCatalogo(): void {
+    if (!this.catalog) {
+      return;
+    }
+
+    const now = new Date().toISOString();
+    this.catalog.classes.forEach((classe, classIndex) => {
+      const classeSlug = this.slugify(classe.slug || classe.nome || `classe-${classIndex + 1}`);
+      classe.slug = classeSlug || `classe-${classIndex + 1}`;
+      classe.id = classe.id || `class:${classe.slug}`;
+      classe.source = classe.source || 'manual';
+      classe.sourceRef = classe.sourceRef || classe.nome;
+      classe.updatedAt = now;
+
+      classe.subclasses.forEach((subclasse, subIndex) => {
+        const subSlug = this.slugify(subclasse.slug || subclasse.nome || `subclasse-${subIndex + 1}`);
+        subclasse.slug = subSlug || `subclasse-${subIndex + 1}`;
+        subclasse.id = subclasse.id || `subclass:${classe.slug}:${subclasse.slug}`;
+        subclasse.source = subclasse.source || 'manual';
+        subclasse.sourceRef = subclasse.sourceRef || subclasse.nome;
+        subclasse.updatedAt = now;
+
+        subclasse.progressao.forEach((nivel) => {
+          nivel.id = nivel.id || `progress:${subclasse.id}:nv${nivel.nivel}`;
+          nivel.source = nivel.source || 'manual';
+          nivel.sourceRef = nivel.sourceRef || nivel.habilidade;
+          nivel.updatedAt = now;
+        });
+      });
+
+      (classe.progressao || []).forEach((nivel) => {
+        nivel.id = nivel.id || `progress:${classe.id}:nv${nivel.nivel}`;
+        nivel.source = nivel.source || 'manual';
+        nivel.sourceRef = nivel.sourceRef || nivel.habilidade;
+        nivel.updatedAt = now;
+      });
+    });
+
+    this.catalog.antecedentes.forEach((antecedente, index) => {
+      const slug = this.slugify(antecedente.slug || antecedente.nome || `antecedente-${index + 1}`);
+      antecedente.slug = slug || `antecedente-${index + 1}`;
+      antecedente.id = antecedente.id || `antecedente:${antecedente.slug}`;
+      antecedente.source = antecedente.source || 'manual';
+      antecedente.sourceRef = antecedente.sourceRef || antecedente.nome;
+      antecedente.updatedAt = now;
+    });
+
+    this.catalog.talentos.forEach((talento, index) => {
+      const slug = this.slugify(talento.slug || talento.nome || `talento-${index + 1}`);
+      talento.slug = slug || `talento-${index + 1}`;
+      talento.id = talento.id || `talento:${talento.slug}`;
+      talento.source = talento.source || 'manual';
+      talento.sourceRef = talento.sourceRef || talento.nome;
+      talento.updatedAt = now;
+    });
+
+    this.categoriasLoja.forEach((categoria) => {
+      this.listarItensLoja(categoria.key).forEach((item, index) => {
+        const slug = this.slugify(item.slug || item.nome || `item-${index + 1}`);
+        item.slug = slug || `item-${index + 1}`;
+        item.id = item.id || `item:${categoria.key}:${item.slug}`;
+        item.source = item.source || 'manual';
+        item.sourceRef = item.sourceRef || item.nome;
+        item.updatedAt = now;
+      });
+    });
+
+    this.catalog.updatedAt = now;
+    this.catalog.seedVersion = this.catalog.seedVersion || 'front-seed-v1';
+  }
 
   private criarItemLojaVazio(categoria: string): CyberpunkStoreItem {
     return {
@@ -122,45 +208,6 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
       this.paginaAtiva = pagina || 'dashboard';
     });
     this.carregar();
-  }
-
-  get classesFiltradas(): ClassRow[] {
-    if (!this.catalog) {
-      return [];
-    }
-
-    const nome = this.classNameFilter.trim().toLowerCase();
-    const subclasse = this.subclassNameFilter.trim().toLowerCase();
-
-    return this.catalog.classes
-      .map((classe, index) => ({ classe, index }))
-      .filter((row) => {
-        const atendeClasse = !nome
-          || row.classe.nome.toLowerCase().includes(nome)
-          || row.classe.descricao.toLowerCase().includes(nome);
-        const atendeSubclasse = !subclasse
-          || row.classe.subclasses.some((item) => item.nome.toLowerCase().includes(subclasse));
-        return atendeClasse && atendeSubclasse;
-      });
-  }
-
-  get antecedentesFiltrados(): AntecedenteRow[] {
-    if (!this.catalog) {
-      return [];
-    }
-
-    const termo = this.antecedenteFilter.trim().toLowerCase();
-    return this.catalog.antecedentes
-      .map((antecedente, index) => ({ antecedente, index }))
-      .filter((row) => {
-        if (!termo) {
-          return true;
-        }
-
-        return row.antecedente.nome.toLowerCase().includes(termo)
-          || row.antecedente.descricao.toLowerCase().includes(termo)
-          || row.antecedente.talentoOrigem.toLowerCase().includes(termo);
-      });
   }
 
   get resumoCatalogo(): {
@@ -235,23 +282,82 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
   private atualizarListasDerivadas(): void {
     if (!this.catalog) {
       this.classesDisponiveis = [];
+      this.classesFiltradas = [];
+      this.antecedentesFiltrados = [];
       this.talentosFiltrados = [];
       return;
     }
 
     this.classesDisponiveis = this.catalog.classes.map((item) => item.nome);
+    this.atualizarClassesFiltradas();
+    this.atualizarAntecedentesFiltrados();
+
     const filter = this.classFilter.trim();
+    const nomeTalento = this.talentoNomeFilter.trim().toLowerCase();
 
     this.talentosFiltrados = this.catalog.talentos
       .map((talento, index) => ({ talento, index }))
       .filter((item) => {
         const atendeClasse = !filter || item.talento.classes.includes(filter);
-        const atendeNome = !this.talentoNomeFilter.trim()
-          || item.talento.nome.toLowerCase().includes(this.talentoNomeFilter.trim().toLowerCase())
-          || item.talento.descricao.toLowerCase().includes(this.talentoNomeFilter.trim().toLowerCase());
+        const atendeNome = !nomeTalento
+          || item.talento.nome.toLowerCase().includes(nomeTalento)
+          || item.talento.descricao.toLowerCase().includes(nomeTalento);
 
         return atendeClasse && atendeNome;
       });
+  }
+
+  private atualizarClassesFiltradas(): void {
+    if (!this.catalog) {
+      this.classesFiltradas = [];
+      return;
+    }
+
+    const nome = this.classNameFilter.trim().toLowerCase();
+    const subclasse = this.subclassNameFilter.trim().toLowerCase();
+
+    this.classesFiltradas = this.catalog.classes
+      .map((classe, index) => ({ classe, index }))
+      .filter((row) => {
+        const atendeClasse = !nome
+          || row.classe.nome.toLowerCase().includes(nome)
+          || row.classe.descricao.toLowerCase().includes(nome);
+        const atendeSubclasse = !subclasse
+          || row.classe.subclasses.some((item) => item.nome.toLowerCase().includes(subclasse));
+        return atendeClasse && atendeSubclasse;
+      });
+  }
+
+  private atualizarAntecedentesFiltrados(): void {
+    if (!this.catalog) {
+      this.antecedentesFiltrados = [];
+      return;
+    }
+
+    const termo = this.antecedenteFilter.trim().toLowerCase();
+    this.antecedentesFiltrados = this.catalog.antecedentes
+      .map((antecedente, index) => ({ antecedente, index }))
+      .filter((row) => {
+        if (!termo) {
+          return true;
+        }
+
+        return row.antecedente.nome.toLowerCase().includes(termo)
+          || row.antecedente.descricao.toLowerCase().includes(termo)
+          || row.antecedente.talentoOrigem.toLowerCase().includes(termo);
+      });
+  }
+
+  onClassNameFilterChange(): void {
+    this.atualizarClassesFiltradas();
+  }
+
+  onSubclassNameFilterChange(): void {
+    this.atualizarClassesFiltradas();
+  }
+
+  onAntecedenteFilterChange(): void {
+    this.atualizarAntecedentesFiltrados();
   }
 
   onClassFilterChange(): void {
@@ -263,6 +369,14 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
   }
 
   trackByTalentIndex(_index: number, item: CyberpunkTalentRow): number {
+    return item.index;
+  }
+
+  trackByClassIndex(_index: number, item: ClassRow): number {
+    return item.index;
+  }
+
+  trackByAntecedenteIndex(_index: number, item: AntecedenteRow): number {
     return item.index;
   }
 
@@ -294,6 +408,7 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
       next: (catalog) => {
         this.catalog = catalog;
         this.garantirLojaNoCatalogo();
+        this.garantirIdentificadoresCatalogo();
         this.atualizarListasDerivadas();
       },
       error: () => {
@@ -304,6 +419,8 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
 
   salvar(): void {
     if (!this.catalog) return;
+
+    this.garantirIdentificadoresCatalogo();
 
     this.saving = true;
     this.erro = '';
@@ -340,7 +457,9 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
         protecaoCorporal: this.normalizarListaLoja(this.catalog.loja?.protecaoCorporal, 'Protecao Corporal'),
         classeTecnologica: this.normalizarListaLoja(this.catalog.loja?.classeTecnologica, 'Classe Tecnologica (CT)'),
         hacksRapidos: this.normalizarListaLoja(this.catalog.loja?.hacksRapidos, 'Hacks Rapidos')
-      }
+      },
+      updatedAt: new Date().toISOString(),
+      seedVersion: this.catalog.seedVersion || 'front-seed-v1'
     };
 
     this.catalogService.updateCatalog(payload).pipe(
@@ -363,6 +482,9 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
   adicionarClasse(): void {
     if (!this.catalog) return;
     const novaClasse: CyberpunkClassCatalog = {
+      id: `class:new-${Date.now()}`,
+      slug: '',
+      source: 'manual',
       nome: '',
       descricao: '',
       flavorText: [],
@@ -402,6 +524,9 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
   adicionarSubclasse(classIndex: number): void {
     if (!this.catalog) return;
     const novaSubclasse: CyberpunkSubclassCatalog = {
+      id: `subclass:new-${Date.now()}`,
+      slug: '',
+      source: 'manual',
       nome: '',
       descricao: '',
       progressao: []
@@ -492,6 +617,9 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
   adicionarAntecedente(): void {
     if (!this.catalog) return;
     const novoAntecedente: CyberpunkAntecedenteCatalog = {
+      id: `antecedente:new-${Date.now()}`,
+      slug: '',
+      source: 'manual',
       nome: '',
       emoji: '',
       descricao: '',
@@ -537,7 +665,14 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
 
   adicionarTalento(): void {
     if (!this.catalog) return;
-    this.catalog.talentos.push({ nome: '', descricao: '', classes: [] });
+    this.catalog.talentos.push({
+      id: `talento:new-${Date.now()}`,
+      slug: '',
+      source: 'manual',
+      nome: '',
+      descricao: '',
+      classes: []
+    });
     this.atualizarListasDerivadas();
   }
 
@@ -573,6 +708,11 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
   private normalizarListaLoja(items: CyberpunkStoreItem[] | undefined, categoriaPadrao: string): CyberpunkStoreItem[] {
     return (Array.isArray(items) ? items : [])
       .map((item) => ({
+        id: String(item?.id || '').trim() || undefined,
+        slug: String(item?.slug || '').trim() || undefined,
+        source: item?.source,
+        sourceRef: String(item?.sourceRef || '').trim() || undefined,
+        updatedAt: String(item?.updatedAt || '').trim() || undefined,
         nome: String(item?.nome || '').trim(),
         descricao: String(item?.descricao || '').trim(),
         precoEdinhos: Number.isFinite(Number(item?.precoEdinhos)) ? Number(item?.precoEdinhos) : null,
@@ -616,7 +756,12 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
     }
 
     const categoria = this.categoriasLoja.find((item) => item.key === key)?.label || 'Loja Cyber';
-    this.catalog.loja[key].push(this.criarItemLojaVazio(categoria));
+    this.catalog.loja[key].push({
+      ...this.criarItemLojaVazio(categoria),
+      id: `item:${key}:new-${Date.now()}`,
+      slug: '',
+      source: 'manual'
+    });
   }
 
   removerItemLoja(key: StoreCategoryKey, index: number): void {
@@ -633,6 +778,7 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
     this.catalog = {
       system: 'cyberpun2080',
       version: 1,
+      seedVersion: 'front-seed-v1',
       classes: CYBERPUN2080_CLASSES_FULL_DATA.map((c) => ({ ...c, subclasses: c.subclasses.map((s) => ({ ...s })) })),
       antecedentes: CYBERPUN2080_ANTECEDENTES.map((a) => ({ ...a })),
       talentos: [],
@@ -640,6 +786,7 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
       updatedAt: new Date().toISOString()
     };
     this.garantirLojaNoCatalogo();
+    this.garantirIdentificadoresCatalogo();
     this.atualizarListasDerivadas();
     this.sucesso = 'Dados locais carregados. Revise e clique em "Salvar no Banco" para persistir.';
   }
