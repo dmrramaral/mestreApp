@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { finalize, forkJoin, timeout } from 'rxjs';
+import { finalize, timeout } from 'rxjs';
 import { CYBERPUN2080_ANTECEDENTES, CYBERPUN2080_CLASSES_FULL_DATA, HACKS_RAPIDOS } from '../../../core/constants/rpg.constants';
 import {
   CyberpunkAntecedenteCatalog,
@@ -467,21 +467,14 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
     this.erro = '';
     this.sucesso = '';
 
-    forkJoin({
-      classes: this.catalogService.getClassesEntity(),
-      subclasses: this.catalogService.getSubclassesEntity(),
-      antecedentes: this.catalogService.getAntecedentesEntity(),
-      talentos: this.catalogService.getTalentosEntity(),
-      loja: this.catalogService.getLojaEntity(),
-      hacks: this.catalogService.getHacksEntity()
-    }).pipe(
+    this.catalogService.getCatalog().pipe(
       timeout(12000),
       finalize(() => {
         this.loading = false;
       })
     ).subscribe({
       next: (payload) => {
-        this.catalog = this.montarCatalogoDeEntidades(payload);
+        this.catalog = payload;
         this.garantirLojaNoCatalogo();
         this.garantirIdentificadoresCatalogo();
         this.atualizarListasDerivadas();
@@ -537,41 +530,14 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
       seedVersion: this.catalog.seedVersion || 'front-seed-v1'
     };
 
-    const classEntities = payload.classes.map((classe) => ({
-      ...classe,
-      subclasses: []
-    }));
-
-    const subclassEntities: CyberpunkSubclassEntity[] = payload.classes.flatMap((classe) =>
-      (classe.subclasses || []).map((subclasse) => ({
-        ...subclasse,
-        classId: String(classe.id || ''),
-        classNome: classe.nome
-      }))
-    );
-
-    const lojaSemHacks = {
-      armas: payload.loja.armas,
-      acessoriosMunicoes: payload.loja.acessoriosMunicoes,
-      protecaoCorporal: payload.loja.protecaoCorporal,
-      classeTecnologica: payload.loja.classeTecnologica
-    };
-
-    forkJoin({
-      classes: this.catalogService.updateClassesEntity(classEntities),
-      subclasses: this.catalogService.updateSubclassesEntity(subclassEntities),
-      antecedentes: this.catalogService.updateAntecedentesEntity(payload.antecedentes),
-      talentos: this.catalogService.updateTalentosEntity(payload.talentos),
-      loja: this.catalogService.updateLojaEntity(lojaSemHacks),
-      hacks: this.catalogService.updateHacksEntity(payload.loja.hacksRapidos)
-    }).pipe(
+    this.catalogService.updateCatalog(payload).pipe(
       timeout(12000),
       finalize(() => {
         this.saving = false;
       })
     ).subscribe({
-      next: (savedEntities) => {
-        this.catalog = this.montarCatalogoDeEntidades(savedEntities);
+      next: (savedCatalog) => {
+        this.catalog = savedCatalog;
         this.garantirLojaNoCatalogo();
         this.garantirIdentificadoresCatalogo();
         this.atualizarListasDerivadas();
