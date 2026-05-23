@@ -37,3 +37,70 @@
     background: #f8fafc;
   }
 }
+
+body.dark-theme {
+  .catalog-admin {
+    .card-header {
+      background: #0a0f1e;
+      color: #e2e8f0;
+      border-bottom-color: #2d3748;
+    }
+
+    .class-block {
+      background: #1a202c;
+      border-color: #4a5568 !important;
+    }
+
+    .catalog-details {
+      background: #1a202c;
+      border-color: #4a5568;
+      color: #e2e8f0;
+
+      summary {
+        color: #e2e8f0;
+      }
+    }
+
+    .catalog-details.nested {
+      background: #171e2d;
+    }
+
+    .form-label {
+      color: #a0aec0;
+    }
+
+    .form-control,
+    .form-select,
+    textarea.form-control {
+      background-color: #2d3748 !important;
+      color: #e2e8f0 !important;
+      border-color: #4a5568 !important;
+
+      &::placeholder {
+        color: #718096 !important;
+      }
+
+      &:focus {
+        background-color: #2d3748 !important;
+        color: #e2e8f0 !important;
+        border-color: #63b3ed !important;
+        box-shadow: 0 0 0 0.2rem rgba(99, 179, 237, 0.25) !important;
+      }
+    }
+
+    .border {
+      border-color: #4a5568 !important;
+    }
+
+    .text-muted {
+      color: #a0aec0 !important;
+    }
+
+    code {
+      color: #63b3ed;
+      background: #2d3748;
+      padding: 1px 5px;
+      border-radius: 4px;
+    }
+  }
+}

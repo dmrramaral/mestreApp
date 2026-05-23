@@ -4,15 +4,40 @@
       <h2 class="mb-1">Catalogo CyberPunk 2080</h2>
       <p class="text-muted mb-0">Gerencie classes, subclasses, antecedentes e talentos salvos no banco.</p>
     </div>
-    <div class="d-flex gap-2">
+    <div class="d-flex gap-2 flex-wrap justify-content-end">
       <button class="btn btn-outline-secondary" (click)="carregar()" [disabled]="loading || saving">Recarregar</button>
+      <button class="btn btn-outline-warning" (click)="confirmandoPopular = !confirmandoPopular" [disabled]="loading || saving">
+        <i class="fas fa-database me-1"></i>Pré-popular com dados locais
+      </button>
       <button class="btn btn-primary" (click)="salvar()" [disabled]="loading || saving || !catalog">{{ saving ? 'Salvando...' : 'Salvar no Banco' }}</button>
     </div>
   </div>
 
+  <div *ngIf="confirmandoPopular" class="alert alert-warning d-flex align-items-center justify-content-between gap-2 mb-3">
+    <span><strong>Atenção:</strong> Isso substituirá qualquer alteração não salva pelo conteúdo de <code>rpg.constants.ts</code>. Deseja continuar?</span>
+    <div class="d-flex gap-2">
+      <button class="btn btn-sm btn-warning" (click)="popularComDadosLocais()">Confirmar</button>
+      <button class="btn btn-sm btn-outline-secondary" (click)="confirmandoPopular = false">Cancelar</button>
+    </div>
+  </div>
+
   <div *ngIf="loading" class="alert alert-info">Carregando catalogo...</div>
-  <div *ngIf="erro" class="alert alert-danger">{{ erro }}</div>
+  <div *ngIf="erro" class="alert alert-danger">
+    <div class="d-flex align-items-start justify-content-between gap-2">
+      <span>{{ erro }}</span>
+      <button class="btn btn-sm btn-warning flex-shrink-0" (click)="confirmandoPopular = true">
+        <i class="fas fa-database me-1"></i>Usar dados locais
+      </button>
+    </div>
+  </div>
   <div *ngIf="sucesso" class="alert alert-success">{{ sucesso }}</div>
+
+  <div *ngIf="!loading && !catalog && !erro" class="alert alert-secondary d-flex align-items-center justify-content-between gap-2">
+    <span>Nenhum catálogo encontrado no banco. Clique em <strong>Pré-popular com dados locais</strong> para carregar os dados de <code>rpg.constants.ts</code> e depois salvar.</span>
+    <button class="btn btn-sm btn-warning flex-shrink-0" (click)="popularComDadosLocais()">
+      <i class="fas fa-database me-1"></i>Pré-popular agora
+    </button>
+  </div>
 
   <ng-container *ngIf="catalog">
     <div class="card mb-4">

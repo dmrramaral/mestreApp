@@ -422,8 +422,13 @@ export const CYBERPUN2080_CLASSES_FULL_DATA: CyberpunkClassCatalog[] = [
       },
       {
         nome: 'Operador de Choque',
-        descricao: 'Especialista em suporte tático de choque, combinando medicina de campo com técnicas de combate agressivas para manter a equipe em luta.',
-        progressao: []
+        descricao: 'O Operador de Choque não está no campo de batalha para apenas manter aliados vivos — ele está lá para garantir que o inimigo caia primeiro. Especialista em estimulantes militares, sobrecargas neurais e protocolos de agressividade induzida, ele transforma dor em combustível e medo em impulso de ataque. Seus tratamentos não priorizam conforto nem segurança a longo prazo; priorizam vencer a luta agora, custe o que custar depois.',
+        progressao: [
+          { nivel: 3, habilidade: 'Estimulantes de Combate', descricao: 'Quando você cura um aliado, o próximo ataque dele causa +1d8 de dano extra. O aliado ganha +3m de deslocamento até o fim do seu próximo turno.' },
+          { nivel: 7, habilidade: 'Treinamento Tático Pesado', descricao: 'Acrescente o modificador de Sabedoria no dano dos seus ataques com armas ou desarmado e de qualquer aliado afetado por habilidades suas até o fim do seu próximo turno.' },
+          { nivel: 10, habilidade: 'Arsenal Pesado', descricao: '1 vez por turno, Protocolo de Emergência. Ao atingir um alvo, você pode marcá-lo. O próximo ataque de um aliado contra ele causa +1d8 de dano extra. Se gastar Protocolo de Emergência: o aliado recebe Vantagem nesse ataque.' },
+          { nivel: 15, habilidade: 'Cadeia de Adrenalina', descricao: '1 vez por turno. Quando um aliado sob efeito de alguma habilidade sua reduz um inimigo a 0 PV, ele escolhe entre recuperar 3d8 + Sabedoria + bônus de proficiência PV ou aumentar seu deslocamento em 3m até o fim de seu próximo turno.' }
+        ]
       },
       {
         nome: 'Biohacker',
@@ -481,13 +486,23 @@ export const CYBERPUN2080_CLASSES_FULL_DATA: CyberpunkClassCatalog[] = [
       },
       {
         nome: 'Líder',
-        descricao: 'O Piloto Líder coordena sua equipe com precisão estratégica, transformando cada manobra em vantagem tática para todos.',
-        progressao: []
+        descricao: 'A especialização Líder representa aquele que mantém o grupo vivo quando tudo dá errado. Não é o mais rápido nem o mais forte, mas é quem enxerga o campo de batalha como um todo, antecipa perigos e mantém os aliados de pé através de comando, presença e decisões firmes. Onde o caos ameaça dominar, o Líder impõe ordem.',
+        progressao: [
+          { nivel: 3, habilidade: 'Guia', descricao: 'Pode adicionar o bônus de Sabedoria em sua Iniciativa. Além disso, seu grupo nunca fica Surpreso enquanto estiver em ruas, áreas abertas, rodovias, becos externos, nas Terras Baldias ou abordo de um veículo, a menos que você esteja inconsciente.' },
+          { nivel: 7, habilidade: 'Palavra de Liderança', descricao: '1 vez por combate, Reação, usos iguais ao Bônus de Proficiência antes de um descanso longo. Quando um aliado for atingido, reduza o dano em 3d8 + Sabedoria.' },
+          { nivel: 10, habilidade: 'Ordem de Marcha', descricao: '1 vez por combate, Ação Bônus. Todos os aliados a até 9m ganham Vantagem no próximo ataque e 1 PV temporário por nível.' },
+          { nivel: 15, habilidade: 'Protetor', descricao: '1 vez por combate, Reação. Quando um inimigo ataca um aliado adjacente, o aliado recebe +2 CA contra aquele ataque e você pode fazer um ataque com uma arma à distância contra ele; se acertar, o inimigo tem Desvantagem no próximo ataque que realizar.' }
+        ]
       },
       {
         nome: 'Corredor Fantasma',
-        descricao: 'Velocidade e invisibilidade combinadas — o Corredor Fantasma age e desaparece antes que o inimigo possa reagir.',
-        progressao: []
+        descricao: 'O Corredor Fantasma vive em velocidade extrema. Reflexos acelerados, movimentação imprevisível e técnicas de evasão fazem dele quase impossível de acompanhar em combate.',
+        progressao: [
+          { nivel: 3, habilidade: 'Pós-Imagem', descricao: 'Se mover pelo menos 6m no turno, ataques contra você têm Desvantagem até o fim de seu próximo turno.' },
+          { nivel: 7, habilidade: 'Trajetória Impossível', descricao: 'Você pode atravessar espaços ocupados por criaturas hostis e atravessar brechas estreitas suficientes para sua passagem ignorando punições de terreno difícil durante seu movimento. Ao realizar a ação Disparada, você não provoca ataques de oportunidade.' },
+          { nivel: 10, habilidade: 'Reflexo Aumentado', descricao: '1 vez por turno, Reação. Reduza o dano recebido em 2d8 + Destreza e imediatamente mova-se 3m. Caso haja um inimigo a até 9m de distância, você pode realizar um ataque contra ele usando uma arma à distância.' },
+          { nivel: 15, habilidade: 'Ás do Movimento', descricao: 'Após se mover ao menos 6m, reduz o valor de Acerto Crítico em seu próximo ataque em 1 e caso realize um Acerto Crítico neste ataque, você recupera 2d8 de PV.' }
+        ]
       }
     ]
   },
@@ -534,13 +549,23 @@ export const CYBERPUN2080_CLASSES_FULL_DATA: CyberpunkClassCatalog[] = [
       },
       {
         nome: 'Executor',
-        descricao: 'O Executor combina frieza absoluta com técnicas de eliminação rápida, ceifando alvos antes que possam reagir.',
-        progressao: []
+        descricao: 'Especialista em execução à distância, o Executor domina o campo de batalha com frieza e cálculo. Cada disparo é pensado para pressionar o inimigo, abrindo espaço e quebrando defesas. Em constante movimento, ele transforma deslocamento em vantagem tática. Explosões e caos não o distraem, seus reflexos são afiados como sua mira.',
+        progressao: [
+          { nivel: 3, habilidade: 'Tiro Preciso', descricao: '1 vez por turno. Ao realizar um ataque à distância, adicione +1d4 a este ataque. Caso acerte, causa 1d6 de dano extra.' },
+          { nivel: 7, habilidade: 'Movimento Letal', descricao: '1 vez por turno. Se você se mover pelo menos 3m neste turno antes de atirar, ganha +2 na jogada de ataque e se acertar, o alvo sofre –2 na CA até o fim de seu próximo turno.' },
+          { nivel: 10, habilidade: 'Tiro Perfeito', descricao: 'Seus ataques com armas de fogo têm Acerto Crítico em 19–20.' },
+          { nivel: 15, habilidade: 'Reflexo Explosivo', descricao: 'Quando você estiver dentro do raio de uma explosão e for forçado a realizar um teste de resistência contra seu efeito, você possui Vantagem neste teste para evitar a explosão. Em caso de sucesso, você ignora completamente o dano da explosão, se possível.' }
+        ]
       },
       {
         nome: 'Duelista Neural',
-        descricao: 'O Duelista Neural combina reflexos neuralmente aprimorados com técnicas de combate próximo para dominar o duelo.',
-        progressao: []
+        descricao: 'O Duelista Neural transforma combate em um duelo técnico e cerebral. Implantes preditivos analisam movimentos, antecipam padrões e exploram falhas microscópicas na postura do alvo. Funciona muito bem no um contra um.',
+        progressao: [
+          { nivel: 3, habilidade: 'Marca de Duelo', descricao: 'Ação Bônus. Marque uma criatura que você possa ver a até 18m com a Marca do Duelo. Você recebe +2 nas jogadas de ataque contra ele e +1 CA contra ataques dele. A marca é perdida caso você ataque outro alvo, o alvo morrer ou você marcar outro alvo.' },
+          { nivel: 7, habilidade: 'Leitura de Combate', descricao: 'Reação, usos iguais ao seu Modificador de Sabedoria. Quando o alvo marcado com a Marca do Duelo realizar um ataque, imponha Desvantagem no ataque dele.' },
+          { nivel: 10, habilidade: 'Golpe Perfeito', descricao: 'Reduz o valor de Acerto Crítico em 1 contra o alvo marcado com a Marca do Duelo.' },
+          { nivel: 15, habilidade: 'Execução', descricao: 'Ataques causam +2d6 de dano extra contra o alvo marcado com a Marca do Duelo, caso ele esteja abaixo de 50% da vida.' }
+        ]
       }
     ]
   },
@@ -596,8 +621,13 @@ export const CYBERPUN2080_CLASSES_FULL_DATA: CyberpunkClassCatalog[] = [
       },
       {
         nome: 'Especialista em Corpo a Corpo',
-        descricao: 'O Especialista em Corpo a Corpo domina o combate próximo com brutalidade e técnica, transformando cada confronto direto em uma demonstração de força devastadora.',
-        progressao: []
+        descricao: 'Focados em combate corpo a corpo, esses Solos são mestres em ataques rápidos e letais, usando armas como facas, socos e outras ferramentas de combate próximo. Eles priorizam a força e a destreza para superar seus oponentes.',
+        progressao: [
+          { nivel: 3, habilidade: 'Lutador', descricao: 'Sua Vida Máxima aumenta em 10 pontos. Adicionalmente, quando você acerta um ataque corpo a corpo, aumente o dano em 1d4. Esse dano aumenta em 1d4 nos níveis 8, 12, 16 e 20.' },
+          { nivel: 7, habilidade: 'Ataque Veloz', descricao: '1 vez por turno, Ação Bônus. Permite realizar 1 Ataque corpo a corpo extra. Se mover ao menos 3m antes do ataque, aumente o dano em 1d8 extra.' },
+          { nivel: 10, habilidade: 'Golpe Brutal', descricao: '1 vez por combate, usos iguais ao Bônus de Proficiência antes de um descanso longo. Quando você acerta um ataque corpo a corpo, você pode escolher dobrar os dados de dano base desse ataque. Não funciona com Acertos Críticos.' },
+          { nivel: 15, habilidade: 'Sombra do Combatente', descricao: 'Quando acerta um alvo com um ataque corpo a corpo, você se torna tão evasivo que os inimigos têm Desvantagem no primeiro ataque contra você até o seu próximo turno.' }
+        ]
       }
     ]
   },
@@ -646,8 +676,13 @@ export const CYBERPUN2080_CLASSES_FULL_DATA: CyberpunkClassCatalog[] = [
       },
       {
         nome: 'Fantasma Neural',
-        descricao: 'O Fantasma Neural opera nas sombras digitais, invadindo sistemas sem deixar rastros e manipulando redes com precisão cirúrgica.',
-        progressao: []
+        descricao: 'O Fantasma Neural não precisa controlar máquinas, portas ou torretas. Seu campo de batalha é a mente humana. Implantes, interfaces neurais e conexões sinápticas são apenas mais um ponto de acesso, e cada pensamento pode se tornar uma brecha explorável. Onde outros veem vontade própria, o Fantasma Neural enxerga código imperfeito.',
+        progressao: [
+          { nivel: 3, habilidade: 'Invasão Cognitiva', descricao: '1 vez por combate, custa 3 de RAM. Ao hackear um inimigo com implantes, ele faz teste de Sabedoria (CD 8 + seu modificador de Inteligência + seu bônus de proficiência); se falhar, sofre Desvantagem em ataques até o final do seu próximo turno.' },
+          { nivel: 7, habilidade: 'Vozes na Cabeça', descricao: '1 vez por combate, custa 1 de RAM. Você pode se comunicar mentalmente com alvos com implantes no Cérebro, Olhos ou com Sistema Operacional a até 20m e transmitir imagens, vídeos, sons ou palavras. Os alvos verão ou ouvirão o que você mostrar a eles, mas isso não os atrapalha em combate. Os alvos precisam aceitar que você se conecte a eles para ativar essa habilidade, ou você pode gastar 5 de RAM para invadir contra a vontade do alvo, causando Desvantagem em Percepção e testes para manter a Concentração até o próximo turno.' },
+          { nivel: 10, habilidade: 'Comando Forçado', descricao: '1 vez por combate, custa 4 de RAM. Ao hackear um alvo, force-o a realizar um teste de Sabedoria (CD 8 + seu modificador de Inteligência + seu bônus de proficiência), e em caso de falha, obrigue-o a realizar uma ação simples, como mover-se, soltar arma, ajoelhar, se afastar etc.' },
+          { nivel: 15, habilidade: 'Predador Psíquico', descricao: 'Reação, custa 4 de RAM. Quando um inimigo falhar em um teste de resistência contra um Hack Rápido seu, cause 2d8 + Inteligência de dano Psíquico neste alvo e recupere PV igual ao dano causado por este efeito.' }
+        ]
       },
       {
         nome: 'Operador de Combate',

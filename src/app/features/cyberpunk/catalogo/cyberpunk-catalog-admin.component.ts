@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { finalize, timeout } from 'rxjs';
+import { CYBERPUN2080_ANTECEDENTES, CYBERPUN2080_CLASSES_FULL_DATA } from '../../../core/constants/rpg.constants';
 import {
     CyberpunkAntecedenteCatalog,
     CyberpunkCatalog,
@@ -37,6 +38,7 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
   mostrarAntecedentes = false;
   mostrarTalentos = false;
   mostrarLoja = false;
+  confirmandoPopular = false;
 
   readonly categoriasLoja: Array<{ key: StoreCategoryKey; label: string }> = [
     { key: 'armas', label: 'Armas' },
@@ -456,5 +458,21 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
     }
 
     this.catalog.loja[key].splice(index, 1);
+  }
+
+  popularComDadosLocais(): void {
+    this.confirmandoPopular = false;
+    this.catalog = {
+      system: 'cyberpun2080',
+      version: 1,
+      classes: CYBERPUN2080_CLASSES_FULL_DATA.map((c) => ({ ...c, subclasses: c.subclasses.map((s) => ({ ...s })) })),
+      antecedentes: CYBERPUN2080_ANTECEDENTES.map((a) => ({ ...a })),
+      talentos: [],
+      loja: this.criarLojaVazia(),
+      updatedAt: new Date().toISOString()
+    };
+    this.garantirLojaNoCatalogo();
+    this.atualizarListasDerivadas();
+    this.sucesso = 'Dados locais carregados. Revise e clique em "Salvar no Banco" para persistir.';
   }
 }
