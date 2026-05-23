@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { finalize, timeout } from 'rxjs';
 import { CYBERPUN2080_ANTECEDENTES, CYBERPUN2080_CLASSES_FULL_DATA } from '../../../core/constants/rpg.constants';
 import {
@@ -16,11 +17,27 @@ import {
 import { CyberpunkCatalogService } from '../../../core/services/cyberpunk-catalog.service';
 
 type StoreCategoryKey = keyof CyberpunkStoreCatalog;
+type CatalogPage = 'dashboard' | 'classes' | 'conteudo' | 'loja';
+
+interface ClassRow {
+  classe: CyberpunkClassCatalog;
+  index: number;
+}
+
+interface AntecedenteRow {
+  antecedente: CyberpunkAntecedenteCatalog;
+  index: number;
+}
+
+interface StoreItemRow {
+  item: CyberpunkStoreItem;
+  index: number;
+}
 
 @Component({
   selector: 'app-cyberpunk-catalog-admin',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterModule],
   templateUrl: './cyberpunk-catalog-admin.component.html',
   styleUrl: './cyberpunk-catalog-admin.component.scss'
 })
@@ -30,8 +47,15 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
   saving = false;
   erro = '';
   sucesso = '';
+  paginaAtiva: CatalogPage = 'dashboard';
 
   classFilter = '';
+  classNameFilter = '';
+  subclassNameFilter = '';
+  antecedenteFilter = '';
+  talentoNomeFilter = '';
+  lojaNomeFilter = '';
+  lojaCategoriaFilter = '';
   classesDisponiveis: string[] = [];
   talentosFiltrados: CyberpunkTalentRow[] = [];
   mostrarClasses = true;
@@ -48,7 +72,10 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
     { key: 'hacksRapidos', label: 'Hacks Rapidos' }
   ];
 
-  constructor(private catalogService: CyberpunkCatalogService) {}
+  constructor(
+    private catalogService: CyberpunkCatalogService,
+    private route: ActivatedRoute
+  ) {}
 
   private criarItemLojaVazio(categoria: string): CyberpunkStoreItem {
     return {
@@ -90,7 +117,119 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.route.data.subscribe((data) => {
+      const pagina = data['pagina'] as CatalogPage | undefined;
+      this.paginaAtiva = pagina || 'dashboard';
+    });
     this.carregar();
+  }
+
+  get classesFiltradas(): ClassRow[] {
+    if (!this.catalog) {
+      return [];
+    }
+
+    const nome = this.classNameFilter.trim().toLowerCase();
+    const subclasse = this.subclassNameFilter.trim().toLowerCase();
+
+    return this.catalog.classes
+      .map((classe, index) => ({ classe, index }))
+      .filter((row) => {
+        const atendeClasse = !nome
+          || row.classe.nome.toLowerCase().includes(nome)
+          || row.classe.descricao.toLowerCase().includes(nome);
+        const atendeSubclasse = !subclasse
+          || row.classe.subclasses.some((item) => item.nome.toLowerCase().includes(subclasse));
+        return atendeClasse && atendeSubclasse;
+      });
+  }
+
+  get antecedentesFiltrados(): AntecedenteRow[] {
+    if (!this.catalog) {
+      return [];
+    }
+
+    const termo = this.antecedenteFilter.trim().toLowerCase();
+    return this.catalog.antecedentes
+      .map((antecedente, index) => ({ antecedente, index }))
+      .filter((row) => {
+        if (!termo) {
+          return true;
+        }
+
+        return row.antecedente.nome.toLowerCase().includes(termo)
+          || row.antecedente.descricao.toLowerCase().includes(termo)
+          || row.antecedente.talentoOrigem.toLowerCase().includes(termo);
+      });
+  }
+
+  get resumoCatalogo(): {
+    classes: number;
+    subclasses: number;
+    progressaoClasses: number;
+    progressaoSubclasses: number;
+    antecedentes: number;
+    talentos: number;
+    talentosComClasse: number;
+    itensLoja: number;
+    hacks: number;
+    armas: number;
+    ataquesCatalogados: number;
+  } {
+    if (!this.catalog) {
+      return {
+        classes: 0,
+        subclasses: 0,
+        progressaoClasses: 0,
+        progressaoSubclasses: 0,
+        antecedentes: 0,
+        talentos: 0,
+        talentosComClasse: 0,
+        itensLoja: 0,
+        hacks: 0,
+        armas: 0,
+        ataquesCatalogados: 0
+      };
+    }
+
+    const subclasses = this.catalog.classes.reduce((acc, classe) => acc + classe.subclasses.length, 0);
+    const progressaoClasses = this.catalog.classes.reduce((acc, classe) => acc + (classe.progressao?.length || 0), 0);
+    const progressaoSubclasses = this.catalog.classes.reduce(
+      (acc, classe) => acc + classe.subclasses.reduce((subAcc, sub) => subAcc + sub.progressao.length, 0),
+      0
+    );
+    const talentosComClasse = this.catalog.talentos.filter((item) => item.classes.length > 0).length;
+    const itensLoja = this.categoriasLoja.reduce((acc, categoria) => acc + this.listarItensLoja(categoria.key).length, 0);
+    const hacks = this.catalog.loja?.hacksRapidos?.length || 0;
+    const armas = this.catalog.loja?.armas?.length || 0;
+
+    const termosAtaque = /(ataque|tiro|atirar|golpe|disparo|execucao)/i;
+    const ataquesClasses = this.catalog.classes.reduce(
+      (acc, classe) => acc + (classe.progressao || []).filter((item) => termosAtaque.test(item.habilidade) || termosAtaque.test(item.descricao)).length,
+      0
+    );
+    const ataquesSubclasses = this.catalog.classes.reduce(
+      (acc, classe) => acc + classe.subclasses.reduce(
+        (subAcc, sub) => subAcc + sub.progressao.filter((item) => termosAtaque.test(item.habilidade) || termosAtaque.test(item.descricao)).length,
+        0
+      ),
+      0
+    );
+    const ataquesTalentos = this.catalog.talentos.filter((item) => termosAtaque.test(item.nome) || termosAtaque.test(item.descricao)).length;
+
+    return {
+      classes: this.catalog.classes.length,
+      subclasses,
+      progressaoClasses,
+      progressaoSubclasses,
+      antecedentes: this.catalog.antecedentes.length,
+      talentos: this.catalog.talentos.length,
+      talentosComClasse,
+      itensLoja,
+      hacks,
+      armas,
+      ataquesCatalogados: ataquesClasses + ataquesSubclasses + ataquesTalentos
+    };
   }
 
   private atualizarListasDerivadas(): void {
@@ -105,10 +244,21 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
 
     this.talentosFiltrados = this.catalog.talentos
       .map((talento, index) => ({ talento, index }))
-      .filter((item) => !filter || item.talento.classes.includes(filter));
+      .filter((item) => {
+        const atendeClasse = !filter || item.talento.classes.includes(filter);
+        const atendeNome = !this.talentoNomeFilter.trim()
+          || item.talento.nome.toLowerCase().includes(this.talentoNomeFilter.trim().toLowerCase())
+          || item.talento.descricao.toLowerCase().includes(this.talentoNomeFilter.trim().toLowerCase());
+
+        return atendeClasse && atendeNome;
+      });
   }
 
   onClassFilterChange(): void {
+    this.atualizarListasDerivadas();
+  }
+
+  onTalentoNomeFilterChange(): void {
     this.atualizarListasDerivadas();
   }
 
@@ -443,6 +593,23 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
     return this.catalog.loja[key] || [];
   }
 
+  listarItensLojaFiltrados(key: StoreCategoryKey): StoreItemRow[] {
+    const termoNome = this.lojaNomeFilter.trim().toLowerCase();
+    const termoCategoria = this.lojaCategoriaFilter.trim().toLowerCase();
+
+    return this.listarItensLoja(key)
+      .map((item, index) => ({ item, index }))
+      .filter((row) => {
+        const atendeNome = !termoNome
+          || row.item.nome.toLowerCase().includes(termoNome)
+          || row.item.descricao.toLowerCase().includes(termoNome);
+        const atendeCategoria = !termoCategoria
+          || row.item.categoria.toLowerCase().includes(termoCategoria);
+
+        return atendeNome && atendeCategoria;
+      });
+  }
+
   adicionarItemLoja(key: StoreCategoryKey): void {
     if (!this.catalog?.loja) {
       return;
@@ -462,6 +629,7 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
 
   popularComDadosLocais(): void {
     this.confirmandoPopular = false;
+    this.erro = '';
     this.catalog = {
       system: 'cyberpun2080',
       version: 1,

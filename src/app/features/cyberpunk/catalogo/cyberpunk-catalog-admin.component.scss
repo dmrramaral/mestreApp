@@ -1,4 +1,68 @@
 .catalog-admin {
+  .catalog-nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .catalog-nav .btn.active {
+    background: #0f172a;
+    border-color: #0f172a;
+    color: #fff;
+  }
+
+  .dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 0.75rem;
+  }
+
+  .metric-card {
+    border: 1px solid #dbe5f2;
+    border-radius: 12px;
+    padding: 0.85rem;
+    background: linear-gradient(140deg, #f8fafc 0%, #edf2f7 100%);
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+
+    small {
+      color: #4a5568;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+
+    strong {
+      color: #0f172a;
+      font-size: 1.65rem;
+      line-height: 1;
+    }
+  }
+
+  .metric-card-danger {
+    border-color: #fecaca;
+    background: linear-gradient(140deg, #fff1f2 0%, #ffe4e6 100%);
+  }
+
+  .coverage-box {
+    border: 1px solid #dbe5f2;
+    border-radius: 12px;
+    background: #f8fafc;
+    padding: 0.8rem;
+
+    h6 {
+      margin-bottom: 0.6rem;
+      font-weight: 700;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 1.1rem;
+    }
+  }
+
   .card-header {
     background: #0f172a;
     color: #fff;
@@ -40,6 +104,35 @@
 
 body.dark-theme {
   .catalog-admin {
+    .catalog-nav .btn.active {
+      background: #63b3ed;
+      border-color: #63b3ed;
+      color: #0a0f1e;
+    }
+
+    .metric-card {
+      border-color: #4a5568;
+      background: linear-gradient(140deg, #1a202c 0%, #202a3a 100%);
+
+      small {
+        color: #a0aec0;
+      }
+
+      strong {
+        color: #e2e8f0;
+      }
+    }
+
+    .metric-card-danger {
+      border-color: #7f1d1d;
+      background: linear-gradient(140deg, #2a1317 0%, #3a181d 100%);
+    }
+
+    .coverage-box {
+      border-color: #4a5568;
+      background: #1a202c;
+    }
+
     .card-header {
       background: #0a0f1e;
       color: #e2e8f0;
