@@ -5,18 +5,17 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { finalize, forkJoin, timeout } from 'rxjs';
 import { CYBERPUN2080_ANTECEDENTES, CYBERPUN2080_CLASSES_FULL_DATA, HACKS_RAPIDOS } from '../../../core/constants/rpg.constants';
 import {
-    CyberpunkAntecedenteCatalog,
-    CyberpunkCatalog,
-    CyberpunkClassCatalog,
-    CyberpunkClassProgression,
-    CyberpunkStoreCatalog,
-    CyberpunkStoreItem,
-    CyberpunkSubclassCatalog,
-    CyberpunkSubclassEntity,
-    CyberpunkTalentCatalog,
-    CyberpunkTalentRow
+  CyberpunkAntecedenteCatalog,
+  CyberpunkCatalog,
+  CyberpunkClassCatalog,
+  CyberpunkClassProgression,
+  CyberpunkStoreCatalog,
+  CyberpunkStoreItem,
+  CyberpunkSubclassCatalog,
+  CyberpunkTalentCatalog,
+  CyberpunkTalentRow
 } from '../../../core/models/cyberpunk-catalog.model';
-import { CyberpunkCatalogService } from '../../../core/services/cyberpunk-catalog.service';
+import { CyberpunkCatalogService, CyberpunkSubclassEntity } from '../../../core/services/cyberpunk-catalog.service';
 
 type StoreCategoryKey = keyof CyberpunkStoreCatalog;
 type CatalogPage = 'dashboard' | 'classes' | 'conteudo' | 'loja';
