@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, timeout } from 'rxjs';
 import {
   AcessorioArma,
   ACESSORIOS_ARMAS,
@@ -781,7 +781,9 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     this.carregandoCatalogoCyberpunk = true;
     this.erroCatalogoCyberpunk = '';
 
-    this.cyberpunkCatalogService.getCatalog().subscribe({
+    this.cyberpunkCatalogService.getCatalog().pipe(
+      timeout(12000)
+    ).subscribe({
       next: (catalog) => {
         try {
           this.validarCatalogoRemoto(catalog);
