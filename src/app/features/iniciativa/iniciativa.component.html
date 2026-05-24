@@ -44,8 +44,19 @@
     <div class="quick-sheet-section">
         <div class="card shadow-sm">
             <div class="card-body">
-                <h5 class="section-title mb-3">Criar Ficha Rápida (NPC / Personagem)</h5>
+                <div class="quick-sheet-header">
+                    <h5 class="section-title mb-0">Criar Ficha Rápida (NPC / Personagem)</h5>
+                    <button
+                        type="button"
+                        class="btn btn-sm btn-outline-secondary"
+                        (click)="alternarFormularioFichaRapida()"
+                        [attr.aria-expanded]="formularioFichaVisivel">
+                        <i class="fas" [class.fa-chevron-up]="formularioFichaVisivel" [class.fa-chevron-down]="!formularioFichaVisivel"></i>
+                        {{ formularioFichaVisivel ? 'Ocultar formulário' : 'Mostrar formulário' }}
+                    </button>
+                </div>
 
+                <div *ngIf="formularioFichaVisivel" class="quick-sheet-form-content">
                 <div class="row g-3">
                     <div class="col-md-4">
                         <label class="form-label">Nome</label>
@@ -162,6 +173,7 @@
                     <button class="btn btn-primary" (click)="adicionarFichaRapida()">
                         <i class="fas fa-id-card me-2"></i>Criar Ficha
                     </button>
+                </div>
                 </div>
             </div>
         </div>
