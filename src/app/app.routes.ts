@@ -28,6 +28,7 @@ export const routes: Routes = [
     },
     {
       path: 'cyberpunk-catalogo',
+      pathMatch: 'full',
       loadComponent: () => import('./features/cyberpunk/catalogo/cyberpunk-catalog-admin.component').then(m => m.CyberpunkCatalogAdminComponent)
     },
     {

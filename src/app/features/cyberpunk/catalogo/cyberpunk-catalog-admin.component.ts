@@ -61,6 +61,7 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
   lojaNomeFilter = '';
   lojaCategoriaFilter = '';
   lojaAbaAtiva: LojaAba = 'todas';
+  lojaItensFiltrados: Partial<Record<StoreCategoryKey, StoreItemRow[]>> = {};
   conteudoTabAtiva: ConteudoTab = 'antecedentes';
   classesDisponiveis: string[] = [];
   classesFiltradas: ClassRow[] = [];
@@ -206,9 +207,14 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const pagina = this.route.snapshot.data['pagina'] as CatalogPage | undefined;
+    this.paginaAtiva = pagina || 'dashboard';
+
     this.route.data.subscribe((data) => {
-      const pagina = data['pagina'] as CatalogPage | undefined;
-      this.paginaAtiva = pagina || 'dashboard';
+      const p = data['pagina'] as CatalogPage | undefined;
+      if (p) {
+        this.paginaAtiva = p;
+      }
     });
     this.carregar();
   }
@@ -288,6 +294,7 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
       this.classesFiltradas = [];
       this.antecedentesFiltrados = [];
       this.talentosFiltrados = [];
+      this.lojaItensFiltrados = {};
       return;
     }
 
@@ -308,6 +315,35 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
 
         return atendeClasse && atendeNome;
       });
+
+    this.atualizarLojaFiltrados();
+  }
+
+  atualizarLojaFiltrados(): void {
+    if (!this.catalog?.loja) {
+      this.lojaItensFiltrados = {};
+      return;
+    }
+    const termoNome = this.lojaNomeFilter.trim().toLowerCase();
+    const termoCategoria = this.lojaCategoriaFilter.trim().toLowerCase();
+    const novo: Partial<Record<StoreCategoryKey, StoreItemRow[]>> = {};
+    for (const cat of this.categoriasLoja) {
+      const key = cat.key;
+      if (this.lojaAbaAtiva !== 'todas' && this.lojaAbaAtiva !== key) {
+        novo[key] = [];
+        continue;
+      }
+      novo[key] = (this.catalog.loja[key] || [])
+        .map((item, index) => ({ item, index }))
+        .filter(({ item }) => {
+          const nome = String(item?.nome || '').toLowerCase();
+          const descricao = String(item?.descricao || '').toLowerCase();
+          const categoria = String(item?.categoria || '').toLowerCase();
+          return (!termoNome || nome.includes(termoNome) || descricao.includes(termoNome))
+            && (!termoCategoria || categoria.includes(termoCategoria));
+        });
+    }
+    this.lojaItensFiltrados = novo;
   }
 
   private atualizarClassesFiltradas(): void {
@@ -462,24 +498,38 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
     };
   }
 
+  private isCatalogPayload(value: unknown): value is CyberpunkCatalog {
+    if (!value || typeof value !== 'object') {
+      return false;
+    }
+
+    const payload = value as Partial<CyberpunkCatalog>;
+    return Array.isArray(payload.classes)
+      && Array.isArray(payload.antecedentes)
+      && Array.isArray(payload.talentos)
+      && !!payload.loja
+      && typeof payload.loja === 'object';
+  }
+
   carregar(): void {
     this.loading = true;
     this.erro = '';
     this.sucesso = '';
 
     this.catalogService.getCatalog().pipe(
-      timeout(12000),
+      timeout(8000),
       finalize(() => {
         this.loading = false;
       })
     ).subscribe({
-      next: (payload) => {
-        this.catalog = payload;
+      next: (catalog) => {
+        this.catalog = catalog;
         this.garantirLojaNoCatalogo();
         this.garantirIdentificadoresCatalogo();
         this.atualizarListasDerivadas();
       },
       error: () => {
+        this.catalog = null;
         this.erro = 'Nao foi possivel carregar o catalogo CyberPunk. Verifique a conexao/backend e tente novamente.';
       }
     });
@@ -830,10 +880,12 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
 
   mostrarSomenteHacks(): void {
     this.lojaAbaAtiva = 'hacksRapidos';
+    this.atualizarLojaFiltrados();
   }
 
   mostrarTodasCategoriasLoja(): void {
     this.lojaAbaAtiva = 'todas';
+    this.atualizarLojaFiltrados();
   }
 
   sincronizarHacksPdfNoBanco(): void {
@@ -885,6 +937,7 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
       slug: '',
       source: 'manual'
     });
+    this.atualizarLojaFiltrados();
   }
 
   removerItemLoja(key: StoreCategoryKey, index: number): void {
@@ -893,6 +946,7 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
     }
 
     this.catalog.loja[key].splice(index, 1);
+    this.atualizarLojaFiltrados();
   }
 
   popularComDadosLocais(): void {

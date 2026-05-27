@@ -496,21 +496,21 @@
         <div class="row g-2 mb-3">
           <div class="col-md-6">
             <label class="form-label">Filtro por Nome/Descricao</label>
-            <input class="form-control" [(ngModel)]="lojaNomeFilter" placeholder="Ex: pistola, firewall, colete" />
+            <input class="form-control" [(ngModel)]="lojaNomeFilter" (ngModelChange)="atualizarLojaFiltrados()" placeholder="Ex: pistola, firewall, colete" />
           </div>
           <div class="col-md-6">
             <label class="form-label">Filtro por Categoria (texto)</label>
-            <input class="form-control" [(ngModel)]="lojaCategoriaFilter" placeholder="Ex: armas, hacks, CT" />
+            <input class="form-control" [(ngModel)]="lojaCategoriaFilter" (ngModelChange)="atualizarLojaFiltrados()" placeholder="Ex: armas, hacks, CT" />
           </div>
         </div>
 
         <div class="border rounded p-3 mb-3" *ngFor="let categoria of categoriasLoja">
           <div class="d-flex justify-content-between align-items-center mb-2">
-            <h6 class="mb-0">{{ categoria.label }} ({{ listarItensLojaFiltrados(categoria.key).length }})</h6>
+            <h6 class="mb-0">{{ categoria.label }} ({{ (lojaItensFiltrados[categoria.key] || []).length }})</h6>
             <button class="btn btn-sm btn-outline-primary" (click)="adicionarItemLoja(categoria.key)">Adicionar Item</button>
           </div>
 
-          <div class="catalog-details mb-2" *ngFor="let itemRow of listarItensLojaFiltrados(categoria.key); let i = index">
+          <div class="catalog-details mb-2" *ngFor="let itemRow of lojaItensFiltrados[categoria.key] || []; let i = index">
             <div class="d-flex justify-content-between align-items-center mb-2">
               <strong>{{ itemRow.item.nome || ('Item #' + (i + 1)) }}</strong>
               <button class="btn btn-sm btn-outline-danger" (click)="removerItemLoja(categoria.key, itemRow.index)">Remover</button>
@@ -560,7 +560,7 @@
             </div>
           </div>
 
-          <div class="text-muted small" *ngIf="listarItensLojaFiltrados(categoria.key).length === 0">
+          <div class="text-muted small" *ngIf="(lojaItensFiltrados[categoria.key] || []).length === 0">
             Sem itens para os filtros atuais nesta categoria.
           </div>
         </div>
