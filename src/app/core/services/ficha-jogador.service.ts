@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { DEFAULT_AVATAR, RPG_SYSTEMS, SKILLS } from '../constants/rpg.constants';
-import { FichaJogadorLegacy } from '../models/ficha-jogador.model';
+import { Equipamento, FichaJogadorLegacy } from '../models/ficha-jogador.model';
 import { calcularBonusProficiencia } from '../utils/rpg.utils';
 
 /**
@@ -182,7 +182,7 @@ export class FichaJogadorService {
   adicionarEquipamento(
     ficha: FichaJogadorLegacy,
     categoria: string,
-    equipamento: { nome: string; descricao: string; ca?: number }
+    equipamento: Equipamento
   ): void {
     // Handle nested equipamentos structure
     if (!ficha['equipamentos']) {

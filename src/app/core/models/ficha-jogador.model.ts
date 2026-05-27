@@ -74,6 +74,11 @@ export interface Equipamento {
   descricao?: string;
   categoria?: string;
   ca?: number;
+  cf?: number | null;
+  ct?: number | null;
+  valor?: number | null;
+  restrito?: boolean;
+  acessorios?: AcessorioInstalado[];
 }
 
 /**
@@ -101,6 +106,7 @@ export interface AcessorioInstalado {
   id: string;
   nome: string;
   categoria: string;
+  efeito?: string;
 }
 
 /**

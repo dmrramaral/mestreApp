@@ -84,6 +84,17 @@ export interface CyberpunkStoreCatalog {
   hacksRapidos: CyberpunkStoreItem[];
 }
 
+export type CategoriaAcessorioArmaCatalog = 'mira' | 'carregador' | 'supressor';
+
+export interface AcessorioArmaCatalog extends CyberpunkCatalogMeta {
+  nome: string;
+  categoria: CategoriaAcessorioArmaCatalog;
+  descricao: string;
+  efeito: string;
+  valor: number;
+  paginaPdf?: string;
+}
+
 export interface CyberpunkCatalog {
   system: 'cyberpun2080';
   version: number;
@@ -92,6 +103,7 @@ export interface CyberpunkCatalog {
   antecedentes: CyberpunkAntecedenteCatalog[];
   talentos: CyberpunkTalentCatalog[];
   loja: CyberpunkStoreCatalog;
+  acessoriosArmas?: AcessorioArmaCatalog[];
   updatedAt: string;
 }
 

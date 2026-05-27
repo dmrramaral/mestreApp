@@ -148,62 +148,27 @@ export const CYBERPUN2080_ORIGINS = [
   'Megacorp',
   'Rua',
   'Nômade',
-  'Favela Vertical',
-  'Zona de Combate',
-  'Subúrbio Industrial'
+  'Zona de Combate'
 ] as const;
-
-export const CYBERPUN2080_SUBCLASSES_BY_CLASS: Record<string, readonly string[]> = {
-  'Cromado': [
-    'Adaptativo',
-    'Brutal',
-    'Juggernaut'
-  ],
-  'Medicânico': [
-    'Cirurgião de Guerra',
-    'Operador de Choque',
-    'Biohacker'
-  ],
-  'Piloto': [
-    'Fúria',
-    'Líder',
-    'Corredor Fantasma'
-  ],
-  'Samurai': [
-    'Lâmina Viva',
-    'Executor',
-    'Duelista Neural'
-  ],
-  'Solo': [
-    'Especialista em Rifles',
-    'Especialista em Armas Pesadas',
-    'Especialista em Corpo a Corpo'
-  ],
-  'Trilha-Redes': [
-    'Arquiteto',
-    'Fantasma Neural',
-    'Operador de Combate'
-  ]
-};
 
 export const CYBERPUN2080_CLASS_TRAITS: Record<string, Array<{ nome: string; descricao: string }>> = {
   'Cromado': [
-    { nome: 'Aprimoramento Corpóreo', descricao: 'O corpo é um protótipo em evolução constante. Especialista em aprimoramento cibernético e resistência extrema.' }
+    { nome: 'Aprimoramento Corpóreo', descricao: 'Os Cromados são indivíduos que podem modificar o corpo além do limite aceitável. Onde outros veem mutilação, eles veem evolução. Eles suportam mais dor, mais impacto e mais sobrecarga neural do que qualquer outro, mas toda essa adaptação cobra um preço: humanidade corroída.' }
   ],
   'Medicânico': [
-    { nome: 'Suporte Médico-Tático', descricao: 'Especialista em manter aliados vivos em cenários extremos. Suporte médico-tático com biotecnologia avançada.' }
+    { nome: 'Suporte Médico-Tático', descricao: 'Os Medicânicos são os responsáveis por manter corpos e implantes funcionando quando tudo já deveria ter parado. Misturam conhecimento médico, engenharia cibernética e protocolos de emergência para sustentar aliados no meio do caos. Não fazem milagres — fazem manutenção de guerra.' }
   ],
   'Piloto': [
-    { nome: 'Domínio Veicular', descricao: 'Velocidade, mobilidade e controle de território urbano. Domina perseguições, fugas e combate veicular.' }
+    { nome: 'Domínio Veicular', descricao: 'Os Pilotos são os donos das ruas abertas, rodovias esquecidas e das Terras Baldias. Onde não há mapas confiáveis, onde o terreno mata tanto quanto as balas, eles prosperam. Mestres da pilotagem, leitura de ambiente e sobrevivência extrema, Pilotos sabem quando acelerar, quando se esconder e quando transformar a estrada em uma arma.' }
   ],
   'Samurai': [
-    { nome: 'Eliminação Cirúrgica', descricao: 'Precisão, leitura de combate e eliminação cirúrgica. Executa alvos com foco e ritmo implacável.' }
+    { nome: 'Eliminação Cirúrgica', descricao: 'Os Samurais são assassinos urbanos, duelistas modernos e executores frios. Alguns seguem um próprio código pessoal, outros só seguem o contrato, mas todos entendem uma verdade simples: o combate acaba antes do inimigo perceber que começou. Eles dominam o posicionamento, o tempo exato do golpe e a arte do ataque decisivo.' }
   ],
   'Solo': [
-    { nome: 'Guerra Urbana', descricao: 'Especialista em guerra urbana e confronto direto. Veterano de combate pesado em ruas e zonas de conflito.' }
+    { nome: 'Guerra Urbana', descricao: 'Solos são combatentes de elite, mercenários, soldados e assassinos profissionais. Eles vivem do confronto direto, dominam qualquer arma e sabem usar o terreno e a cobertura a seu favor. Um Solo bem treinado faz do campo de batalha uma extensão de si mesmo: onde há tiro, há Solo.' }
   ],
   'Trilha-Redes': [
-    { nome: 'Domínio Digital', descricao: 'Domina sistemas digitais, implantes e guerra de dados. Infiltração, sabotagem e controle da rede.' }
+    { nome: 'Domínio Digital', descricao: 'Os Trilha-Redes são feiticeiros da era digital. Onde outros puxam o gatilho, eles puxam linhas de código. Onde há silêncio eletrônico, eles escutam sussurros de dados. Eles não vencem pela força, nem pela velocidade — vencem porque o inimigo não lutou em um campo justo.' }
   ]
 };
 
@@ -232,7 +197,7 @@ export const CYBERPUN2080_ORIGIN_TRAITS: Record<string, Array<{ nome: string; de
 export const CYBERPUN2080_CLASSES_FULL_DATA: CyberpunkClassCatalog[] = [
   {
     nome: 'Cromado',
-    descricao: 'Especialista em aprimoramento cibernético e resistência extrema. O corpo é uma arma em constante evolução.',
+    descricao: 'Os Cromados são indivíduos que podem modificar o corpo além do limite aceitável. Onde outros veem mutilação, eles veem evolução. Eles suportam mais dor, mais impacto e mais sobrecarga neural do que qualquer outro. Mas toda essa adaptação cobra um preço: humanidade corroída.',
     flavorText: [
       'Os Cromados são indivíduos que podem modificar o corpo além do limite aceitável.',
       'Onde outros veem mutilação, eles veem evolução.',
@@ -252,77 +217,25 @@ export const CYBERPUN2080_CLASSES_FULL_DATA: CyberpunkClassCatalog[] = [
       pericias: { escolher: 4, opcoes: ['Atletismo', 'Briga', 'Intimidação', 'Tolerância', 'Tecnologia', 'Acrobacia', 'Medicina', 'Pilotagem'] }
     },
     progressao: [
-      {
-        nivel: 1,
-        habilidade: 'Corpo Adaptável',
-        descricao: 'Seus PV máximos aumentam em +3 para cada implante que esteja instalado em seu corpo. Você possui Desvantagem em testes de Persuasão, mas Vantagem em testes de Intimidação.'
-      },
-      {
-        nivel: 2,
-        habilidade: 'Estrutura Reforçada',
-        descricao: 'Enquanto estiver usando uma armadura média ou pesada, concede Vantagem em testes de resistência contra Atordoamento.'
-      },
-      {
-        nivel: 5,
-        habilidade: 'Ataque Extra',
-        descricao: 'Você pode atacar duas vezes sempre que realizar a Ação de Ataque ou realizar uma Ação de Ataque e uma Ação de recarregar (em qualquer ordem).'
-      },
-      {
-        nivel: 6,
-        habilidade: 'Força Opressora',
-        descricao: 'Concede Vantagem em testes de Força e você passa a contar como uma categoria de tamanho maior para empurrar, agarrar e carregar peso.'
-      },
-      {
-        nivel: 9,
-        habilidade: 'Corpo que Aguenta',
-        descricao: 'Concede Vantagem em testes de Constituição contra efeitos contínuos, como Sangramento e Envenenamento.'
-      },
-      {
-        nivel: 11,
-        habilidade: 'Sobrecarga Controlada',
-        descricao: 'Ao acertar um ataque corpo a corpo, adicione seu modificador de Constituição ao dano.'
-      },
-      {
-        nivel: 13,
-        habilidade: 'Blindagem Interna',
-        descricao: 'Reduz todo dano Cortante, Perfurante ou Contundente recebido em -1 (mínimo 1). Esse valor aumenta para -3 no nível 20.'
-      },
-      {
-        nivel: 17,
-        habilidade: 'Corpo Antinatural',
-        descricao: 'Não pode ser Derrubado, Empurrado ou Agarrado contra sua vontade e ignora terreno difícil causado por destruição ou destroços.'
-      },
-      {
-        nivel: 20,
-        habilidade: 'Aberração Funcional',
-        descricao: '1 vez por combate, Reação. Ao sofrer dano proveniente de um ataque ou explosão, pode reduzi-lo pela metade.'
-      }
+      { nivel: 1, habilidade: 'Corpo Adaptável', descricao: 'Seus PV máximos aumentam em +3 para cada implante que esteja instalado em seu corpo. Você possui Desvantagem em testes de Persuasão, mas Vantagem em testes de Intimidação.' },
+      { nivel: 2, habilidade: 'Estrutura Reforçada', descricao: 'Enquanto estiver usando uma armadura média ou pesada, concede Vantagem em testes de resistência contra Atordoamento.' },
+      { nivel: 5, habilidade: 'Ataque Extra', descricao: 'Você pode atacar duas vezes sempre que realizar a Ação de Ataque ou realizar uma Ação de Ataque e uma Ação de recarregar (em qualquer ordem).' },
+      { nivel: 6, habilidade: 'Força Opressora', descricao: 'Concede Vantagem em testes de Força e você passa a contar como uma categoria de tamanho maior para empurrar, agarrar e carregar peso.' },
+      { nivel: 9, habilidade: 'Corpo que Aguenta', descricao: 'Concede Vantagem em testes de Constituição contra efeitos contínuos, como Sangramento e Envenenamento.' },
+      { nivel: 11, habilidade: 'Sobrecarga Controlada', descricao: 'Ao acertar um ataque corpo a corpo, adicione seu modificador de Constituição ao dano.' },
+      { nivel: 13, habilidade: 'Blindagem Interna', descricao: 'Reduz todo dano Cortante, Perfurante ou Contundente recebido em -1 (mínimo 1). Esse valor aumenta para -3 no nível 20.' },
+      { nivel: 17, habilidade: 'Corpo Antinatural', descricao: 'Não pode ser Derrubado, Empurrado ou Agarrado contra sua vontade e ignora terreno difícil causado por destruição ou destroços.' },
+      { nivel: 20, habilidade: 'Aberração Funcional', descricao: '1 vez por combate, Reação. Ao sofrer dano proveniente de um ataque ou explosão, pode reduzi-lo pela metade.' }
     ],
     subclasses: [
       {
         nome: 'Adaptativo',
         descricao: 'O Cromado Adaptativo é o ápice da sobrevivência aprimorada. Seu corpo cromado não é apenas resistente — ele aprende, se ajusta e responde à ameaça em tempo real. Cada placa, fibra e circuito orgânico reage ao ambiente e ao inimigo, transformando o portador em um combatente extremamente difícil de derrubar.',
         progressao: [
-          {
-            nivel: 3,
-            habilidade: 'Ajustes Avançados',
-            descricao: '1 vez por turno, Ação Bônus. Escolha uma opção de adaptação ou use sua Ação Bônus para trocar de adaptação em seu turno: • Aumentar sua Classe de Armadura (CA) em +1 • Aumentar sua Classe de Firewall (CF) em +1 • Reduza o primeiro dano Cortante, Perfurante ou Contundente que receber no turno em valor igual ao seu Bônus de Proficiência. Você obtém essa característica até o final do combate ou decidir trocar usando sua Ação Bônus.'
-          },
-          {
-            nivel: 7,
-            habilidade: 'Redistribuição de Impacto',
-            descricao: '1 vez por turno, Reação, usos iguais ao Bônus de Proficiência antes de um descanso longo. Quando sofrer dano, você pode reduzir o dano em 1d10 + seu modificador de Constituição.'
-          },
-          {
-            nivel: 10,
-            habilidade: 'Corpo Autônomo Evolutivo',
-            descricao: 'Sempre que iniciar seu turno com menos da metade dos PV: recupere PV iguais seu modificador de Constituição + bônus de proficiência. Não funciona caso esteja inconsciente.'
-          },
-          {
-            nivel: 15,
-            habilidade: 'Duro de Matar',
-            descricao: '1 vez por combate, reação. A primeira vez que cair a 0 PV em um combate, você cai para 1 PV em vez disso e até o fim do seu próximo turno, você tem resistência a todos os danos.'
-          }
+          { nivel: 3, habilidade: 'Ajustes Avançados', descricao: '1 vez por turno, Ação Bônus. Escolha uma opção de adaptação ou use sua Ação Bônus para trocar de adaptação em seu turno: Aumentar sua Classe de Armadura (CA) em +1. Aumentar sua Classe de Firewall (CF) em +1. Reduza o primeiro dano Cortante, Perfurante ou Contundente que receber no turno em valor igual ao seu Bônus de Proficiência. Você obtém essa característica até o final do combate ou decidir trocar usando sua Ação Bônus.' },
+          { nivel: 7, habilidade: 'Redistribuição de Impacto', descricao: '1 vez por turno, Reação, usos iguais ao Bônus de Proficiência antes de um descanso longo. Quando sofrer dano, você pode reduzir o dano em 1d10 + seu modificador de Constituição.' },
+          { nivel: 10, habilidade: 'Corpo Autônomo Evolutivo', descricao: 'Sempre que iniciar seu turno com menos da metade dos PV: recupere PV iguais seu modificador de Constituição + bônus de proficiência. Não funciona caso esteja inconsciente.' },
+          { nivel: 15, habilidade: 'Duro de Matar', descricao: '1 vez por combate, reação. A primeira vez que cair a 0 PV em um combate, você cai para 1 PV em vez disso e até o fim do seu próximo turno, você tem resistência a todos os danos.' }
         ]
       },
       {
@@ -381,7 +294,7 @@ export const CYBERPUN2080_CLASSES_FULL_DATA: CyberpunkClassCatalog[] = [
   },
   {
     nome: 'Medicânico',
-    descricao: 'Especialista em manter aliados vivos em cenários extremos. Suporte médico-tático com biotecnologia avançada.',
+    descricao: 'Os Medicânicos são os responsáveis por manter corpos e implantes funcionando quando tudo já deveria ter parado. Misturam conhecimento médico, engenharia cibernética e protocolos de emergência para sustentar aliados no meio do caos. Não fazem milagres — fazem manutenção de guerra.',
     flavorText: [
       'Os Medicânicos são os responsáveis por manter corpos e implantes funcionando quando tudo já deveria ter parado.',
       'Misturam conhecimento médico, engenharia cibernética e protocolos de emergência para sustentar aliados no meio do caos.',
@@ -400,20 +313,20 @@ export const CYBERPUN2080_CLASSES_FULL_DATA: CyberpunkClassCatalog[] = [
     },
     progressao: [
       { nivel: 1, habilidade: 'Protocolo de Emergência', descricao: 'Algumas habilidades podem ser aprimoradas ou exigem o uso desse recurso. Você recupera todos os usos ao final de um descanso longo.' },
-      { nivel: 1, habilidade: 'Atendimento de Combate', descricao: 'Ação, Toque, Usos iguais ao seu Modificador de Sabedoria + Bônus de Proficiência por combate. Restaura 2d8 + Sabedoria + bônus de proficiência de PV. A cura aumenta em +1d8 nos níveis 4, 8, 12 e 16. Se gastar um uso de Protocolo de Emergência, a cura também remove Sangramento, Veneno ou Atordoamento.' },
-      { nivel: 2, habilidade: 'Drogas de Combate', descricao: '1 vez por combate, Ação Bônus, Toque. Injeta uma droga que cura 10 + Sabedoria de PV e causa um efeito: Líquido Vermelho (+2 em ataques por 2 turnos) ou Líquido Azul (Resistência a Contundente/Cortante/Perfurante até o próximo turno). O alvo sofre 1d6 de dano Psíquico após o efeito.' },
+      { nivel: 1, habilidade: 'Atendimento de Combate', descricao: 'Ação, Toque, Usos iguais ao seu Modificador de Sabedoria + Bônus de Proficiência por combate. Você pode restaurar 2d8 + Sabedoria + bônus de proficiência de PV de uma criatura ao seu alcance corpo a corpo. A cura aumenta em +1d8 nos níveis 4, 8, 12 e 16. Se gastar um uso de Protocolo de Emergência, a cura também remove Sangramento, Veneno ou Atordoamento.' },
+      { nivel: 2, habilidade: 'Drogas de Combate', descricao: '1 vez por combate, Ação Bônus, Toque. Você injeta uma droga criada por você mesmo em um alvo que Cura em 10 + Sabedoria de PV e causa um efeito: Líquido Vermelho: +2 em ataques por 2 turnos. Líquido Azul: Resistência a Contundente, Cortante e Perfurante até o final de seu próximo turno. Depois que o efeito termina, o alvo sofre 1d6 de dano Psíquico.' },
       { nivel: 5, habilidade: 'Ataque Extra', descricao: 'Você pode atacar duas vezes sempre que realizar a Ação de Ataque ou realizar uma Ação de Ataque e uma Ação de recarregar (em qualquer ordem).' },
       { nivel: 6, habilidade: 'Blindagem Biotécnica', descricao: '1 vez por turno, Reação. Quando um aliado a até 5m sofre dano, você pode usar sua Reação para conceder resistência a esse dano.' },
-      { nivel: 9, habilidade: 'Metabolismo Ajustado', descricao: 'Sempre que curar um alvo, ele recebe Vantagem no próximo ataque até o fim do seu próximo turno. Se acertar, causa +1d6 de dano. Se gastar Protocolo de Emergência, o dado aumenta para 1d8 e o aliado recebe PV igual à metade do dano causado.' },
-      { nivel: 11, habilidade: 'Sobrecarga Adrenal', descricao: '1 vez por combate, Ação Bônus, Toque. Um aliado recebe +1d6 em todo dano causado e +2 na CA até o fim de seu próximo turno. Se gastar Protocolo de Emergência, o aliado também ganha um ataque extra nesse período.' },
-      { nivel: 13, habilidade: 'Cirurgia de Campo', descricao: 'Você pode realizar Atendimento de Combate como Ação Bônus. Se mover para usar Atendimento de Combate não provoca ataques de oportunidade e concede 10 PV ao usar após se mover.' },
+      { nivel: 9, habilidade: 'Metabolismo Ajustado', descricao: 'Sempre que curar um alvo, ele recebe Vantagem no próximo ataque que fizer, até o fim do seu próximo turno. Se o ataque acertar, ele causa +1d6 de dano. Se gastar um uso de Protocolo de Emergência, o dado de dano aumenta para 1d8. Se gastar Protocolo de Emergência, o aliado recebe PV igual metade do dano que causou por essa habilidade.' },
+      { nivel: 11, habilidade: 'Sobrecarga Adrenal', descricao: '1 vez por combate, Ação Bônus, Toque. Um aliado recebe +1d6 de aumento de todo dano que causar e +2 na CA até o fim de seu próximo turno. Se gastar Protocolo de Emergência, ele também ganha um ataque extra nesse período.' },
+      { nivel: 13, habilidade: 'Cirurgia de Campo', descricao: 'Você pode realizar Atendimento de Combate como Ação Bônus. Se mover para usar Atendimento de Combate não provoca ataques de oportunidade e lhe concede 10 PV ao usar após se mover.' },
       { nivel: 17, habilidade: 'Manutenção Total', descricao: 'Ação. Ao curar um alvo, aumente a cura em 1d8 e ele recebe +1d6 em testes de resistência até o fim do próximo turno. Se gastar Protocolo de Emergência, o dado extra em testes aumenta para 1d8.' },
-      { nivel: 20, habilidade: 'Milagre Mecânico', descricao: '1 vez por descanso longo, Reação. Quando um aliado a até 9m cair a 0 PV, ele permanece com 1 PV e ganha PV temporários iguais ao seu nível de Medicânico. Até o fim do próximo turno, ele não pode cair abaixo de 1 PV.' }
+      { nivel: 20, habilidade: 'Milagre Mecânico', descricao: '1 vez por descanso longo, Reação. Quando um aliado a até 9m cair a 0 PV, você fazê-lo permanecer com 1 PV em vez disso e ele ganha PV temporários iguais ao seu nível de Medicânico. Além disso, até o fim do próximo turno, ele não pode cair abaixo de 1 PV.' }
     ],
     subclasses: [
       {
         nome: 'Cirurgião de Guerra',
-        descricao: 'Treinado para operar sob fogo cruzado, mantém aliados vivos através de estabilizações brutais e intervenções rápidas que ignoram dor, medo e limites biológicos.',
+        descricao: 'O Cirurgião de Guerra é o último recurso quando tudo deu errado. Treinado para operar sob fogo cruzado, ele mantém aliados vivos através de transfusões improvisadas, estabilizações brutais e intervenções rápidas que ignoram dor, medo e limites biológicos. Onde outros veriam um corpo perdido, ele enxerga apenas mais um paciente que ainda pode voltar para a luta.',
         progressao: [
           { nivel: 3, habilidade: 'Mãos Firmes', descricao: 'Sua cura sempre usa o valor máximo do dado base quando o alvo estiver abaixo de metade dos PV.' },
           { nivel: 7, habilidade: 'Transfusão de Emergência', descricao: '1 vez por turno, 1 Protocolo de Emergência, Reação. Quando um aliado a até 5m sofre dano, ele recebe apenas metade deste dano, e você recebe o mesmo valor em dano Psíquico.' },
@@ -433,19 +346,19 @@ export const CYBERPUN2080_CLASSES_FULL_DATA: CyberpunkClassCatalog[] = [
       },
       {
         nome: 'Biohacker',
-        descricao: 'Nanotecnologia médica, vírus sintéticos e sabotagem neural permitem transformar inimigos em organismos falhos enquanto fortalece aliados através de mutações temporárias.',
+        descricao: 'O Biohacker não cura corpos. Você reescreve sistemas biológicos. Nanotecnologia médica, vírus sintéticos e sabotagem neural permitem que você transforme inimigos em organismos falhos enquanto fortalece aliados através de mutações temporárias.',
         progressao: [
-          { nivel: 3, habilidade: 'Vírus Adaptativo', descricao: '1 vez por turno. Ao causar dano a um humanoide ou curar um aliado, aplique um Vírus Adaptativo: Colapso Motor (perde 3m de deslocamento), Sobrecarga Neural (Desvantagem no próximo teste) ou Estímulo Sintético (+1d4 no próximo teste do aliado).' },
+          { nivel: 3, habilidade: 'Vírus Adaptativo', descricao: '1 vez por turno. Quando causar dano a uma criatura humanoide ou curar um aliado, você pode aplicar um Vírus Adaptativo até o fim do seu próximo turno. Escolha um efeito: Colapso Motor: A criatura perde 3m de deslocamento. Sobrecarga Neural: A criatura sofre Desvantagem no próximo teste de resistência ou ataque que realizar. Estímulo Sintético: Um aliado recebe +1d4 no próximo teste de resistência ou ataque que realizar.' },
           { nivel: 7, habilidade: 'Nanorreparos', descricao: 'Quando um aliado sob um de seus efeitos sofrer dano, reduza o dano em valor igual à sua Sabedoria. Se o alvo estiver abaixo da metade dos PV, ele também ganha PV temporários iguais ao bônus de proficiência.' },
-          { nivel: 10, habilidade: 'Contaminação Viral', descricao: 'Inimigos afetados por suas habilidades têm a CA reduzida em -1 e toda a cura é reduzida pela metade.' },
-          { nivel: 15, habilidade: 'Reescrita Biológica', descricao: '1 vez por combate, Ação. Até 4 criaturas em 9m afetadas por suas habilidades. Aliados: Revitalização (2d8 PV) ou Reflexos (Vantagem no próximo teste). Inimigos: Punição (4d8 dano Psíquico) ou Atordoamento (CON CD 8+SAB+prof ou Atordoado por 1 turno).' }
+          { nivel: 10, habilidade: 'Contaminação Viral', descricao: 'Inimigos afetados por efeitos de suas habilidades tem a Classe de Armadura (CA) reduzida em -1, e toda a cura é reduzida pela metade.' },
+          { nivel: 15, habilidade: 'Reescrita Biológica', descricao: '1 vez por combate, Ação. Escolha até 4 criaturas em 9m que estejam afetadas por suas habilidades e aplique um dos efeitos. Aliados: Revitalização: Recuperam 2d8 PV; Reflexos: Recebem Vantagem no próximo teste de resistência. Inimigos: Punição: Sofrem 4d8 dano Psíquico; e realizam teste de Constituição (CD 8 + modificador de Sabedoria + bônus de proficiência) e em caso de falha, ele fica Atordoado até o fim do seu próximo turno.' }
         ]
       }
     ]
   },
   {
     nome: 'Piloto',
-    descricao: 'Velocidade, mobilidade e controle de território urbano. Domina perseguições, fugas e combate veicular.',
+    descricao: 'Os Pilotos são os donos das ruas abertas, rodovias esquecidas e das Terras Baldias. Onde não há mapas confiáveis, onde o terreno mata tanto quanto as balas, eles prosperam. Mestres da pilotagem, leitura de ambiente e sobrevivência extrema, Pilotos sabem quando acelerar, quando se esconder e quando transformar a estrada em uma arma.',
     flavorText: [
       'Os Pilotos são os donos das ruas abertas, rodovias esquecidas e das Terras Baldias.',
       'Mestres da pilotagem, leitura de ambiente e sobrevivência extrema.',
@@ -463,26 +376,26 @@ export const CYBERPUN2080_CLASSES_FULL_DATA: CyberpunkClassCatalog[] = [
       pericias: { escolher: 4, opcoes: ['Pilotagem', 'Sobrevivência', 'Percepção', 'Furtividade', 'Atletismo', 'Intuição', 'Tecnologia', 'Tolerância'] }
     },
     progressao: [
-      { nivel: 1, habilidade: 'Motorizado', descricao: 'Você começa com -1.500 edinhos. Escolha entre o carro Archer Hella EC-D I360 ou a moto Arch Nazaré. Você possui proficiência em Pilotagem e pode realizar manutenção básica em veículos sem testes.' },
+      { nivel: 1, habilidade: 'Motorizado', descricao: 'Você começa com -1.500 edinhos. Escolha entre o carro Archer Hella EC-D I360 ou a moto Arch Nazaré. Você já inicia com o veículo selecionado. Você possui proficiência em Pilotagem; e pode realizar manutenção básica em veículos sem testes.' },
       { nivel: 1, habilidade: 'Instinto de Estrada', descricao: 'Vantagem em testes de Percepção e Sobrevivência em ruas, áreas abertas, rodovias, becos externos e nas Terras Baldias. Além disso, você sempre sabe qual direção oferece melhor rota de fuga.' },
       { nivel: 2, habilidade: 'Mãos no Volante', descricao: 'O veículo pilotado por você ganha +2 na CA e recebe Vantagem em testes de Pilotagem para Manobras Evasivas.' },
       { nivel: 5, habilidade: 'Ataque Extra', descricao: 'Você pode atacar duas vezes sempre que realizar a Ação de Ataque ou realizar uma Ação de Ataque e uma Ação de recarregar (em qualquer ordem).' },
-      { nivel: 6, habilidade: 'Posicionamento Estratégico', descricao: 'Vantagem no teste de iniciativa em ruas, áreas abertas, rodovias, becos externos e Terras Baldias. Após a rolagem de iniciativa, pode se mover até 3m sem gastar deslocamento e sem provocar ataques de oportunidade.' },
+      { nivel: 6, habilidade: 'Posicionamento Estratégico', descricao: 'Você recebe Vantagem no teste de iniciativa em ruas, áreas abertas, rodovias, becos externos e nas Terras Baldias. Caso esteja em uma dessas áreas, após a rolagem de iniciativa, e antes de qualquer um agir, você pode se mover até 3m sem gastar deslocamento e esse movimento não provoca ataques de oportunidade.' },
       { nivel: 9, habilidade: 'Sobrevivente Cascudo', descricao: 'Você recebe resistência a dano Químico e de Veneno, e recebe Vantagem em testes contra climas e ambientes adversos.' },
-      { nivel: 11, habilidade: 'Escapista', descricao: '1 vez por turno, Reação. Quando um inimigo errar um ataque contra você, pode se mover até 5m sem provocar ataques de oportunidade.' },
-      { nivel: 13, habilidade: 'Mobilidade Predatória', descricao: 'Você pode marcar um alvo e, caso esse alvo se mova, você pode mover até metade do seu deslocamento em direção a ele sem gastar movimento.' },
+      { nivel: 11, habilidade: 'Escapista', descricao: '1 vez por turno, Reação. Quando um inimigo errar um ataque contra você, pode se mover até 5m e esse movimento não provoca ataques de oportunidade.' },
+      { nivel: 13, habilidade: 'Mobilidade Predatória', descricao: 'Você pode marcar um alvo, e caso esse alvo se mova, você pode mover até metade do seu deslocamento em direção a ela sem gastar movimento.' },
       { nivel: 17, habilidade: 'Reflexos de Alta Velocidade', descricao: 'Adiciona seu modificador de Sabedoria à sua CA enquanto estiver em um veículo e recebe Vantagem em testes contra efeitos de explosões.' },
-      { nivel: 20, habilidade: 'Lenda da Estrada', descricao: 'Se mover pelo menos 6m antes de atacar, recebe Vantagem no ataque e +1d8 de dano adicional. Enquanto estiver em veículo, ataques contra você possuem Desvantagem até o início do próximo turno.' }
+      { nivel: 20, habilidade: 'Lenda da Estrada', descricao: 'Se mover pelo menos 6m antes de atacar, recebe Vantagem no ataque e adiciona +1d8 de dano adicional. Enquanto estiver em veículo: ataques contra você possuem Desvantagem até o início do próximo turno.' }
     ],
     subclasses: [
       {
         nome: 'Fúria',
-        descricao: 'A Fúria transforma o piloto em um predador da estrada. Para ele, velocidade não é apenas locomoção — é arma, vantagem e sentença de morte.',
+        descricao: 'A Fúria transforma o piloto em um predador da estrada. Para ele, velocidade não é apenas locomoção — é arma, vantagem e sentença de morte. Cada perseguição é uma caçada, cada curva é calculada, e cada disparo é feito no momento exato em que o inimigo está mais vulnerável. Onde outros veem caos, o Piloto da Fúria enxerga oportunidades.',
         progressao: [
           { nivel: 3, habilidade: 'Predador da Estrada', descricao: 'Atacar enquanto pilota não impõe Desvantagem e seu primeiro ataque em combate veicular causa +1d8 de dano extra.' },
-          { nivel: 7, habilidade: 'Emboscador', descricao: '1 vez por turno. O primeiro ataque tem Vantagem em ataques contra inimigos que ainda não agiram neste turno. Acertos Críticos com armas à distância causam +1d8 extra.' },
-          { nivel: 10, habilidade: 'Caça Implacável', descricao: '1 vez por turno, Ação Bônus. Marque um alvo e tenha Vantagem em Ataques contra ele. Caso o atinja, consuma a marca e cause 2d8 de dano extra.' },
-          { nivel: 15, habilidade: 'Estrada da Fúria', descricao: 'Enquanto estiver abordo de um veículo ou lutando em ruas/áreas abertas/becos externos/Terras Baldias, seus ataques com armas à distância têm crítico em 19–20.' }
+          { nivel: 7, habilidade: 'Emboscador', descricao: '1 vez por turno. O primeiro ataque que realizar tem Vantagem em ataques contra inimigos que ainda não agiram neste turno. Além disso, Acertos Críticos com armas à distância causam +1d8 extra.' },
+          { nivel: 10, habilidade: 'Caça Implacável', descricao: '1 vez por turno, Ação Bônus. Você pode marcar um alvo e você tem Vantagem em Ataques contra ele. Caso o atinja, você consome a marca e causa 2d8 de dano extra.' },
+          { nivel: 15, habilidade: 'Estrada da Fúria', descricao: 'Enquanto estiver abordo de um veículo ou lutando em ruas, áreas abertas, becos externos ou nas Terras Baldias, seus ataques com armas à distância têm crítico em 19–20.' }
         ]
       },
       {
@@ -509,7 +422,7 @@ export const CYBERPUN2080_CLASSES_FULL_DATA: CyberpunkClassCatalog[] = [
   },
   {
     nome: 'Samurai',
-    descricao: 'Precisão, leitura de combate e eliminação cirúrgica. Executa alvos com foco e ritmo implacável.',
+    descricao: 'Os Samurais são assassinos urbanos, duelistas modernos e executores frios. Alguns seguem um próprio código pessoal, outros só seguem o contrato, mas todos entendem uma verdade simples: o combate acaba antes do inimigo perceber que começou. Eles dominam o posicionamento, o tempo exato do golpe e a arte do ataque decisivo. Seja com uma lâmina vibrando no ar ou uma pistola disparando no momento perfeito, o Samurai vence pela precisão, não pela resistência.',
     flavorText: [
       'Os Samurais são assassinos urbanos, duelistas modernos e executores frios.',
       'Dominam o posicionamento, o tempo exato do golpe e a arte do ataque decisivo.',
@@ -527,25 +440,25 @@ export const CYBERPUN2080_CLASSES_FULL_DATA: CyberpunkClassCatalog[] = [
       pericias: { escolher: 4, opcoes: ['Furtividade', 'Acrobacia', 'Percepção', 'Intuição', 'Enganação', 'Intimidação', 'Prestidigitação', 'Pilotagem'] }
     },
     progressao: [
-      { nivel: 1, habilidade: 'Golpe Decisivo', descricao: '1 vez por turno. Ao atacar com lâmina ou arma de fogo leve com Vantagem, ou atacar um inimigo que não detectou ameaças, cause +1d6 de dano extra. Não precisa ter Vantagem se um aliado estiver a até 1,5m do alvo e não estiver Incapacitado. O dano aumenta em +1d6 nos níveis 4, 8, 12 e 16.' },
+      { nivel: 1, habilidade: 'Golpe Decisivo', descricao: '1 vez por turno. Quando atacar usando uma lâmina ou arma de fogo leve com Vantagem ou atacar um inimigo que ainda não tenha detectado ameaças, você causa +1d6 de dano extra. Você não precisa ter Vantagem na jogada de ataque se pelo menos um de seus aliados estiver a até 1,5m do alvo, e o aliado não esteja Incapacitado e você não tem Desvantagem na jogada de ataque. O dano aumenta em +1d6 nos níveis 4, 8, 12 e 16.' },
       { nivel: 2, habilidade: 'Movimento Rápido e Silencioso', descricao: 'Vantagem em testes de Furtividade. Você pode usar as ações Disparada e Desengajar com Ação Bônus e levantar-se do chão custa apenas 2m de movimento.' },
       { nivel: 5, habilidade: 'Ataque Extra', descricao: 'Você pode atacar duas vezes sempre que realizar a Ação de Ataque ou realizar uma Ação de Ataque e uma Ação de recarregar (em qualquer ordem).' },
-      { nivel: 6, habilidade: 'Desaparecer no Caos', descricao: 'Reação. Após derrubar um inimigo a 0 PV, você pode se mover até 3m sem provocar ataques de oportunidade e realizar um teste de Furtividade para se esconder como parte do movimento.' },
-      { nivel: 9, habilidade: 'Contra-Ataque Instintivo', descricao: '1 vez por combate, Reação. Quando um inimigo errar um ataque contra você, realize um ataque contra ele ao alcance; se acertar, adicione Golpe Decisivo ao dano.' },
+      { nivel: 6, habilidade: 'Desaparecer no Caos', descricao: 'Reação. Após derrubar um inimigo a 0 PV você pode se mover até 3m sem provocar ataques de oportunidade e realizar um teste de Furtividade para se esconder como parte do movimento.' },
+      { nivel: 9, habilidade: 'Contra-Ataque Instintivo', descricao: '1 vez por combate, Reação. Quando um inimigo errar um ataque contra você, realize um ataque contra ele, caso esteja em seu alcance e se acertar, adicione Golpe Decisivo ao dano.' },
       { nivel: 11, habilidade: 'Execução Precisa', descricao: '1 vez por combate. Quando atacar um inimigo Surpreso, você pode causar o dano máximo nos dados.' },
-      { nivel: 13, habilidade: 'Passo Fantasma', descricao: 'Você ignora terreno difícil enquanto Furtivo. Movimentar-se não quebra Furtividade fora de combate.' },
+      { nivel: 13, habilidade: 'Passo Fantasma', descricao: 'Você ignora terreno difícil enquanto Furtivo, além disso, movimentar-se não quebra Furtividade fora de combate.' },
       { nivel: 17, habilidade: 'Momento Perfeito', descricao: 'Seus Ataques Críticos causam 10 de dano extra e ignoram Resistência a dano da arma utilizada.' },
-      { nivel: 20, habilidade: 'Samurai Urbano', descricao: '1 vez por combate, usos iguais ao Bônus de Proficiência antes de um descanso longo. Quando reduzir um inimigo a 0 PV com um ataque, você pode realizar um ataque adicional contra outro alvo ao alcance.' }
+      { nivel: 20, habilidade: 'Samurai Urbano', descricao: '1 vez por combate, usos iguais ao Bônus de Proficiência antes de um descanso longo. A quando reduzir um inimigo a 0 PV com um ataque corpo a corpo ou com arma, você pode realizar um ataque adicional contra outro alvo ao alcance.' }
     ],
     subclasses: [
       {
         nome: 'Lâmina Viva',
-        descricao: 'Discípulo do duelo puro, transforma velocidade e precisão em morte certa. Seus movimentos são rápidos como relâmpago, sempre buscando abrir brechas antes que o inimigo possa reagir.',
+        descricao: 'Discípulo do duelo puro, o Samurai da Lâmina transforma velocidade e precisão em morte certa. Seus movimentos são rápidos como um relâmpago, sempre buscando abrir brechas antes que o inimigo possa reagir. À medida que a luta se prolonga, seus golpes se tornam cada vez mais devastadores.',
         progressao: [
-          { nivel: 3, habilidade: 'Corte Relâmpago', descricao: 'Após acertar um ataque com uma lâmina, use sua Ação Bônus para realizar um ataque corpo a corpo adicional. Caso acerte um alvo que esteja Sangrando, cause 1d4 de dano extra.' },
-          { nivel: 7, habilidade: 'Dança do Aço', descricao: 'O alcance de seus ataques de oportunidade é dobrado. Ao se mover para atingir seu alvo em ataques de oportunidade, o deslocamento não provoca ataques de oportunidade em você e criaturas atingidas perdem 3m de deslocamento.' },
+          { nivel: 3, habilidade: 'Corte Relâmpago', descricao: 'Após acertar um ataque com uma lâmina, você pode usar sua Ação Bônus para realizar um ataque corpo a corpo adicional. Caso acerte um alvo que esteja Sangrando, cause 1d4 de dano extra.' },
+          { nivel: 7, habilidade: 'Dança do Aço', descricao: 'O alcance de seus ataques de oportunidade é dobrado. Caso você precise se mover para atingir seu alvo em ataques de oportunidade, este deslocamento não provoca ataques de oportunidade em você e criaturas atingidas por eles perdem 3m de deslocamento.' },
           { nivel: 10, habilidade: 'Corte Perfeito', descricao: 'Seus ataques com lâmina têm Acerto Crítico em 19–20.' },
-          { nivel: 15, habilidade: 'Lâmina Frenética', descricao: 'Ataques com lâmina causam +1d4 de dano extra. Sempre que tiver um Acerto Crítico com lâmina, esse dano aumenta em 1d4 (máx. 3d4). Este bônus acumulativo dura até o próximo descanso longo.' }
+          { nivel: 15, habilidade: 'Lâmina Frenética', descricao: 'Ataques com lâmina causam +1d4 de dano extra. Sempre que você tiver um Acerto Crítico em ataques com lâmina, esse dano aumenta em 1d4 (Max 3d4). Este bônus acumulativo dura até o próximo descanso longo.' }
         ]
       },
       {
@@ -572,7 +485,7 @@ export const CYBERPUN2080_CLASSES_FULL_DATA: CyberpunkClassCatalog[] = [
   },
   {
     nome: 'Solo',
-    descricao: 'Especialista em guerra urbana e confronto direto. Veterano de combate pesado em ruas e zonas de conflito.',
+    descricao: 'Solos são combatentes de elite, mercenários, soldados e assassinos profissionais. Eles vivem do confronto direto, dominam qualquer arma e sabem usar o terreno e a cobertura a seu favor. Um Solo bem treinado faz do campo de batalha uma extensão de si mesmo: onde há tiro, há Solo.',
     flavorText: [
       'Solos são combatentes de elite, mercenários, soldados e assassinos profissionais.',
       'Dominam qualquer arma e sabem usar o terreno e a cobertura a seu favor.',
@@ -594,30 +507,30 @@ export const CYBERPUN2080_CLASSES_FULL_DATA: CyberpunkClassCatalog[] = [
       { nivel: 2, habilidade: 'Mira Avançada', descricao: '1 vez por turno. Ao usar a Ação Mirar, aumente o dano em +1d4 extra. O dano aumenta em +1d4 nos níveis 8, 12 e 16.' },
       { nivel: 5, habilidade: 'Ataque Extra', descricao: 'Você pode atacar duas vezes sempre que realizar a Ação de Ataque ou realizar uma Ação de Ataque e uma Ação de recarregar (em qualquer ordem).' },
       { nivel: 6, habilidade: 'Reação Rápida', descricao: '1 vez por combate, Reação. Ao receber um ataque à distância, aumente sua CA em +3 contra esse ataque.' },
-      { nivel: 9, habilidade: 'Especialista em Explosivos', descricao: 'Granadas podem ser usadas como Ação Bônus.' },
-      { nivel: 13, habilidade: 'Provocação', descricao: '1 vez por combate. Escolha até 2 inimigos em até 18m. Eles realizam teste de resistência de Carisma (CD 8 + FOR + prof). Em caso de falha, se moverão até 5m em sua direção e têm Desvantagem em ataques contra outros alvos até o início do próximo turno.' },
+      { nivel: 9, habilidade: 'Especialista em Explosivos', descricao: 'Granadas podem ser usados como Ação Bônus.' },
+      { nivel: 13, habilidade: 'Provocação', descricao: '1 vez por combate. Escolha até 2 inimigos que possam ouvi-lo em até 18m e os desafie. Os forçando a realizar um teste de resistência de Carisma (CD 8 + modificador de Força + bônus de proficiência), e em caso de falha; se moverão até 5m imediatamente em sua direção sem provocar ataques de oportunidade e recebem Desvantagem em ataques contra outros alvos até o início do próximo turno. Os alvos afetados podem se posicionar atrás de coberturas durante este movimento.' },
       { nivel: 17, habilidade: 'Maestria em Combate', descricao: '1 vez por combate. Caso erre um Ataque com arma, pode rerrolar o dado e caso acerte, aumente o dano em +2d6.' },
       { nivel: 20, habilidade: 'Perfeição do Solo', descricao: '1 vez por combate, Ação Bônus. Seus ataques têm crítico em 19–20 e você ganha resistência a dano Perfurante, Cortante e Contundente por 3 turnos.' }
     ],
     subclasses: [
       {
         nome: 'Especialista em Rifles',
-        descricao: 'Focados em precisão, mobilidade e ataques rápidos, os Especialistas em Rifles são mestres em eliminar múltiplos alvos com agilidade.',
+        descricao: 'Focados em precisão, mobilidade e ataques rápidos, os Especialistas em Rifles são mestres em eliminar múltiplos alvos com agilidade e precisão. Eles preferem armas automáticas e de precisão para manter um fluxo constante de dano.',
         progressao: [
-          { nivel: 3, habilidade: 'Mira Tática', descricao: '1 vez por combate. Realize um ataque preciso com Rifle de Assalto ou Precisão. O alvo realiza teste de Destreza (CD 8 + DEX/FOR + prof). Em caso de falha, sofre dano total e fica marcado (aliados têm Vantagem ao atacar o alvo marcado). Em caso de sucesso, sofre dano mínimo.' },
-          { nivel: 7, habilidade: 'Dano Concentrado', descricao: 'Quando acertar dois ataques consecutivos com Rifle de Assalto ou Precisão no mesmo alvo em um turno, cause 1d6 de dano adicional no segundo ataque. Este dano aumenta em 1d6 nos níveis 12, 16 e 20.' },
-          { nivel: 10, habilidade: 'Instinto', descricao: 'Reação. Quando um inimigo realizar um ataque à distância contra você e errar, mova-se até 3m sem provocar ataques de oportunidade e realize um ataque corpo a corpo como parte da mesma reação.' },
-          { nivel: 15, habilidade: 'Finalizador', descricao: '1 vez por turno. Ao usar a Ação Mirar com Rifle de Assalto ou Precisão, seu próximo ataque Ignora cobertura parcial. O efeito de Mira Avançada aumenta de d4 para d8.' }
+          { nivel: 3, habilidade: 'Mira Tática', descricao: '1 vez por combate, 1 Ataque. Escolha um alvo dentro do alcance máximo do seu Rifle de Assalto ou Rifle de Precisão e realize um ataque preciso. O alvo deve realizar um teste de Destreza (CD 8 + seu modificador de Destreza ou Força + seu bônus de proficiência) e em caso de falha, o inimigo sofre o dano total desse ataque e fica marcado até o fim do seu próximo turno. Atacantes possuem Vantagem ao atacar o alvo marcado. Em caso de sucesso, o alvo sofre o dano mínimo, e não é marcado.' },
+          { nivel: 7, habilidade: 'Dano Concentrado', descricao: 'Quando você acertar dois ataques consecutivos com um Rifle de Assalto ou Rifle de Precisão no mesmo alvo em um turno, você causa 1d6 de dano adicional no segundo ataque. Este dano aumenta em 1d6 nos níveis: 12, 16 e 20.' },
+          { nivel: 10, habilidade: 'Instinto', descricao: 'Reação. Quando um inimigo realizar um ataque à distância contra você e errar, você pode usar uma reação para mover-se até 3m sem provocar ataques de oportunidade. Se você se mover dessa forma, pode realizar um ataque corpo a corpo como parte da mesma reação. Você pode escolher a ordem dessas ações.' },
+          { nivel: 15, habilidade: 'Finalizador', descricao: '1 vez por turno. Ao usar a Ação Mirar com um Rifle de Assalto ou Rifle de Precisão, seu próximo ataque Ignora cobertura parcial. Além disso, o efeito de Mira Avançada aumenta de d4 para d8.' }
         ]
       },
       {
         nome: 'Especialista em Armas Pesadas',
-        descricao: 'Mestres no uso de armamento pesado, preferem armas devastadoras como lança-foguetes e metralhadoras, com ataques capazes de devastar vários inimigos ao mesmo tempo.',
+        descricao: 'Mestres no uso de armamento pesado, esses Solos preferem armas devastadoras como lança-foguetes e metralhadoras. Seu estilo é menos sobre agilidade e mais sobre destruição em massa, com ataques poderosos capazes de devastar vários inimigos ao mesmo tempo.',
         progressao: [
-          { nivel: 3, habilidade: 'Helios', descricao: 'Você tem acesso à arma especial BFG-9000 "Helios" (Lança-Foguetes). Dano: 4d10 Energia (área 6m). Capacidade: 1 disparo antes de recarregar. Alcance: 10m–80m. Criaturas na área realizam Teste de Destreza (CD 8 + FOR/DES + prof); sucesso = metade do dano.' },
-          { nivel: 7, habilidade: 'Robustez de Combate', descricao: '1 vez por turno, Ação Bônus. Quando estiver usando Metralhadora Leve ou Escopeta, ganhe: +1 CA, resistência a dano de Energia e aumento em 1d6 na cura recebida até o final do próximo turno.' },
-          { nivel: 10, habilidade: 'Tiros Penetrantes', descricao: 'Seus ataques com Metralhadoras Leves e Escopetas ignoram resistência a dano Perfurante. O dano com essas armas aumenta em 1d6 (mais 1d6 nos níveis 16 e 20).' },
-          { nivel: 15, habilidade: 'Reação em Cadeia', descricao: '1 vez por combate. Se acertar um inimigo com Metralhadora Leve ou Escopeta, realize imediatamente um segundo ataque contra outro inimigo próximo (até 3m do alvo) como parte da mesma Ação.' }
+          { nivel: 3, habilidade: 'Helios', descricao: 'Você tem acesso a uma arma especial chamada Helios. Vá a algum vendedor de armas de Night City e diga a frase: O Sol sangra. Qualquer vendedor de respeito saberá do que se trata. BFG-9000 Helios (Lança-Foguetes). Descrição Física: Arma massiva e imponente, com um acabamento metálico escuro. Sendo projetada para causar destruição em larga escala em combates decisivos. Dano Base: 4d10 de Energia (área de 6m). Capacidade: 1 disparo antes de precisar recarregar (Ação). Distância de Ação: 10m a 80m. Efeito Especial: A Helios só pode ser disparada uma vez por turno. O disparo atinge uma ampla área de impacto; criaturas na área devem realizar um Teste de Destreza (CD 8 + modificador de Força ou Destreza + bônus de proficiência). Em caso de sucesso, sofrem metade do dano. A Helios consome toda a sua Ação para ser usada. O dano da Helios aumenta em +1d10 nos níveis 8, 12, 16 e 20.' },
+          { nivel: 7, habilidade: 'Robustez de Combate', descricao: '1 vez por turno, Ação Bônus. Quando estiver usando uma Metralhadora Leve ou Escopeta, ganhe Robustez, aumentando em +1 sua Classe de Armadura (CA), ganhando resistência a dano de Energia e aumentando em 1d6 a cura recebida de todas as fontes até o final do próximo turno. O valor da cura aumenta em 1d6 nos níveis 12, 16 e 20.' },
+          { nivel: 10, habilidade: 'Tiros Penetrantes', descricao: 'Seus ataques com Metralhadoras Leves e Escopetas ignoram resistência a dano Perfurante. Seu dano com essas armas aumenta em 1d6. Esse dano aumenta em 1d6 nos níveis 16 e 20.' },
+          { nivel: 15, habilidade: 'Reação em Cadeia', descricao: '1 vez por combate. Se você acertar um inimigo com sua Metralhadora Leve ou Escopeta, você pode imediatamente realizar um segundo ataque contra um segundo inimigo próximo (até 3 metros de distância do alvo) como parte da mesma Ação.' }
         ]
       },
       {
@@ -634,7 +547,7 @@ export const CYBERPUN2080_CLASSES_FULL_DATA: CyberpunkClassCatalog[] = [
   },
   {
     nome: 'Trilha-Redes',
-    descricao: 'Domina sistemas digitais, implantes e guerra de dados. Infiltração, sabotagem e controle da rede.',
+    descricao: 'Os Trilha-Redes são feiticeiros da era digital. Onde outros puxam o gatilho, eles puxam linhas de código. Onde há silêncio eletrônico, eles escutam sussurros de dados. Eles não vencem pela força, nem pela velocidade — vencem porque o inimigo não lutou em um campo justo. O Cyberdeck não é uma ferramenta, é uma extensão do seu cérebro.',
     flavorText: [
       'Os Trilha-Redes são feiticeiros da era digital.',
       'Onde outros puxam o gatilho, eles puxam linhas de código.',
@@ -653,34 +566,34 @@ export const CYBERPUN2080_CLASSES_FULL_DATA: CyberpunkClassCatalog[] = [
       pericias: { escolher: 4, opcoes: ['Investigação', 'Hacking', 'Tecnologia', 'Percepção', 'Furtividade', 'Persuasão', 'Prestidigitação', 'Enganação'] }
     },
     progressao: [
-      { nivel: 1, habilidade: 'Cyberdeck Neural', descricao: 'Você começa com -1.500 edinhos e com um Cyberdeck padrão implantado + Hacks Rápidos: Aceleração Forçada, Curto-Circuito, Ping, Superaquecer e Travar Arma. RAM Total: 4 + modificador de Inteligência + bônus de proficiência. Capacidade de Hacks: 3. CT: 3. Valor: 300 edinhos.' },
-      { nivel: 1, habilidade: 'Recarga de RAM', descricao: 'Você recupera 1 ponto de RAM no início de cada um de seus turnos, até o máximo. Aumenta em +1 nos níveis 4, 8, 12 e 16.' },
+      { nivel: 1, habilidade: 'Cyberdeck Neural', descricao: 'Você começa com -1.500 edinhos. Você começa com um Cyberdeck padrão implantado e os seguintes Hacks Rápidos: Aceleração Forçada, Curto-Circuito, Ping, Superaquecer e Travar Arma. RAM Total: 4 + modificador de Inteligência + bônus de proficiência. Capacidade de Hacks: 3. CT: 3. Valor: 300 edinhos.' },
+      { nivel: 1, habilidade: 'Recarga de RAM', descricao: 'Você recupera 1 ponto de RAM no início de cada um de seus turnos, até o máximo. Aumentando em +1 nos níveis: 4, 8, 12 e 16.' },
       { nivel: 2, habilidade: 'Hack Mais Rápido', descricao: '1 vez por turno, Ação Bônus. Você pode executar um Hack Rápido que não cause danos em um alvo que você já tenha Invadido ou afetado por um Hack Rápido neste turno.' },
-      { nivel: 5, habilidade: 'Execução Paralela', descricao: '1 vez por turno. Quando acertar um ataque com arma leve, execute um Ataque Hack em sequência (custo máximo 4 RAM). A RAM máxima aumenta em +2 nos níveis 12, 16 e 20.' },
-      { nivel: 6, habilidade: 'Conexão Prolongada', descricao: '1 vez por combate, custa 6 RAM. Ao hackear um alvo com sucesso, mantenha acesso até o fim do próximo turno. Hacks Rápidos subsequentes contra o mesmo alvo custam -1 RAM (mínimo 1) e o alvo possui Desvantagem em testes contra esses Hacks.' },
+      { nivel: 5, habilidade: 'Execução Paralela', descricao: '1 vez por turno. Quando você acertar um ataque com arma leve, você pode executar um Ataque Hack logo em sequência, mas o Hack Rápido usado deve ter um custo máximo de 4 RAM. Aumentando a RAM máxima em +2 nos níveis: 12, 16 e 20.' },
+      { nivel: 6, habilidade: 'Conexão Prolongada', descricao: '1 vez por combate, custa 6 de RAM. Ao hackear um alvo com sucesso você pode manter acesso até o fim do seu próximo turno, sem necessidade de realizar outro Ataque Hacker. Hacks Rápidos subsequentes contra o mesmo alvo custam –1 RAM (mínimo 1) e ele possui Desvantagem em testes contra esses Hacks Rápidos.' },
       { nivel: 9, habilidade: 'Controle Visual', descricao: 'Ao hackear uma câmera conectada a uma rede, você pode afetar até 3 outras câmeras ligadas a ela sem testes. Você pode usar Ping através delas.' },
-      { nivel: 11, habilidade: 'Mente Concentrada', descricao: 'Enquanto estiver Concentrado em Hacks Rápidos, você tem Vantagem em testes contra Medo e Intimidação e possui resistência a dano Psíquico.' },
+      { nivel: 11, habilidade: 'Mente Concentrada', descricao: 'Enquanto estiver Concentrado em Hacks Rápidos, você tem Vantagem em testes contra Medo e Intimidação e possui resistência à dano Psíquico.' },
       { nivel: 13, habilidade: 'Supremacia Digital', descricao: 'Você pode manter até 2 dispositivos sob seu controle ao mesmo tempo.' },
-      { nivel: 17, habilidade: 'Senhor da Matriz', descricao: 'Você pode manter Concentração em 2 Hacks Rápidos ao mesmo tempo. Em cada turno mantendo 2 Hacks, realiza teste de Inteligência (CD 16); em caso de falha, perde a Concentração em ambos e ficará Atordoado por 1 turno.' },
-      { nivel: 20, habilidade: 'Overclock', descricao: '1 vez por combate, custa 8 RAM. Você entra em Overclock por 3 turnos: executa 2 Ataques Hacks na mesma Ação, Hacks custam -1 RAM e você recebe +2 CF. Realiza teste de CON (CD 16) a cada turno; em caso de falha, ficará Atordoado por 1 turno. Ao final, sofre 1 nível de exaustão.' }
+      { nivel: 17, habilidade: 'Senhor da Matriz', descricao: 'Você pode manter a Concentração em 2 Hacks Rápidos ao mesmo tempo. Em cada turno que estiver manter mantendo a Concentração em 2 Hacks Rápidos, você deve realizar um teste de Inteligência (CD 16), e caso falhe, você perde a Concentração em ambos e ficará Atordoado por 1 turno.' },
+      { nivel: 20, habilidade: 'Overclock', descricao: '1 vez por combate, custa 8 de RAM. Você entra em Overclock por 3 turnos. Durante o Overclock: Você pode executar dois Ataques Hacks no mesmo turno usando sua Ação, Hacks Rápidos custam –1 RAM e você recebe +2 de Classe de Firewall (CF). Você deve realizar um teste de Constituição (CD 16) em cada turno para manter o Overclock ativo, em caso de falha, você ficará Atordoado por 1 turno. Ao final do Overclock, você sofre 1 nível de exaustão.' }
     ],
     subclasses: [
       {
         nome: 'Arquiteto',
-        descricao: 'O Arquiteto não invade sistemas apenas para abrir caminhos, ele reescreve o campo de batalha. Estruturas, dispositivos e redes fixas se tornam peças de um tabuleiro rearranjável em tempo real.',
+        descricao: 'O Arquiteto não invade sistemas apenas para abrir caminhos, ele reescreve o campo de batalha. Para esse Trilha-redes, estruturas, dispositivos e redes fixas não são obstáculos, mas peças de um tabuleiro que pode ser rearranjado em tempo real. Portas viram escudos, torretas se tornam aliados e o caos é mantido sob controle por pura engenharia digital.',
         progressao: [
-          { nivel: 3, habilidade: 'Domínio Estrutural', descricao: 'Você tem Vantagem para manter Concentração do controle de portas, torretas, câmeras ou sistemas. Dispositivos sob seu controle recebem +2 CF.' },
-          { nivel: 7, habilidade: 'Explosão de Dados', descricao: '1 vez por combate, custa 4 RAM. Ao encerrar antecipadamente um Hack Rápido de efeito contínuo ativo, cause 3d8 de dano Elétrico no alvo e em todos a até 3m (Destreza CD 8+INT+prof para metade).' },
-          { nivel: 10, habilidade: 'Firewall Vivo', descricao: 'Enquanto controla ao menos um dispositivo, você ganha +2 na CF.' },
-          { nivel: 15, habilidade: 'Proteção Digital', descricao: '1 vez por combate, custa 5 RAM. Ao ser hackeado, mude o alvo do Hack Rápido para um dispositivo que você esteja controlando. Se o dispositivo for destruído, você recupera 2 RAM.' }
+          { nivel: 3, habilidade: 'Domínio Estrutural', descricao: 'Você tem Vantagem para manter a Concentração do controle de portas, torretas, câmeras ou sistemas e esses dispositivos sob seu controle recebem +2 de Classe de Firewall (CF).' },
+          { nivel: 7, habilidade: 'Explosão de Dados', descricao: '1 vez por combate, custa 4 de RAM. Ao encerrar antecipadamente um Hack Rápido de efeito contínuo ainda ativo em um alvo, você pode causar 3d8 de dano Elétrico nele e todos a até 3m devem realizar um Teste de Destreza (CD 8 + seu modificador de Inteligência + seu bônus de proficiência) em caso de falha, também recebem o dano, e em caso sucesso, recebem apenas metade do dano.' },
+          { nivel: 10, habilidade: 'Firewall Vivo', descricao: 'Enquanto controla ao menos um dispositivo você ganha +2 na CF.' },
+          { nivel: 15, habilidade: 'Proteção Digital', descricao: '1 vez por combate, custa 5 de RAM. Ao ser hackeado, pode mudar o alvo do Hack Rápido para um dispositivo que você esteja controlando. Se o dispositivo for destruído ao receber um Hack Rápido desviado, você recupera 2 RAM.' }
         ]
       },
       {
         nome: 'Fantasma Neural',
         descricao: 'O Fantasma Neural não precisa controlar máquinas, portas ou torretas. Seu campo de batalha é a mente humana. Implantes, interfaces neurais e conexões sinápticas são apenas mais um ponto de acesso, e cada pensamento pode se tornar uma brecha explorável. Onde outros veem vontade própria, o Fantasma Neural enxerga código imperfeito.',
         progressao: [
-          { nivel: 3, habilidade: 'Invasão Cognitiva', descricao: '1 vez por combate, custa 3 de RAM. Ao hackear um inimigo com implantes, ele faz teste de Sabedoria (CD 8 + seu modificador de Inteligência + seu bônus de proficiência); se falhar, sofre Desvantagem em ataques até o final do seu próximo turno.' },
-          { nivel: 7, habilidade: 'Vozes na Cabeça', descricao: '1 vez por combate, custa 1 de RAM. Você pode se comunicar mentalmente com alvos com implantes no Cérebro, Olhos ou com Sistema Operacional a até 20m e transmitir imagens, vídeos, sons ou palavras. Os alvos verão ou ouvirão o que você mostrar a eles, mas isso não os atrapalha em combate. Os alvos precisam aceitar que você se conecte a eles para ativar essa habilidade, ou você pode gastar 5 de RAM para invadir contra a vontade do alvo, causando Desvantagem em Percepção e testes para manter a Concentração até o próximo turno.' },
+          { nivel: 3, habilidade: 'Invasão Cognitiva', descricao: '1 vez por combate, custa 3 de RAM. Ao hackear um inimigo com implantes, ele faz teste de Sabedoria (CD 8 + seu modificador de Inteligência + seu bônus de proficiência) se falhar, sofre Desvantagem em ataques até o final do seu próximo turno.' },
+          { nivel: 7, habilidade: 'Vozes na Cabeça', descricao: '1 vez por combate, custa 1 de RAM. Você pode se comunicar mentalmente com alvos com implantes no Cérebro, Olhos ou com Sistema Operacional a até 20m e transmitir imagens, vídeos, sons ou palavras. Os alvos verão ou ouvirão o que você mostrar a eles, mas isso não os atrapalha em combate. Os alvos precisam aceitar que você se conecte a eles para ativar essa habilidade ou você pode gastar 5 de RAM para invadir contra a vontade do alvo, causando Desvantagem em Percepção e testes para manter a Concentração até o próximo turno.' },
           { nivel: 10, habilidade: 'Comando Forçado', descricao: '1 vez por combate, custa 4 de RAM. Ao hackear um alvo, force-o a realizar um teste de Sabedoria (CD 8 + seu modificador de Inteligência + seu bônus de proficiência), e em caso de falha, obrigue-o a realizar uma ação simples, como mover-se, soltar arma, ajoelhar, se afastar etc.' },
           { nivel: 15, habilidade: 'Predador Psíquico', descricao: 'Reação, custa 4 de RAM. Quando um inimigo falhar em um teste de resistência contra um Hack Rápido seu, cause 2d8 + Inteligência de dano Psíquico neste alvo e recupere PV igual ao dano causado por este efeito.' }
         ]
@@ -689,10 +602,10 @@ export const CYBERPUN2080_CLASSES_FULL_DATA: CyberpunkClassCatalog[] = [
         nome: 'Operador de Combate',
         descricao: 'O Operador de Combate sincroniza armas e hacking em um único fluxo ofensivo. Disparos abrem brechas digitais enquanto invasões tornam alvos vulneráveis à execução imediata.',
         progressao: [
-          { nivel: 3, habilidade: 'Interface de Combate', descricao: 'Quando atingir um alvo sob efeito de Hack ou Invadido com arma à distância, adicione o modificador de Inteligência no ataque. Caso acerte, cause +1d6 dano extra.' },
-          { nivel: 7, habilidade: 'Execução Sincronizada', descricao: '1 vez por turno. Após realizar um ataque com arma, aplique um Hack Rápido de até 5 RAM com custo de Ação Bônus. Se o ataque for um Crítico, o Hack custará 0 RAM.' },
-          { nivel: 10, habilidade: 'Vulnerabilidade Explorada', descricao: 'Alvos sob efeitos de Hacks Rápidos ou Invadidos por você sofrem -2 de Classe de Armadura (CA).' },
-          { nivel: 15, habilidade: 'Combate Neural Integrado', descricao: 'Durante Overclock ou ao manter Concentração em Hacks Rápidos, realize 1 ataque com arma como Ação Bônus. Seus ataques com armas à distância causam +1d8 dano Psíquico extra durante o Overclock.' }
+          { nivel: 3, habilidade: 'Interface de Combate', descricao: 'Quando atingir um alvo sob efeito de Hack ou Invadido usando uma arma à distância, pode acrescentar o modificador de Inteligência no ataque. Caso acerte, causa +1d6 dano extra.' },
+          { nivel: 7, habilidade: 'Execução Sincronizada', descricao: '1 vez por turno. Após realizar um ataque com arma, pode aplicar um Hack Rápido de até 5 RAM com custo de Ação Bônus como parte do ataque. Se o ataque for um Crítico, o Hack custará 0 RAM.' },
+          { nivel: 10, habilidade: 'Vulnerabilidade Explorada', descricao: 'Alvos sob efeitos de Hacks Rápidos ou Invadidos por você: Sofrem -2 de Classe de Armadura (CA).' },
+          { nivel: 15, habilidade: 'Combate Neural Integrado', descricao: 'Durante Overclock ou ao manter Concentração em Hacks Rápidos, pode realizar 1 ataque com arma como Ação Bônus. Seus ataques com armas à distância causam +1d8 dano Psíquico extra durante o Overclock.' }
         ]
       }
     ]
@@ -2223,7 +2136,7 @@ export const ACESSORIOS_ARMAS: readonly AcessorioArma[] = [
     id: 'mira-digital-basica',
     nome: 'Mira Digital Básica',
     categoria: 'mira',
-    descricao: 'HUD simples com cálculo automático de distância e ponto de mira digital.',
+    descricao: 'HUD simples com cálculo de distância.',
     efeito: '+1 nas jogadas de ataque',
     valor: 1200
   },
@@ -2231,7 +2144,7 @@ export const ACESSORIOS_ARMAS: readonly AcessorioArma[] = [
     id: 'mira-balistica-semi',
     nome: 'Mira Balística Semi-Inteligente',
     categoria: 'mira',
-    descricao: 'Compensa automaticamente o movimento do alvo e a vibração da arma durante o disparo.',
+    descricao: 'Compensa movimento do alvo e vibração da arma.',
     efeito: '+2 nas jogadas de ataque',
     valor: 2400
   },
@@ -2239,32 +2152,32 @@ export const ACESSORIOS_ARMAS: readonly AcessorioArma[] = [
     id: 'mira-hawkeye',
     nome: 'Mira Neuro-Assistida "Hawkeye"',
     categoria: 'mira',
-    descricao: 'Sincroniza microajustes de pontaria com os impulsos neurais do usuário em tempo real.',
+    descricao: 'Sincroniza microajustes com impulsos neurais do usuário.',
     efeito: '+3 nas jogadas de ataque',
     valor: 3200
   },
   // ─────────────── 🔋 Módulos de Carregador ───────────────
   {
     id: 'capacidade-i',
-    nome: 'Capacidade Expandida I',
+    nome: 'Módulo de Capacidade Expandida I',
     categoria: 'carregador',
-    descricao: 'Carregador estendido de baixo perfil que aumenta a capacidade de munição da arma.',
+    descricao: 'Aumenta a capacidade de munição da arma.',
     efeito: '+2 disparos antes de uma recarga',
     valor: 800
   },
   {
     id: 'capacidade-ii',
-    nome: 'Capacidade Expandida II',
+    nome: 'Módulo de Capacidade Expandida II',
     categoria: 'carregador',
-    descricao: 'Carregador duplo empilhado que dobra a reserva de munição sem aumentar muito o peso.',
+    descricao: 'Aumenta a capacidade de munição da arma.',
     efeito: '+4 disparos antes de uma recarga',
     valor: 1600
   },
   {
     id: 'capacidade-iii',
-    nome: 'Capacidade Expandida III',
+    nome: 'Módulo de Capacidade Expandida III',
     categoria: 'carregador',
-    descricao: 'Sistema de alimentação contínua com reservatório de alta densidade — o máximo em capacidade.',
+    descricao: 'Aumenta a capacidade de munição da arma.',
     efeito: '+6 disparos antes de uma recarga',
     valor: 2200
   },

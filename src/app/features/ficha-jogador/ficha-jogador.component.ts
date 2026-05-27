@@ -5,27 +5,23 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { firstValueFrom, timeout } from 'rxjs';
 import {
-  AcessorioArma,
-  ACESSORIOS_ARMAS,
-  CYBERPUN2080_ANTECEDENTES,
-  CYBERPUN2080_CITY_FORCES,
-  CYBERPUN2080_CLASSES_FULL_DATA,
-  CYBERPUN2080_ESSENTIAL_QUESTIONS,
-  CYBERPUN2080_MODULES,
-  CYBERPUN2080_ORIGINS,
-  CYBERPUN2080_RULES,
-  CYBERPUN2080_SUBCLASSES_BY_CLASS,
-  EQUIPMENT_CATEGORIES,
-  GRUPOS_IMPLANTE,
-  HACKS_RAPIDOS,
-  IMPLANTES,
-  RPG_SYSTEM_OPTIONS,
-  RPG_SYSTEMS,
-  RpgSystemType,
-  SKILLS,
-  STORAGE_KEYS,
-  TipoImplante,
-  TIPOS_IMPLANTE
+    AcessorioArma,
+    ACESSORIOS_ARMAS,
+    CYBERPUN2080_CITY_FORCES,
+    CYBERPUN2080_ESSENTIAL_QUESTIONS,
+    CYBERPUN2080_MODULES,
+    CYBERPUN2080_ORIGINS,
+    EQUIPMENT_CATEGORIES,
+    GRUPOS_IMPLANTE,
+    HACKS_RAPIDOS,
+    IMPLANTES,
+    RPG_SYSTEM_OPTIONS,
+    RPG_SYSTEMS,
+    RpgSystemType,
+    SKILLS,
+    STORAGE_KEYS,
+    TipoImplante,
+    TIPOS_IMPLANTE
 } from '../../core/constants/rpg.constants';
 import { CyberpunkAntecedenteCatalog, CyberpunkCatalog, CyberpunkClassCatalog, CyberpunkStoreItem, CyberpunkSubclassCatalog, CyberpunkTalentCatalog } from '../../core/models/cyberpunk-catalog.model';
 import { ApiReference, DndClass, DndRace } from '../../core/models/dnd-api.model';
@@ -71,11 +67,11 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   readonly sistemaCyberPun2080 = RPG_SYSTEMS.CYBERPUN2080;
   readonly systemOptions = RPG_SYSTEM_OPTIONS;
   readonly cyberpunPerguntasEssenciais = CYBERPUN2080_ESSENTIAL_QUESTIONS;
-  cyberpunClasses: string[] = [...CYBERPUN2080_RULES.classes];
-  cyberpunSubclassesPorPapel: Record<string, readonly string[]> = { ...CYBERPUN2080_SUBCLASSES_BY_CLASS };
+  cyberpunClasses: string[] = [];
+  cyberpunSubclassesPorPapel: Record<string, readonly string[]> = {};
   readonly cyberpunOrigins = CYBERPUN2080_ORIGINS;
-  cyberpunAntecedentes: CyberpunkAntecedenteCatalog[] = [...CYBERPUN2080_ANTECEDENTES];
-  cyberpunClassesFullData: CyberpunkClassCatalog[] = [...CYBERPUN2080_CLASSES_FULL_DATA];
+  cyberpunAntecedentes: CyberpunkAntecedenteCatalog[] = [];
+  cyberpunClassesFullData: CyberpunkClassCatalog[] = [];
   cyberpunTalentosCatalogo: CyberpunkTalentCatalog[] = [];
   cyberpunHacksCatalogo: CyberpunkStoreItem[] = [];
   cyberpunEquipamentosCatalogo: CyberpunkStoreItem[] = [];
@@ -111,17 +107,8 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
       return '';
     }
 
-    const fallback: Record<string, string> = {
-      'Cromado': 'Especialista em aprimoramento corporal e resistencia.',
-      'Medicânico': 'Suporte medico-tatico e manutencao em combate.',
-      'Piloto': 'Mobilidade extrema, perseguicoes e controle de rota.',
-      'Samurai': 'Execucao cirurgica com foco em precisao e ritmo.',
-      'Solo': 'Veterano de guerra urbana e confronto direto.',
-      'Trilha-Redes': 'Infiltracao digital, sabotagem e dominio da rede.'
-    };
-
     const catalogDescription = (this.catalogoCyberpunk?.classes || []).find((item) => item.nome === classe)?.descricao;
-    return String(catalogDescription || fallback[classe] || '').trim();
+    return String(catalogDescription || '').trim();
   }
 
   get detalhesAntecedenteCyberpunkAtual(): string {
@@ -410,7 +397,8 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   mostrarInfoAntecedente = false;       // toggle no painel de Traços (view)
   mostrarInfoAntecedentModal = false;   // toggle no painel de edição (modal)
   gerenciarAcessoriosAtaque: number | null = null;
-  readonly catalogoAcessorios = ACESSORIOS_ARMAS;
+  gerenciarAcessoriosEquipArma: number | null = null;
+  catalogoAcessorios: AcessorioArma[] = [...ACESSORIOS_ARMAS];
   hacksRapidosCatalogo = HACKS_RAPIDOS;
   verCatalogoHacks = false;
 
@@ -423,7 +411,7 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
 
   get ctMax(): number {
     const papel = this.jogador?.cyberpun2080?.papel || '';
-    const classeData = CYBERPUN2080_CLASSES_FULL_DATA.find(c => c.nome === papel);
+    const classeData = this.cyberpunClassesFullData.find(c => c.nome === papel);
     const ctBase = classeData?.ctBase ?? 10;
     const bonusNiveis = classeData?.ctBonusNiveis ?? [];
     const nivel = Number(this.jogador?.nivel) || 1;
@@ -436,7 +424,7 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
 
   get classeCatalogCompleto(): CyberpunkClassCatalog | null {
     const papel = this.jogador?.cyberpun2080?.papel || '';
-    return CYBERPUN2080_CLASSES_FULL_DATA.find(c => c.nome === papel) ?? null;
+    return this.cyberpunClassesFullData.find(c => c.nome === papel) ?? null;
   }
 
   get subclasseCatalogCompleto(): CyberpunkSubclassCatalog | null {
@@ -600,16 +588,6 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
 
   }
 
-  private aplicarFallbackCatalogoCyberpunk(): void {
-    this.cyberpunClasses = [...CYBERPUN2080_RULES.classes];
-    this.cyberpunSubclassesPorPapel = { ...CYBERPUN2080_SUBCLASSES_BY_CLASS };
-    this.cyberpunAntecedentes = [...CYBERPUN2080_ANTECEDENTES];
-    this.cyberpunClassesFullData = [...CYBERPUN2080_CLASSES_FULL_DATA];
-    this.cyberpunTalentosCatalogo = [];
-    this.cyberpunHacksCatalogo = [];
-    this.cyberpunEquipamentosCatalogo = [];
-  }
-
   private limparCatalogoCyberpunkCarregado(): void {
     this.cyberpunClasses = [];
     this.cyberpunSubclassesPorPapel = {};
@@ -694,7 +672,7 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
 
     this.cyberpunSubclassesPorPapel = Object.keys(subclassesPorClasse).length > 0
       ? subclassesPorClasse
-      : { ...CYBERPUN2080_SUBCLASSES_BY_CLASS };
+      : {};
 
     this.cyberpunClassesFullData = (catalog.classes || [])
       .map((item) => ({
@@ -774,6 +752,18 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
       }))
       .filter((item) => item.nome);
 
+    const backendAcessorios = (catalog.acessoriosArmas || []);
+    if (backendAcessorios.length > 0) {
+      this.catalogoAcessorios = backendAcessorios.map((item) => ({
+        id: String(item.id || item.slug || item.nome).trim(),
+        nome: String(item.nome || '').trim(),
+        categoria: (item.categoria || 'mira') as AcessorioArma['categoria'],
+        descricao: String(item.descricao || '').trim(),
+        efeito: String(item.efeito || '').trim(),
+        valor: Number.isFinite(Number(item.valor)) ? Number(item.valor) : 0
+      })).filter((item) => item.nome);
+    }
+
     this.normalizarSubclasseCyberpunk();
   }
 
@@ -797,8 +787,8 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
       },
       error: (error) => {
         if (this.erroIndisponibilidadeCatalogo(error)) {
-          this.aplicarFallbackCatalogoCyberpunk();
-          this.erroCatalogoCyberpunk = 'Catalogo CyberPunk indisponivel no momento. Usando dados locais.';
+          this.limparCatalogoCyberpunkCarregado();
+          this.erroCatalogoCyberpunk = 'Catalogo CyberPunk indisponivel no momento.';
         } else {
           this.limparCatalogoCyberpunkCarregado();
           this.erroCatalogoCyberpunk = 'Falha ao carregar catalogo remoto por erro de integridade/validacao.';
@@ -1659,6 +1649,38 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
 
   abrirGerenciarAcessorios(index: number) {
     this.gerenciarAcessoriosAtaque = this.gerenciarAcessoriosAtaque === index ? null : index;
+    this.gerenciarAcessoriosEquipArma = null;
+  }
+
+  abrirGerenciarAcessoriosEquip(index: number) {
+    this.gerenciarAcessoriosEquipArma = this.gerenciarAcessoriosEquipArma === index ? null : index;
+    this.gerenciarAcessoriosAtaque = null;
+  }
+
+  temAcessorioEquipCategoria(equip: any, categoria: string): boolean {
+    return Array.isArray(equip?.acessorios) &&
+      equip.acessorios.some((a: any) => a.categoria === categoria);
+  }
+
+  acessorioEquipJaInstalado(equip: any, id: string): boolean {
+    return Array.isArray(equip?.acessorios) &&
+      equip.acessorios.some((a: any) => a.id === id);
+  }
+
+  adicionarAcessorioEquip(equipIndex: number, acessorio: AcessorioArma) {
+    const equip = this.jogador.equipamentos?.['arma']?.[equipIndex];
+    if (!equip) return;
+    if (!Array.isArray(equip.acessorios)) equip.acessorios = [];
+    if (this.temAcessorioEquipCategoria(equip, acessorio.categoria)) return;
+    equip.acessorios.push({ id: acessorio.id, nome: acessorio.nome, categoria: acessorio.categoria, efeito: acessorio.efeito });
+    this.saveToCache();
+  }
+
+  removerAcessorioEquip(equipIndex: number, acessorioId: string) {
+    const equip = this.jogador.equipamentos?.['arma']?.[equipIndex];
+    if (!Array.isArray(equip?.acessorios)) return;
+    equip.acessorios = equip.acessorios.filter((a: any) => a.id !== acessorioId);
+    this.saveToCache();
   }
 
   temAcessorioCategoria(ataque: any, categoria: string): boolean {
@@ -1676,7 +1698,7 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     if (!ataque) return;
     if (!Array.isArray(ataque.acessorios)) ataque.acessorios = [];
     if (this.temAcessorioCategoria(ataque, acessorio.categoria)) return; // regra: 1 por tipo
-    ataque.acessorios.push({ id: acessorio.id, nome: acessorio.nome, categoria: acessorio.categoria });
+    ataque.acessorios.push({ id: acessorio.id, nome: acessorio.nome, categoria: acessorio.categoria, efeito: acessorio.efeito });
     this.saveToCache();
   }
 
@@ -1779,21 +1801,14 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
       return;
     }
 
-    const descricaoPartes: string[] = [];
-    if (item.descricao) {
-      descricaoPartes.push(item.descricao);
-    }
-    if (item.precoEdinhos !== null && Number.isFinite(Number(item.precoEdinhos))) {
-      descricaoPartes.push(`Valor: ${item.precoEdinhos} edinhos`);
-    }
-    if (item.paginaPdf) {
-      descricaoPartes.push(`Fonte: ${item.paginaPdf}`);
-    }
-
     this.fichaService.adicionarEquipamento(this.jogador, this.categoriaEquipamentoLoja, {
       nome: item.nome,
-      descricao: descricaoPartes.join('\n\n'),
-      ca: item.ca ?? undefined
+      descricao: item.descricao ?? undefined,
+      ca: item.ca ?? undefined,
+      cf: item.cf ?? undefined,
+      ct: item.ct ?? undefined,
+      valor: item.precoEdinhos ?? undefined,
+      restrito: item.restrito ?? false
     });
 
     this.itemLojaCyberSelecionado = '';

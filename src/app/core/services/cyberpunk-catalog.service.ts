@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import {
+    AcessorioArmaCatalog,
     CyberpunkAntecedenteCatalog,
     CyberpunkCatalog,
     CyberpunkClassCatalog,
@@ -85,5 +86,13 @@ export class CyberpunkCatalogService {
 
   updateLojaEntity(loja: Omit<CyberpunkStoreCatalog, 'hacksRapidos'>): Observable<{ system: string; version: number; seedVersion?: string; loja: Omit<CyberpunkStoreCatalog, 'hacksRapidos'> }> {
     return this.http.put<{ system: string; version: number; seedVersion?: string; loja: Omit<CyberpunkStoreCatalog, 'hacksRapidos'> }>(`${this.entitiesBaseUrl}/loja`, { loja });
+  }
+
+  getAcessoriosArmasEntity(): Observable<{ system: string; version: number; seedVersion?: string; items: AcessorioArmaCatalog[] }> {
+    return this.http.get<{ system: string; version: number; seedVersion?: string; items: AcessorioArmaCatalog[] }>(`${this.entitiesBaseUrl}/acessorios-armas`);
+  }
+
+  updateAcessoriosArmasEntity(items: AcessorioArmaCatalog[]): Observable<{ system: string; version: number; seedVersion?: string; items: AcessorioArmaCatalog[] }> {
+    return this.http.put<{ system: string; version: number; seedVersion?: string; items: AcessorioArmaCatalog[] }>(`${this.entitiesBaseUrl}/acessorios-armas`, { items });
   }
 }

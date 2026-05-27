@@ -5,20 +5,21 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { finalize, timeout } from 'rxjs';
 import { CYBERPUN2080_ANTECEDENTES, CYBERPUN2080_CLASSES_FULL_DATA, HACKS_RAPIDOS } from '../../../core/constants/rpg.constants';
 import {
-  CyberpunkAntecedenteCatalog,
-  CyberpunkCatalog,
-  CyberpunkClassCatalog,
-  CyberpunkClassProgression,
-  CyberpunkStoreCatalog,
-  CyberpunkStoreItem,
-  CyberpunkSubclassCatalog,
-  CyberpunkTalentCatalog,
-  CyberpunkTalentRow
+    AcessorioArmaCatalog,
+    CyberpunkAntecedenteCatalog,
+    CyberpunkCatalog,
+    CyberpunkClassCatalog,
+    CyberpunkClassProgression,
+    CyberpunkStoreCatalog,
+    CyberpunkStoreItem,
+    CyberpunkSubclassCatalog,
+    CyberpunkTalentCatalog,
+    CyberpunkTalentRow
 } from '../../../core/models/cyberpunk-catalog.model';
 import { CyberpunkCatalogService, CyberpunkSubclassEntity } from '../../../core/services/cyberpunk-catalog.service';
 
 type StoreCategoryKey = keyof CyberpunkStoreCatalog;
-type CatalogPage = 'dashboard' | 'classes' | 'conteudo' | 'loja';
+type CatalogPage = 'dashboard' | 'classes' | 'conteudo' | 'loja' | 'acessorios';
 type LojaAba = 'todas' | StoreCategoryKey;
 
 interface ClassRow {
@@ -72,6 +73,14 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
   mostrarTalentos = false;
   mostrarLoja = false;
   confirmandoPopular = false;
+
+  // ─── Acessórios para Armas ───
+  acessoriosArmas: AcessorioArmaCatalog[] = [];
+  acessoriosFiltrados: AcessorioArmaCatalog[] = [];
+  acessorioNomeFilter = '';
+  salvandoAcessorios = false;
+  novoAcessorio: Partial<AcessorioArmaCatalog> = {};
+  mostrarFormNovoAcessorio = false;
 
   readonly categoriasLoja: Array<{ key: StoreCategoryKey; label: string }> = [
     { key: 'armas', label: 'Armas' },
@@ -214,9 +223,17 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
       const p = data['pagina'] as CatalogPage | undefined;
       if (p) {
         this.paginaAtiva = p;
+        if (p === 'acessorios') {
+          this.carregarAcessoriosArmas();
+        }
       }
     });
-    this.carregar();
+
+    if (this.paginaAtiva === 'acessorios') {
+      this.carregarAcessoriosArmas();
+    } else {
+      this.carregar();
+    }
   }
 
   get resumoCatalogo(): {
@@ -966,5 +983,82 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
     this.garantirIdentificadoresCatalogo();
     this.atualizarListasDerivadas();
     this.sucesso = 'Dados locais carregados. Revise e clique em "Salvar no Banco" para persistir.';
+  }
+
+  // ─────────────────────────────────────────
+  //  Acessórios para Armas
+  // ─────────────────────────────────────────
+
+  carregarAcessoriosArmas(): void {
+    this.loading = true;
+    this.erro = '';
+    this.sucesso = '';
+
+    this.catalogService.getAcessoriosArmasEntity().pipe(
+      timeout(8000),
+      finalize(() => { this.loading = false; })
+    ).subscribe({
+      next: (resp) => {
+        this.acessoriosArmas = resp.items || [];
+        this.atualizarFiltroAcessorios();
+      },
+      error: () => {
+        this.erro = 'Não foi possível carregar os acessórios. Verifique a conexão/backend.';
+      }
+    });
+  }
+
+  salvarAcessoriosArmas(): void {
+    this.salvandoAcessorios = true;
+    this.erro = '';
+    this.sucesso = '';
+
+    this.catalogService.updateAcessoriosArmasEntity(this.acessoriosArmas).pipe(
+      timeout(12000),
+      finalize(() => { this.salvandoAcessorios = false; })
+    ).subscribe({
+      next: (resp) => {
+        this.acessoriosArmas = resp.items || [];
+        this.atualizarFiltroAcessorios();
+        this.sucesso = 'Acessórios salvos com sucesso.';
+      },
+      error: () => {
+        this.erro = 'Falha ao salvar acessórios. Tente novamente.';
+      }
+    });
+  }
+
+  atualizarFiltroAcessorios(): void {
+    const termo = this.acessorioNomeFilter.trim().toLowerCase();
+    this.acessoriosFiltrados = termo
+      ? this.acessoriosArmas.filter((a) =>
+          a.nome.toLowerCase().includes(termo) ||
+          a.categoria.toLowerCase().includes(termo) ||
+          a.descricao.toLowerCase().includes(termo))
+      : [...this.acessoriosArmas];
+  }
+
+  adicionarNovoAcessorio(): void {
+    const novo: AcessorioArmaCatalog = {
+      id: `acessorio-arma:novo-${Date.now()}`,
+      slug: '',
+      source: 'manual',
+      nome: String(this.novoAcessorio.nome || '').trim(),
+      categoria: this.novoAcessorio.categoria || 'mira',
+      descricao: String(this.novoAcessorio.descricao || '').trim(),
+      efeito: String(this.novoAcessorio.efeito || '').trim(),
+      valor: Number.isFinite(Number(this.novoAcessorio.valor)) ? Number(this.novoAcessorio.valor) : 0,
+      paginaPdf: 'Acessórios para Armas Tecnológicas (PDF)'
+    };
+    if (!novo.nome) { return; }
+    this.acessoriosArmas.push(novo);
+    this.novoAcessorio = {};
+    this.mostrarFormNovoAcessorio = false;
+    this.atualizarFiltroAcessorios();
+  }
+
+  removerAcessorioAdmin(index: number): void {
+    this.acessoriosArmas.splice(index, 1);
+    this.atualizarFiltroAcessorios();
   }
 }

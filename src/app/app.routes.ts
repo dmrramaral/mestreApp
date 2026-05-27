@@ -52,6 +52,11 @@ export const routes: Routes = [
       loadComponent: () => import('./features/cyberpunk/catalogo/cyberpunk-catalog-admin.component').then(m => m.CyberpunkCatalogAdminComponent)
     },
     {
+      path: 'cyberpunk-catalogo/acessorios',
+      data: { pagina: 'acessorios' },
+      loadComponent: () => import('./features/cyberpunk/catalogo/cyberpunk-catalog-admin.component').then(m => m.CyberpunkCatalogAdminComponent)
+    },
+    {
       path: 'cyberpunk-loja',
       loadComponent: () => import('./features/cyberpunk/loja/cyberpunk-loja.component').then(m => m.CyberpunkLojaComponent)
     },

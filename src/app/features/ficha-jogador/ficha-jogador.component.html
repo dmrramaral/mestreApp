@@ -1035,6 +1035,10 @@
                 <span class="badge bg-secondary">{{ ataque.dano }}</span>
                 <span class="badge bg-dark ms-1">{{ ataque.tipoDano }}</span>
                 <div class="ms-auto d-flex gap-1">
+                  <button type="button" class="btn btn-sm btn-outline-warning py-0 px-2"
+                    (click)="abrirGerenciarAcessorios(i); $event.preventDefault()" title="Acessórios">
+                    <i class="fas fa-wrench"></i>
+                  </button>
                   <button type="button" class="btn btn-sm btn-outline-secondary py-0 px-2"
                     (click)="toggleEditarAtaque(i); $event.preventDefault()" title="Editar">
                     <i class="fas fa-edit"></i>
@@ -1128,7 +1132,7 @@
                       <ng-container *ngIf="ataque.acessorios && ataque.acessorios.length > 0">
                         <br>
                         <span *ngFor="let ac of ataque.acessorios" class="badge bg-secondary me-1 mt-1"
-                          [title]="ac.nome">
+                          [title]="ac.efeito ? ac.nome + ' — ' + ac.efeito : ac.nome">
                           <i [class]="categoriaAcessorioIcon(ac.categoria)"></i>
                           {{ categoriaAcessorioLabel(ac.categoria) }}
                         </span>
@@ -1283,6 +1287,110 @@
                   <small class="text-muted d-block">{{ ac.descricao }}</small>
                 </div>
                 <span class="badge bg-dark ms-3 text-nowrap">{{ ac.valor | number:'1.0-0' }} ₳</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ═══ Painel de Acessórios (CyberPunk 2080) ═══ -->
+        <div *ngIf="gerenciarAcessoriosAtaque !== null && isCyberPun2080" class="mt-3 rounded p-3"
+          style="background: rgba(0,255,180,0.04); border: 1px solid var(--cyber-accent, #00ffb4)">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h6 class="mb-0" style="color: var(--cyber-accent, #00ffb4)">
+              <i class="fas fa-wrench me-1"></i>
+              Acessórios — {{ jogador.ataques[gerenciarAcessoriosAtaque!]?.nome }}
+            </h6>
+            <button type="button" class="btn btn-sm btn-outline-secondary" (click)="gerenciarAcessoriosAtaque = null">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+
+          <!-- Acessórios instalados -->
+          <div class="mb-3" *ngIf="jogador.ataques[gerenciarAcessoriosAtaque!]?.acessorios?.length > 0">
+            <small class="text-uppercase fw-bold d-block mb-1" style="color: var(--cyber-muted, #8899aa); font-size: 0.7rem; letter-spacing: 0.08em;">Instalados</small>
+            <div class="d-flex flex-wrap gap-2">
+              <span *ngFor="let ac of jogador.ataques[gerenciarAcessoriosAtaque!]?.acessorios"
+                class="d-inline-flex align-items-center gap-1 py-1 px-2 rounded"
+                style="background: rgba(0,255,180,0.1); border: 1px solid var(--cyber-accent, #00ffb4); color: var(--cyber-accent, #00ffb4); font-size: 0.82rem;">
+                <i [class]="categoriaAcessorioIcon(ac.categoria)"></i>
+                {{ ac.nome }}
+                <button type="button" class="btn-close ms-1" style="font-size: 0.5rem; width: 0.7em; height: 0.7em; filter: invert(1) sepia(1) saturate(5) hue-rotate(100deg);"
+                  (click)="removerAcessorioArma(gerenciarAcessoriosAtaque!, ac.id)" title="Remover acessório"></button>
+              </span>
+            </div>
+          </div>
+          <div class="mb-2" *ngIf="!jogador.ataques[gerenciarAcessoriosAtaque!]?.acessorios?.length">
+            <small style="color: var(--cyber-muted, #8899aa)"><i class="fas fa-info-circle me-1"></i>Nenhum acessório instalado.</small>
+          </div>
+
+          <!-- Catálogo: Módulos de Mira -->
+          <div class="mb-3">
+            <small class="text-uppercase fw-bold d-block mb-1" style="color: var(--cyber-muted, #8899aa); font-size: 0.7rem; letter-spacing: 0.08em;">
+              <i class="fas fa-crosshairs me-1" style="color: var(--cyber-accent, #00ffb4)"></i>Módulos de Mira
+              <span *ngIf="temAcessorioCategoria(jogador.ataques[gerenciarAcessoriosAtaque!], 'mira')"
+                class="badge ms-1" style="background: var(--cyber-warn, #ffaa00); color: #000">slot ocupado</span>
+            </small>
+            <div class="d-flex flex-column gap-1">
+              <button *ngFor="let ac of acessoriosPorCategoria('mira')" type="button"
+                class="btn btn-sm text-start d-flex justify-content-between align-items-center"
+                style="background: rgba(0,255,180,0.05); border: 1px solid rgba(0,255,180,0.2); color: inherit;"
+                [class.opacity-50]="acessorioJaInstalado(jogador.ataques[gerenciarAcessoriosAtaque!], ac.id) || temAcessorioCategoria(jogador.ataques[gerenciarAcessoriosAtaque!], 'mira')"
+                [disabled]="acessorioJaInstalado(jogador.ataques[gerenciarAcessoriosAtaque!], ac.id) || temAcessorioCategoria(jogador.ataques[gerenciarAcessoriosAtaque!], 'mira')"
+                (click)="adicionarAcessorioArma(gerenciarAcessoriosAtaque!, ac)">
+                <div>
+                  <strong class="d-block" style="color: var(--cyber-accent, #00ffb4)">{{ ac.nome }}</strong>
+                  <small class="text-success">{{ ac.efeito }}</small>
+                  <small class="d-block" style="color: var(--cyber-muted, #8899aa)">{{ ac.descricao }}</small>
+                </div>
+                <span class="ms-3 text-nowrap" style="color: var(--cyber-accent, #00ffb4); font-size: 0.78rem; white-space: nowrap;">{{ ac.valor | number:'1.0-0' }} Ȼ</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Catálogo: Módulos de Carregador -->
+          <div class="mb-3">
+            <small class="text-uppercase fw-bold d-block mb-1" style="color: var(--cyber-muted, #8899aa); font-size: 0.7rem; letter-spacing: 0.08em;">
+              <i class="fas fa-battery-full me-1" style="color: var(--cyber-accent, #00ffb4)"></i>Módulos de Carregador Estendido
+              <span *ngIf="temAcessorioCategoria(jogador.ataques[gerenciarAcessoriosAtaque!], 'carregador')"
+                class="badge ms-1" style="background: var(--cyber-warn, #ffaa00); color: #000">slot ocupado</span>
+            </small>
+            <div class="d-flex flex-column gap-1">
+              <button *ngFor="let ac of acessoriosPorCategoria('carregador')" type="button"
+                class="btn btn-sm text-start d-flex justify-content-between align-items-center"
+                style="background: rgba(0,255,180,0.05); border: 1px solid rgba(0,255,180,0.2); color: inherit;"
+                [class.opacity-50]="acessorioJaInstalado(jogador.ataques[gerenciarAcessoriosAtaque!], ac.id) || temAcessorioCategoria(jogador.ataques[gerenciarAcessoriosAtaque!], 'carregador')"
+                [disabled]="acessorioJaInstalado(jogador.ataques[gerenciarAcessoriosAtaque!], ac.id) || temAcessorioCategoria(jogador.ataques[gerenciarAcessoriosAtaque!], 'carregador')"
+                (click)="adicionarAcessorioArma(gerenciarAcessoriosAtaque!, ac)">
+                <div>
+                  <strong class="d-block" style="color: var(--cyber-accent, #00ffb4)">{{ ac.nome }}</strong>
+                  <small class="text-success">{{ ac.efeito }}</small>
+                  <small class="d-block" style="color: var(--cyber-muted, #8899aa)">{{ ac.descricao }}</small>
+                </div>
+                <span class="ms-3 text-nowrap" style="color: var(--cyber-accent, #00ffb4); font-size: 0.78rem; white-space: nowrap;">{{ ac.valor | number:'1.0-0' }} Ȼ</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Catálogo: Módulos de Supressor -->
+          <div class="mb-3">
+            <small class="text-uppercase fw-bold d-block mb-1" style="color: var(--cyber-muted, #8899aa); font-size: 0.7rem; letter-spacing: 0.08em;">
+              <i class="fas fa-volume-mute me-1" style="color: var(--cyber-accent, #00ffb4)"></i>Módulos de Supressão Acústica
+              <span *ngIf="temAcessorioCategoria(jogador.ataques[gerenciarAcessoriosAtaque!], 'supressor')"
+                class="badge ms-1" style="background: var(--cyber-warn, #ffaa00); color: #000">slot ocupado</span>
+            </small>
+            <div class="d-flex flex-column gap-1">
+              <button *ngFor="let ac of acessoriosPorCategoria('supressor')" type="button"
+                class="btn btn-sm text-start d-flex justify-content-between align-items-center"
+                style="background: rgba(0,255,180,0.05); border: 1px solid rgba(0,255,180,0.2); color: inherit;"
+                [class.opacity-50]="acessorioJaInstalado(jogador.ataques[gerenciarAcessoriosAtaque!], ac.id) || temAcessorioCategoria(jogador.ataques[gerenciarAcessoriosAtaque!], 'supressor')"
+                [disabled]="acessorioJaInstalado(jogador.ataques[gerenciarAcessoriosAtaque!], ac.id) || temAcessorioCategoria(jogador.ataques[gerenciarAcessoriosAtaque!], 'supressor')"
+                (click)="adicionarAcessorioArma(gerenciarAcessoriosAtaque!, ac)">
+                <div>
+                  <strong class="d-block" style="color: var(--cyber-accent, #00ffb4)">{{ ac.nome }}</strong>
+                  <small class="text-success">{{ ac.efeito }}</small>
+                  <small class="d-block" style="color: var(--cyber-muted, #8899aa)">{{ ac.descricao }}</small>
+                </div>
+                <span class="ms-3 text-nowrap" style="color: var(--cyber-accent, #00ffb4); font-size: 0.78rem; white-space: nowrap;">{{ ac.valor | number:'1.0-0' }} Ȼ</span>
               </button>
             </div>
           </div>
@@ -1833,9 +1941,17 @@
             <div class="equipment-item" *ngFor="let equipamento of jogador.equipamentos[categoria]; let i = index">
               <div *ngIf="!editandoEquipamento[categoria]?.[i]">
                 <div class="equipment-header">
-                  <strong>{{equipamento.nome}}</strong>
-                  <div>
-                    <button type="button" class="btn btn-outline-info btn-sm me-1"
+                  <span class="d-flex align-items-center gap-1 flex-wrap">
+                    <strong>{{equipamento.nome}}</strong>
+                    <span *ngIf="equipamento.restrito" class="badge bg-danger" style="font-size:.65rem">RESTRITO</span>
+                  </span>
+                  <div class="d-flex gap-1">
+                    <button *ngIf="categoria === 'arma' && isCyberPun2080" type="button"
+                      class="btn btn-outline-warning btn-sm"
+                      (click)="abrirGerenciarAcessoriosEquip(i)" title="Acessórios">
+                      <i class="fas fa-wrench"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-info btn-sm"
                       (click)="toggleEditarEquipamento(categoria, i)">
                       <i class="fas fa-edit"></i>
                     </button>
@@ -1845,10 +1961,60 @@
                     </button>
                   </div>
                 </div>
-                <p class="equipment-description">{{equipamento.descricao}}</p>
-                <p *ngIf="equipamento.ca" class="equipment-ca">
-                  <i class="fas fa-shield-alt text-primary me-1"></i><strong>CA:</strong> {{equipamento.ca}}
-                </p>
+                <p class="equipment-description" *ngIf="equipamento.descricao">{{equipamento.descricao}}</p>
+                <div class="d-flex flex-wrap gap-1 mt-1">
+                  <span *ngIf="equipamento.ca" class="badge bg-primary">
+                    <i class="fas fa-shield-alt me-1"></i>CA {{ equipamento.ca }}
+                  </span>
+                  <span *ngIf="equipamento.cf != null" class="badge bg-info text-dark">CF {{ equipamento.cf }}</span>
+                  <span *ngIf="equipamento.ct != null" class="badge bg-success">CT {{ equipamento.ct }}</span>
+                  <span *ngIf="equipamento.valor != null" class="badge bg-warning text-dark">
+                    <i class="fas fa-coins me-1"></i>{{ equipamento.valor }} ₠
+                  </span>
+                </div>
+                <div *ngIf="equipamento.acessorios?.length" class="mt-1">
+                  <div *ngFor="let ac of equipamento.acessorios" class="d-flex align-items-start gap-1 mb-1">
+                    <span class="badge"
+                      [ngClass]="{'bg-info text-dark': ac.categoria === 'mira', 'bg-success': ac.categoria === 'carregador', 'bg-secondary': ac.categoria === 'supressor'}">
+                      <i [class]="categoriaAcessorioIcon(ac.categoria)" class="me-1"></i>{{ ac.nome }}
+                    </span>
+                    <small *ngIf="ac.efeito" class="text-warning fw-semibold" style="font-size:.72rem">{{ ac.efeito }}</small>
+                  </div>
+                </div>
+                <!-- Painel de acessórios de arma (CyberPunk) -->
+                <div *ngIf="categoria === 'arma' && isCyberPun2080 && gerenciarAcessoriosEquipArma === i"
+                  class="mt-2 p-2 border border-warning rounded">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <small class="fw-bold text-warning"><i class="fas fa-wrench me-1"></i>Acessórios da Arma</small>
+                    <button type="button" class="btn btn-sm btn-outline-secondary py-0 px-1"
+                      (click)="abrirGerenciarAcessoriosEquip(i)"><i class="fas fa-times"></i></button>
+                  </div>
+                  <div class="d-flex flex-wrap gap-1 mb-2" *ngIf="equipamento.acessorios?.length">
+                    <span *ngFor="let ac of equipamento.acessorios"
+                      class="badge d-flex align-items-center gap-1"
+                      [ngClass]="{'bg-info text-dark': ac.categoria === 'mira', 'bg-success': ac.categoria === 'carregador', 'bg-secondary': ac.categoria === 'supressor'}">
+                      {{ ac.nome }}
+                      <i class="fas fa-times ms-1" style="cursor:pointer;font-size:.65rem"
+                        (click)="removerAcessorioEquip(i, ac.id)"></i>
+                    </span>
+                  </div>
+                  <div *ngFor="let ac of catalogoAcessorios"
+                    class="d-flex justify-content-between align-items-center py-1 border-bottom border-secondary">
+                    <div>
+                      <small class="fw-semibold">{{ ac.nome }}</small>
+                      <span class="ms-1 badge bg-dark text-light" style="font-size:.65rem">{{ ac.categoria }}</span>
+                      <div><small class="text-muted" style="font-size:.7rem">{{ ac.descricao }}</small></div>
+                      <div><small class="text-warning fw-semibold" style="font-size:.7rem">{{ ac.efeito }}</small></div>
+                    </div>
+                    <button type="button" class="btn btn-sm ms-2"
+                      [class.btn-success]="!acessorioEquipJaInstalado(equipamento, ac.id) && !temAcessorioEquipCategoria(equipamento, ac.categoria)"
+                      [class.btn-secondary]="acessorioEquipJaInstalado(equipamento, ac.id) || temAcessorioEquipCategoria(equipamento, ac.categoria)"
+                      [disabled]="acessorioEquipJaInstalado(equipamento, ac.id) || temAcessorioEquipCategoria(equipamento, ac.categoria)"
+                      (click)="adicionarAcessorioEquip(i, ac)">
+                      <i class="fas" [ngClass]="acessorioEquipJaInstalado(equipamento, ac.id) ? 'fa-check' : 'fa-plus'"></i>
+                    </button>
+                  </div>
+                </div>
               </div>
               <div *ngIf="editandoEquipamento[categoria]?.[i]" class="edit-form">
                 <div class="row g-2">
@@ -1860,11 +2026,33 @@
                     <input type="text" class="form-control" placeholder="Descrição" [(ngModel)]="equipamento.descricao"
                       (change)="saveToCache()">
                   </div>
-                  <div class="col-8">
+                  <div class="col-4">
                     <input type="number" class="form-control" placeholder="CA" [(ngModel)]="equipamento.ca"
                       (change)="saveToCache()">
                   </div>
                   <div class="col-4">
+                    <input type="number" class="form-control" placeholder="CF" [(ngModel)]="equipamento.cf"
+                      (change)="saveToCache()">
+                  </div>
+                  <div class="col-4">
+                    <input type="number" class="form-control" placeholder="CT" [(ngModel)]="equipamento.ct"
+                      (change)="saveToCache()">
+                  </div>
+                  <ng-container *ngIf="isCyberPun2080">
+                    <div class="col-8">
+                      <input type="number" class="form-control" placeholder="Valor (edinhos)"
+                        [(ngModel)]="equipamento.valor" (change)="saveToCache()">
+                    </div>
+                    <div class="col-4 d-flex align-items-center">
+                      <div class="form-check mb-0">
+                        <input type="checkbox" class="form-check-input"
+                          [id]="'restrito-e-' + categoria + i"
+                          [(ngModel)]="equipamento.restrito" (change)="saveToCache()">
+                        <label class="form-check-label small" [for]="'restrito-e-' + categoria + i">Restrito</label>
+                      </div>
+                    </div>
+                  </ng-container>
+                  <div class="col-12">
                     <button type="button" class="btn btn-success btn-sm w-100"
                       (click)="toggleEditarEquipamento(categoria, i)">
                       <i class="fas fa-check"></i> Salvar
