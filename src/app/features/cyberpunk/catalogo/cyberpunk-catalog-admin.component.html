@@ -40,7 +40,7 @@
   </div>
   <div *ngIf="sucesso" class="alert alert-success">{{ sucesso }}</div>
 
-  <div *ngIf="!loading && !catalog && !erro" class="alert alert-secondary d-flex align-items-center justify-content-between gap-2">
+  <div *ngIf="!loading && !catalog && !erro && paginaAtiva !== 'acessorios'" class="alert alert-secondary d-flex align-items-center justify-content-between gap-2">
     <span>Nenhum catalogo encontrado no banco. Clique em <strong>Pre-popular com dados locais</strong> para carregar os dados de <code>rpg.constants.ts</code> e depois salvar.</span>
     <button class="btn btn-sm btn-warning flex-shrink-0" (click)="popularComDadosLocais()">
       <i class="fas fa-database me-1"></i>Pre-popular agora

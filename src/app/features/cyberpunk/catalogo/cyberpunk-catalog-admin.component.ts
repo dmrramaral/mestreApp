@@ -982,7 +982,8 @@ export class CyberpunkCatalogAdminComponent implements OnInit {
     this.garantirLojaNoCatalogo();
     this.garantirIdentificadoresCatalogo();
     this.atualizarListasDerivadas();
-    this.sucesso = 'Dados locais carregados. Revise e clique em "Salvar no Banco" para persistir.';
+    this.sucesso = 'Dados locais carregados. Salvando no banco...';
+    this.salvar();
   }
 
   // ─────────────────────────────────────────
