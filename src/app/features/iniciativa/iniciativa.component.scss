@@ -111,6 +111,8 @@
         &:focus {
             border-color: var(--color-primary);
             box-shadow: 0 0 0 0.2rem rgba(34, 211, 238, 0.2);
+        }
+    }
 
     textarea.form-control {
         resize: vertical;
