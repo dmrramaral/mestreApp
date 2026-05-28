@@ -7,6 +7,8 @@ import { filter, first } from 'rxjs/operators';
  * Serviço para gerenciar atualizações do Progressive Web App
  * Monitora e notifica sobre novas versões disponíveis
  */
+const BANNER_DISMISSED_KEY = 'pwa-install-banner-dismissed';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -24,6 +26,9 @@ export class PwaService {
    * Inicializa o serviço de PWA
    */
   private init(): void {
+    // Registra o evento de instalação o mais cedo possível
+    this.captureInstallEvent();
+
     if (this.swUpdate.isEnabled) {
       // Verifica atualizações quando o app fica estável
       const appIsStable$ = this.appRef.isStable.pipe(first(isStable => isStable === true));
@@ -111,5 +116,25 @@ export class PwaService {
 
     return window.matchMedia('(display-mode: standalone)').matches ||
            (window.navigator as any).standalone === true;
+  }
+
+  /**
+   * Retorna true se deve exibir o banner de instalação
+   */
+  get showBanner(): boolean {
+    if (typeof window === 'undefined') {
+      return false;
+    }
+    const dismissed = localStorage.getItem(BANNER_DISMISSED_KEY);
+    return this.canInstall && !this.isInstalled && !dismissed;
+  }
+
+  /**
+   * Marca o banner como dispensado (não exibe mais nessa sessão/dispositivo)
+   */
+  dismissBanner(): void {
+    if (typeof window !== 'undefined') {
+      localStorage.setItem(BANNER_DISMISSED_KEY, '1');
+    }
   }
 }

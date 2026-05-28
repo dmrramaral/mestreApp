@@ -15,9 +15,7 @@ export class HeaderComponent {
   themeService = inject(ThemeService);
   pwaService = inject(PwaService);
 
-  constructor() {
-    this.pwaService.captureInstallEvent();
-  }
+  constructor() { }
 
   toggleTheme(): void {
     this.themeService.toggleTheme();
