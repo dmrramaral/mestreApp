@@ -872,7 +872,7 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
       this.sincronizandoComServidor = true;
       this.erroSincronizacao = '';
 
-      const lista = await firstValueFrom(this.syncBackendService.listarFichas(this.sessao.usuarioId));
+      const lista = await firstValueFrom(this.syncBackendService.listarFichas());
       const fichas = (lista.records || [])
         .filter((change) => !change.deleted)
         .sort((a, b) => Date.parse(b.updatedAt) - Date.parse(a.updatedAt))
@@ -925,7 +925,7 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
       this.erroSincronizacao = '';
 
       const push = await firstValueFrom(
-        this.syncBackendService.pushMudancas(this.sessao.usuarioId, [this.montarRegistroSync()])
+        this.syncBackendService.pushMudancas([this.montarRegistroSync()])
       );
 
       this.salvarCheckpointSincronizacao(push.serverTimestamp);

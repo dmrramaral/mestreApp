@@ -765,7 +765,7 @@ export const HACKS_RAPIDOS: readonly HackRapido[] = [
     id: 1,
     nome: 'Aceleração Forçada',
     descricao: 'Você interfere diretamente no controle do motor de um veículo ativo.',
-    efeito: 'Concentração: Escolha até o fim do próximo turno: aumentar deslocamento em +50% (veículo sofre 1d8 Elétrico à Integridade Estrutural) ou reduzir pela metade. Em perseguições, o alvo sofre Desvantagem no próximo teste de Pilotagem.',
+    efeito: 'Concentração: Escolha um efeito até o fim do próximo turno: aumentar o deslocamento do veículo em +50% (se escolher aumentar, o veículo sofre 1d8 Inteligência de dano Elétrico à Integridade Estrutural) ou reduzir o deslocamento do veículo pela metade. Em perseguições, o alvo sofre Desvantagem no próximo teste de Pilotagem.',
     ram: 2, recarga: '2 turnos', alvo: 'Veículo ativo', valor: 300,
     dica: 'Ideal para perseguições urbanas e controle de ritmo em fugas.'
   },
@@ -860,7 +860,7 @@ export const HACKS_RAPIDOS: readonly HackRapido[] = [
   {
     id: 13,
     nome: 'Fantasma Digital',
-    descricao: 'Cria loops e atrasos nas imagens de vigilância.',
+    descricao: 'Cria loops e atrasos nas imagens.',
     efeito: 'Concentração: Por 1 minuto, sistemas de vigilância ficam travados, não disparando alarmes.',
     ram: 4, recarga: '4 turnos', alvo: 'Sistema de vigilância', valor: 600,
     dica: 'Essencial para infiltrações silenciosas.'
@@ -868,7 +868,7 @@ export const HACKS_RAPIDOS: readonly HackRapido[] = [
   {
     id: 14,
     nome: 'Formatar Memória',
-    descricao: 'Apaga registros recentes de humanos ou robôs.',
+    descricao: 'Apaga registros recentes.',
     efeito: 'Teste de Sabedoria (CD 8 + mod INT + prof). Falha: o alvo esquece os últimos 10 minutos.',
     ram: 7, recarga: '4 turnos', alvo: 'Humanos ou robôs', valor: 900,
     dica: 'Ideal para fugas limpas.'
@@ -876,7 +876,7 @@ export const HACKS_RAPIDOS: readonly HackRapido[] = [
   {
     id: 15,
     nome: 'Freio Fantasma',
-    descricao: 'Ativa frenagem total abrupta em um veículo.',
+    descricao: 'Ativa frenagem total abrupta.',
     efeito: 'O deslocamento cai para 0. O motorista faz Teste de Pilotagem (CD 8 + mod INT + prof). Falha: passageiros sofrem 1d8 Contundente e Desvantagem em ataques até o próximo turno; veículo sofre 2d6 Contundente.',
     ram: 5, recarga: '6 turnos', alvo: 'Veículo ativo', valor: 700,
     dica: 'Excelente para capturas rápidas.'
@@ -884,15 +884,15 @@ export const HACKS_RAPIDOS: readonly HackRapido[] = [
   {
     id: 16,
     nome: 'Furtar Dados',
-    descricao: 'Acessa dados recentes do sistema neural do alvo.',
-    efeito: 'Obtém memórias ou informações recentes do alvo.',
+    descricao: 'Acessa dados recentes do sistema neural.',
+    efeito: 'Obtém memórias ou informações recentes.',
     ram: 9, recarga: '8 turnos', alvo: 'Humanos com implantes, robôs ou computadores', valor: 1100,
     dica: 'Perfeito para espionagem e chantagem.'
   },
   {
     id: 17,
     nome: 'Loop de Patrulha',
-    descricao: 'Prende o alvo em um padrão de movimento repetitivo.',
+    descricao: 'Prende o alvo em um padrão repetitivo.',
     efeito: 'Concentração: Teste de Inteligência (CD 8 + mod INT + prof). Falha: o alvo repete seu último trajeto por 1 minuto.',
     ram: 3, recarga: '4 turnos', alvo: 'Drones, câmeras ou torretas', valor: 600,
     dica: 'Infiltração sem disparar alarmes.'
@@ -900,7 +900,7 @@ export const HACKS_RAPIDOS: readonly HackRapido[] = [
   {
     id: 18,
     nome: 'Matar Sistema Neural',
-    descricao: 'Desativa violentamente o sistema neural do alvo.',
+    descricao: 'Desativa violentamente o sistema neural.',
     efeito: 'Teste de Constituição (CD 8 + mod INT + prof). Falha: 6d10 dano Psíquico; alvos com até 20 PV morrem instantaneamente. Sucesso: metade do dano e o alvo localiza o usuário.',
     ram: 15, recarga: '10 turnos', alvo: 'Humanos com implantes', valor: 2000,
     dica: 'Último recurso contra alvos de alto valor.'
@@ -916,7 +916,7 @@ export const HACKS_RAPIDOS: readonly HackRapido[] = [
   {
     id: 20,
     nome: 'Paralisar Sistema Nervoso',
-    descricao: 'Trava impulsos neurais ou eletrônicos do alvo.',
+    descricao: 'Trava impulsos neurais ou eletrônicos.',
     efeito: 'Teste de Constituição (CD 8 + mod INT + prof). Falha: alvo fica Atordoado por 2 turnos (pode repetir o teste a cada turno). Sofrer dano encerra a condição.',
     ram: 5, recarga: '5 turnos', alvo: 'Humanos ou androides', valor: 800,
     dica: 'Neutralização limpa.'
@@ -924,7 +924,7 @@ export const HACKS_RAPIDOS: readonly HackRapido[] = [
   {
     id: 21,
     nome: 'Ping',
-    descricao: 'Emite um pulso de rastreamento digital.',
+    descricao: 'Emite um pulso de rastreamento.',
     efeito: 'Revela todos conectados à rede em 35m por 2 minutos ao hackear um ponto de acesso.',
     ram: 1, recarga: '2 turnos', alvo: 'Pontos de Acesso', valor: 200,
     dica: 'Nunca entre no escuro.'
@@ -932,7 +932,7 @@ export const HACKS_RAPIDOS: readonly HackRapido[] = [
   {
     id: 22,
     nome: 'Reforço de Sistemas',
-    descricao: 'Otimiza implantes aliados para combate.',
+    descricao: 'Otimiza implantes aliados.',
     efeito: 'Concentração: +2 CA e +2 CF por 3 turnos.',
     ram: 4, recarga: '4 turnos', alvo: 'Alvos com implantes no cérebro e pernas', valor: 600,
     dica: 'Buff simples e eficiente.'
@@ -940,7 +940,7 @@ export const HACKS_RAPIDOS: readonly HackRapido[] = [
   {
     id: 23,
     nome: 'Reiniciar Sinapses',
-    descricao: 'Provoca sobrecarga sensorial no alvo.',
+    descricao: 'Sobrecarga sensorial.',
     efeito: 'Teste de Constituição (CD 8 + mod INT + prof). Falha: o alvo fica cego por 2 turnos e sofre Desvantagem em ações.',
     ram: 4, recarga: '3 turnos', alvo: 'Humanos ou androides', valor: 550,
     dica: 'Excelente contra atiradores.'
@@ -948,7 +948,7 @@ export const HACKS_RAPIDOS: readonly HackRapido[] = [
   {
     id: 24,
     nome: 'Reflexos Acelerados',
-    descricao: 'Aumenta o tempo de resposta neural de um aliado.',
+    descricao: 'Aumenta tempo de resposta neural.',
     efeito: '+2 Destreza e 1 Ação Bônus extra por 1 turno.',
     ram: 5, recarga: '6 turnos', alvo: 'Alvos com implantes no cérebro', valor: 800,
     dica: 'Perfeito para viradas de combate.'
@@ -964,7 +964,7 @@ export const HACKS_RAPIDOS: readonly HackRapido[] = [
   {
     id: 26,
     nome: 'Sobrecarga do Motor',
-    descricao: 'Coloca o motor de um veículo em estado crítico.',
+    descricao: 'Coloca o motor em estado crítico.',
     efeito: 'Escolha: reduzir –6m de deslocamento por 1 turno ou causar 2d8 Elétrico. Em perseguições, conta como 1 sucesso automático.',
     ram: 6, recarga: '5 turnos', alvo: 'Veículo ativo', valor: 850,
     dica: 'Decide perseguições.'
@@ -972,7 +972,7 @@ export const HACKS_RAPIDOS: readonly HackRapido[] = [
   {
     id: 27,
     nome: 'Suicídio',
-    descricao: 'Implanta um comando autodestrutivo no alvo.',
+    descricao: 'Implanta um comando autodestrutivo.',
     efeito: 'Teste de Sabedoria (CD 8 + mod INT + prof). Falha: o alvo realiza um Ataque Crítico contra si mesmo com sua arma.',
     ram: 15, recarga: '12 turnos', alvo: 'Humanos ou androides armados', valor: 1800,
     dica: 'Devastador. Não tem o que dizer.'
@@ -980,7 +980,7 @@ export const HACKS_RAPIDOS: readonly HackRapido[] = [
   {
     id: 28,
     nome: 'Superaquecer',
-    descricao: 'Eleva drasticamente a temperatura dos implantes do alvo.',
+    descricao: 'Eleva drasticamente a temperatura dos implantes.',
     efeito: '1d4 de dano Térmico por turno durante 2 turnos. Dano aumenta em 1d4 nos níveis 4, 8, 12 e 16.',
     ram: 4, recarga: '3 turnos', alvo: 'Humanos com implantes', valor: 300,
     dica: 'Dano consistente e pressão constante.'

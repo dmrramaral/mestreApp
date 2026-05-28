@@ -1,12 +1,17 @@
 import { HttpErrorResponse, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { catchError, throwError } from 'rxjs';
+import { AuthService } from '../services/auth.service';
 
 /**
  * Interceptor para tratamento global de erros HTTP
  * Captura e formata erros de requisições HTTP
  */
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
+  const router = inject(Router);
+  const authService = inject(AuthService);
+
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
       let errorMessage = 'Ocorreu um erro desconhecido';
@@ -19,7 +24,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         // Erro do lado do servidor
         errorMessage = `Erro ${error.status}: ${error.message}`;
         console.error(`Erro do servidor - Status: ${error.status}, Mensagem: ${error.message}`);
-        
+
         // Tratamento específico por código de status
         switch (error.status) {
           case 400:
@@ -27,6 +32,8 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             break;
           case 401:
             errorMessage = 'Não autorizado';
+            authService.logout();
+            router.navigate(['/auth']);
             break;
           case 403:
             errorMessage = 'Acesso negado';

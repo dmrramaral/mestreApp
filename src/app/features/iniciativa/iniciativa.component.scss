@@ -8,16 +8,16 @@
 .page-header {
     text-align: center;
     margin-bottom: 2rem;
-    
+
     .page-title {
         font-size: 2rem;
         font-weight: 700;
-        color: #2d3748;
+        color: var(--color-text);
         margin-bottom: 0.5rem;
     }
-    
+
     .page-subtitle {
-        color: #6c757d;
+        color: var(--color-text-muted);
         font-size: 1.1rem;
         margin-bottom: 0;
     }
@@ -25,53 +25,53 @@
 
 .add-player-section {
     margin-bottom: 2rem;
-    
+
     .card {
         border: none;
         border-radius: 0.75rem;
-        
+
         .card-body {
             padding: 1.5rem;
         }
     }
-    
+
     .section-title {
         font-weight: 600;
-        color: #2d3748;
+        color: var(--color-text);
         font-size: 1.1rem;
     }
-    
+
     .form-label {
         font-weight: 500;
-        color: #4a5568;
+        color: var(--color-text-muted);
         font-size: 0.9rem;
         margin-bottom: 0.5rem;
     }
-    
+
     .form-control {
         border-radius: 0.5rem;
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--color-border);
         padding: 0.625rem 0.875rem;
-        
+
         &:focus {
-            border-color: #4a5568;
-            box-shadow: 0 0 0 0.2rem rgba(74, 85, 104, 0.25);
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 0.2rem rgba(34, 211, 238, 0.2);
         }
     }
-    
+
     .btn-primary {
-        background-color: #4a5568;
-        border-color: #4a5568;
+        background-color: var(--color-primary);
+        border-color: var(--color-primary);
+        color: var(--color-background);
         border-radius: 0.5rem;
         padding: 0.625rem 1.25rem;
         font-weight: 500;
         transition: all 0.3s ease;
-        
+
         &:hover {
-            background-color: #2d3748;
-            border-color: #2d3748;
+            background-color: var(--color-primary-dark);
+            border-color: var(--color-primary-dark);
             transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(74, 85, 104, 0.3);
         }
     }
 }
@@ -91,13 +91,13 @@
 
     .section-title {
         font-weight: 600;
-        color: #2d3748;
+        color: var(--color-text);
         font-size: 1.1rem;
     }
 
     .form-label {
         font-weight: 500;
-        color: #4a5568;
+        color: var(--color-text-muted);
         font-size: 0.9rem;
         margin-bottom: 0.5rem;
     }
@@ -105,14 +105,12 @@
     .form-control,
     .form-select {
         border-radius: 0.5rem;
-        border: 1px solid #e2e8f0;
+        border: 1px solid var(--color-border);
         padding: 0.625rem 0.875rem;
 
         &:focus {
-            border-color: #4a5568;
-            box-shadow: 0 0 0 0.2rem rgba(74, 85, 104, 0.25);
-        }
-    }
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 0.2rem rgba(34, 211, 238, 0.2);
 
     textarea.form-control {
         resize: vertical;
@@ -128,11 +126,11 @@
 }
 
 .quick-sheet-card {
-    border: 1px solid #e2e8f0;
+    border: 1px solid var(--color-border);
     border-radius: 0.75rem;
     padding: 0.9rem;
     margin-bottom: 0.8rem;
-    background-color: #fff;
+    background-color: var(--color-surface);
 }
 
 .sheet-status {
@@ -140,7 +138,7 @@
     flex-wrap: wrap;
     gap: 0.9rem;
     font-size: 0.9rem;
-    color: #4a5568;
+    color: var(--color-text-muted);
 }
 
 .sheet-block ul {
@@ -151,80 +149,73 @@
     .card {
         border: none;
         border-radius: 0.75rem;
-        
+
         .card-body {
             padding: 1.5rem;
         }
     }
-    
+
     .section-title {
         font-weight: 600;
-        color: #2d3748;
+        color: var(--color-text);
         font-size: 1.1rem;
     }
-    
+
     .table {
         margin-bottom: 0;
-        
+
         thead {
             th {
-                background-color: #2d3748;
-                color: #ffffff;
+                background-color: var(--color-surface-alt);
+                color: var(--color-text);
                 font-weight: 600;
                 text-transform: uppercase;
                 font-size: 0.85rem;
                 letter-spacing: 0.5px;
                 padding: 1rem 0.75rem;
                 border: none;
-                
-                &:first-child {
-                    border-top-left-radius: 0.5rem;
-                }
-                
-                &:last-child {
-                    border-top-right-radius: 0.5rem;
-                }
+
+                &:first-child { border-top-left-radius: 0.5rem; }
+                &:last-child { border-top-right-radius: 0.5rem; }
             }
         }
-        
+
         tbody {
             tr {
                 transition: background-color 0.2s ease;
-                
-                &:hover {
-                    background-color: #f7fafc;
-                }
-                
+
+                &:hover { background-color: var(--color-surface-alt); }
+
                 td {
                     padding: 1rem 0.75rem;
                     vertical-align: middle;
-                    color: #2d3748;
-                    
+                    color: var(--color-text);
+
                     strong {
                         font-size: 1.1rem;
-                        color: #4a5568;
+                        color: var(--color-text);
                     }
                 }
             }
         }
     }
-    
+
     .vida-input {
         width: 80px;
         border-radius: 0.375rem;
-        border: 1px solid #e2e8f0;
-        
+        border: 1px solid var(--color-border);
+
         &:focus {
-            border-color: #4a5568;
-            box-shadow: 0 0 0 0.2rem rgba(74, 85, 104, 0.15);
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 0.2rem rgba(34, 211, 238, 0.2);
         }
     }
-    
+
     .btn-danger {
         border-radius: 0.375rem;
         padding: 0.375rem 0.75rem;
         transition: all 0.2s ease;
-        
+
         &:hover {
             transform: scale(1.1);
             box-shadow: 0 2px 8px rgba(245, 101, 101, 0.4);
@@ -237,17 +228,17 @@
     .iniciativa-container {
         padding: 1rem 0.5rem;
     }
-    
+
     .page-header {
         .page-title {
             font-size: 1.5rem;
         }
-        
+
         .page-subtitle {
             font-size: 0.95rem;
         }
     }
-    
+
     .add-player-section {
         .btn-primary {
             margin-top: 0.5rem;
@@ -262,7 +253,7 @@
         align-items: flex-start;
         flex-direction: column;
     }
-    
+
     .table {
         font-size: 0.9rem;
     }

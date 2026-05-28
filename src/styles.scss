@@ -1,47 +1,57 @@
 /* You can add global styles to this file, and also import other style files */
 
-/* inserir variaveis de cor do bootstrap  para que eu possa alterar as cores*/
+/* Bootstrap SCSS variable overrides — dark RPG theme as global default */
+$primary: #22d3ee;       // Cyberpunk cyan
+$secondary: #a855f7;     // Electric purple
+$success: #4ade80;
+$info: #38bdf8;
+$warning: #fbbf24;
+$danger: #f87171;
+$light: #1e293b;
+$dark: #0a0f1e;
+$white: #e2e8f0;
 
-$primary: #2d3748;
-$secondary: #6c757d;
-$success: #48bb78;
-$info: #4299e1;
-$warning: #ecc94b;
-$danger: #f56565;
-$light: #f8f9fa;
-$dark: #2d3748;
-$white: #fff;
-
-// CSS Variables for theming
+// CSS Variables for theming — Dark RPG as default
 :root {
-  // Light theme colors (default)
-  --color-primary: #667eea;
-  --color-primary-light: #7c8fef;
-  --color-primary-dark: #5568d3;
-  --color-secondary: #764ba2;
-  --color-background: #f5f7fa;
-  --color-background-alt: #e9ecef;
-  --color-surface: #ffffff;
-  --color-surface-alt: #f8f9fa;
-  --color-text: #1a202c;
-  --color-text-muted: #718096;
-  --color-border: #e2e8f0;
-  --color-success: #48bb78;
-  --color-warning: #ecc94b;
-  --color-danger: #f56565;
-  --color-info: #4299e1;
-  
-  // Shadows
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  // Dark RPG base palette
+  --color-primary: #22d3ee;
+  --color-primary-light: #67e8f9;
+  --color-primary-dark: #06b6d4;
+  --color-secondary: #a855f7;
+  --color-background: #0d1117;
+  --color-background-alt: #0a0f1e;
+  --color-surface: #141b2d;
+  --color-surface-alt: #1e293b;
+  --color-text: #e2e8f0;
+  --color-text-muted: #94a3b8;
+  --color-border: #1e3a5f;
+  --color-success: #4ade80;
+  --color-warning: #fbbf24;
+  --color-danger: #f87171;
+  --color-info: #38bdf8;
+
+  // Cyberpunk accent vars
+  --cp-cyan: #22d3ee;
+  --cp-purple: #a855f7;
+  --cp-magenta: #ec4899;
+  --cp-gold: #fbbf24;
+  --cp-bg-deep: #0a0f1e;
+  --cp-surface: #141b2d;
+  --cp-surface-2: #1e293b;
+  --cp-border: #1e3a5f;
+  --cp-glow-cyan: 0 0 12px rgba(34, 211, 238, 0.4);
+  --cp-glow-purple: 0 0 12px rgba(168, 85, 247, 0.4);
+
+  // Shadows (dark)
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
 }
 
 :host {
   display: block !important;
   overflow-x: hidden !important;
-  
 }
 
 * {
@@ -63,8 +73,8 @@ body {
   position: relative;
   transition: background 0.3s ease, color 0.3s ease;
   color: var(--color-text);
-  
-  // Subtle RPG-themed pattern overlay
+
+  // Cyberpunk scanline overlay
   &::before {
     content: '';
     position: fixed;
@@ -72,28 +82,36 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0.03;
+    opacity: 0.02;
     z-index: -1;
-    background-image: 
-      repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(102, 126, 234, 0.1) 35px, rgba(102, 126, 234, 0.1) 70px),
-      repeating-linear-gradient(-45deg, transparent, transparent 35px, rgba(118, 75, 162, 0.1) 35px, rgba(118, 75, 162, 0.1) 70px);
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(34, 211, 238, 0.03) 2px, rgba(34, 211, 238, 0.03) 4px);
     pointer-events: none;
-    transition: opacity 0.3s ease;
   }
 }
 
-// Light theme styles (default)
-// Note: CSS variables are inherited from :root, no need to redefine
+// Light theme override (opt-in)
 body.light-theme {
-  background: linear-gradient(135deg, var(--color-background) 0%, var(--color-background-alt) 100%) !important;
-  color: var(--color-text);
-  
-  &::before {
-    opacity: 0.03;
-  }
+  --color-primary: #667eea;
+  --color-primary-light: #7c8fef;
+  --color-primary-dark: #5568d3;
+  --color-secondary: #764ba2;
+  --color-background: #f5f7fa;
+  --color-background-alt: #e9ecef;
+  --color-surface: #ffffff;
+  --color-surface-alt: #f8f9fa;
+  --color-text: #1a202c;
+  --color-text-muted: #718096;
+  --color-border: #e2e8f0;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%) !important;
+  color: #1a202c;
 }
 
-// Dark theme styles
+// Dark theme alias (now default — kept for explicit class usage)
 body.dark-theme {
   --color-primary: #fbbf24;
   --color-primary-light: #fcd34d;
@@ -106,89 +124,181 @@ body.dark-theme {
   --color-text: #e2e8f0;
   --color-text-muted: #a0aec0;
   --color-border: #4a5568;
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.3), 0 4px 6px -2px rgba(0, 0, 0, 0.2);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 10px 10px -5px rgba(0, 0, 0, 0.2);
-  
+
   background: linear-gradient(135deg, #1a202c 0%, #0f1419 100%) !important;
   color: #e2e8f0;
-  
-  &::before {
-    opacity: 0.05;
-    background-image: 
-      repeating-linear-gradient(45deg, transparent, transparent 35px, rgba(251, 191, 36, 0.05) 35px, rgba(251, 191, 36, 0.05) 70px),
-      repeating-linear-gradient(-45deg, transparent, transparent 35px, rgba(251, 191, 36, 0.05) 35px, rgba(251, 191, 36, 0.05) 70px);
-  }
-  
-  // Scrollbar for dark theme
-  ::-webkit-scrollbar-track {
-    background: #2d3748;
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-    
-    &:hover {
-      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-    }
-  }
-  
-  // Dark theme card adjustments
-  .card {
+}
+
+// Global card, form, modal adjustments for dark default
+.card {
+  background-color: var(--color-surface) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text) !important;
+}
+
+.card-header {
+  background-color: var(--color-surface-alt) !important;
+  border-bottom-color: var(--color-border) !important;
+  color: var(--color-text) !important;
+}
+
+.modal-content {
+  background-color: var(--color-surface) !important;
+  color: var(--color-text) !important;
+}
+
+.form-control,
+.form-select {
+  background-color: var(--color-surface-alt) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text) !important;
+
+  &:focus {
     background-color: var(--color-surface) !important;
+    border-color: var(--color-primary) !important;
+    color: var(--color-text) !important;
+    box-shadow: 0 0 0 0.2rem rgba(34, 211, 238, 0.2) !important;
+  }
+
+  &::placeholder {
+    color: var(--color-text-muted) !important;
+  }
+}
+
+.form-check-input {
+  background-color: var(--color-surface-alt) !important;
+  border-color: var(--color-border) !important;
+}
+
+.text-muted {
+  color: var(--color-text-muted) !important;
+}
+
+.border {
+  border-color: var(--color-border) !important;
+}
+
+code {
+  color: var(--cp-cyan);
+  background: var(--color-surface-alt);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+.table {
+  color: var(--color-text) !important;
+  th, td {
     border-color: var(--color-border) !important;
-    color: var(--color-text) !important;
   }
-  
-  .modal-content {
-    background-color: var(--color-surface) !important;
-    color: var(--color-text) !important;
-  }
-  
-  .form-control,
-  .form-select {
+}
+
+.offcanvas {
+  background-color: var(--color-surface) !important;
+  color: var(--color-text) !important;
+}
+
+.btn-light {
+  background-color: var(--color-surface) !important;
+  border-color: var(--color-border) !important;
+  color: var(--color-text) !important;
+
+  &:hover {
     background-color: var(--color-surface-alt) !important;
-    border-color: var(--color-border) !important;
-    color: var(--color-text) !important;
-    
-    &:focus {
-      background-color: var(--color-surface) !important;
-      border-color: var(--color-primary) !important;
-      color: var(--color-text) !important;
-    }
   }
-  
-  .btn-light {
-    background-color: var(--color-surface) !important;
-    border-color: var(--color-border) !important;
-    color: var(--color-text) !important;
-    
+}
+
+.alert {
+  border-color: var(--color-border);
+}
+
+// Accordion dark theme
+.accordion-item {
+  background-color: var(--color-surface) !important;
+  border-color: var(--color-border) !important;
+}
+
+.accordion-button {
+  background-color: var(--color-surface-alt) !important;
+  color: var(--color-text) !important;
+
+  &:not(.collapsed) {
+    background-color: var(--cp-bg-deep) !important;
+    color: var(--cp-cyan) !important;
+    box-shadow: inset 0 -1px 0 var(--color-border) !important;
+  }
+
+  &::after {
+    filter: invert(1) brightness(2);
+  }
+}
+
+.accordion-body {
+  background-color: var(--color-surface) !important;
+  color: var(--color-text) !important;
+}
+
+// Nav tabs dark theme
+.nav-tabs {
+  border-bottom-color: var(--color-border) !important;
+
+  .nav-link {
+    color: var(--color-text-muted) !important;
+    border-color: transparent !important;
+
     &:hover {
-      background-color: var(--color-surface-alt) !important;
+      color: var(--cp-cyan) !important;
+      border-color: var(--color-border) var(--color-border) transparent !important;
+    }
+
+    &.active {
+      background-color: var(--color-surface) !important;
+      border-color: var(--color-border) var(--color-border) var(--color-surface) !important;
+      color: var(--cp-cyan) !important;
     }
   }
-  
-  .table {
-    color: var(--color-text) !important;
-    
-    th, td {
-      border-color: var(--color-border) !important;
+}
+
+.nav-pills {
+  .nav-link {
+    color: var(--color-text-muted) !important;
+
+    &.active {
+      background-color: var(--cp-cyan) !important;
+      color: var(--cp-bg-deep) !important;
+    }
+
+    &:hover:not(.active) {
+      color: var(--cp-cyan) !important;
     }
   }
-  
-  .offcanvas {
-    background-color: var(--color-surface) !important;
-    color: var(--color-text) !important;
+}
+
+// Custom scrollbar styling (Webkit browsers)
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-background-alt);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--cp-cyan) 0%, var(--cp-purple) 100%);
+  border-radius: 10px;
+
+  &:hover {
+    background: linear-gradient(135deg, var(--cp-purple) 0%, var(--cp-magenta) 100%);
   }
 }
 
 // Improve accessibility for links
 a {
   text-decoration: none;
-  
+
   &:focus {
-    outline: 2px solid #4299e1;
+    outline: 2px solid var(--cp-cyan);
     outline-offset: 2px;
   }
 }
@@ -199,26 +309,6 @@ img {
   height: auto;
 }
 
-// Custom scrollbar styling (Webkit browsers)
-::-webkit-scrollbar {
-  width: 12px;
-  height: 12px;
-}
-
-::-webkit-scrollbar-track {
-  background: #f1f1f1;
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 10px;
-  
-  &:hover {
-    background: linear-gradient(135deg, #5568d3 0%, #653a8b 100%);
-  }
-}
-
 // Smooth scroll behavior
 html {
   scroll-behavior: smooth;
@@ -226,21 +316,13 @@ html {
 
 // Focus styles for better accessibility
 *:focus-visible {
-  outline: 3px solid rgba(102, 126, 234, 0.5);
+  outline: 2px solid var(--cp-cyan);
   outline-offset: 2px;
 }
 
 // Placeholder styling
 input::placeholder,
-textarea::placeholder,
-select::placeholder {
-  color: #c5c5c5 !important;
-  opacity: 1;
-}
-
-input::-moz-placeholder,
-textarea::-moz-placeholder,
-select::-moz-placeholder {
-  color: #c5c5c5 !important;
+textarea::placeholder {
+  color: var(--color-text-muted) !important;
   opacity: 1;
 }

@@ -18,10 +18,10 @@
     background: rgba(0, 0, 0, 0.2);
     padding: 15px 20px;
     color: white;
-    
+
     h5 {
         font-weight: 600;
-        
+
         i {
             animation: pulse 2s ease-in-out infinite;
         }
@@ -30,30 +30,30 @@
 
 .filter-body {
     padding: 20px;
-    background: white;
-    
+    background: var(--color-surface);
+
     label {
         font-weight: 600;
         font-size: 0.875rem;
-        color: #4a5568;
+        color: var(--color-text-muted);
         margin-bottom: 0.5rem;
-        
+
         i {
-            color: #667eea;
+            color: var(--color-primary);
         }
     }
-    
+
     .form-select {
         border: 2px solid #e2e8f0;
         border-radius: 8px;
         transition: all 0.3s ease;
-        
+
         &:focus {
             border-color: #667eea;
             box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
     }
-    
+
     .btn-primary {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         border: none;
@@ -61,13 +61,13 @@
         padding: 10px;
         font-weight: 600;
         transition: transform 0.2s ease, box-shadow 0.2s ease;
-        
+
         &:hover {
             transform: translateY(-2px);
             box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
         }
     }
-    
+
     .btn-outline-secondary {
         border: 2px solid #cbd5e0;
         color: #4a5568;
@@ -75,7 +75,7 @@
         padding: 10px;
         font-weight: 600;
         transition: all 0.2s ease;
-        
+
         &:hover {
             background: #f7fafc;
             border-color: #a0aec0;
@@ -96,22 +96,22 @@
     border-radius: 12px;
     overflow: hidden;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    
+
     &:hover {
         transform: translateY(-5px);
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     }
-    
+
     .card-header {
         padding: 15px;
         border-bottom: none;
-        
+
         h5 {
             font-size: 1.1rem;
             font-weight: 600;
         }
     }
-    
+
     .card-img-top {
         max-height: 250px;
         object-fit: cover;
@@ -128,30 +128,30 @@
 
 .combat-stats {
     .stat-box {
-        background: #f7fafc;
+        background: var(--color-surface-alt);
         border-radius: 8px;
         padding: 12px 8px;
         transition: background 0.2s ease;
-        
+
         &:hover {
-            background: #edf2f7;
+            background: var(--color-surface);
         }
-        
+
         i {
             font-size: 1.2rem;
             margin-bottom: 5px;
         }
-        
+
         .stat-value {
             font-size: 1.5rem;
             font-weight: 700;
-            color: #2d3748;
+            color: var(--color-text);
             line-height: 1;
         }
-        
+
         .stat-label {
             font-size: 0.75rem;
-            color: #718096;
+            color: var(--color-text-muted);
             margin-top: 2px;
             font-weight: 600;
         }
@@ -162,12 +162,12 @@
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
-    
+
     .btn {
         border-radius: 6px;
         font-size: 0.875rem;
         padding: 6px 12px;
-        
+
         i {
             font-size: 0.8rem;
         }
@@ -175,18 +175,18 @@
 }
 
 .other-info {
-    background: #f7fafc;
+    background: var(--color-surface-alt);
     padding: 15px;
     border-radius: 8px;
-    
+
     h6 {
         font-weight: 600;
-        color: #2d3748;
+        color: var(--color-text);
     }
-    
+
     p {
         font-size: 0.875rem;
-        color: #4a5568;
+        color: var(--color-text-muted);
     }
 }
 
@@ -204,11 +204,11 @@
         padding: 10px;
         margin-top: 70px;
     }
-    
+
     .monsters-grid {
         grid-template-columns: 1fr;
     }
-    
+
     .filter-body {
         padding: 15px;
     }

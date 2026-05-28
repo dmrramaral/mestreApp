@@ -1,25 +1,52 @@
-<div class="container py-4 catalog-admin">
-  <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+<div class="container-fluid py-4 catalog-admin">
+  <div class="d-flex justify-content-between align-items-start mb-4 flex-wrap gap-3">
     <div>
-      <h2 class="mb-1">Catalogo CyberPunk 2080</h2>
-      <p class="text-muted mb-0">Dashboard, filtros e edicao por paginas para todos os dados usados na ficha.</p>
+      <h2 class="mb-1 fw-bold" style="color: var(--cp-cyan);">
+        <i class="fas fa-microchip me-2"></i>Catalogo CyberPunk 2080
+      </h2>
+      <p class="text-muted mb-0 small">Dashboard, filtros e edicao por paginas para todos os dados usados na ficha.</p>
     </div>
     <div class="d-flex gap-2 flex-wrap justify-content-end">
-      <button class="btn btn-outline-secondary" (click)="carregar()" [disabled]="loading || saving">Recarregar</button>
-      <button class="btn btn-outline-warning" (click)="confirmandoPopular = !confirmandoPopular" [disabled]="loading || saving">
-        <i class="fas fa-database me-1"></i>Pre-popular com dados locais
+      <button class="btn btn-outline-secondary btn-sm" (click)="carregar()" [disabled]="loading || saving">
+        <i class="fas fa-sync me-1"></i>Recarregar
       </button>
-      <button class="btn btn-primary" (click)="salvar()" [disabled]="loading || saving || !catalog">{{ saving ? 'Salvando...' : 'Salvar no Banco' }}</button>
+      <button class="btn btn-outline-warning btn-sm" (click)="confirmandoPopular = !confirmandoPopular" [disabled]="loading || saving">
+        <i class="fas fa-database me-1"></i>Pre-popular
+      </button>
+      <button class="btn btn-sm" style="background: var(--cp-cyan); color: var(--cp-bg-deep); font-weight: 700;"
+              (click)="salvar()" [disabled]="loading || saving || !catalog">
+        <i class="fas fa-save me-1"></i>{{ saving ? 'Salvando...' : 'Salvar no Banco' }}
+      </button>
     </div>
   </div>
 
-  <nav class="catalog-nav mb-4">
-    <a class="btn btn-outline-primary" routerLink="/cyberpunk-catalogo/dashboard" routerLinkActive="active">Dashboard</a>
-    <a class="btn btn-outline-primary" routerLink="/cyberpunk-catalogo/classes" routerLinkActive="active">Classes e Subclasses</a>
-    <a class="btn btn-outline-primary" routerLink="/cyberpunk-catalogo/conteudo" routerLinkActive="active">Antecedentes e Talentos</a>
-    <a class="btn btn-outline-primary" routerLink="/cyberpunk-catalogo/loja" routerLinkActive="active">Loja e Hacks</a>
-    <a class="btn btn-outline-primary" routerLink="/cyberpunk-catalogo/acessorios" routerLinkActive="active">Acessórios para Armas</a>
-  </nav>
+  <ul class="nav nav-tabs mb-4">
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/cyberpunk-catalogo/dashboard" routerLinkActive="active">
+        <i class="fas fa-gauge-high me-1"></i>Dashboard
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/cyberpunk-catalogo/classes" routerLinkActive="active">
+        <i class="fas fa-users me-1"></i>Classes
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/cyberpunk-catalogo/conteudo" routerLinkActive="active">
+        <i class="fas fa-scroll me-1"></i>Antecedentes e Talentos
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/cyberpunk-catalogo/loja" routerLinkActive="active">
+        <i class="fas fa-store me-1"></i>Loja e Hacks
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/cyberpunk-catalogo/acessorios" routerLinkActive="active">
+        <i class="fas fa-crosshairs me-1"></i>Acessórios
+      </a>
+    </li>
+  </ul>
 
   <div *ngIf="confirmandoPopular" class="alert alert-warning d-flex align-items-center justify-content-between gap-2 mb-3">
     <span><strong>Atencao:</strong> Isso substitui alteracoes nao salvas pelo conteudo de <code>rpg.constants.ts</code>. Deseja continuar?</span>
@@ -29,7 +56,7 @@
     </div>
   </div>
 
-  <div *ngIf="loading" class="alert alert-info">Carregando catalogo...</div>
+  <div *ngIf="loading" class="alert alert-info"><i class="fas fa-spinner fa-spin me-2"></i>Carregando catalogo...</div>
   <div *ngIf="erro" class="alert alert-danger">
     <div class="d-flex align-items-start justify-content-between gap-2">
       <span>{{ erro }}</span>
@@ -38,92 +65,61 @@
       </button>
     </div>
   </div>
-  <div *ngIf="sucesso" class="alert alert-success">{{ sucesso }}</div>
+  <div *ngIf="sucesso" class="alert alert-success"><i class="fas fa-check me-1"></i>{{ sucesso }}</div>
 
   <div *ngIf="!loading && !catalog && !erro && paginaAtiva !== 'acessorios'" class="alert alert-secondary d-flex align-items-center justify-content-between gap-2">
-    <span>Nenhum catalogo encontrado no banco. Clique em <strong>Pre-popular com dados locais</strong> para carregar os dados de <code>rpg.constants.ts</code> e depois salvar.</span>
+    <span>Nenhum catalogo encontrado. Clique em <strong>Pre-popular</strong> para carregar dados de <code>rpg.constants.ts</code>.</span>
     <button class="btn btn-sm btn-warning flex-shrink-0" (click)="popularComDadosLocais()">
       <i class="fas fa-database me-1"></i>Pre-popular agora
     </button>
   </div>
 
   <ng-container *ngIf="catalog">
-    <section *ngIf="paginaAtiva === 'dashboard'" class="dashboard-grid mb-4">
-      <article class="metric-card">
-        <small>Classes</small>
-        <strong>{{ resumoCatalogo.classes }}</strong>
-      </article>
-      <article class="metric-card">
-        <small>Subclasses</small>
-        <strong>{{ resumoCatalogo.subclasses }}</strong>
-      </article>
-      <article class="metric-card">
-        <small>Progressoes de Classe</small>
-        <strong>{{ resumoCatalogo.progressaoClasses }}</strong>
-      </article>
-      <article class="metric-card">
-        <small>Progressoes de Subclasse</small>
-        <strong>{{ resumoCatalogo.progressaoSubclasses }}</strong>
-      </article>
-      <article class="metric-card">
-        <small>Antecedentes</small>
-        <strong>{{ resumoCatalogo.antecedentes }}</strong>
-      </article>
-      <article class="metric-card">
-        <small>Talentos</small>
-        <strong>{{ resumoCatalogo.talentos }}</strong>
-      </article>
-      <article class="metric-card">
-        <small>Talentos c/ Classe</small>
-        <strong>{{ resumoCatalogo.talentosComClasse }}</strong>
-      </article>
-      <article class="metric-card">
-        <small>Itens de Loja</small>
-        <strong>{{ resumoCatalogo.itensLoja }}</strong>
-      </article>
-      <article class="metric-card">
-        <small>Hacks Rapidos</small>
-        <strong>{{ resumoCatalogo.hacks }}</strong>
-      </article>
-      <article class="metric-card">
-        <small>Armas</small>
-        <strong>{{ resumoCatalogo.armas }}</strong>
-      </article>
-      <article class="metric-card metric-card-danger">
-        <small>Entradas com Ataque/Golpe</small>
-        <strong>{{ resumoCatalogo.ataquesCatalogados }}</strong>
-      </article>
-    </section>
+    <ng-container *ngIf="paginaAtiva === 'dashboard'">
+      <div class="row row-cols-2 row-cols-md-3 row-cols-xl-4 g-3 mb-4">
+        <div class="col"><div class="metric-card"><small><i class="fas fa-users metric-icon me-1"></i>Classes</small><strong>{{ resumoCatalogo.classes }}</strong></div></div>
+        <div class="col"><div class="metric-card"><small><i class="fas fa-sitemap metric-icon me-1"></i>Subclasses</small><strong>{{ resumoCatalogo.subclasses }}</strong></div></div>
+        <div class="col"><div class="metric-card"><small><i class="fas fa-chart-line metric-icon me-1"></i>Progressoes Classe</small><strong>{{ resumoCatalogo.progressaoClasses }}</strong></div></div>
+        <div class="col"><div class="metric-card"><small><i class="fas fa-layer-group metric-icon me-1"></i>Progressoes Subclasse</small><strong>{{ resumoCatalogo.progressaoSubclasses }}</strong></div></div>
+        <div class="col"><div class="metric-card"><small><i class="fas fa-id-card metric-icon me-1"></i>Antecedentes</small><strong>{{ resumoCatalogo.antecedentes }}</strong></div></div>
+        <div class="col"><div class="metric-card"><small><i class="fas fa-star metric-icon me-1"></i>Talentos</small><strong>{{ resumoCatalogo.talentos }}</strong></div></div>
+        <div class="col"><div class="metric-card"><small><i class="fas fa-link metric-icon me-1"></i>Talentos c/ Classe</small><strong>{{ resumoCatalogo.talentosComClasse }}</strong></div></div>
+        <div class="col"><div class="metric-card"><small><i class="fas fa-shopping-cart metric-icon me-1"></i>Itens de Loja</small><strong>{{ resumoCatalogo.itensLoja }}</strong></div></div>
+        <div class="col"><div class="metric-card"><small><i class="fas fa-bolt metric-icon me-1"></i>Hacks Rapidos</small><strong>{{ resumoCatalogo.hacks }}</strong></div></div>
+        <div class="col"><div class="metric-card"><small><i class="fas fa-gun metric-icon me-1"></i>Armas</small><strong>{{ resumoCatalogo.armas }}</strong></div></div>
+        <div class="col"><div class="metric-card metric-card-danger"><small><i class="fas fa-crosshairs metric-icon me-1"></i>Ataques/Golpes</small><strong>{{ resumoCatalogo.ataquesCatalogados }}</strong></div></div>
+      </div>
 
-    <div *ngIf="paginaAtiva === 'dashboard'" class="card mb-4">
-      <div class="card-header"><strong>Cobertura dos Dados da Ficha</strong></div>
-      <div class="card-body">
-        <div class="row g-3">
-          <div class="col-md-6">
-            <div class="coverage-box">
-              <h6>Estrutura de Personagem</h6>
-              <ul>
-                <li>Classes + Subclasses: {{ resumoCatalogo.classes + resumoCatalogo.subclasses }}</li>
-                <li>Progressao total: {{ resumoCatalogo.progressaoClasses + resumoCatalogo.progressaoSubclasses }}</li>
-                <li>Antecedentes: {{ resumoCatalogo.antecedentes }}</li>
-                <li>Talentos: {{ resumoCatalogo.talentos }}</li>
-              </ul>
+      <div class="card mb-4">
+        <div class="card-header card-header-cp"><i class="fas fa-chart-pie me-2"></i><strong>Cobertura dos Dados da Ficha</strong></div>
+        <div class="card-body">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <div class="coverage-box">
+                <h6><i class="fas fa-person-walking me-1"></i>Estrutura de Personagem</h6>
+                <ul>
+                  <li>Classes + Subclasses: {{ resumoCatalogo.classes + resumoCatalogo.subclasses }}</li>
+                  <li>Progressao total: {{ resumoCatalogo.progressaoClasses + resumoCatalogo.progressaoSubclasses }}</li>
+                  <li>Antecedentes: {{ resumoCatalogo.antecedentes }}</li>
+                  <li>Talentos: {{ resumoCatalogo.talentos }}</li>
+                </ul>
+              </div>
             </div>
-          </div>
-          <div class="col-md-6">
-            <div class="coverage-box">
-              <h6>Combate e Economia</h6>
-              <ul>
-                <li>Entradas de ataque/golpe: {{ resumoCatalogo.ataquesCatalogados }}</li>
-                <li>Itens totais da loja: {{ resumoCatalogo.itensLoja }}</li>
-                <li>Armas: {{ resumoCatalogo.armas }}</li>
-                <li>Hacks rapidos: {{ resumoCatalogo.hacks }}</li>
-              </ul>
+            <div class="col-md-6">
+              <div class="coverage-box">
+                <h6><i class="fas fa-sword me-1"></i>Combate e Economia</h6>
+                <ul>
+                  <li>Entradas de ataque/golpe: {{ resumoCatalogo.ataquesCatalogados }}</li>
+                  <li>Itens totais da loja: {{ resumoCatalogo.itensLoja }}</li>
+                  <li>Armas: {{ resumoCatalogo.armas }}</li>
+                  <li>Hacks rapidos: {{ resumoCatalogo.hacks }}</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </ng-container>
 
     <div class="card mb-4" *ngIf="paginaAtiva === 'classes'">
       <div class="card-header d-flex justify-content-between align-items-center">
@@ -142,18 +138,24 @@
           </div>
         </div>
 
-        <div class="text-muted small mb-2">Resultados: {{ classesFiltradas.length }}</div>
+        <p class="text-muted small mb-3">Resultados: {{ classesFiltradas.length }}</p>
 
-        <div class="class-block border rounded p-3 mb-3" *ngFor="let classRow of classesFiltradas; let i = index; trackBy: trackByClassIndex">
-          <details [open]="i === 0" class="catalog-details">
-            <summary>
-              <span>Classe #{{ classRow.index + 1 }} - {{ classRow.classe.nome || 'Sem nome' }}</span>
-            </summary>
-            <div class="entity-meta small text-muted">
+        <div class="accordion" id="accordion-classes">
+        <div class="accordion-item" *ngFor="let classRow of classesFiltradas; let i = index; trackBy: trackByClassIndex">
+          <h2 class="accordion-header" [id]="'heading-class-' + i">
+            <button class="accordion-button" [class.collapsed]="i !== 0" type="button"
+                    data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse-class-' + i"
+                    [attr.aria-expanded]="i === 0 ? 'true' : 'false'" [attr.aria-controls]="'collapse-class-' + i">
+              <span class="badge-index">{{ classRow.index + 1 }}</span>{{ classRow.classe.nome || 'Sem nome' }}
+            </button>
+          </h2>
+          <div [id]="'collapse-class-' + i" class="accordion-collapse collapse" [class.show]="i === 0" [attr.aria-labelledby]="'heading-class-' + i">
+          <div class="accordion-body">
+            <div class="entity-meta">
               ID: {{ classRow.classe.id || 'gerado ao salvar' }} | Slug: {{ classRow.classe.slug || 'pendente' }}
             </div>
-            <div class="details-actions">
-              <button type="button" class="btn btn-sm btn-outline-danger" (click)="removerClasse(classRow.index)">Remover</button>
+            <div class="mb-3 d-flex justify-content-end">
+              <button type="button" class="btn btn-sm btn-outline-danger" (click)="removerClasse(classRow.index)"><i class="fas fa-trash-alt me-1"></i>Remover</button>
             </div>
 
             <div class="row g-2 mt-2">
@@ -271,21 +273,27 @@
 
             <div class="mt-3">
               <div class="d-flex justify-content-between align-items-center mb-2">
-                <label class="form-label mb-0">Subclasses</label>
-                <button class="btn btn-sm btn-outline-primary" (click)="adicionarSubclasse(classRow.index)">Adicionar Subclasse</button>
+                <label class="form-label mb-0 fw-semibold" style="color: var(--cp-purple);"><i class="fas fa-sitemap me-1"></i>Subclasses</label>
+                <button class="btn btn-sm btn-outline-primary" (click)="adicionarSubclasse(classRow.index)">
+                  <i class="fas fa-plus me-1"></i>Adicionar Subclasse
+                </button>
               </div>
-              <div class="border rounded p-2 mb-2" *ngFor="let subclasse of classRow.classe.subclasses; let j = index">
-                <details [open]="j === 0" class="catalog-details nested">
-                  <summary>
-                    <span>Subclasse #{{ j + 1 }} - {{ subclasse.nome || 'Sem nome' }}</span>
-                  </summary>
-                  <div class="entity-meta small text-muted">
-                    ID: {{ subclasse.id || 'gerado ao salvar' }} | Slug: {{ subclasse.slug || 'pendente' }}
-                  </div>
-                  <div class="details-actions">
+              <div class="accordion" [id]="'accordion-sub-' + classRow.index">
+              <div class="accordion-item nested-item" *ngFor="let subclasse of classRow.classe.subclasses; let j = index">
+                <h2 class="accordion-header" [id]="'heading-sub-' + classRow.index + '-' + j">
+                  <button class="accordion-button" [class.collapsed]="j !== 0" type="button"
+                          data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse-sub-' + classRow.index + '-' + j"
+                          [attr.aria-expanded]="j === 0 ? 'true' : 'false'" [attr.aria-controls]="'collapse-sub-' + classRow.index + '-' + j">
+                    <span class="badge-index">{{ j + 1 }}</span>{{ subclasse.nome || 'Sem nome' }}
+                  </button>
+                </h2>
+                <div [id]="'collapse-sub-' + classRow.index + '-' + j" class="accordion-collapse collapse" [class.show]="j === 0">
+                <div class="accordion-body">
+                  <div class="entity-meta">ID: {{ subclasse.id || 'gerado ao salvar' }} | Slug: {{ subclasse.slug || 'pendente' }}</div>
+                  <div class="mb-2 d-flex justify-content-end">
                     <button type="button" class="btn btn-sm btn-outline-danger" (click)="removerSubclasse(classRow.index, j)">Remover</button>
                   </div>
-                  <div class="row g-2 mt-2">
+                  <div class="row g-2 mt-1">
                     <div class="col-md-4">
                       <label class="form-label">Nome</label>
                       <input class="form-control" [(ngModel)]="subclasse.nome" />
@@ -316,275 +324,270 @@
                       </div>
                     </div>
                   </div>
-                </details>
+                </div>
+                </div>
+              </div>
               </div>
             </div>
-          </details>
-        </div>
-      </div>
-    </div>
-
-    <div class="content-tabs mb-3" *ngIf="paginaAtiva === 'conteudo'">
-      <button type="button" class="btn btn-outline-primary" [class.active]="conteudoTabAtiva === 'antecedentes'" (click)="conteudoTabAtiva = 'antecedentes'">
-        Antecedentes
-      </button>
-      <button type="button" class="btn btn-outline-primary" [class.active]="conteudoTabAtiva === 'talentos'" (click)="conteudoTabAtiva = 'talentos'">
-        Talentos
-      </button>
-    </div>
-
-    <div class="card mb-4" *ngIf="paginaAtiva === 'conteudo' && conteudoTabAtiva === 'antecedentes'">
-      <div class="card-header d-flex justify-content-between align-items-center">
-        <strong>Antecedentes</strong>
-        <button class="btn btn-sm btn-success" (click)="adicionarAntecedente()">Adicionar Antecedente</button>
-      </div>
-      <div class="card-body">
-        <div class="row g-2 mb-3">
-          <div class="col-md-6">
-            <label class="form-label">Filtro de Antecedente</label>
-            <input class="form-control" [(ngModel)]="antecedenteFilter" (ngModelChange)="onAntecedenteFilterChange()" placeholder="Nome, descricao ou talento" />
+          </div>
           </div>
         </div>
-
-        <div class="text-muted small mb-2">Resultados: {{ antecedentesFiltrados.length }}</div>
-
-        <div class="border rounded p-3 mb-3" *ngFor="let row of antecedentesFiltrados; let i = index; trackBy: trackByAntecedenteIndex">
-          <details [open]="i === 0" class="catalog-details">
-            <summary>
-              <span>Antecedente #{{ row.index + 1 }} - {{ row.antecedente.nome || 'Sem nome' }}</span>
-            </summary>
-            <div class="entity-meta small text-muted">
-              ID: {{ row.antecedente.id || 'gerado ao salvar' }} | Slug: {{ row.antecedente.slug || 'pendente' }}
-            </div>
-            <div class="details-actions">
-              <button type="button" class="btn btn-sm btn-outline-danger" (click)="removerAntecedente(row.index)">Remover</button>
-            </div>
-            <div class="row g-2 mt-2">
-              <div class="col-md-1">
-                <label class="form-label">Emoji</label>
-                <input class="form-control" [(ngModel)]="row.antecedente.emoji" placeholder="*" />
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">Nome</label>
-                <input class="form-control" [(ngModel)]="row.antecedente.nome" />
-              </div>
-              <div class="col-md-5">
-                <label class="form-label">Descricao</label>
-                <textarea class="form-control" rows="2" [(ngModel)]="row.antecedente.descricao"></textarea>
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">Talento de Origem</label>
-                <input class="form-control" [(ngModel)]="row.antecedente.talentoOrigem" />
-              </div>
-            </div>
-            <div class="row g-2 mt-2">
-              <div class="col-12">
-                <label class="form-label">Descricao do Talento de Origem</label>
-                <textarea class="form-control" rows="2" [(ngModel)]="row.antecedente.talentoDescricao"></textarea>
-              </div>
-              <div class="col-md-3">
-                <label class="form-label">Dinheiro Inicial (edinhos)</label>
-                <input type="number" class="form-control" [(ngModel)]="row.antecedente.dinheiroInicial" />
-              </div>
-            </div>
-
-            <div class="mt-2">
-              <div class="d-flex justify-content-between align-items-center mb-1">
-                <label class="form-label mb-0">Atributos Principais</label>
-                <button class="btn btn-sm btn-outline-secondary" (click)="adicionarAtributoAntecedente(row.index)">Adicionar</button>
-              </div>
-              <div class="input-group mb-1" *ngFor="let atr of (row.antecedente.atributos || []); let ai = index">
-                <input class="form-control form-control-sm" [(ngModel)]="row.antecedente.atributos[ai]" placeholder="Ex: Carisma" />
-                <button class="btn btn-outline-danger btn-sm" (click)="removerAtributoAntecedente(row.index, ai)">X</button>
-              </div>
-            </div>
-
-            <div class="mt-2">
-              <div class="d-flex justify-content-between align-items-center mb-1">
-                <label class="form-label mb-0">Itens Iniciais</label>
-                <button class="btn btn-sm btn-outline-secondary" (click)="adicionarItemInicialAntecedente(row.index)">Adicionar</button>
-              </div>
-              <div class="input-group mb-1" *ngFor="let item of (row.antecedente.itensIniciais || []); let ii = index">
-                <input class="form-control form-control-sm" [(ngModel)]="row.antecedente.itensIniciais[ii]" placeholder="Ex: Pistola" />
-                <button class="btn btn-outline-danger btn-sm" (click)="removerItemInicialAntecedente(row.index, ii)">X</button>
-              </div>
-            </div>
-          </details>
         </div>
       </div>
     </div>
 
-    <div class="card mb-4" *ngIf="paginaAtiva === 'conteudo' && conteudoTabAtiva === 'talentos'">
-      <div class="card-header d-flex justify-content-between align-items-center">
-        <strong>Talentos</strong>
-        <button class="btn btn-sm btn-success" (click)="adicionarTalento()">Adicionar Talento</button>
-      </div>
-      <div class="card-body">
-        <div class="row g-2 align-items-end mb-3">
-          <div class="col-md-4">
-            <label class="form-label">Filtro por Classe</label>
-            <select class="form-select" [(ngModel)]="classFilter" (ngModelChange)="onClassFilterChange()">
-              <option value="">Todas</option>
-              <option *ngFor="let classe of classesDisponiveis" [ngValue]="classe">{{ classe }}</option>
-            </select>
+    <ng-container *ngIf="paginaAtiva === 'conteudo'">
+      <ul class="nav nav-pills mb-3">
+        <li class="nav-item">
+          <button type="button" class="nav-link" [class.active]="conteudoTabAtiva === 'antecedentes'" (click)="conteudoTabAtiva = 'antecedentes'">
+            <i class="fas fa-id-card me-1"></i>Antecedentes
+          </button>
+        </li>
+        <li class="nav-item">
+          <button type="button" class="nav-link" [class.active]="conteudoTabAtiva === 'talentos'" (click)="conteudoTabAtiva = 'talentos'">
+            <i class="fas fa-star me-1"></i>Talentos
+          </button>
+        </li>
+      </ul>
+
+      <div class="card mb-4" *ngIf="conteudoTabAtiva === 'antecedentes'">
+        <div class="card-header card-header-cp d-flex justify-content-between align-items-center">
+          <span><i class="fas fa-id-card me-2"></i><strong>Antecedentes</strong></span>
+          <button class="btn btn-sm btn-success" (click)="adicionarAntecedente()"><i class="fas fa-plus me-1"></i>Adicionar Antecedente</button>
+        </div>
+        <div class="card-body">
+          <div class="row g-2 mb-3">
+            <div class="col-md-6">
+              <label class="form-label">Filtro de Antecedente</label>
+              <input class="form-control" [(ngModel)]="antecedenteFilter" (ngModelChange)="onAntecedenteFilterChange()" placeholder="Nome, descricao ou talento" />
+            </div>
           </div>
-          <div class="col-md-8">
-            <label class="form-label">Filtro por Nome/Descricao</label>
-            <input class="form-control" [(ngModel)]="talentoNomeFilter" (ngModelChange)="onTalentoNomeFilterChange()" placeholder="Ex: evasivo, combate, dano..." />
+          <p class="text-muted small mb-3">Resultados: {{ antecedentesFiltrados.length }}</p>
+          <div class="accordion" id="accordion-antecedentes">
+          <div class="accordion-item" *ngFor="let row of antecedentesFiltrados; let i = index; trackBy: trackByAntecedenteIndex">
+            <h2 class="accordion-header" [id]="'heading-ant-' + i">
+              <button class="accordion-button" [class.collapsed]="i !== 0" type="button"
+                      data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse-ant-' + i"
+                      [attr.aria-expanded]="i === 0 ? 'true' : 'false'" [attr.aria-controls]="'collapse-ant-' + i">
+                <span class="badge-index">{{ row.index + 1 }}</span>{{ row.antecedente.emoji || '' }} {{ row.antecedente.nome || 'Sem nome' }}
+              </button>
+            </h2>
+            <div [id]="'collapse-ant-' + i" class="accordion-collapse collapse" [class.show]="i === 0">
+            <div class="accordion-body">
+              <div class="entity-meta">ID: {{ row.antecedente.id || 'gerado ao salvar' }} | Slug: {{ row.antecedente.slug || 'pendente' }}</div>
+              <div class="mb-2 d-flex justify-content-end">
+                <button type="button" class="btn btn-sm btn-outline-danger" (click)="removerAntecedente(row.index)">Remover</button>
+              </div>
+              <div class="row g-2 mt-1">
+                <div class="col-md-1">
+                  <label class="form-label">Emoji</label>
+                  <input class="form-control" [(ngModel)]="row.antecedente.emoji" placeholder="*" />
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Nome</label>
+                  <input class="form-control" [(ngModel)]="row.antecedente.nome" />
+                </div>
+                <div class="col-md-5">
+                  <label class="form-label">Descricao</label>
+                  <textarea class="form-control" rows="2" [(ngModel)]="row.antecedente.descricao"></textarea>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Talento de Origem</label>
+                  <input class="form-control" [(ngModel)]="row.antecedente.talentoOrigem" />
+                </div>
+              </div>
+              <div class="row g-2 mt-2">
+                <div class="col-12">
+                  <label class="form-label">Descricao do Talento de Origem</label>
+                  <textarea class="form-control" rows="2" [(ngModel)]="row.antecedente.talentoDescricao"></textarea>
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label">Dinheiro Inicial (edinhos)</label>
+                  <input type="number" class="form-control" [(ngModel)]="row.antecedente.dinheiroInicial" />
+                </div>
+              </div>
+              <div class="mt-2">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                  <label class="form-label mb-0">Atributos Principais</label>
+                  <button class="btn btn-sm btn-outline-secondary" (click)="adicionarAtributoAntecedente(row.index)">Adicionar</button>
+                </div>
+                <div class="input-group mb-1" *ngFor="let atr of (row.antecedente.atributos || []); let ai = index">
+                  <input class="form-control form-control-sm" [(ngModel)]="row.antecedente.atributos[ai]" placeholder="Ex: Carisma" />
+                  <button class="btn btn-outline-danger btn-sm" (click)="removerAtributoAntecedente(row.index, ai)">X</button>
+                </div>
+              </div>
+              <div class="mt-2">
+                <div class="d-flex justify-content-between align-items-center mb-1">
+                  <label class="form-label mb-0">Itens Iniciais</label>
+                  <button class="btn btn-sm btn-outline-secondary" (click)="adicionarItemInicialAntecedente(row.index)">Adicionar</button>
+                </div>
+                <div class="input-group mb-1" *ngFor="let item of (row.antecedente.itensIniciais || []); let ii = index">
+                  <input class="form-control form-control-sm" [(ngModel)]="row.antecedente.itensIniciais[ii]" placeholder="Ex: Pistola" />
+                  <button class="btn btn-outline-danger btn-sm" (click)="removerItemInicialAntecedente(row.index, ii)">X</button>
+                </div>
+              </div>
+            </div>
+            </div>
+          </div>
           </div>
         </div>
+      </div>
 
-        <div class="text-muted small mb-2">Resultados: {{ talentosFiltrados.length }}</div>
-
-        <div class="border rounded p-3 mb-3" *ngFor="let item of talentosFiltrados; let i = index; trackBy: trackByTalentIndex">
-          <details [open]="i < 2" class="catalog-details">
-            <summary>
-              <span>Talento #{{ i + 1 }} - {{ item.talento.nome || 'Sem nome' }}</span>
-            </summary>
-            <div class="entity-meta small text-muted">
-              ID: {{ item.talento.id || 'gerado ao salvar' }} | Slug: {{ item.talento.slug || 'pendente' }}
+      <div class="card mb-4" *ngIf="conteudoTabAtiva === 'talentos'">
+        <div class="card-header card-header-cp d-flex justify-content-between align-items-center">
+          <span><i class="fas fa-star me-2"></i><strong>Talentos</strong></span>
+          <button class="btn btn-sm btn-success" (click)="adicionarTalento()"><i class="fas fa-plus me-1"></i>Adicionar Talento</button>
+        </div>
+        <div class="card-body">
+          <div class="row g-2 align-items-end mb-3">
+            <div class="col-md-4">
+              <label class="form-label">Filtro por Classe</label>
+              <select class="form-select" [(ngModel)]="classFilter" (ngModelChange)="onClassFilterChange()">
+                <option value="">Todas</option>
+                <option *ngFor="let classe of classesDisponiveis" [ngValue]="classe">{{ classe }}</option>
+              </select>
             </div>
-            <div class="details-actions">
-              <button type="button" class="btn btn-sm btn-outline-danger" (click)="removerTalento(item.index)">Remover</button>
+            <div class="col-md-8">
+              <label class="form-label">Filtro por Nome/Descricao</label>
+              <input class="form-control" [(ngModel)]="talentoNomeFilter" (ngModelChange)="onTalentoNomeFilterChange()" placeholder="Ex: evasivo, combate, dano..." />
             </div>
-            <div class="row g-2 mt-2">
-              <div class="col-md-4">
-                <label class="form-label">Nome</label>
-                <input class="form-control" [(ngModel)]="item.talento.nome" />
+          </div>
+          <p class="text-muted small mb-3">Resultados: {{ talentosFiltrados.length }}</p>
+          <div class="accordion" id="accordion-talentos">
+          <div class="accordion-item" *ngFor="let item of talentosFiltrados; let i = index; trackBy: trackByTalentIndex">
+            <h2 class="accordion-header" [id]="'heading-tal-' + i">
+              <button class="accordion-button" [class.collapsed]="i >= 2" type="button"
+                      data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse-tal-' + i"
+                      [attr.aria-expanded]="i < 2 ? 'true' : 'false'" [attr.aria-controls]="'collapse-tal-' + i">
+                <span class="badge-index">{{ i + 1 }}</span>{{ item.talento.nome || 'Sem nome' }}
+              </button>
+            </h2>
+            <div [id]="'collapse-tal-' + i" class="accordion-collapse collapse" [class.show]="i < 2">
+            <div class="accordion-body">
+              <div class="entity-meta">ID: {{ item.talento.id || 'gerado ao salvar' }} | Slug: {{ item.talento.slug || 'pendente' }}</div>
+              <div class="mb-2 d-flex justify-content-end">
+                <button type="button" class="btn btn-sm btn-outline-danger" (click)="removerTalento(item.index)">Remover</button>
               </div>
-              <div class="col-md-8">
-                <label class="form-label">Descricao</label>
-                <textarea class="form-control" rows="3" [(ngModel)]="item.talento.descricao"></textarea>
+              <div class="row g-2 mt-1">
+                <div class="col-md-4">
+                  <label class="form-label">Nome</label>
+                  <input class="form-control" [(ngModel)]="item.talento.nome" />
+                </div>
+                <div class="col-md-8">
+                  <label class="form-label">Descricao</label>
+                  <textarea class="form-control" rows="3" [(ngModel)]="item.talento.descricao"></textarea>
+                </div>
+              </div>
+              <div class="mt-3">
+                <label class="form-label d-block">Classes Aplicaveis</label>
+                <div class="form-check form-check-inline" *ngFor="let classe of classesDisponiveis">
+                  <input class="form-check-input" type="checkbox"
+                    [checked]="isClasseMarcada(item.index, classe)"
+                    (change)="toggleClasseNoTalento(item.index, classe, $any($event.target).checked)"
+                    [id]="'talento_' + i + '_' + classe" />
+                  <label class="form-check-label" [for]="'talento_' + i + '_' + classe">{{ classe }}</label>
+                </div>
               </div>
             </div>
-            <div class="mt-3">
-              <label class="form-label d-block">Classes Aplicaveis</label>
-              <div class="form-check form-check-inline" *ngFor="let classe of classesDisponiveis">
-                <input
-                  class="form-check-input"
-                  type="checkbox"
-                  [checked]="isClasseMarcada(item.index, classe)"
-                  (change)="toggleClasseNoTalento(item.index, classe, $any($event.target).checked)"
-                  [id]="'talento_' + i + '_' + classe"
-                />
-                <label class="form-check-label" [for]="'talento_' + i + '_' + classe">{{ classe }}</label>
-              </div>
             </div>
-          </details>
+          </div>
+          </div>
         </div>
       </div>
-    </div>
+    </ng-container>
 
-    <div class="card mt-4" *ngIf="paginaAtiva === 'loja'">
-      <div class="card-header">
-        <strong>Loja Cyber (Banco)</strong>
+    <div class="card mb-4" *ngIf="paginaAtiva === 'loja'">
+      <div class="card-header card-header-cp">
+        <i class="fas fa-store me-2"></i><strong>Loja Cyber (Banco)</strong>
       </div>
       <div class="card-body" *ngIf="catalog.loja">
-        <p class="text-muted small mb-3">Categorias separadas da loja D&D: armas, acessorios/municoes, protecao corporal, itens de CT e hacks rapidos.</p>
-
+        <p class="text-muted small mb-3">Categorias separadas da loja D&amp;D: armas, acessorios/municoes, protecao corporal, itens de CT e hacks rapidos.</p>
         <div class="d-flex gap-2 flex-wrap mb-3">
-          <button class="btn btn-sm btn-outline-dark" [class.active]="lojaAbaAtiva === 'todas'" (click)="mostrarTodasCategoriasLoja()">
-            Ver Todas as Categorias
-          </button>
-          <button class="btn btn-sm btn-outline-primary" [class.active]="lojaAbaAtiva === 'hacksRapidos'" (click)="mostrarSomenteHacks()">
-            Somente Hacks
-          </button>
-          <button class="btn btn-sm btn-warning" (click)="sincronizarHacksPdfNoBanco()" [disabled]="loading || saving">
-            <i class="fas fa-bolt me-1"></i>Sincronizar Hacks do PDF no Banco
-          </button>
+          <button class="btn btn-sm btn-outline-secondary" [class.active]="lojaAbaAtiva === 'todas'" (click)="mostrarTodasCategoriasLoja()"><i class="fas fa-list me-1"></i>Todas</button>
+          <button class="btn btn-sm btn-outline-primary" [class.active]="lojaAbaAtiva === 'hacksRapidos'" (click)="mostrarSomenteHacks()"><i class="fas fa-bolt me-1"></i>Somente Hacks</button>
+          <button class="btn btn-sm btn-warning" (click)="sincronizarHacksPdfNoBanco()" [disabled]="loading || saving"><i class="fas fa-bolt me-1"></i>Sincronizar Hacks PDF</button>
         </div>
-
         <div class="row g-2 mb-3">
           <div class="col-md-6">
             <label class="form-label">Filtro por Nome/Descricao</label>
             <input class="form-control" [(ngModel)]="lojaNomeFilter" (ngModelChange)="atualizarLojaFiltrados()" placeholder="Ex: pistola, firewall, colete" />
           </div>
           <div class="col-md-6">
-            <label class="form-label">Filtro por Categoria (texto)</label>
+            <label class="form-label">Filtro por Categoria</label>
             <input class="form-control" [(ngModel)]="lojaCategoriaFilter" (ngModelChange)="atualizarLojaFiltrados()" placeholder="Ex: armas, hacks, CT" />
           </div>
         </div>
 
-        <div class="border rounded p-3 mb-3" *ngFor="let categoria of categoriasLoja">
-          <div class="d-flex justify-content-between align-items-center mb-2">
-            <h6 class="mb-0">{{ categoria.label }} ({{ (lojaItensFiltrados[categoria.key] || []).length }})</h6>
-            <button class="btn btn-sm btn-outline-primary" (click)="adicionarItemLoja(categoria.key)">Adicionar Item</button>
-          </div>
-
-          <div class="catalog-details mb-2" *ngFor="let itemRow of lojaItensFiltrados[categoria.key] || []; let i = index">
-            <div class="d-flex justify-content-between align-items-center mb-2">
-              <strong>{{ itemRow.item.nome || ('Item #' + (i + 1)) }}</strong>
-              <button class="btn btn-sm btn-outline-danger" (click)="removerItemLoja(categoria.key, itemRow.index)">Remover</button>
+        <div class="accordion" id="accordion-loja">
+        <div class="accordion-item" *ngFor="let categoria of categoriasLoja; let ci = index">
+          <h2 class="accordion-header" [id]="'heading-loja-' + ci">
+            <button class="accordion-button" [class.collapsed]="ci !== 0" type="button"
+                    data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse-loja-' + ci"
+                    [attr.aria-expanded]="ci === 0 ? 'true' : 'false'" [attr.aria-controls]="'#collapse-loja-' + ci">
+              <i class="fas fa-boxes-stacked me-2"></i>{{ categoria.label }}
+              <span class="ms-2 badge" style="background: rgba(34,211,238,0.2); color: var(--cp-cyan);">{{ (lojaItensFiltrados[categoria.key] || []).length }}</span>
+            </button>
+          </h2>
+          <div [id]="'collapse-loja-' + ci" class="accordion-collapse collapse" [class.show]="ci === 0">
+          <div class="accordion-body">
+            <div class="d-flex justify-content-end mb-3">
+              <button class="btn btn-sm btn-outline-success" (click)="adicionarItemLoja(categoria.key)"><i class="fas fa-plus me-1"></i>Adicionar Item</button>
             </div>
-            <div class="entity-meta small text-muted mb-2">
-              ID: {{ itemRow.item.id || 'gerado ao salvar' }} | Slug: {{ itemRow.item.slug || 'pendente' }}
-            </div>
-            <div class="row g-2">
-              <div class="col-md-4">
-                <label class="form-label">Nome</label>
-                <input class="form-control" [(ngModel)]="itemRow.item.nome" />
-              </div>
-              <div class="col-md-2">
-                <label class="form-label">Preco (edinhos)</label>
-                <input type="number" class="form-control" [(ngModel)]="itemRow.item.precoEdinhos" />
-              </div>
-              <div class="col-md-2">
-                <label class="form-label">CA</label>
-                <input type="number" class="form-control" [(ngModel)]="itemRow.item.ca" />
-              </div>
-              <div class="col-md-2">
-                <label class="form-label">CF</label>
-                <input type="number" class="form-control" [(ngModel)]="itemRow.item.cf" />
-              </div>
-              <div class="col-md-2">
-                <label class="form-label">CT</label>
-                <input type="number" class="form-control" [(ngModel)]="itemRow.item.ct" />
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">Categoria</label>
-                <input class="form-control" [(ngModel)]="itemRow.item.categoria" />
-              </div>
-              <div class="col-md-4">
-                <label class="form-label">Pagina PDF</label>
-                <input class="form-control" [(ngModel)]="itemRow.item.paginaPdf" placeholder="Ex: Pag. 69" />
-              </div>
-              <div class="col-md-4 d-flex align-items-end">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" [(ngModel)]="itemRow.item.restrito" [id]="'restrito_' + categoria.key + '_' + i" />
-                  <label class="form-check-label" [for]="'restrito_' + categoria.key + '_' + i">Item restrito (nao compravel)</label>
+            <div class="row g-3">
+              <div class="col-md-6" *ngFor="let itemRow of lojaItensFiltrados[categoria.key] || []">
+                <div class="loja-item-card">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <strong class="small" style="color: var(--cp-cyan);">{{ itemRow.item.nome || 'Sem nome' }}</strong>
+                    <button class="btn btn-sm btn-outline-danger" (click)="removerItemLoja(categoria.key, itemRow.index)"><i class="fas fa-trash-alt"></i></button>
+                  </div>
+                  <div class="entity-meta mb-2">ID: {{ itemRow.item.id || 'gerado ao salvar' }}</div>
+                  <div class="row g-2">
+                    <div class="col-8"><label class="form-label small">Nome</label><input class="form-control form-control-sm" [(ngModel)]="itemRow.item.nome" /></div>
+                    <div class="col-4"><label class="form-label small">Preco (Ȼ)</label><input type="number" class="form-control form-control-sm" [(ngModel)]="itemRow.item.precoEdinhos" /></div>
+                    <div class="col-4"><label class="form-label small">CA</label><input type="number" class="form-control form-control-sm" [(ngModel)]="itemRow.item.ca" /></div>
+                    <div class="col-4"><label class="form-label small">CF</label><input type="number" class="form-control form-control-sm" [(ngModel)]="itemRow.item.cf" /></div>
+                    <div class="col-4"><label class="form-label small">CT</label><input type="number" class="form-control form-control-sm" [(ngModel)]="itemRow.item.ct" /></div>
+                    <div class="col-6"><label class="form-label small">Categoria</label><input class="form-control form-control-sm" [(ngModel)]="itemRow.item.categoria" /></div>
+                    <div class="col-6"><label class="form-label small">Pag. PDF</label><input class="form-control form-control-sm" [(ngModel)]="itemRow.item.paginaPdf" /></div>
+                    <div class="col-12">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" [(ngModel)]="itemRow.item.restrito" [id]="'restrito_' + categoria.key + '_' + itemRow.index" />
+                        <label class="form-check-label small" [for]="'restrito_' + categoria.key + '_' + itemRow.index">Item restrito</label>
+                      </div>
+                    </div>
+                    <div class="col-12"><label class="form-label small">Descricao</label><textarea class="form-control form-control-sm" rows="2" [(ngModel)]="itemRow.item.descricao"></textarea></div>
+                  </div>
                 </div>
               </div>
-              <div class="col-12">
-                <label class="form-label">Descricao</label>
-                <textarea class="form-control" rows="2" [(ngModel)]="itemRow.item.descricao"></textarea>
-              </div>
+            </div>
+            <div class="text-muted small mt-2" *ngIf="(lojaItensFiltrados[categoria.key] || []).length === 0">
+              <i class="fas fa-info-circle me-1"></i>Sem itens para os filtros atuais.
             </div>
           </div>
-
-          <div class="text-muted small" *ngIf="(lojaItensFiltrados[categoria.key] || []).length === 0">
-            Sem itens para os filtros atuais nesta categoria.
           </div>
+        </div>
         </div>
       </div>
     </div>
   </ng-container>
 </div>
 
-<!-- =====================================================================
+<!-- ================================================================
      PÁGINA: Acessórios para Armas Tecnológicas
-     ===================================================================== -->
-<div class="card mt-4" *ngIf="paginaAtiva === 'acessorios'">
-  <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
-    <strong>Acessórios para Armas Tecnológicas</strong>
-    <div class="d-flex gap-2 flex-wrap">
-      <button class="btn btn-sm btn-outline-secondary" (click)="carregarAcessoriosArmas()" [disabled]="loading || salvandoAcessorios">
-        <i class="fas fa-sync me-1"></i>Recarregar
-      </button>
-      <button class="btn btn-sm btn-success" (click)="salvarAcessoriosArmas()" [disabled]="loading || salvandoAcessorios">
-        {{ salvandoAcessorios ? 'Salvando...' : 'Salvar Alterações' }}
-      </button>
+     ================================================================ -->
+<div class="container-fluid catalog-admin pb-4" *ngIf="paginaAtiva === 'acessorios'">
+  <div class="card">
+    <div class="card-header card-header-cp d-flex justify-content-between align-items-center flex-wrap gap-2">
+      <span><i class="fas fa-crosshairs me-2"></i><strong>Acessórios para Armas Tecnológicas</strong></span>
+      <div class="d-flex gap-2 flex-wrap">
+        <button class="btn btn-sm btn-outline-secondary" (click)="carregarAcessoriosArmas()" [disabled]="loading || salvandoAcessorios">
+          <i class="fas fa-sync me-1"></i>Recarregar
+        </button>
+        <button class="btn btn-sm btn-success" (click)="salvarAcessoriosArmas()" [disabled]="loading || salvandoAcessorios">
+          {{ salvandoAcessorios ? 'Salvando...' : 'Salvar Alterações' }}
+        </button>
+      </div>
     </div>
-  </div>
 
   <div class="card-body">
     <!-- Filtro -->
@@ -639,42 +642,47 @@
     <!-- Tabela de acessórios -->
     <div *ngIf="loading" class="alert alert-info">Carregando acessórios...</div>
 
-    <div *ngFor="let acessorio of acessoriosFiltrados; let i = index" class="border rounded p-3 mb-2">
-      <div class="row g-2 align-items-start">
-        <div class="col-md-4">
-          <label class="form-label">Nome</label>
-          <input class="form-control form-control-sm" type="text" [(ngModel)]="acessorio.nome">
-        </div>
-        <div class="col-md-2">
-          <label class="form-label">Categoria</label>
-          <select class="form-select form-select-sm" [(ngModel)]="acessorio.categoria">
-            <option value="mira">Mira</option>
-            <option value="carregador">Carregador</option>
-            <option value="supressor">Supressor</option>
-          </select>
-        </div>
-        <div class="col-md-2">
-          <label class="form-label">Valor (Ȼ)</label>
-          <input class="form-control form-control-sm" type="number" min="0" [(ngModel)]="acessorio.valor">
-        </div>
-        <div class="col-md-4 d-flex align-items-end">
-          <button class="btn btn-sm btn-outline-danger ms-auto" (click)="removerAcessorioAdmin(acessoriosArmas.indexOf(acessorio))">
-            <i class="fas fa-trash-alt"></i>
-          </button>
-        </div>
-        <div class="col-12">
-          <label class="form-label">Descrição</label>
-          <input class="form-control form-control-sm" type="text" [(ngModel)]="acessorio.descricao">
-        </div>
-        <div class="col-12">
-          <label class="form-label">Efeito</label>
-          <input class="form-control form-control-sm" type="text" [(ngModel)]="acessorio.efeito">
+    <div class="row g-3">
+    <div class="col-md-6" *ngFor="let acessorio of acessoriosFiltrados; let i = index">
+      <div class="acessorio-card">
+        <div class="row g-2 align-items-start">
+          <div class="col-md-4">
+            <label class="form-label small">Nome</label>
+            <input class="form-control form-control-sm" type="text" [(ngModel)]="acessorio.nome">
+          </div>
+          <div class="col-md-2">
+            <label class="form-label small">Categoria</label>
+            <select class="form-select form-select-sm" [(ngModel)]="acessorio.categoria">
+              <option value="mira">Mira</option>
+              <option value="carregador">Carregador</option>
+              <option value="supressor">Supressor</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <label class="form-label small">Valor (Ȼ)</label>
+            <input class="form-control form-control-sm" type="number" min="0" [(ngModel)]="acessorio.valor">
+          </div>
+          <div class="col-md-4 d-flex align-items-end">
+            <button class="btn btn-sm btn-outline-danger ms-auto" (click)="removerAcessorioAdmin(acessoriosArmas.indexOf(acessorio))">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </div>
+          <div class="col-12">
+            <label class="form-label small">Descrição</label>
+            <input class="form-control form-control-sm" type="text" [(ngModel)]="acessorio.descricao">
+          </div>
+          <div class="col-12">
+            <label class="form-label small">Efeito</label>
+            <input class="form-control form-control-sm" type="text" [(ngModel)]="acessorio.efeito">
+          </div>
         </div>
       </div>
     </div>
+    </div>
 
     <div *ngIf="!loading && acessoriosFiltrados.length === 0" class="text-muted small mt-2">
-      Nenhum acessório encontrado.
+      <i class="fas fa-info-circle me-1"></i>Nenhum acessório encontrado.
     </div>
+  </div>
   </div>
 </div>

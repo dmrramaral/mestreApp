@@ -29,7 +29,7 @@
     box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
     position: relative;
     overflow: hidden;
-    
+
     &::before {
         content: '';
         position: absolute;
@@ -41,21 +41,21 @@
         border-radius: 50%;
         animation: float 6s ease-in-out infinite;
     }
-    
+
     .hero-icon {
         font-size: 4rem;
         margin-bottom: 20px;
         animation: spin 10s linear infinite;
         display: inline-block;
     }
-    
+
     .hero-title {
         font-size: 2.5rem;
         font-weight: 700;
         margin-bottom: 10px;
         text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
     }
-    
+
     .hero-subtitle {
         font-size: 1.2rem;
         opacity: 0.95;
@@ -64,22 +64,22 @@
 }
 
 .section-title {
-    color: #2d3748;
+    color: var(--color-text);
     font-weight: 700;
     font-size: 1.75rem;
     margin-bottom: 1.5rem;
     display: flex;
     align-items: center;
     padding-bottom: 10px;
-    border-bottom: 3px solid #e2e8f0;
-    
+    border-bottom: 3px solid var(--color-border);
+
     i {
         animation: pulse 2s ease-in-out infinite;
     }
-    
+
     span {
         position: relative;
-        
+
         &::after {
             content: '';
             position: absolute;
@@ -92,18 +92,12 @@
     }
 }
 
-// Dark theme for section title
-:host-context(body.dark-theme) .section-title {
-    color: #e2e8f0;
-    border-bottom-color: #2d3748;
-}
-
 .quick-access-card {
-    border: 2px solid #e2e8f0;
+    border: 2px solid var(--color-border);
     border-radius: 12px;
-    background: white;
+    background: var(--color-surface);
     transition: all 0.3s ease;
-    
+
     &:hover {
         transform: translateY(-3px);
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
@@ -111,25 +105,14 @@
     }
 }
 
-// Dark theme for quick access card
-:host-context(body.dark-theme) .quick-access-card {
-    background: #2d3748;
-    border-color: #4a5568;
-    
-    &:hover {
-        border-color: #667eea;
-        box-shadow: 0 8px 20px rgba(251, 191, 36, 0.2) !important;
-    }
-}
-
 .feature-card {
     border: none;
     border-radius: 15px;
-    background: white;
+    background: var(--color-surface);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     overflow: hidden;
     position: relative;
-    
+
     &::before {
         content: '';
         position: absolute;
@@ -139,23 +122,14 @@
         height: 5px;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     }
-    
+
     &:hover {
         transform: translateY(-8px);
         box-shadow: 0 12px 30px rgba(102, 126, 234, 0.3) !important;
-        
+
         .card-icon-wrapper {
             transform: scale(1.1) rotate(5deg);
         }
-    }
-}
-
-// Dark theme for feature card
-:host-context(body.dark-theme) .feature-card {
-    background: #2d3748;
-    
-    &:hover {
-        box-shadow: 0 12px 30px rgba(251, 191, 36, 0.3) !important;
     }
 }
 
@@ -163,7 +137,7 @@
     text-align: center;
     padding: 30px 20px 10px;
     transition: transform 0.3s ease;
-    
+
     .card-icon {
         font-size: 4rem;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -176,30 +150,20 @@
 }
 
 .card-title {
-    color: #2d3748;
+    color: var(--color-text);
     font-weight: 700;
     margin-bottom: 0.75rem;
     font-size: 1.3rem;
-    
+
     i {
-        color: #667eea;
+        color: var(--color-primary);
     }
 }
 
-// Dark theme for card title
-:host-context(body.dark-theme) .card-title {
-    color: #e2e8f0;
-}
-
 .card-text {
-    color: #718096;
+    color: var(--color-text-muted);
     font-size: 1rem;
     line-height: 1.6;
-}
-
-// Dark theme for card text
-:host-context(body.dark-theme) .card-text {
-    color: #a0aec0;
 }
 
 .btn {
@@ -210,15 +174,15 @@
     text-decoration: none;
     display: inline-block;
     border: none;
-    
+
     i {
         transition: transform 0.2s ease;
     }
-    
+
     &:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-        
+
         i {
             transform: scale(1.2);
         }
@@ -228,7 +192,7 @@
 .btn-primary {
     background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
     color: #ffffff;
-    
+
     &:hover {
         background: linear-gradient(135deg, #2d3748 0%, #1a202c 100%);
     }
@@ -237,7 +201,7 @@
 .btn-success {
     background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
     color: #ffffff;
-    
+
     &:hover {
         background: linear-gradient(135deg, #38a169 0%, #2f855a 100%);
     }
@@ -275,28 +239,28 @@
 @media (max-width: 767.98px) {
     .hero-banner {
         padding: 30px 15px;
-        
+
         .hero-icon {
             font-size: 3rem;
         }
-        
+
         .hero-title {
             font-size: 1.8rem;
         }
-        
+
         .hero-subtitle {
             font-size: 1rem;
         }
     }
-    
+
     .section-title {
         font-size: 1.5rem;
     }
-    
+
     .content-overlay {
         padding-top: 56px;
     }
-    
+
     .card-icon-wrapper .card-icon {
         font-size: 3rem;
     }
@@ -306,12 +270,12 @@
     .card-body {
         padding: 1rem;
     }
-    
+
     .btn {
         padding: 0.5rem 1rem;
         font-size: 0.95rem;
     }
-    
+
     .hero-banner {
         .hero-title {
             font-size: 1.5rem;

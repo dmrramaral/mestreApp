@@ -160,20 +160,20 @@
 }
 
 .combat-stat {
-    background: #f7fafc;
+    background: var(--color-surface-alt);
     border-radius: 10px;
     padding: 15px 10px;
     text-align: center;
     transition: all 0.3s ease;
 
     &:hover {
-        background: #edf2f7;
+        background: var(--cp-surface-2, var(--color-surface));
         transform: translateY(-2px);
     }
 
     &.active {
-        background: #e6fffa;
-        border: 2px solid #38b2ac;
+        background: rgba(34, 211, 238, 0.1);
+        border: 2px solid var(--cp-cyan);
     }
 
     i {
@@ -185,7 +185,7 @@
     .stat-label {
         display: block;
         font-size: 0.75rem;
-        color: #718096;
+        color: var(--color-text-muted);
         font-weight: 600;
         text-transform: uppercase;
         margin-bottom: 5px;
@@ -195,7 +195,7 @@
         display: block;
         font-size: 1.8rem;
         font-weight: 700;
-        color: #2d3748;
+        color: var(--color-text);
     }
 
     .stat-input {
@@ -314,13 +314,13 @@
 
         .int-skill-name {
             flex: 1;
-            color: #444;
+            color: var(--color-text-muted);
             font-weight: 500;
         }
 
         .int-skill-bonus {
             font-weight: 700;
-            color: #333;
+            color: var(--color-text);
             min-width: 24px;
             text-align: right;
         }

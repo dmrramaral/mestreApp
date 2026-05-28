@@ -1,0 +1,141 @@
+<section class="auth-wrapper d-flex align-items-center justify-content-center min-vh-100">
+  <div class="auth-card card shadow-lg p-4">
+
+    <!-- Logo / Título -->
+    <div class="text-center mb-4">
+      <h1 class="auth-title">⚔️ MestreApp</h1>
+      <p class="text-muted small">Gerenciador de Campanhas &amp; Fichas</p>
+    </div>
+
+    <!-- Abas -->
+    <ul class="nav nav-tabs mb-4" role="tablist">
+      <li class="nav-item flex-fill text-center">
+        <button
+          class="nav-link w-100"
+          [class.active]="abaAtiva() === 'login'"
+          (click)="mudarAba('login')"
+          type="button"
+        >Entrar</button>
+      </li>
+      <li class="nav-item flex-fill text-center">
+        <button
+          class="nav-link w-100"
+          [class.active]="abaAtiva() === 'registro'"
+          (click)="mudarAba('registro')"
+          type="button"
+        >Criar Conta</button>
+      </li>
+    </ul>
+
+    <!-- Mensagem de erro -->
+    @if (erro()) {
+      <div class="alert alert-danger py-2 small">{{ erro() }}</div>
+    }
+
+    <!-- FORMULÁRIO LOGIN -->
+    @if (abaAtiva() === 'login') {
+      <form [formGroup]="formLogin" (ngSubmit)="fazerLogin()" novalidate>
+
+        <div class="mb-3">
+          <label for="login-email" class="form-label">E-mail</label>
+          <input
+            id="login-email"
+            type="email"
+            class="form-control"
+            formControlName="email"
+            autocomplete="email"
+            [class.is-invalid]="formLogin.get('email')?.invalid && formLogin.get('email')?.touched"
+          />
+          <div class="invalid-feedback">E-mail inválido.</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="login-senha" class="form-label">Senha</label>
+          <input
+            id="login-senha"
+            type="password"
+            class="form-control"
+            formControlName="senha"
+            autocomplete="current-password"
+            [class.is-invalid]="formLogin.get('senha')?.invalid && formLogin.get('senha')?.touched"
+          />
+          <div class="invalid-feedback">Mínimo 6 caracteres.</div>
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-primary w-100 mb-3"
+          [disabled]="carregando()"
+        >
+          @if (carregando()) { <span class="spinner-border spinner-border-sm me-2"></span> }
+          Entrar
+        </button>
+      </form>
+    }
+
+    <!-- FORMULÁRIO REGISTRO -->
+    @if (abaAtiva() === 'registro') {
+      <form [formGroup]="formRegistro" (ngSubmit)="fazerRegistro()" novalidate>
+
+        <div class="mb-3">
+          <label for="reg-nome" class="form-label">Nome</label>
+          <input
+            id="reg-nome"
+            type="text"
+            class="form-control"
+            formControlName="nome"
+            autocomplete="name"
+            [class.is-invalid]="formRegistro.get('nome')?.invalid && formRegistro.get('nome')?.touched"
+          />
+          <div class="invalid-feedback">Nome obrigatório.</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="reg-email" class="form-label">E-mail</label>
+          <input
+            id="reg-email"
+            type="email"
+            class="form-control"
+            formControlName="email"
+            autocomplete="email"
+            [class.is-invalid]="formRegistro.get('email')?.invalid && formRegistro.get('email')?.touched"
+          />
+          <div class="invalid-feedback">E-mail inválido.</div>
+        </div>
+
+        <div class="mb-3">
+          <label for="reg-senha" class="form-label">Senha</label>
+          <input
+            id="reg-senha"
+            type="password"
+            class="form-control"
+            formControlName="senha"
+            autocomplete="new-password"
+            [class.is-invalid]="formRegistro.get('senha')?.invalid && formRegistro.get('senha')?.touched"
+          />
+          <div class="invalid-feedback">Mínimo 6 caracteres.</div>
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn-success w-100 mb-3"
+          [disabled]="carregando()"
+        >
+          @if (carregando()) { <span class="spinner-border spinner-border-sm me-2"></span> }
+          Criar Conta
+        </button>
+      </form>
+    }
+
+    <!-- Separador Google -->
+    <div class="auth-divider d-flex align-items-center gap-2 mb-3">
+      <hr class="flex-fill" />
+      <span class="text-muted small">ou</span>
+      <hr class="flex-fill" />
+    </div>
+
+    <!-- Botão Google GSI (renderizado pelo script) -->
+    <div id="google-gsi-btn" class="d-flex justify-content-center"></div>
+
+  </div>
+</section>

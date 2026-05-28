@@ -45,3 +45,15 @@ public/equipments.json.bak
 # Markdown files (do not include in commits)
 *.md
 .vercel
+
+# Variáveis de ambiente — NUNCA commite o .env (contém segredos)
+.env
+
+# Arquivos de environment Angular — gerados por scripts/set-env.js
+# Remova do tracking se já foram commitados:
+#   git rm --cached src/environments/environment.ts
+#   git rm --cached src/environments/environment.development.ts
+#   git rm --cached src/environments/environment.production.ts
+src/environments/environment.ts
+src/environments/environment.development.ts
+src/environments/environment.production.ts

@@ -3,9 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
+    "set-env": "node scripts/set-env.js",
+    "prestart": "node scripts/set-env.js",
     "start": "ng serve --host 0.0.0.0",
+    "prebuild": "node scripts/set-env.js",
     "build": "ng build",
-    "build:vercel": "ng build --configuration production --prerender=false --ssr=false",
+    "build:vercel": "node scripts/set-env.js && ng build --configuration production --prerender=false --ssr=false",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "serve:ssr:mestreApp": "node dist/mestre-app/server/server.mjs"

@@ -34,23 +34,19 @@ export class SyncBackendService {
 
   constructor(private http: HttpClient) {}
 
-  pullMudancas(userId: string, since?: string): Observable<PullResponse> {
+  pullMudancas(since?: string): Observable<PullResponse> {
     return this.http.post<PullResponse>(`${this.baseUrl}/api/sync/pull`, {
-      userId,
       since
     });
   }
 
-  pushMudancas(userId: string, records: RegistroSync[]): Observable<PushResponse> {
+  pushMudancas(records: RegistroSync[]): Observable<PushResponse> {
     return this.http.post<PushResponse>(`${this.baseUrl}/api/sync/push`, {
-      userId,
       records
     });
   }
 
-  listarFichas(userId: string): Observable<CharactersResponse> {
-    return this.http.get<CharactersResponse>(`${this.baseUrl}/api/characters`, {
-      params: { userId }
-    });
+  listarFichas(): Observable<CharactersResponse> {
+    return this.http.get<CharactersResponse>(`${this.baseUrl}/api/characters`);
   }
 }
