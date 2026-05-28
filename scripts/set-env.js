@@ -65,6 +65,9 @@ function renderEnv(production, backendSyncUrl, clientId) {
 // ---------------------------------------------------------------------------
 const envDir = path.join(__dirname, '..', 'src', 'environments');
 
+// Garante que a pasta existe (necessário no Vercel, onde o repo é clonado sem ela)
+fs.mkdirSync(envDir, { recursive: true });
+
 const files = {
   'environment.ts':             renderEnv(false, backendUrlDev,  googleClientId),
   'environment.development.ts': renderEnv(false, backendUrlDev,  googleClientId),
