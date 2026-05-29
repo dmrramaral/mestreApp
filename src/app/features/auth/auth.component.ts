@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { Component, NgZone, OnInit, inject, signal } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
@@ -19,6 +19,7 @@ export class AuthComponent implements OnInit {
   private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly fb = inject(FormBuilder);
+  private readonly ngZone = inject(NgZone);
 
   abaAtiva = signal<Aba>('login');
   carregando = signal(false);
@@ -94,14 +95,16 @@ export class AuthComponent implements OnInit {
       google.accounts.id.initialize({
         client_id: clientId,
         callback: (response: { credential: string }) => {
-          this.carregando.set(true);
-          this.erro.set(null);
-          this.authService.loginComGoogle({ credential: response.credential }).subscribe({
-            next: () => this.router.navigate(['/home']),
-            error: (e) => {
-              this.erro.set(this.traduzirErro(e));
-              this.carregando.set(false);
-            }
+          this.ngZone.run(() => {
+            this.carregando.set(true);
+            this.erro.set(null);
+            this.authService.loginComGoogle({ credential: response.credential }).subscribe({
+              next: () => this.router.navigate(['/home']),
+              error: (e) => {
+                this.erro.set(this.traduzirErro(e));
+                this.carregando.set(false);
+              }
+            });
           });
         }
       });

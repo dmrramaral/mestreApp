@@ -1,7 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { BehaviorSubject, Observable, map, tap } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import {
     AuthResponse,
@@ -56,8 +56,9 @@ export class AuthService {
 
   atualizarPerfil(dados: { nome: string; avatar: string | null }): Observable<Usuario> {
     return this.http
-      .patch<Usuario>(`${this.baseUrl}/api/auth/profile`, dados)
+      .patch<{ user: Usuario }>(`${this.baseUrl}/api/auth/profile`, dados)
       .pipe(
+        map(resposta => resposta.user),
         tap(usuario => {
           if (isPlatformBrowser(this.platformId)) {
             localStorage.setItem(USER_KEY, JSON.stringify(usuario));

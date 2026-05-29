@@ -23,6 +23,18 @@
     box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
   }
 
+  .perfil-avatar-inicial {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    font-size: 2.5rem;
+    font-weight: 700;
+    user-select: none;
+    object-fit: unset;
+  }
+
   .google-badge {
     position: absolute;
     bottom: 2px;
@@ -42,7 +54,12 @@
   .perfil-nome {
     font-size: 1.6rem;
     font-weight: 700;
-    color: var(--color-text, #2d3748);
+    color: var(--color-text);
+  }
+
+  .perfil-info {
+    color: var(--color-text-muted);
+    margin-bottom: 0;
   }
 
   .edit-form-inline {
@@ -59,9 +76,9 @@
 }
 
 .ficha-card {
-  background: var(--color-card-bg, #f7fafc);
+  background: var(--color-surface);
   border-radius: 12px;
-  border: 1px solid var(--color-border, #e2e8f0);
+  border: 1px solid var(--color-border);
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -88,6 +105,17 @@
       border: 2px solid rgba(255, 255, 255, 0.6);
     }
 
+    .ficha-avatar-inicial {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.15);
+      color: #fff;
+      font-size: 1.4rem;
+      font-weight: 700;
+      user-select: none;
+    }
+
     .sistema-badge {
       position: absolute;
       top: 6px;
@@ -104,7 +132,7 @@
     .ficha-nome {
       font-size: 0.9rem;
       font-weight: 700;
-      color: var(--color-text, #2d3748);
+      color: var(--color-text);
       margin-bottom: 4px;
       white-space: nowrap;
       overflow: hidden;
@@ -125,7 +153,11 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-top: 1px solid var(--color-border, #e2e8f0);
+    border-top: 1px solid var(--color-border);
+
+    .ficha-updated {
+      color: var(--color-text-muted);
+    }
 
     .btn {
       font-size: 0.75rem;

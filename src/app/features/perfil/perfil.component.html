@@ -7,7 +7,10 @@
 
         <!-- Avatar -->
         <div class="avatar-wrapper">
-          <img [src]="getUserAvatarUrl()" class="perfil-avatar" alt="Avatar" />
+          <img *ngIf="usuario()?.avatar" [src]="usuario()!.avatar!" class="perfil-avatar" alt="Avatar" />
+          <div *ngIf="!usuario()?.avatar" class="perfil-avatar perfil-avatar-inicial">
+            {{ (primeiroNome || '?')[0].toUpperCase() }}
+          </div>
           <span *ngIf="isGoogleUser" class="google-badge" title="Conta Google">
             <i class="fab fa-google"></i>
           </span>
@@ -17,8 +20,8 @@
         <div class="flex-grow-1">
           <ng-container *ngIf="!editando()">
             <h2 class="perfil-nome mb-1">{{ primeiroNome }}</h2>
-            <p class="text-muted mb-2"><i class="fas fa-envelope me-2"></i>{{ usuario()?.email }}</p>
-            <p class="text-muted small mb-3" *ngIf="usuario()?.createdAt">
+            <p class="perfil-info mb-2"><i class="fas fa-envelope me-2"></i>{{ usuario()?.email }}</p>
+            <p class="perfil-info small mb-3" *ngIf="usuario()?.createdAt">
               <i class="fas fa-calendar-alt me-2"></i>Membro desde {{ usuario()!.createdAt! | date:'MMMM yyyy' }}
             </p>
             <button class="btn btn-outline-primary btn-sm" (click)="iniciarEdicao()">
@@ -96,7 +99,8 @@
       <div *ngIf="!carregandoFichas() && fichas().length > 0" class="fichas-grid">
         <div class="ficha-card" *ngFor="let ficha of fichas()">
           <div class="ficha-card-header">
-            <img [src]="getAvatarUrl(ficha)" class="ficha-avatar" [alt]="ficha.nome" />
+            <img *ngIf="ficha.avatar" [src]="ficha.avatar" class="ficha-avatar" [alt]="ficha.nome" />
+            <div *ngIf="!ficha.avatar" class="ficha-avatar ficha-avatar-inicial">{{ ficha.nome[0] }}</div>
             <span class="sistema-badge" [title]="sistemaLabel(ficha.sistema)">
               <i [class]="sistemaIconClass(ficha.sistema)"></i>
             </span>
@@ -107,10 +111,10 @@
               <span class="badge bg-dark me-1">{{ ficha.classe }}</span>
               <span *ngIf="ficha.nivel" class="badge bg-secondary">Nv. {{ ficha.nivel }}</span>
             </p>
-            <p class="ficha-raca text-muted small mb-0">{{ ficha.raca }}</p>
+            <p class="ficha-raca text-white small mb-0">{{ ficha.raca }}</p>
           </div>
           <div class="ficha-card-footer">
-            <span class="ficha-updated small text-muted">
+            <span class="ficha-updated small text-white">
               <i class="fas fa-clock me-1"></i>{{ ficha.updatedAt | date:'dd/MM/yy' }}
             </span>
             <button class="btn btn-primary btn-sm" (click)="abrirFicha(ficha)">
