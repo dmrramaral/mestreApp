@@ -1,17 +1,37 @@
-<div *ngIf="pwaService.showBanner" class="pwa-banner" role="dialog" aria-label="Instalar aplicativo">
+<div *ngIf="pwaService.bannerVisible()" class="pwa-banner" role="dialog" aria-label="Instalar aplicativo">
   <div class="pwa-banner__icon">
     <img src="assets/icons/icon-72x72.png" alt="MestreApp ícone" width="48" height="48" />
   </div>
-  <div class="pwa-banner__text">
-    <span class="pwa-banner__title">Instale o MestreApp</span>
-    <span class="pwa-banner__subtitle">Acesse como app no seu celular, sem precisar do navegador</span>
-  </div>
-  <div class="pwa-banner__actions">
-    <button class="btn-install" type="button" (click)="install()">
-      <i class="fas fa-download me-1"></i>Instalar
-    </button>
-    <button class="btn-dismiss" type="button" (click)="dismiss()" aria-label="Fechar">
-      <i class="fas fa-times"></i>
-    </button>
-  </div>
+
+  <!-- Android / Chrome: botão de instalação nativo -->
+  <ng-container *ngIf="!pwaService.isIos(); else iosInstructions">
+    <div class="pwa-banner__text">
+      <span class="pwa-banner__title">Instale o MestreApp</span>
+      <span class="pwa-banner__subtitle">Acesse como app no seu celular, sem precisar do navegador</span>
+    </div>
+    <div class="pwa-banner__actions">
+      <button class="btn-install" type="button" (click)="install()">
+        <i class="fas fa-download me-1"></i>Instalar
+      </button>
+      <button class="btn-dismiss" type="button" (click)="dismiss()" aria-label="Fechar">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </ng-container>
+
+  <!-- iOS / Safari: instrução manual -->
+  <ng-template #iosInstructions>
+    <div class="pwa-banner__text">
+      <span class="pwa-banner__title">Instale o MestreApp</span>
+      <span class="pwa-banner__subtitle">
+        Toque em <i class="fas fa-share-from-square"></i> e depois em
+        <strong>"Adicionar à tela de início"</strong>
+      </span>
+    </div>
+    <div class="pwa-banner__actions">
+      <button class="btn-dismiss" type="button" (click)="dismiss()" aria-label="Fechar">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+  </ng-template>
 </div>
