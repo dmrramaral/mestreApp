@@ -54,6 +54,19 @@ export class AuthService {
       .pipe(tap(resposta => this.salvarSessao(resposta)));
   }
 
+  atualizarPerfil(dados: { nome: string; avatar: string | null }): Observable<Usuario> {
+    return this.http
+      .patch<Usuario>(`${this.baseUrl}/api/auth/profile`, dados)
+      .pipe(
+        tap(usuario => {
+          if (isPlatformBrowser(this.platformId)) {
+            localStorage.setItem(USER_KEY, JSON.stringify(usuario));
+          }
+          this._usuario$.next(usuario);
+        })
+      );
+  }
+
   logout(): void {
     if (isPlatformBrowser(this.platformId)) {
       localStorage.removeItem(TOKEN_KEY);

@@ -17,6 +17,11 @@
                         title="Instalar como aplicativo">
                     <i class="fas fa-download me-1"></i>Instalar
                 </button>
+                <!-- Avatar do usuário logado -->
+                <a *ngIf="authService.estaAutenticado" [routerLink]="'/perfil'"
+                   class="user-avatar-btn me-2" title="Meu Perfil">
+                  <img [src]="getUserAvatarUrl()" class="user-avatar-img" alt="Perfil" />
+                </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
                     aria-label="Toggle navigation">
@@ -72,6 +77,11 @@
                         <li class="nav-item">
                             <a class="nav-link active" [routerLink]="'/cyberpunk-catalogo/dashboard'" aria-current="page" data-bs-dismiss="offcanvas">
                                 <i class="fas fa-diagram-project me-2"></i>Catalogo CyberPunk
+                            </a>
+                        </li>
+                        <li class="nav-item" *ngIf="authService.estaAutenticado">
+                            <a class="nav-link active" [routerLink]="'/perfil'" aria-current="page" data-bs-dismiss="offcanvas">
+                                <i class="fas fa-user-circle me-2"></i>Meu Perfil
                             </a>
                         </li>
                         <!-- <li class="nav-item">

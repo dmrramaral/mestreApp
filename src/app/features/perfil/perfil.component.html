@@ -1,0 +1,126 @@
+<div class="perfil-container">
+
+  <!-- ═══ Hero do Perfil ═══ -->
+  <div class="perfil-hero card shadow-sm mb-4">
+    <div class="card-body">
+      <div class="d-flex align-items-center gap-4 flex-wrap">
+
+        <!-- Avatar -->
+        <div class="avatar-wrapper">
+          <img [src]="getUserAvatarUrl()" class="perfil-avatar" alt="Avatar" />
+          <span *ngIf="isGoogleUser" class="google-badge" title="Conta Google">
+            <i class="fab fa-google"></i>
+          </span>
+        </div>
+
+        <!-- Dados -->
+        <div class="flex-grow-1">
+          <ng-container *ngIf="!editando()">
+            <h2 class="perfil-nome mb-1">{{ primeiroNome }}</h2>
+            <p class="text-muted mb-2"><i class="fas fa-envelope me-2"></i>{{ usuario()?.email }}</p>
+            <p class="text-muted small mb-3" *ngIf="usuario()?.createdAt">
+              <i class="fas fa-calendar-alt me-2"></i>Membro desde {{ usuario()!.createdAt! | date:'MMMM yyyy' }}
+            </p>
+            <button class="btn btn-outline-primary btn-sm" (click)="iniciarEdicao()">
+              <i class="fas fa-edit me-2"></i>Editar Perfil
+            </button>
+          </ng-container>
+
+          <ng-container *ngIf="editando()">
+            <div class="edit-form-inline">
+              <div class="mb-3">
+                <label class="form-label fw-semibold">Nome de exibição</label>
+                <input type="text" class="form-control" [(ngModel)]="nomeEdit" placeholder="Seu nome" maxlength="60" />
+              </div>
+              <div class="mb-3" *ngIf="!isGoogleUser">
+                <label class="form-label fw-semibold">URL do Avatar <span class="text-muted small">(opcional)</span></label>
+                <input type="url" class="form-control" [(ngModel)]="avatarEdit" placeholder="https://..." />
+              </div>
+              <div class="alert alert-warning small py-2" *ngIf="isGoogleUser">
+                <i class="fab fa-google me-2"></i>Avatar gerenciado pelo Google
+              </div>
+              <div class="alert alert-danger small py-2" *ngIf="erroSalvar()">{{ erroSalvar() }}</div>
+              <div class="d-flex gap-2">
+                <button class="btn btn-success btn-sm" (click)="salvarPerfil()" [disabled]="salvando()">
+                  <span *ngIf="salvando()" class="spinner-border spinner-border-sm me-1"></span>
+                  <i *ngIf="!salvando()" class="fas fa-check me-1"></i>Salvar
+                </button>
+                <button class="btn btn-outline-secondary btn-sm" (click)="cancelarEdicao()" [disabled]="salvando()">
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+
+        <!-- Logout -->
+        <button class="btn btn-outline-danger align-self-start" (click)="logout()">
+          <i class="fas fa-sign-out-alt me-2"></i>Sair
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══ Minhas Fichas ═══ -->
+  <div class="card shadow-sm">
+    <div class="card-header d-flex align-items-center justify-content-between">
+      <h5 class="mb-0"><i class="fas fa-scroll me-2 text-primary"></i>Minhas Fichas</h5>
+      <span class="badge bg-secondary" *ngIf="fichas().length > 0">{{ fichas().length }}</span>
+    </div>
+    <div class="card-body">
+
+      <!-- Loading -->
+      <div *ngIf="carregandoFichas()" class="text-center py-4">
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="text-muted mt-2 mb-0">Carregando fichas...</p>
+      </div>
+
+      <!-- Erro -->
+      <div *ngIf="erroFichas()" class="alert alert-warning">
+        <i class="fas fa-exclamation-triangle me-2"></i>{{ erroFichas() }}
+        <button class="btn btn-sm btn-outline-warning ms-3" (click)="carregarFichas(usuario()!.id)">
+          Tentar novamente
+        </button>
+      </div>
+
+      <!-- Vazio -->
+      <div *ngIf="!carregandoFichas() && !erroFichas() && fichas().length === 0" class="text-center py-5">
+        <i class="fas fa-scroll fa-3x text-muted mb-3"></i>
+        <p class="text-muted">Nenhuma ficha encontrada.</p>
+        <a class="btn btn-primary btn-sm" routerLink="/ficha-jogador">
+          <i class="fas fa-plus me-2"></i>Criar Ficha
+        </a>
+      </div>
+
+      <!-- Grid de fichas -->
+      <div *ngIf="!carregandoFichas() && fichas().length > 0" class="fichas-grid">
+        <div class="ficha-card" *ngFor="let ficha of fichas()">
+          <div class="ficha-card-header">
+            <img [src]="getAvatarUrl(ficha)" class="ficha-avatar" [alt]="ficha.nome" />
+            <span class="sistema-badge" [title]="sistemaLabel(ficha.sistema)">
+              <i [class]="sistemaIconClass(ficha.sistema)"></i>
+            </span>
+          </div>
+          <div class="ficha-card-body">
+            <h6 class="ficha-nome">{{ ficha.nome }}</h6>
+            <p class="ficha-meta">
+              <span class="badge bg-dark me-1">{{ ficha.classe }}</span>
+              <span *ngIf="ficha.nivel" class="badge bg-secondary">Nv. {{ ficha.nivel }}</span>
+            </p>
+            <p class="ficha-raca text-muted small mb-0">{{ ficha.raca }}</p>
+          </div>
+          <div class="ficha-card-footer">
+            <span class="ficha-updated small text-muted">
+              <i class="fas fa-clock me-1"></i>{{ ficha.updatedAt | date:'dd/MM/yy' }}
+            </span>
+            <button class="btn btn-primary btn-sm" (click)="abrirFicha(ficha)">
+              <i class="fas fa-play me-1"></i>Abrir
+            </button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
