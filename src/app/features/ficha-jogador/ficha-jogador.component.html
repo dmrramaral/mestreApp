@@ -252,11 +252,16 @@
                 <div class="int-skill-row" *ngFor="let p of getPericiasByAtributo('forca')">
                   <span class="int-skill-prof" [class.active]="p.valor === 'sim'" (click)="togglePericiaProf(p)"
                     title="Clique para alternar proficiência">&#9679;</span>
-                  <span class="int-skill-name">{{ p.nome }}</span>
-                  <span class="int-skill-bonus">{{ ((calcularModificador(jogador.atributos.forca) ?? 0) + (p.valor ===
-                    'sim' ? (jogador.proficiencia ?? 0) : 0)) >= 0 ? '+' : '' }}{{
-                    (calcularModificador(jogador.atributos.forca) ?? 0) + (p.valor === 'sim' ? (jogador.proficiencia ??
-                    0) : 0) }}</span>
+                  <button type="button" class="int-skill-btn"
+                    (click)="rolarPericia(p, calcularModificador(jogador.atributos.forca) ?? 0)"
+                    [title]="p.nome + (p.valor === 'sim' ? ' (com prof)' : '')">
+                    <span class="int-skill-name">{{ p.nome }}</span>
+                    <span class="int-skill-bonus">{{ ((calcularModificador(jogador.atributos.forca) ?? 0) + (p.valor ===
+                      'sim' ? (jogador.proficiencia ?? 0) : 0)) >= 0 ? '+' : '' }}{{
+                      (calcularModificador(jogador.atributos.forca) ?? 0) + (p.valor === 'sim' ? (jogador.proficiencia ??
+                      0) : 0) }}</span>
+                    <i class="fas fa-dice-d20 int-skill-dice-icon"></i>
+                  </button>
                 </div>
               </div>
             </div>
@@ -277,11 +282,16 @@
                 <div class="int-skill-row" *ngFor="let p of getPericiasByAtributo('destreza')">
                   <span class="int-skill-prof" [class.active]="p.valor === 'sim'" (click)="togglePericiaProf(p)"
                     title="Clique para alternar proficiência">&#9679;</span>
-                  <span class="int-skill-name">{{ p.nome }}</span>
-                  <span class="int-skill-bonus">{{ ((calcularModificador(jogador.atributos.destreza) ?? 0) + (p.valor
-                    === 'sim' ? (jogador.proficiencia ?? 0) : 0)) >= 0 ? '+' : '' }}{{
-                    (calcularModificador(jogador.atributos.destreza) ?? 0) + (p.valor === 'sim' ? (jogador.proficiencia
-                    ?? 0) : 0) }}</span>
+                  <button type="button" class="int-skill-btn"
+                    (click)="rolarPericia(p, calcularModificador(jogador.atributos.destreza) ?? 0)"
+                    [title]="p.nome + (p.valor === 'sim' ? ' (com prof)' : '')">
+                    <span class="int-skill-name">{{ p.nome }}</span>
+                    <span class="int-skill-bonus">{{ ((calcularModificador(jogador.atributos.destreza) ?? 0) + (p.valor
+                      === 'sim' ? (jogador.proficiencia ?? 0) : 0)) >= 0 ? '+' : '' }}{{
+                      (calcularModificador(jogador.atributos.destreza) ?? 0) + (p.valor === 'sim' ? (jogador.proficiencia
+                      ?? 0) : 0) }}</span>
+                    <i class="fas fa-dice-d20 int-skill-dice-icon"></i>
+                  </button>
                 </div>
               </div>
             </div>
@@ -302,11 +312,16 @@
                 <div class="int-skill-row" *ngFor="let p of getPericiasByAtributo('constituicao')">
                   <span class="int-skill-prof" [class.active]="p.valor === 'sim'" (click)="togglePericiaProf(p)"
                     title="Clique para alternar proficiência">&#9679;</span>
-                  <span class="int-skill-name">{{ p.nome }}</span>
-                  <span class="int-skill-bonus">{{ ((calcularModificador(jogador.atributos.constituicao) ?? 0) +
-                    (p.valor === 'sim' ? (jogador.proficiencia ?? 0) : 0)) >= 0 ? '+' : '' }}{{
-                    (calcularModificador(jogador.atributos.constituicao) ?? 0) + (p.valor === 'sim' ?
-                    (jogador.proficiencia ?? 0) : 0) }}</span>
+                  <button type="button" class="int-skill-btn"
+                    (click)="rolarPericia(p, calcularModificador(jogador.atributos.constituicao) ?? 0)"
+                    [title]="p.nome + (p.valor === 'sim' ? ' (com prof)' : '')">
+                    <span class="int-skill-name">{{ p.nome }}</span>
+                    <span class="int-skill-bonus">{{ ((calcularModificador(jogador.atributos.constituicao) ?? 0) +
+                      (p.valor === 'sim' ? (jogador.proficiencia ?? 0) : 0)) >= 0 ? '+' : '' }}{{
+                      (calcularModificador(jogador.atributos.constituicao) ?? 0) + (p.valor === 'sim' ?
+                      (jogador.proficiencia ?? 0) : 0) }}</span>
+                    <i class="fas fa-dice-d20 int-skill-dice-icon"></i>
+                  </button>
                 </div>
               </div>
             </div>
@@ -327,11 +342,16 @@
                 <div class="int-skill-row" *ngFor="let p of getPericiasByAtributo('inteligencia')">
                   <span class="int-skill-prof" [class.active]="p.valor === 'sim'" (click)="togglePericiaProf(p)"
                     title="Clique para alternar proficiência">&#9679;</span>
-                  <span class="int-skill-name">{{ p.nome }}</span>
-                  <span class="int-skill-bonus">{{ ((calcularModificador(jogador.atributos.inteligencia) ?? 0) +
-                    (p.valor === 'sim' ? (jogador.proficiencia ?? 0) : 0)) >= 0 ? '+' : '' }}{{
-                    (calcularModificador(jogador.atributos.inteligencia) ?? 0) + (p.valor === 'sim' ?
-                    (jogador.proficiencia ?? 0) : 0) }}</span>
+                  <button type="button" class="int-skill-btn"
+                    (click)="rolarPericia(p, calcularModificador(jogador.atributos.inteligencia) ?? 0)"
+                    [title]="p.nome + (p.valor === 'sim' ? ' (com prof)' : '')">
+                    <span class="int-skill-name">{{ p.nome }}</span>
+                    <span class="int-skill-bonus">{{ ((calcularModificador(jogador.atributos.inteligencia) ?? 0) +
+                      (p.valor === 'sim' ? (jogador.proficiencia ?? 0) : 0)) >= 0 ? '+' : '' }}{{
+                      (calcularModificador(jogador.atributos.inteligencia) ?? 0) + (p.valor === 'sim' ?
+                      (jogador.proficiencia ?? 0) : 0) }}</span>
+                    <i class="fas fa-dice-d20 int-skill-dice-icon"></i>
+                  </button>
                 </div>
               </div>
             </div>
@@ -352,11 +372,16 @@
                 <div class="int-skill-row" *ngFor="let p of getPericiasByAtributo('sabedoria')">
                   <span class="int-skill-prof" [class.active]="p.valor === 'sim'" (click)="togglePericiaProf(p)"
                     title="Clique para alternar proficiência">&#9679;</span>
-                  <span class="int-skill-name">{{ p.nome }}</span>
-                  <span class="int-skill-bonus">{{ ((calcularModificador(jogador.atributos.sabedoria) ?? 0) + (p.valor
-                    === 'sim' ? (jogador.proficiencia ?? 0) : 0)) >= 0 ? '+' : '' }}{{
-                    (calcularModificador(jogador.atributos.sabedoria) ?? 0) + (p.valor === 'sim' ? (jogador.proficiencia
-                    ?? 0) : 0) }}</span>
+                  <button type="button" class="int-skill-btn"
+                    (click)="rolarPericia(p, calcularModificador(jogador.atributos.sabedoria) ?? 0)"
+                    [title]="p.nome + (p.valor === 'sim' ? ' (com prof)' : '')">
+                    <span class="int-skill-name">{{ p.nome }}</span>
+                    <span class="int-skill-bonus">{{ ((calcularModificador(jogador.atributos.sabedoria) ?? 0) + (p.valor
+                      === 'sim' ? (jogador.proficiencia ?? 0) : 0)) >= 0 ? '+' : '' }}{{
+                      (calcularModificador(jogador.atributos.sabedoria) ?? 0) + (p.valor === 'sim' ? (jogador.proficiencia
+                      ?? 0) : 0) }}</span>
+                    <i class="fas fa-dice-d20 int-skill-dice-icon"></i>
+                  </button>
                 </div>
               </div>
             </div>
@@ -377,11 +402,16 @@
                 <div class="int-skill-row" *ngFor="let p of getPericiasByAtributo('carisma')">
                   <span class="int-skill-prof" [class.active]="p.valor === 'sim'" (click)="togglePericiaProf(p)"
                     title="Clique para alternar proficiência">&#9679;</span>
-                  <span class="int-skill-name">{{ p.nome }}</span>
-                  <span class="int-skill-bonus">{{ ((calcularModificador(jogador.atributos.carisma) ?? 0) + (p.valor ===
-                    'sim' ? (jogador.proficiencia ?? 0) : 0)) >= 0 ? '+' : '' }}{{
-                    (calcularModificador(jogador.atributos.carisma) ?? 0) + (p.valor === 'sim' ? (jogador.proficiencia
-                    ?? 0) : 0) }}</span>
+                  <button type="button" class="int-skill-btn"
+                    (click)="rolarPericia(p, calcularModificador(jogador.atributos.carisma) ?? 0)"
+                    [title]="p.nome + (p.valor === 'sim' ? ' (com prof)' : '')">
+                    <span class="int-skill-name">{{ p.nome }}</span>
+                    <span class="int-skill-bonus">{{ ((calcularModificador(jogador.atributos.carisma) ?? 0) + (p.valor ===
+                      'sim' ? (jogador.proficiencia ?? 0) : 0)) >= 0 ? '+' : '' }}{{
+                      (calcularModificador(jogador.atributos.carisma) ?? 0) + (p.valor === 'sim' ? (jogador.proficiencia
+                      ?? 0) : 0) }}</span>
+                    <i class="fas fa-dice-d20 int-skill-dice-icon"></i>
+                  </button>
                 </div>
               </div>
             </div>
@@ -417,7 +447,7 @@
               data-bs-target="#collapseClasseCyberpunk">
               <i class="fas fa-user-ninja me-2"></i>Classe
             </button>
-            <button class="btn btn-outline-dark" type="button" data-bs-toggle="collapse"
+            <button class="btn btn-outline-dark text-white" type="button" data-bs-toggle="collapse"
               data-bs-target="#collapseTracos">
               <i class="fas fa-scroll me-2"></i>Traços
             </button>
@@ -1035,10 +1065,6 @@
                 <span class="badge bg-secondary">{{ ataque.dano }}</span>
                 <span class="badge bg-dark ms-1">{{ ataque.tipoDano }}</span>
                 <div class="ms-auto d-flex gap-1">
-                  <button type="button" class="btn btn-sm btn-outline-warning py-0 px-2"
-                    (click)="abrirGerenciarAcessorios(i); $event.preventDefault()" title="Acessórios">
-                    <i class="fas fa-wrench"></i>
-                  </button>
                   <button type="button" class="btn btn-sm btn-outline-secondary py-0 px-2"
                     (click)="toggleEditarAtaque(i); $event.preventDefault()" title="Editar">
                     <i class="fas fa-edit"></i>
@@ -1827,7 +1853,7 @@
               <i class="fas fa-store me-1"></i>Da Loja
             </button>
             <span class="gold-display">
-              <i class="fas fa-coins me-1"></i>
+              <i class="fas fa-coins me-2"></i>
               <input type="number" class="gold-input" [(ngModel)]="jogador.ouro" (change)="saveToCache()"> PO
             </span>
             <button type="button" class="btn-close btn-close-white ms-2" data-bs-toggle="collapse"
@@ -2023,8 +2049,9 @@
                       (change)="saveToCache()">
                   </div>
                   <div class="col-12">
-                    <input type="text" class="form-control" placeholder="Descrição" [(ngModel)]="equipamento.descricao"
-                      (change)="saveToCache()">
+                    <textarea class="form-control" placeholder="Descrição" rows="4"
+                      [(ngModel)]="equipamento.descricao"
+                      (change)="saveToCache()"></textarea>
                   </div>
                   <div class="col-4">
                     <input type="number" class="form-control" placeholder="CA" [(ngModel)]="equipamento.ca"

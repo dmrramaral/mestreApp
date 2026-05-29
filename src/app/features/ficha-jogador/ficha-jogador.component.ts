@@ -5,23 +5,23 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { firstValueFrom, timeout } from 'rxjs';
 import {
-    AcessorioArma,
-    ACESSORIOS_ARMAS,
-    CYBERPUN2080_CITY_FORCES,
-    CYBERPUN2080_ESSENTIAL_QUESTIONS,
-    CYBERPUN2080_MODULES,
-    CYBERPUN2080_ORIGINS,
-    EQUIPMENT_CATEGORIES,
-    GRUPOS_IMPLANTE,
-    HACKS_RAPIDOS,
-    IMPLANTES,
-    RPG_SYSTEM_OPTIONS,
-    RPG_SYSTEMS,
-    RpgSystemType,
-    SKILLS,
-    STORAGE_KEYS,
-    TipoImplante,
-    TIPOS_IMPLANTE
+  AcessorioArma,
+  ACESSORIOS_ARMAS,
+  CYBERPUN2080_CITY_FORCES,
+  CYBERPUN2080_ESSENTIAL_QUESTIONS,
+  CYBERPUN2080_MODULES,
+  CYBERPUN2080_ORIGINS,
+  EQUIPMENT_CATEGORIES,
+  GRUPOS_IMPLANTE,
+  HACKS_RAPIDOS,
+  IMPLANTES,
+  RPG_SYSTEM_OPTIONS,
+  RPG_SYSTEMS,
+  RpgSystemType,
+  SKILLS,
+  STORAGE_KEYS,
+  TipoImplante,
+  TIPOS_IMPLANTE
 } from '../../core/constants/rpg.constants';
 import { CyberpunkAntecedenteCatalog, CyberpunkCatalog, CyberpunkClassCatalog, CyberpunkStoreItem, CyberpunkSubclassCatalog, CyberpunkTalentCatalog } from '../../core/models/cyberpunk-catalog.model';
 import { ApiReference, DndClass, DndRace } from '../../core/models/dnd-api.model';
@@ -1466,6 +1466,11 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     this.rolagemTimer = setTimeout(() => { this.resultadoRolagem = null; }, 4000);
   }
 
+  rolarPericia(pericia: any, modAtributo: number): void {
+    const prof = pericia.valor === 'sim' ? (this.jogador?.proficiencia ?? 0) : 0;
+    this.rolarDado(pericia.nome, modAtributo + prof);
+  }
+
   /**
    * Formata modificador com sinal apropriado
    */
@@ -2284,7 +2289,6 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
    * Verifica se existem traços de classe
    */
   hasTracosClasse(): boolean {
-    console.log('Traços de classe:', this.getTracosClasse());
     return this.getTracosClasse().length > 0;
   }
 
