@@ -724,6 +724,7 @@ export const SKILLS = [
   { nome: 'Prestidigitação', atributo: 'destreza' },
   { nome: 'Resistência', atributo: 'constituicao' },
   { nome: 'Tolerância', atributo: 'constituicao' },
+  { nome: 'Atordoamento', atributo: 'constituicao' },
   { nome: 'Arcanismo', atributo: 'inteligencia' },
   { nome: 'Engenharia', atributo: 'inteligencia' },
   { nome: 'Investigação', atributo: 'inteligencia' },
@@ -743,6 +744,7 @@ export const SKILLS = [
   { nome: 'Adivinhação', atributo: 'sabedoria' },
   { nome: 'Jogos de Azar', atributo: 'carisma' },
   { nome: 'Sincronicidade', atributo: 'sabedoria' }
+
 ] as const;
 
 /**

@@ -1,0 +1,275 @@
+<div class="container-fluid py-4 catalogo-geral">
+  <!-- Header -->
+  <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-2">
+    <div>
+      <h2 class="mb-0 fw-bold">
+        <i class="fas fa-book-open me-2 text-primary"></i>Catálogo Geral
+      </h2>
+      <small class="text-muted">Atributos e perícias compartilhados entre sistemas de RPG</small>
+    </div>
+    <button class="btn btn-primary" (click)="abrirModalNovoAtributo()" [disabled]="saving">
+      <i class="fas fa-plus me-1"></i>Novo Atributo
+    </button>
+  </div>
+
+  <!-- Alertas -->
+  <div class="alert alert-danger d-flex align-items-center gap-2" *ngIf="erro">
+    <i class="fas fa-exclamation-circle"></i>{{ erro }}
+  </div>
+  <div class="alert alert-success d-flex align-items-center gap-2" *ngIf="sucesso">
+    <i class="fas fa-check-circle"></i>{{ sucesso }}
+  </div>
+
+  <!-- Filtros -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row g-3 align-items-end">
+        <div class="col-12 col-md-5">
+          <label class="form-label fw-semibold">Buscar por nome</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="fas fa-search"></i></span>
+            <input type="text" class="form-control" placeholder="Ex: Força, Destreza..." [(ngModel)]="filtroNome" />
+          </div>
+        </div>
+        <div class="col-12 col-md-4">
+          <label class="form-label fw-semibold">Filtrar por sistema</label>
+          <select class="form-select" [(ngModel)]="filtroSistema">
+            <option value="">Todos os sistemas</option>
+            <option *ngFor="let s of sistemaOpcoes" [value]="s">{{ getSistemaLabel(s) }}</option>
+          </select>
+        </div>
+        <div class="col-12 col-md-3">
+          <button class="btn btn-outline-secondary w-100" (click)="filtroNome=''; filtroSistema=''">
+            <i class="fas fa-times me-1"></i>Limpar filtros
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="text-center py-5" *ngIf="loading">
+    <div class="spinner-border text-primary"></div>
+    <p class="text-muted mt-2">Carregando catálogo...</p>
+  </div>
+
+  <!-- Lista vazia -->
+  <div class="text-center py-5" *ngIf="!loading && atributosFiltrados.length === 0">
+    <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+    <p class="text-muted">Nenhum atributo encontrado.</p>
+    <button class="btn btn-primary" (click)="abrirModalNovoAtributo()">
+      <i class="fas fa-plus me-1"></i>Criar primeiro atributo
+    </button>
+  </div>
+
+  <!-- Tabela de atributos -->
+  <div class="card" *ngIf="!loading && atributosFiltrados.length > 0">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+          <thead class="table-dark">
+            <tr>
+              <th style="width:32px;"></th>
+              <th>Atributo</th>
+              <th class="d-none d-md-table-cell">Abreviação</th>
+              <th class="d-none d-lg-table-cell">Descrição</th>
+              <th>Sistemas</th>
+              <th class="text-center">Perícias</th>
+              <th class="text-end" style="width:130px;">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngFor="let atributo of atributosFiltrados; let i = index">
+              <tr [class.table-active]="isExpandido(i)">
+                <td>
+                  <button class="btn btn-sm btn-link p-0 text-decoration-none" (click)="toggleExpandir(i)"
+                    [title]="isExpandido(i) ? 'Recolher perícias' : 'Expandir perícias'">
+                    <i class="fas" [class.fa-chevron-down]="isExpandido(i)" [class.fa-chevron-right]="!isExpandido(i)"></i>
+                  </button>
+                </td>
+                <td class="fw-semibold">{{ atributo.nome }}</td>
+                <td class="d-none d-md-table-cell">
+                  <span class="badge bg-secondary" *ngIf="atributo.abreviacao">{{ atributo.abreviacao }}</span>
+                </td>
+                <td class="d-none d-lg-table-cell text-muted small" style="max-width:280px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+                  {{ atributo.descricao || '—' }}
+                </td>
+                <td>
+                  <span *ngFor="let s of (atributo.sistemas || [])" [class]="getSistemasBadgeClass(s) + ' me-1'">
+                    {{ getSistemaLabel(s) }}
+                  </span>
+                  <span class="text-muted" *ngIf="!(atributo.sistemas?.length)">—</span>
+                </td>
+                <td class="text-center">
+                  <span class="badge bg-info text-dark">{{ atributo.pericias.length || 0 }}</span>
+                </td>
+                <td class="text-end">
+                  <button class="btn btn-sm btn-outline-primary me-1" (click)="abrirModalEditarAtributo(atributos.indexOf(atributo))" title="Editar atributo">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button class="btn btn-sm btn-outline-danger" (click)="excluirAtributo(atributos.indexOf(atributo))" title="Excluir atributo">
+                    <i class="fas fa-trash"></i>
+                  </button>
+                </td>
+              </tr>
+
+              <!-- Expansão: Perícias -->
+              <tr *ngIf="isExpandido(i)" class="pericia-row">
+                <td colspan="7" class="p-0">
+                  <div class="px-4 py-3 bg-light border-top">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                      <h6 class="mb-0 text-primary fw-semibold">
+                        <i class="fas fa-list-ul me-2"></i>Perícias de {{ atributo.nome }}
+                      </h6>
+                      <button class="btn btn-sm btn-success" (click)="abrirModalNovaPericia(atributos.indexOf(atributo))">
+                        <i class="fas fa-plus me-1"></i>Nova Perícia
+                      </button>
+                    </div>
+
+                    <div *ngIf="!atributo.pericias.length" class="text-muted small fst-italic py-2">
+                      Nenhuma perícia cadastrada para este atributo.
+                    </div>
+
+                    <div class="table-responsive" *ngIf="atributo.pericias.length">
+                      <table class="table table-sm table-bordered mb-0">
+                        <thead class="table-secondary">
+                          <tr>
+                            <th>Nome</th>
+                            <th class="d-none d-md-table-cell">Descrição</th>
+                            <th>Sistemas</th>
+                            <th class="text-end" style="width:90px;">Ações</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let pericia of atributo.pericias; let pi = index">
+                            <td class="fw-medium">{{ pericia.nome }}</td>
+                            <td class="d-none d-md-table-cell text-muted small">{{ pericia.descricao || '—' }}</td>
+                            <td>
+                              <span *ngFor="let s of (pericia.sistemas || [])" [class]="getSistemasBadgeClass(s) + ' me-1'">
+                                {{ getSistemaLabel(s) }}
+                              </span>
+                              <span class="text-muted" *ngIf="!(pericia.sistemas?.length)">—</span>
+                            </td>
+                            <td class="text-end">
+                              <button class="btn btn-xs btn-outline-primary me-1" (click)="abrirModalEditarPericia(atributos.indexOf(atributo), pi)" title="Editar">
+                                <i class="fas fa-edit"></i>
+                              </button>
+                              <button class="btn btn-xs btn-outline-danger" (click)="excluirPericia(atributos.indexOf(atributo), pi)" title="Excluir">
+                                <i class="fas fa-trash"></i>
+                              </button>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </ng-container>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card-footer text-muted small">
+      {{ atributosFiltrados.length }} atributo(s) encontrado(s)
+      <span class="ms-2 text-warning" *ngIf="saving">
+        <span class="spinner-border spinner-border-sm me-1"></span>Salvando...
+      </span>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Atributo / Perícia -->
+<div class="modal fade" [class.show]="modalAberto" [style.display]="modalAberto ? 'block' : 'none'"
+  tabindex="-1" (click)="fecharModal()">
+  <div class="modal-dialog modal-lg" (click)="$event.stopPropagation()">
+    <div class="modal-content">
+
+      <!-- Modal Atributo -->
+      <ng-container *ngIf="modalMode === 'atributo'">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <i class="fas fa-cube me-2 text-primary"></i>
+            {{ editAtributoIndex !== null ? 'Editar Atributo' : 'Novo Atributo' }}
+          </h5>
+          <button type="button" class="btn-close" (click)="fecharModal()"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-12 col-md-8">
+              <label class="form-label fw-semibold">Nome <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" [(ngModel)]="formAtributo.nome" placeholder="Ex: Força" />
+            </div>
+            <div class="col-12 col-md-4">
+              <label class="form-label fw-semibold">Abreviação</label>
+              <input type="text" class="form-control" [(ngModel)]="formAtributo.abreviacao" placeholder="Ex: FOR" maxlength="6" />
+            </div>
+            <div class="col-12">
+              <label class="form-label fw-semibold">Descrição</label>
+              <textarea class="form-control" rows="3" [(ngModel)]="formAtributo.descricao"
+                placeholder="Descreva o atributo..."></textarea>
+            </div>
+            <div class="col-12">
+              <label class="form-label fw-semibold d-block">Sistemas</label>
+              <div class="d-flex flex-wrap gap-3">
+                <div class="form-check" *ngFor="let s of sistemaOpcoes">
+                  <input class="form-check-input" type="checkbox" [id]="'attr-sis-' + s"
+                    [checked]="isSistemaAtributoChecked(s)" (change)="toggleSistemaAtributo(s)" />
+                  <label class="form-check-label" [for]="'attr-sis-' + s">{{ getSistemaLabel(s) }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" (click)="fecharModal()">Cancelar</button>
+          <button class="btn btn-primary" (click)="confirmarAtributo()" [disabled]="!formAtributo.nome.trim()">
+            <i class="fas fa-save me-1"></i>Salvar Atributo
+          </button>
+        </div>
+      </ng-container>
+
+      <!-- Modal Perícia -->
+      <ng-container *ngIf="modalMode === 'pericia'">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <i class="fas fa-star me-2 text-warning"></i>
+            {{ editPericiaIndex !== null ? 'Editar Perícia' : 'Nova Perícia' }}
+          </h5>
+          <button type="button" class="btn-close" (click)="fecharModal()"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-12">
+              <label class="form-label fw-semibold">Nome <span class="text-danger">*</span></label>
+              <input type="text" class="form-control" [(ngModel)]="formPericia.nome" placeholder="Ex: Atletismo" />
+            </div>
+            <div class="col-12">
+              <label class="form-label fw-semibold">Descrição</label>
+              <textarea class="form-control" rows="3" [(ngModel)]="formPericia.descricao"
+                placeholder="Descreva a perícia..."></textarea>
+            </div>
+            <div class="col-12">
+              <label class="form-label fw-semibold d-block">Sistemas</label>
+              <div class="d-flex flex-wrap gap-3">
+                <div class="form-check" *ngFor="let s of sistemaOpcoes">
+                  <input class="form-check-input" type="checkbox" [id]="'per-sis-' + s"
+                    [checked]="isSistemaPericiaChecked(s)" (change)="toggleSistemaPericia(s)" />
+                  <label class="form-check-label" [for]="'per-sis-' + s">{{ getSistemaLabel(s) }}</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" (click)="fecharModal()">Cancelar</button>
+          <button class="btn btn-warning text-dark" (click)="confirmarPericia()" [disabled]="!formPericia.nome.trim()">
+            <i class="fas fa-save me-1"></i>Salvar Perícia
+          </button>
+        </div>
+      </ng-container>
+
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade show" *ngIf="modalAberto" (click)="fecharModal()"></div>

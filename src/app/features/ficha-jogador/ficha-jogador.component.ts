@@ -335,6 +335,10 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
           {
             nome: "Sincronicidade",
             valor: "nao"
+          },
+          {
+            nome: "Atordoamento",
+            valor: "nao"
           }
         ],
         equipamentos: {
@@ -394,6 +398,7 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   novoAtaque: any = { nome: '', bonus: '', dano: '', tipoDano: '', notas: '', ca: null, equipado: false, acessorios: [] };
   editandoAtaque: { [key: number]: boolean } = {};
   mostrarDetalheCA = false;
+  mostrarDetalheCF = false;
   mostrarInfoAntecedente = false;       // toggle no painel de Traços (view)
   mostrarInfoAntecedentModal = false;   // toggle no painel de edição (modal)
   gerenciarAcessoriosAtaque: number | null = null;
@@ -1521,6 +1526,49 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     return ca;
   }
 
+  get cfCalculado(): number {
+    const modInt = this.calcularModificador(this.jogador?.atributos?.inteligencia) ?? 0;
+    const prof = this.jogador?.proficiencia ?? 0;
+
+    const equip = this.jogador?.equipamentos;
+
+    // Base: armadura ou 10 + DEX
+    let cf = 10 + modInt + prof;;
+    const armadura = equip?.['armadura']?.[0];
+    cf += armadura?.cf ? armadura.cf : 0;
+
+    // Escudo
+    const escudo = equip?.['escudo']?.[0];
+    if (escudo?.cf) cf += escudo.cf;
+
+    // Demais categorias
+    for (const cat of ['cabeca', 'pes', 'amuleto', 'anel']) {
+      const e = equip?.[cat]?.[0];
+      if (e?.cf) cf += e.cf;
+    }
+
+    // Armas equipadas com bônus de CA
+    if (Array.isArray(this.jogador?.ataques)) {
+      for (const ataque of this.jogador.ataques) {
+        if (ataque.equipado && Number(ataque.cf) > 0) {
+          cf += Number(ataque.cf);
+        }
+      }
+    }
+
+    // Implantes cibernéticos com bônus de CA
+    if (Array.isArray(this.jogador?.cyberpun2080?.implantesCiberneticos)) {
+      for (const imp of this.jogador.cyberpun2080.implantesCiberneticos) {
+        if (Number(imp.cf) > 0) cf += Number(imp.cf);
+      }
+    }
+    console.log('CF calculado:', cf);
+    return cf;
+
+
+  }
+
+
   /**
    * Detalhamento das fontes de CA para exibição ao clicar no ícone
    */
@@ -1565,7 +1613,44 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     return det;
   }
 
+  /**
+   * Detalhamento das fontes de CF para exibição ao clicar no ícone
+   */
+  get cfDetalhes(): Array<{fonte: string, valor: number}> {
+    const det: Array<{fonte: string, valor: number}> = [];
+    const modInt = this.calcularModificador(this.jogador?.atributos?.inteligencia) ?? 0;
+    const prof = this.jogador?.proficiencia ?? 0;
+    const equip = this.jogador?.equipamentos;
 
+    det.push({ fonte: 'Base', valor: 10 });
+    if (modInt !== 0) det.push({ fonte: 'Mod. Inteligência', valor: modInt });
+    if (prof !== 0) det.push({ fonte: 'Proficiência', valor: prof });
+
+    const armadura = equip?.['armadura']?.[0];
+    if (armadura?.cf) det.push({ fonte: `Armadura: ${armadura.nome || 'Armadura'}`, valor: armadura.cf });
+    const escudo = equip?.['escudo']?.[0];
+    if (escudo?.cf) det.push({ fonte: `Escudo: ${escudo.nome || 'Escudo'}`, valor: escudo.cf });
+    for (const cat of ['cabeca', 'pes', 'amuleto', 'anel']) {
+      const e = equip?.[cat]?.[0];
+      if (e?.cf) det.push({ fonte: e.nome || cat, valor: e.cf });
+    }
+    if (Array.isArray(this.jogador?.ataques)) {
+      for (const ataque of this.jogador.ataques) {
+        if (ataque.equipado && Number(ataque.cf) > 0) {
+          det.push({ fonte: `Arma: ${ataque.nome}`, valor: Number(ataque.cf) });
+        }
+      }
+    }
+    if (Array.isArray(this.jogador?.cyberpun2080?.implantesCiberneticos)) {
+      for (const imp of this.jogador.cyberpun2080.implantesCiberneticos) {
+        if (Number(imp.cf) > 0) det.push({ fonte: `Implante: ${imp.nome}`, valor: Number(imp.cf) });
+      }
+    }
+
+    const manual = Number(this.jogador?.cfManual) || 0;
+    if (manual !== 0) det.push({ fonte: 'Bônus manual', valor: manual });
+    return det;
+  }
 
   adicionarItem() {
     this.adicionandoItem = true;
@@ -1738,6 +1823,7 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   }
 
   getPericiasByAtributo(atributo: string): any[] {
+    console.log('Obtendo perícias para atributo:', atributo);
     if (!Array.isArray(this.jogador?.pericias)) return [];
     return this.jogador.pericias.filter((p: any) => {
       if (p.atributo) return p.atributo === atributo;

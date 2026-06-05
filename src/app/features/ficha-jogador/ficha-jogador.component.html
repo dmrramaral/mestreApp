@@ -189,6 +189,15 @@
                   <input type="number" class="stat-input" [(ngModel)]="jogador.ramAtual" (change)="saveToCache()">
                 </div>
               </div>
+              <!-- Criar o CF que é usado pra defenter ataque hack -->
+              <div class="col-4">
+              <div class="combat-stat" style="cursor:pointer" (click)="mostrarDetalheCF = !mostrarDetalheCF"
+                title="Clique para ver as fontes de CF">
+                <i class="fas fa-shield-alt text-primary"></i>
+                <span class="stat-label">CF <i class="fas fa-info-circle text-muted" style="font-size:.65em"></i></span>
+                <span class="stat-value">{{cfCalculado}}</span>
+              </div>
+            </div>
 
             </ng-container>
           </div>
@@ -215,6 +224,31 @@
               <label class="small text-muted mb-0 flex-shrink-0">Bônus manual:</label>
               <input type="number" class="form-control form-control-sm" style="max-width:80px"
                 [(ngModel)]="jogador.caManual" (change)="saveToCache()" placeholder="0">
+              <small class="text-muted fst-italic">itens não identificados</small>
+            </div>
+          </div>
+          <!-- Painel de Detalhes da CF -->
+          <div *ngIf="mostrarDetalheCF" class="mt-2 pt-2 border-top border-secondary">
+            <div class="d-flex justify-content-between align-items-center mb-1">
+              <small class="fw-semibold text-info"><i class="fas fa-shield-alt me-1"></i>Fontes de CF</small>
+              <button type="button" class="btn-close btn-close-white" style="font-size:.6rem"
+                (click)="mostrarDetalheCF = false"></button>
+            </div>
+            <div *ngFor="let d of cfDetalhes" class="d-flex justify-content-between align-items-center small py-0">
+              <span class="text-muted">{{ d.fonte }}</span>
+              <span class="badge" [ngClass]="d.valor >= 0 ? 'bg-primary' : 'bg-danger'">{{ d.valor >= 0 ? '+' : '' }}{{
+                d.valor }}</span>
+            </div>
+            <div
+              class="d-flex justify-content-between align-items-center border-top border-secondary mt-1 pt-1 small fw-bold">
+              <span class="text-white">Total</span>
+              <span class="badge bg-primary fs-6">{{ cfCalculado }}</span>
+            </div>
+            <!-- Bônus manual para itens não identificados -->
+            <div class="mt-2 d-flex align-items-center gap-2">
+              <label class="small text-muted mb-0 flex-shrink-0">Bônus manual:</label>
+              <input type="number" class="form-control form-control-sm" style="max-width:80px"
+                [(ngModel)]="jogador.cfManual" (change)="saveToCache()" placeholder="0">
               <small class="text-muted fst-italic">itens não identificados</small>
             </div>
           </div>
@@ -431,10 +465,7 @@
               data-bs-target="#collapseMagias">
               <i class="fas fa-magic me-2"></i>Magias
             </button>
-            <button class="btn btn-outline-success" type="button" data-bs-toggle="collapse"
-              data-bs-target="#collapseTalentos">
-              <i class="fas fa-star me-2"></i>Talentos
-            </button>
+
             <button class="btn btn-outline-danger" type="button" data-bs-toggle="collapse"
               data-bs-target="#collapseAtaques">
               <i class="fas fa-bolt me-2"></i>Hacks
@@ -447,7 +478,7 @@
               data-bs-target="#collapseClasseCyberpunk">
               <i class="fas fa-user-ninja me-2"></i>Classe
             </button>
-            <button class="btn btn-outline-dark text-white" type="button" data-bs-toggle="collapse"
+            <button class="btn theme-outline-neutral" type="button" data-bs-toggle="collapse"
               data-bs-target="#collapseTracos">
               <i class="fas fa-scroll me-2"></i>Traços
             </button>
@@ -470,6 +501,10 @@
             <button class="btn btn-outline-secondary" type="button" data-bs-toggle="collapse"
               data-bs-target="#collapseAnotacoes">
               <i class="fas fa-sticky-note me-2"></i>Anotações
+            </button>
+            <button class="btn btn-outline-success" type="button" data-bs-toggle="collapse"
+              data-bs-target="#collapseTalentos">
+              <i class="fas fa-star me-2"></i>Talentos
             </button>
           </div>
         </div>
@@ -744,7 +779,7 @@
         </div>
       </div>
       <div class="card-body">
-        <div *ngIf="isCyberPun2080" class="mb-4 p-3 border rounded bg-light">
+        <div *ngIf="isCyberPun2080" class="mb-4 p-3 border rounded theme-surface-panel">
           <div class="d-flex justify-content-between align-items-center mb-2">
             <h6 class="mb-0"><i class="fas fa-filter me-2"></i>Talentos do Catalogo por Classe</h6>
             <span class="badge bg-dark">{{ jogador.cyberpun2080?.papel || 'Sem Classe' }}</span>
@@ -1132,7 +1167,7 @@
           <!-- D&D: tabela clássica -->
           <div class="table-responsive" *ngIf="!isCyberPun2080">
             <table class="table table-sm table-hover align-middle mb-0">
-              <thead class="table-dark">
+              <thead class="theme-table-head">
                 <tr>
                   <th title="Equipado / dá bônus de CA"><i class="fas fa-shield-alt"></i></th>
                   <th>Nome</th>
@@ -1507,14 +1542,14 @@
                   <!-- HP e CT -->
                   <div class="row g-2 mb-3" *ngIf="classe.hpNivel1 || classe.ctBase">
                     <div class="col-12 col-md-6" *ngIf="classe.hpNivel1">
-                      <div class="p-2 border rounded bg-light">
+                      <div class="p-2 border rounded theme-surface-panel">
                         <div class="small fw-bold text-danger"><i class="fas fa-heart me-1"></i>PV no Nível 1</div>
                         <div class="small">{{ classe.hpNivel1 }}</div>
                         <div class="small text-muted" *ngIf="classe.hpPorNivel">Por nível: {{ classe.hpPorNivel }}</div>
                       </div>
                     </div>
                     <div class="col-12 col-md-6" *ngIf="classe.ctBase">
-                      <div class="p-2 border rounded bg-light">
+                      <div class="p-2 border rounded theme-surface-panel">
                         <div class="small fw-bold text-info"><i class="fas fa-microchip me-1"></i>CT Base</div>
                         <div class="small">{{ classe.ctBase }}</div>
                       </div>
@@ -1637,11 +1672,11 @@
   <!-- Traços -->
   <div class="collapse" id="collapseTracos">
     <div class="card shadow-sm mb-3">
-      <div class="card-header bg-dark text-white">
+      <div class="card-header theme-neutral-header">
         <div class="d-flex justify-content-between align-items-center">
           <h5 class="mb-0"><i class="fas fa-scroll me-2"></i>{{ isCyberPun2080 ? 'Traços de Classe e Origem' : 'Traços
             de Classe e Raça' }}</h5>
-          <button type="button" class="btn-close btn-close-white" data-bs-toggle="collapse"
+          <button type="button" class="btn-close theme-btn-close" data-bs-toggle="collapse"
             data-bs-target="#collapseTracos" title="Fechar"></button>
         </div>
       </div>
@@ -1733,7 +1768,7 @@
                     </div>
                     <div class="d-flex flex-wrap gap-1">
                       <span *ngFor="let item of antecedenteCatalogCompleto.itensIniciais"
-                        class="badge bg-dark-subtle text-dark border fw-normal py-1 px-2">
+                        class="badge theme-surface-panel border fw-normal py-1 px-2">
                         <i class="fas fa-angle-right me-1 text-muted"></i>{{ item }}
                       </span>
                     </div>
@@ -1865,15 +1900,15 @@
         <!-- Painel Loja Cyber — visível apenas quando lojaEquipAberta -->
         <div *ngIf="isCyberPun2080 && lojaEquipAberta" class="mb-4 border rounded overflow-hidden">
           <!-- Header clicável para fechar -->
-          <div class="d-flex justify-content-between align-items-center px-3 py-2 bg-dark text-white"
+          <div class="d-flex justify-content-between align-items-center px-3 py-2 theme-neutral-header"
             style="cursor:pointer;" (click)="lojaEquipAberta = false; itemLojaCyberSelecionado = ''">
             <span class="fw-semibold"><i class="fas fa-store me-2 text-warning"></i>Loja Cyber — Catálogo de
               Equipamentos</span>
-            <span class="text-white-50 small"><i class="fas fa-times"></i> Fechar</span>
+            <span class="theme-muted-contrast small"><i class="fas fa-times"></i> Fechar</span>
           </div>
 
           <!-- Filtros nav-tabs -->
-          <div class="bg-light border-bottom px-3 pt-2">
+          <div class="theme-surface-panel border-bottom px-3 pt-2">
             <ul class="nav nav-tabs border-0 flex-wrap" style="row-gap:.25rem; gap:.25rem;">
               <li class="nav-item">
                 <button type="button" class="nav-link py-1 px-2 small" [class.active]="filtroLojaEquip === 'todos'"
@@ -1904,7 +1939,7 @@
           </div>
 
           <!-- Formulário de seleção -->
-          <div class="p-3 bg-light" (click)="$event.stopPropagation()">
+          <div class="p-3 theme-surface-panel" (click)="$event.stopPropagation()">
             <div class="small text-muted mb-2">
               <i class="fas fa-info-circle me-1"></i>{{ itensFiltradosLoja.length }} item(s) no filtro atual
             </div>
@@ -1944,7 +1979,7 @@
               </div>
             </div>
             <!-- Preview do item selecionado -->
-            <div *ngIf="itemLojaPreview" class="mt-2 p-2 border rounded bg-white small">
+            <div *ngIf="itemLojaPreview" class="mt-2 p-2 border rounded theme-surface-panel-main small">
               <strong>{{ itemLojaPreview.nome }}</strong>
               <span class="text-muted" *ngIf="itemLojaPreview.descricao"> — {{ itemLojaPreview.descricao }}</span>
               <span *ngIf="itemLojaPreview.ca !== null && itemLojaPreview.ca !== undefined"
@@ -2332,7 +2367,7 @@
                   <option *ngFor="let classe of cyberpunClasses" [ngValue]="classe">{{ classe }}</option>
                 </select>
                 <!-- Painel info da Classe -->
-                <div *ngIf="classeCatalogCompleto" class="mt-2 p-2 border rounded bg-light">
+                <div *ngIf="classeCatalogCompleto" class="mt-2 p-2 border rounded theme-surface-panel">
                   <div class="small fw-semibold text-warning-emphasis mb-1"><i class="fas fa-circle-info me-1"></i>{{
                     classeCatalogCompleto.nome }}</div>
                   <p class="small text-muted mb-1"
@@ -2361,7 +2396,7 @@
                   </option>
                 </select>
                 <!-- Painel info da Subclasse -->
-                <div *ngIf="subclasseCatalogCompleto" class="mt-2 p-2 border rounded bg-light">
+                <div *ngIf="subclasseCatalogCompleto" class="mt-2 p-2 border rounded theme-surface-panel">
                   <div class="small fw-semibold text-primary mb-1"><i class="fas fa-code-branch me-1"></i>{{
                     subclasseCatalogCompleto.nome }}</div>
                   <p class="small text-muted mb-1">{{ subclasseCatalogCompleto.descricao }}</p>
@@ -2383,7 +2418,7 @@
                 </select>
                 <!-- Painel info do Antecedente -->
                 <div *ngIf="antecedenteCatalogCompleto" class="mt-2 border rounded overflow-hidden">
-                  <div class="d-flex justify-content-between align-items-center px-2 py-1 bg-dark-subtle">
+                  <div class="d-flex justify-content-between align-items-center px-2 py-1 theme-surface-panel">
                     <span class="small fw-semibold">
                       {{ antecedenteCatalogCompleto.emoji }} {{ antecedenteCatalogCompleto.nome }}
                     </span>
@@ -2393,7 +2428,7 @@
                       <i class="fas" [ngClass]="mostrarInfoAntecedentModal ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
                     </button>
                   </div>
-                  <div *ngIf="mostrarInfoAntecedentModal" class="p-2 bg-light">
+                  <div *ngIf="mostrarInfoAntecedentModal" class="p-2 theme-surface-panel">
                     <p class="small text-muted mb-2">{{ antecedenteCatalogCompleto.descricao }}</p>
                     <div class="small mb-2">
                       <span class="text-muted fw-semibold">Atributos: </span>
@@ -2470,7 +2505,7 @@
                 <label for="ca" class="form-label">
                   <i class="fas fa-shield me-1"></i>Classe de Armadura (CA)
                 </label>
-                <div class="form-control bg-dark text-white text-center fw-bold">{{ caCalculada }}</div>
+                <div class="form-control theme-display-box text-center fw-bold">{{ caCalculada }}</div>
                 <small class="text-muted">Calculado automaticamente. Use "Bônus manual" no card de combate para itens
                   não identificados.</small>
               </div>
@@ -2509,13 +2544,17 @@
                 <div class="col-md-3">
                   <label class="form-label"><i class="fas fa-shield-virus me-1"></i>CT Máx <span
                       class="badge bg-secondary ms-1" title="Calculado automaticamente">auto</span></label>
-                  <div class="form-control bg-dark text-white text-center fw-bold">{{ ctMax }}</div>
+                  <div class="form-control theme-display-box text-center fw-bold">{{ ctMax }}</div>
                   <div class="form-text small">10 + Mod.CON + Mod.SAB + Prof.</div>
                 </div>
                 <div class="col-md-3">
                   <label class="form-label"><i class="fas fa-virus-slash me-1"></i>CT Atual</label>
                   <input type="number" class="form-control" [(ngModel)]="jogador.ctAtual" name="ctAtual"
                     placeholder="Ex: 10" (change)="saveToCache()">
+                </div>
+                <div class="col-md-3">
+                  <label class="form-label"><i class="fas fa-shield-alt me-1"></i>CF</label>
+                  <div class="form-control theme-display-box text-center fw-bold">{{ cfCalculado }}</div>
                 </div>
               </ng-container>
             </div>

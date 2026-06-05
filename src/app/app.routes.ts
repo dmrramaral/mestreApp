@@ -68,6 +68,11 @@ export const routes: Routes = [
       loadComponent: () => import('./features/cyberpunk/loja/cyberpunk-loja.component').then(m => m.CyberpunkLojaComponent)
     },
     {
+      path: 'catalogo-geral',
+      canActivate: [authGuard],
+      loadComponent: () => import('./features/catalogo-geral/catalogo-geral.component').then(m => m.CatalogoGeralComponent)
+    },
+    {
       path: 'auth',
       loadComponent: () => import('./features/auth/auth.component').then(m => m.AuthComponent)
     },
