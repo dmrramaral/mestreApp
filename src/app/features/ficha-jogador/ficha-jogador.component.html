@@ -1511,7 +1511,7 @@
         </div>
       </div>
       <div class="card-body p-2">
-        <div class="accordion" id="accordionClasses">
+        <div class="accordion accordion-classes-cyberpunk" id="accordionClasses">
           <ng-container *ngFor="let classe of cyberpunClassesFullData; let ci = index">
             <div class="accordion-item" [class.border-warning]="classe.nome === jogador?.cyberpun2080?.papel"
               [class.border-2]="classe.nome === jogador?.cyberpun2080?.papel">
@@ -1876,13 +1876,13 @@
           <h5 class="mb-0"><i class="fas fa-shield-alt me-2"></i>Equipamentos</h5>
           <div>
             <button type="button" class="btn btn-light btn-sm me-2" (click)="adicionarEquipamento()">
-              <i class="fas fa-plus me-1"></i>Adicionar
+              <i class="fas fa-plus me-1"></i>
             </button>
             <button *ngIf="isCyberPun2080" type="button" class="btn btn-sm me-2"
               [ngClass]="lojaEquipAberta ? 'btn-warning' : 'btn-light'"
               (click)="lojaEquipAberta = !lojaEquipAberta; itemLojaCyberSelecionado = ''; filtroLojaEquip = 'todos'">
               <i class="fas me-1" [ngClass]="lojaEquipAberta ? 'fa-times' : 'fa-store'"></i>
-              {{ lojaEquipAberta ? 'Fechar Loja' : 'Loja Cyber' }}
+              {{ lojaEquipAberta ? 'Fechar Loja' : 'Cyber' }}
             </button>
             <button *ngIf="!isCyberPun2080" type="button" class="btn btn-light btn-sm me-2" (click)="abrirLoja()">
               <i class="fas fa-store me-1"></i>Da Loja
