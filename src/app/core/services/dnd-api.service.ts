@@ -250,12 +250,12 @@ export class DndApiService {
   }
 
   /**
-   * Obtém lista de classes (2014 API)
+   * Obtém lista de classes (2024 API)
    * Ex: Barbarian, Bard, Cleric, etc.
    */
   getClasses(): Observable<any> {
     if (!this.classesCache$) {
-      this.classesCache$ = this.http.get(`${this.BASE_URL_2014}/classes`).pipe(
+      this.classesCache$ = this.http.get(`${this.BASE_URL}/classes`).pipe(
         shareReplay(1)
       );
     }
@@ -263,14 +263,14 @@ export class DndApiService {
   }
 
   /**
-   * Obtém detalhes de uma classe específica (2014 API)
+   * Obtém detalhes de uma classe específica (2024 API)
    */
   getClassDetails(index: string): Observable<any> {
-    return this.http.get(`${this.BASE_URL_2014}/classes/${index}`);
+    return this.http.get(`${this.BASE_URL}/classes/${index}`);
   }
 
   /**
-   * Obtém lista de raças (2014 API)
+   * Obtém lista de raças (2024 API)
    * Ex: Dragonborn, Dwarf, Elf, etc.
    */
   getRaces(): Observable<any> {
@@ -283,14 +283,14 @@ export class DndApiService {
   }
 
   /**
-   * Obtém detalhes de uma raça específica (2014 API)
+   * Obtém detalhes de uma raça específica (2024 API)
    */
   getRaceDetails(index: string): Observable<any> {
     return this.http.get(`${this.BASE_URL_2014}/races/${index}`);
   }
 
   /**
-   * Obtém lista de magias (2014 API)
+   * Obtém lista de magias (2024 API)
    * Ex: Fireball, Magic Missile, Cure Wounds, etc.
    */
   getSpells(): Observable<any> {
@@ -330,7 +330,7 @@ export class DndApiService {
    * Obtém detalhes de uma magia específica (2014 API)
    */
   getSpellDetails(index: string): Observable<any> {
-    return this.http.get(`${this.BASE_URL_2014}/spells/${index}`);
+    return this.http.get(`${this.BASE_URL}/spells/${index}`);
   }
 
   /**
@@ -339,7 +339,7 @@ export class DndApiService {
    */
   getFeats(): Observable<any> {
     if (!this.featsCache$) {
-      this.featsCache$ = this.http.get(`${this.BASE_URL_2014}/feats`).pipe(
+      this.featsCache$ = this.http.get(`${this.BASE_URL}/feats`).pipe(
         shareReplay(1)
       );
     }
@@ -350,7 +350,7 @@ export class DndApiService {
    * Obtém detalhes de um talento/feat específico (2014 API)
    */
   getFeatDetails(index: string): Observable<any> {
-    return this.http.get(`${this.BASE_URL_2014}/feats/${index}`);
+    return this.http.get(`${this.BASE_URL}/feats/${index}`);
   }
 
   /**

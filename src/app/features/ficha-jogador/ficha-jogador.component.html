@@ -61,17 +61,11 @@
             <span class="session-identity">{{ descricaoSessao }}</span>
           </div>
           <div class="session-actions mt-2">
-            <button *ngIf="!estaAutenticado" class="btn btn-light btn-sm" (click)="entrarComGoogle()">
-              <i class="fab fa-google me-1"></i>Vincular Google
-            </button>
             <button *ngIf="estaAutenticado" class="btn btn-light btn-sm me-1" (click)="trocarFichaDaConta()">
               <i class="fas fa-list me-1"></i>Selecionar Ficha
             </button>
             <button *ngIf="estaAutenticado" class="btn btn-light btn-sm me-1" (click)="criarNovaFichaNaConta()">
               <i class="fas fa-plus me-1"></i>Nova Ficha
-            </button>
-            <button *ngIf="estaAutenticado" class="btn btn-outline-light btn-sm" (click)="sairDaConta()">
-              <i class="fas fa-user-times me-1"></i>Usar Convidado
             </button>
           </div>
           <small *ngIf="estaAutenticado && fichaSelecionadaId" class="session-message d-block mt-1">
@@ -158,9 +152,16 @@
               <div class="combat-stat">
                 <i class="fas fa-bolt text-warning"></i>
                 <span class="stat-label">Iniciativa</span>
-                <input *ngIf="editandoCombate" type="number" class="stat-input" [(ngModel)]="jogador.iniciativa"
-                  (change)="saveToCache()">
+                <input *ngIf="editandoCombate" type="number" class="stat-input" [(ngModel)]="jogador.iniciativa" (change)="saveToCache()">
                 <span *ngIf="!editandoCombate" class="stat-value">+{{jogador.iniciativa || 0}}</span>
+                <!-- Marcar se é com vantagem -->
+                <input *ngIf="editandoCombate" type="checkbox" class="form-check-input ms-2" id="vantagemIniciativa"
+                  [(ngModel)]="vantagemIniciativa"  (change)="saveToCache()">
+                  <label *ngIf="editandoCombate" class="form-check-label text-muted ms-1" for="vantagemIniciativa" title="Marque se tem vantagem na iniciativa">Vantagem</label>
+                   <span *ngIf="!editandoCombate" class="text-muted ms-2" title="Vantagem na iniciativa">{{ vantagemIniciativa ? 'Vantagem' : '' }}</span>
+                <button *ngIf="!editandoAtributos" class="dice-roll-btn" type="button" title="Rolar 1d20 + FOR"
+                  (click)="rolarD20('INICIATIVA', jogador.iniciativa || 0, vantagemIniciativa)"><i
+                    class="fas fa-dice-d20"></i></button>
               </div>
             </div>
             <div class="col-4">
@@ -466,7 +467,7 @@
               <i class="fas fa-magic me-2"></i>Magias
             </button>
 
-            <button class="btn btn-outline-danger" type="button" data-bs-toggle="collapse"
+            <button *ngIf="isCyberPun2080" class="btn btn-outline-danger" type="button" data-bs-toggle="collapse"
               data-bs-target="#collapseAtaques">
               <i class="fas fa-bolt me-2"></i>Hacks
             </button>
@@ -1716,6 +1717,10 @@
                   <i class="fas fa-dna text-success"></i>
                   <strong>{{traco.nome}}</strong>
                 </div>
+                <div>
+                  <strong>{{traco.descricao}}</strong>
+                </div>
+
                 <div>
                   <button type="button" class="btn btn-danger btn-sm" (click)="removerTraco(traco)">
                     <i class="fas fa-trash-alt"></i>
@@ -3164,8 +3169,14 @@
 
 <!-- Toast de resultado de rolagem -->
 <div *ngIf="resultadoRolagem" class="rolagem-toast">
+  <!-- Botão pra fechar o toast -->
+  <button type="button" class="btn-close btn-close-white me-2" (click)="resultadoRolagem = null" aria-label="Close"></button>
+
   <div class="rolagem-toast-campo"><i class="fas fa-dice-d20 me-1"></i>{{ resultadoRolagem.campo }}</div>
   <div class="rolagem-toast-total">{{ resultadoRolagem.total }}</div>
   <div class="rolagem-toast-detalhe">d20: <strong>{{ resultadoRolagem.d20 }}</strong> {{ resultadoRolagem.mod >= 0 ? '+'
     : '' }}<strong>{{ resultadoRolagem.mod }}</strong></div>
+  <div class="rolagem-toast-detalhe" *ngIf="resultadoRolagem.detalhe">{{ resultadoRolagem.detalhe }}</div>
 </div>
+
+

@@ -80,6 +80,8 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   lojaEquipAberta = false;
   filtroLojaEquip = 'todos';
 
+  vantagemIniciativa = false;
+
   get itensFiltradosLoja(): CyberpunkStoreItem[] {
     if (this.filtroLojaEquip === 'todos') return this.cyberpunEquipamentosCatalogo;
     return this.cyberpunEquipamentosCatalogo.filter(i => i.grupoLoja === this.filtroLojaEquip);
@@ -98,7 +100,7 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   erroCatalogoCyberpunk = '';
 
   // Rolagem de dados interativa
-  resultadoRolagem: { campo: string; d20: number; mod: number; total: number } | null = null;
+  resultadoRolagem: { campo: string; d20: number; mod: number; total: number, detalhe?: string } | null = null;
   private rolagemTimer: ReturnType<typeof setTimeout> | null = null;
 
   get detalhesClasseCyberpunkAtual(): string {
@@ -1239,54 +1241,6 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     this.mensagemSessao = 'Ficha de convidado migrada automaticamente para sua conta.';
   }
 
-  entrarComGoogle(): void {
-    if (typeof window === 'undefined') {
-      return;
-    }
-
-    const email = window.prompt('Informe seu e-mail Google para vincular sua ficha:');
-    if (!email) {
-      return;
-    }
-
-    const usuarioId = this.normalizarUsuarioGoogle(email);
-    if (!usuarioId) {
-      this.mensagemSessao = 'Não foi possível validar o e-mail informado.';
-      return;
-    }
-
-    this.migrarFichaConvidadoParaConta(usuarioId);
-    this.sessao = {
-      modo: 'google',
-      usuarioId,
-      email: email.trim(),
-      ultimoLogin: new Date().toISOString()
-    };
-    this.salvarSessao();
-    this.carregarFichaSelecionada();
-    this.carregarFichaDaSessao();
-    void this.sincronizarDoServidor(true);
-
-    if (!this.mensagemSessao) {
-      this.mensagemSessao = 'Conta vinculada com sucesso. Seus dados agora estão separados por usuário.';
-    }
-  }
-
-  async sairDaConta(): Promise<void> {
-    await this.forcarSincronizacaoPendente();
-
-    this.sessao = {
-      modo: 'convidado',
-      usuarioId: 'guest',
-      ultimoLogin: new Date().toISOString()
-    };
-    this.salvarSessao();
-    this.carregarFichaDaSessao();
-    this.mensagemSessao = 'Você voltou para o modo convidado.';
-    this.erroSincronizacao = '';
-    this.fichasConta = [];
-    this.fichaSelecionadaId = 'main-character';
-  }
 
   async trocarFichaDaConta(): Promise<void> {
     if (!this.estaAutenticado) {
@@ -1468,12 +1422,40 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     const d20 = Math.floor(Math.random() * 20) + 1;
     this.resultadoRolagem = { campo, d20, mod, total: d20 + mod };
     if (this.rolagemTimer) clearTimeout(this.rolagemTimer);
-    this.rolagemTimer = setTimeout(() => { this.resultadoRolagem = null; }, 4000);
+    this.rolagemTimer = setTimeout(() => { this.resultadoRolagem = null; }, 30000);
+  }
+
+  rolarD20(campo: string, mod: number, vantagem: boolean = false): void {
+    const d20 = Math.floor(Math.random() * 20) + 1;
+    if(vantagem) {
+
+      const d20_2 = Math.floor(Math.random() * 20) + 1;
+      const melhor = Math.max(d20, d20_2);
+      this.resultadoRolagem = { campo, d20: melhor, mod, total: melhor + mod, detalhe: `Rolou ${d20} e ${d20_2} com vantagem` };
+    } else {
+      this.resultadoRolagem = { campo, d20, mod, total: d20 + mod };
+    }
+    if (this.rolagemTimer) clearTimeout(this.rolagemTimer);
+    this.rolagemTimer = setTimeout(() => { this.resultadoRolagem = null; }, 30000);
   }
 
   rolarPericia(pericia: any, modAtributo: number): void {
     const prof = pericia.valor === 'sim' ? (this.jogador?.proficiencia ?? 0) : 0;
     this.rolarDado(pericia.nome, modAtributo + prof);
+  }
+
+  /**
+   * Será destinado pra rodar os dados de ataques, considerando modificadores de ataque, bônus de armas, etc.
+   * A ideia é ter um local centralizado para isso, onde seja possível exibir detalhes da rolagem (como o que compõe o modificador total) e futuramente permitir customizações (como rolar com vantagem/desvantagem, ou aplicar condições específicas)
+   *
+   */
+  rolarDadosAtaques( equipamento: any): void {
+    const modAtributo = this.calcularModificador(this.jogador?.atributos?.forca) ?? 0;
+    const listaDadosAtaque = equipamento.dadosAtaque || [];
+    for (const dado of listaDadosAtaque) {
+      const bonus = Number(equipamento.bonusAtaque) || 0;
+      this.rolarDado(`Ataque com ${equipamento.nome} (${dado})`, modAtributo + bonus);
+    }
   }
 
   /**
@@ -1823,7 +1805,6 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   }
 
   getPericiasByAtributo(atributo: string): any[] {
-    console.log('Obtendo perícias para atributo:', atributo);
     if (!Array.isArray(this.jogador?.pericias)) return [];
     return this.jogador.pericias.filter((p: any) => {
       if (p.atributo) return p.atributo === atributo;
@@ -2019,6 +2000,7 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
       next: (data) => {
         this.selectedClassDetails = data;
         this.loadingClassDetails = false;
+        console.log('Detalhes da classe selecionada:', data);
 
         // Fecha o modal de seleção e abre o modal de detalhes
         if (typeof window !== 'undefined') {
