@@ -330,7 +330,7 @@ export class DndApiService {
    * Obtém detalhes de uma magia específica (2014 API)
    */
   getSpellDetails(index: string): Observable<any> {
-    return this.http.get(`${this.BASE_URL}/spells/${index}`);
+    return this.http.get(`${this.BASE_URL_2014}/spells/${index}`);
   }
 
   /**
