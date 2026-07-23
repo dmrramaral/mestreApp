@@ -50,6 +50,12 @@
     (abrirBuscarTalento)="abrirBuscarTalento()"
     (dirty)="saveToCache()"></app-ficha-talentos-section>
 
+      <app-ficha-tracos-section
+    [jogador]="jogador"
+    [isDnd5e]="isDnd5e"
+    (abrirBuscarTracos)="abrirBuscarTracos()"
+    (dirty)="saveToCache()"></app-ficha-tracos-section>
+
 
     <app-ficha-mochila-section
       [jogador]="jogador"

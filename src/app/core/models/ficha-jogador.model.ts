@@ -232,6 +232,7 @@ export interface FichaJogadorLegacy {
   talentos: any[];
   atributos: any;
   pericias: any[];
-  cyberpun2080?: DadosCyberPun2080;
+
   [key: string]: any;
+  tracos?: Traco[];
 }

@@ -17,24 +17,6 @@ export class FichaJogadorService {
 
   constructor() {}
 
-  criarDadosCyberPun2080Padrao() {
-    return {
-      papel: '',
-      subclasse: '',
-      origem: '',
-      antecedente: '',
-      historia: '',
-      perguntasEssenciais: ['', '', '', '', ''],
-      implantesCiberneticos: [],
-      nivelAmeacaRede: null,
-      creditoEurodolar: null,
-      estresseNeural: null,
-      equipamentosTecnologiaNotas: '',
-      veiculosNotas: '',
-      consumiveisViciosNotas: '',
-      forcasCidadeNotas: ''
-    };
-  }
 
   /**
    * Cria uma nova ficha vazia com valores padrão
@@ -96,7 +78,7 @@ export class FichaJogadorService {
       },
       mochila: [],
       magias: [],
-      cyberpun2080: this.criarDadosCyberPun2080Padrao()
+
     };
   }
 
@@ -256,4 +238,21 @@ export class FichaJogadorService {
   obterFichaAtual(): FichaJogadorLegacy | null {
     return this.fichaSubject.value;
   }
+
+  removerTracos(ficha: FichaJogadorLegacy, tracos: { nome: string; descricao: string }): void {
+    if (ficha.tracos) {
+      ficha.tracos = ficha.tracos.filter((t: any) => t.nome !== tracos.nome);
+    }
+  }
+
+  adicionarTracos(ficha: FichaJogadorLegacy, tracos: { nome: string; descricao: string }): void {
+    if (!ficha.tracos) {
+      ficha.tracos = [];
+    }
+    ficha.tracos.push({ ...tracos, origem: 'raca' });
+  }
+
+
+
+
 }

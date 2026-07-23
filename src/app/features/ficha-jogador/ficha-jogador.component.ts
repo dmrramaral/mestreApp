@@ -27,6 +27,7 @@ import { FichaPericiasSectionComponent } from './components/ficha-pericias-secti
 import { FichaSectionNavComponent } from './components/ficha-section-nav/ficha-section-nav.component';
 import { FichaSpellSearchModalComponent } from './components/ficha-spell-search-modal/ficha-spell-search-modal.component';
 import { FichaTalentosSectionComponent } from './components/ficha-talentos-section/ficha-talentos-section.component';
+import { FichaTracosSectionComponent } from './components/ficha-tracos-section/ficha-tracos-section.component';
 import { FichaSessionFacade } from './state/ficha-session.facade';
 import { FichaStateFacade } from './state/ficha-state.facade';
 import { FichaContaResumo, SessaoJogador } from './state/ficha-state.models';
@@ -52,7 +53,8 @@ import { FichaSyncFacade } from './state/ficha-sync.facade';
     FichaCondicoesSectionComponent,
     FichaAnotacoesSectionComponent,
     FeatureSearchModalComponent,
-    DiceRollToastComponent
+    DiceRollToastComponent,
+    FichaTracosSectionComponent,
   ],
   templateUrl: './ficha-jogador.component.html',
   styleUrl: './ficha-jogador.component.scss'
@@ -270,6 +272,7 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   // Spell and Feat search functionality
   buscarMagiaAberto: boolean = false;
   buscarTalentoAberto: boolean = false;
+  buscarTracosAberto: boolean = false;
 
   // Spell details in player's spell list
   expandedSpellDetails: { [key: number]: any } = {};
@@ -1101,6 +1104,13 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
       return;
     }
     this.buscarTalentoAberto = true;
+  }
+
+  abrirBuscarTracos(): void {
+    if (!this.isDnd5e) {
+      return;
+    }
+    this.buscarTracosAberto = true;
   }
 
   /**
