@@ -21,7 +21,6 @@ export class FichaEquipamentosSectionComponent {
     ca: null
   };
 
-  @Output() abrirGerenciarAcessoriosEquip = new EventEmitter<number>();
   @Output() dirty = new EventEmitter<void>();
 
   readonly categorias = ['cabeca', 'arma', 'armadura', 'pes', 'escudo', 'anel', 'amuleto'];

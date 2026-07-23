@@ -3,26 +3,23 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
-    AcessorioArma,
-    EQUIPMENT_CATEGORIES,
-    RPG_SYSTEM_OPTIONS,
-    RPG_SYSTEMS,
-    RpgSystemType,
-    SKILLS
+  RPG_SYSTEM_OPTIONS,
+  RPG_SYSTEMS,
+  RpgSystemType
 } from '../../core/constants/rpg.constants';
-import { ApiReference, DndClass, DndRace } from '../../core/models/dnd-api.model';
 import { DndApiService } from '../../core/services/dnd-api.service';
 import { FichaJogadorService } from '../../core/services/ficha-jogador.service';
 import { StorageService } from '../../core/services/storage.service';
 import { RegistroSync } from '../../core/services/sync-backend.service';
-import { calcularModificador, formatarModificador } from '../../core/utils/rpg.utils';
+import { calcularModificador } from '../../core/utils/rpg.utils';
 import { CombateAction, CombateComponent } from './combate/combate.component';
 import { DiceRollToastComponent } from './components/dice-roll-toast/dice-roll-toast.component';
-import { FichaEquipamentosSectionComponent } from './components/ficha-equipamentos-section/ficha-equipamentos-section.component';
+import { FeatureSearchModalComponent } from './components/feature-search-modal/feature-search-modal.component';
 import { FichaAnotacoesSectionComponent } from './components/ficha-anotacoes-section/ficha-anotacoes-section.component';
+import { FichaCondicoesSectionComponent } from './components/ficha-condicoes-section/ficha-condicoes-section.component';
 import { FichaDndModalsComponent } from './components/ficha-dnd-modals/ficha-dnd-modals.component';
 import { FichaEditModalComponent } from './components/ficha-edit-modal/ficha-edit-modal.component';
-import { FichaCondicoesSectionComponent } from './components/ficha-condicoes-section/ficha-condicoes-section.component';
+import { FichaEquipamentosSectionComponent } from './components/ficha-equipamentos-section/ficha-equipamentos-section.component';
 import { FichaHeaderComponent } from './components/ficha-header/ficha-header.component';
 import { FichaMagiasSectionComponent } from './components/ficha-magias-section/ficha-magias-section.component';
 import { FichaMochilaSectionComponent } from './components/ficha-mochila-section/ficha-mochila-section.component';
@@ -30,15 +27,10 @@ import { FichaPericiasSectionComponent } from './components/ficha-pericias-secti
 import { FichaSectionNavComponent } from './components/ficha-section-nav/ficha-section-nav.component';
 import { FichaSpellSearchModalComponent } from './components/ficha-spell-search-modal/ficha-spell-search-modal.component';
 import { FichaTalentosSectionComponent } from './components/ficha-talentos-section/ficha-talentos-section.component';
-import { FeatureSearchModalComponent } from './components/feature-search-modal/feature-search-modal.component';
 import { FichaSessionFacade } from './state/ficha-session.facade';
 import { FichaStateFacade } from './state/ficha-state.facade';
 import { FichaContaResumo, SessaoJogador } from './state/ficha-state.models';
 import { FichaSyncFacade } from './state/ficha-sync.facade';
-
-
-// Tempo de delay para transições entre modais (em milissegundos)
-const MODAL_TRANSITION_DELAY = 300;
 
 @Component({
   selector: 'app-ficha-jogador',
@@ -274,42 +266,10 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     classes: []
   };
 
-  adicionandoAtaque: boolean = false;
-  novoAtaque: any = { nome: '', bonus: '', dano: '', tipoDano: '', notas: '', ca: null, equipado: false, acessorios: [] };
-  editandoAtaque: { [key: number]: boolean } = {};
-  mostrarDetalheCA = false;
-  mostrarInfoAntecedente = false;       // toggle no painel de Traços (view)
-  mostrarInfoAntecedentModal = false;   // toggle no painel de edição (modal)
-  gerenciarAcessoriosAtaque: number | null = null;
-  gerenciarAcessoriosEquipArma: number | null = null;
-  verCatalogoHacks = false;
-
-
-  editandoAtributos: boolean = false;
-  editandoCombate: boolean = false;
-
   editandoMagia: { [key: number]: boolean } = {};
   // Spell and Feat search functionality
   buscarMagiaAberto: boolean = false;
   buscarTalentoAberto: boolean = false;
-  availableSpells: ApiReference[] = [];
-  availableFeats: ApiReference[] = [];
-  filteredSpells: ApiReference[] = [];
-  filteredFeats: ApiReference[] = [];
-  spellSearchTerm: string = '';
-  featSearchTerm: string = '';
-  loadingSpells: boolean = false;
-  loadingFeats: boolean = false;
-  selectedSpellDetails: any = null;
-  selectedFeatDetails: any = null;
-
-  // Spell filters
-  spellLevelFilter: string = '';
-  spellClassFilter: string = '';
-  availableSpellLevels: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-  // Cache de detalhes de magias para filtros
-  spellDetailsCache: { [key: string]: any } = {};
 
   // Spell details in player's spell list
   expandedSpellDetails: { [key: number]: any } = {};
@@ -327,16 +287,6 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   private pushTimeout?: ReturnType<typeof setTimeout>;
   fichasConta: FichaContaResumo[] = [];
   fichaSelecionadaId = 'main-character';
-
-  readonly equipmentCategories = EQUIPMENT_CATEGORIES;
-
-  // DND API data
-  availableClasses: ApiReference[] = [];
-  availableRaces: ApiReference[] = [];
-  selectedClassDetails?: DndClass;
-  selectedRaceDetails?: DndRace;
-  loadingClassDetails = false;
-  loadingRaceDetails = false;
 
   readonly spellComponentsFormatter = (magia: any, expandedDetails: any): string =>
     this.getSpellComponents(magia, expandedDetails);
@@ -661,10 +611,6 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
       window.addEventListener('beforeunload', this.beforeUnloadHandler);
     }
 
-    // Carrega dados D&D apenas quando o sistema atual exigir
-    if (this.isDnd5e) {
-      this.loadClassesAndRaces();
-    }
   }
 
   ngOnDestroy(): void {
@@ -862,13 +808,6 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Formata modificador com sinal apropriado
-   */
-  formatarModificador(modificador: number | null): string {
-    return formatarModificador(modificador);
-  }
-
-  /**
    * Obtém a CA calculada somando: base (10+DEX ou armadura), equipamentos, armas equipadas, implantes e bônus manual
    */
   get caCalculada(): number {
@@ -1037,189 +976,6 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     return det;
   }
 
-  adicionarAtaque() {
-    this.adicionandoAtaque = true;
-  }
-
-  confirmarAdicionarAtaque() {
-    if (this.novoAtaque.nome && this.novoAtaque.dano) {
-      if (!Array.isArray(this.jogador.ataques)) {
-        this.jogador.ataques = [];
-      }
-      this.jogador.ataques.push({ ...this.novoAtaque });
-      this.novoAtaque = { nome: '', bonus: '', dano: '', tipoDano: '', notas: '', ca: null, equipado: false, acessorios: [] };
-      this.adicionandoAtaque = false;
-      this.saveToCache();
-    }
-  }
-
-  cancelarAdicionarAtaque() {
-    this.novoAtaque = { nome: '', bonus: '', dano: '', tipoDano: '', notas: '', ca: null, equipado: false, acessorios: [] };
-    this.adicionandoAtaque = false;
-  }
-
-  removerAtaque(index: number) {
-    if (Array.isArray(this.jogador.ataques)) {
-      this.jogador.ataques.splice(index, 1);
-      this.saveToCache();
-    }
-  }
-
-  toggleEditarAtaque(index: number) {
-    this.editandoAtaque[index] = !this.editandoAtaque[index];
-    if (!this.editandoAtaque[index]) {
-      this.gerenciarAcessoriosAtaque = null;
-      this.saveToCache();
-    }
-  }
-
-  abrirGerenciarAcessorios(index: number) {
-    this.gerenciarAcessoriosAtaque = this.gerenciarAcessoriosAtaque === index ? null : index;
-    this.gerenciarAcessoriosEquipArma = null;
-  }
-
-  abrirGerenciarAcessoriosEquip(index: number) {
-    this.gerenciarAcessoriosEquipArma = this.gerenciarAcessoriosEquipArma === index ? null : index;
-    this.gerenciarAcessoriosAtaque = null;
-  }
-
-  temAcessorioEquipCategoria(equip: any, categoria: string): boolean {
-    return Array.isArray(equip?.acessorios) &&
-      equip.acessorios.some((a: any) => a.categoria === categoria);
-  }
-
-  acessorioEquipJaInstalado(equip: any, id: string): boolean {
-    return Array.isArray(equip?.acessorios) &&
-      equip.acessorios.some((a: any) => a.id === id);
-  }
-
-  adicionarAcessorioEquip(equipIndex: number, acessorio: AcessorioArma) {
-    const equip = this.jogador.equipamentos?.['arma']?.[equipIndex];
-    if (!equip) return;
-    if (!Array.isArray(equip.acessorios)) equip.acessorios = [];
-    if (this.temAcessorioEquipCategoria(equip, acessorio.categoria)) return;
-    equip.acessorios.push({ id: acessorio.id, nome: acessorio.nome, categoria: acessorio.categoria, efeito: acessorio.efeito });
-    this.saveToCache();
-  }
-
-  removerAcessorioEquip(equipIndex: number, acessorioId: string) {
-    const equip = this.jogador.equipamentos?.['arma']?.[equipIndex];
-    if (!Array.isArray(equip?.acessorios)) return;
-    equip.acessorios = equip.acessorios.filter((a: any) => a.id !== acessorioId);
-    this.saveToCache();
-  }
-
-  temAcessorioCategoria(ataque: any, categoria: string): boolean {
-    return Array.isArray(ataque?.acessorios) &&
-      ataque.acessorios.some((a: any) => a.categoria === categoria);
-  }
-
-  acessorioJaInstalado(ataque: any, id: string): boolean {
-    return Array.isArray(ataque?.acessorios) &&
-      ataque.acessorios.some((a: any) => a.id === id);
-  }
-
-  adicionarAcessorioArma(ataqueIndex: number, acessorio: AcessorioArma) {
-    const ataque = this.jogador.ataques?.[ataqueIndex];
-    if (!ataque) return;
-    if (!Array.isArray(ataque.acessorios)) ataque.acessorios = [];
-    if (this.temAcessorioCategoria(ataque, acessorio.categoria)) return; // regra: 1 por tipo
-    ataque.acessorios.push({ id: acessorio.id, nome: acessorio.nome, categoria: acessorio.categoria, efeito: acessorio.efeito });
-    this.saveToCache();
-  }
-
-  removerAcessorioArma(ataqueIndex: number, acessorioId: string) {
-    const ataque = this.jogador.ataques?.[ataqueIndex];
-    if (!Array.isArray(ataque?.acessorios)) return;
-    ataque.acessorios = ataque.acessorios.filter((a: any) => a.id !== acessorioId);
-    this.saveToCache();
-  }
-
-  categoriaAcessorioLabel(categoria: string): string {
-    const labels: Record<string, string> = {
-      mira: 'Mira', carregador: 'Carregador', supressor: 'Supressor'
-    };
-    return labels[categoria] ?? categoria;
-  }
-
-  categoriaAcessorioIcon(categoria: string): string {
-    const icons: Record<string, string> = {
-      mira: 'fas fa-crosshairs', carregador: 'fas fa-battery-full', supressor: 'fas fa-volume-mute'
-    };
-    return icons[categoria] ?? 'fas fa-cog';
-  }
-
-  togglePericiaProf(pericia: any) {
-    pericia.valor = pericia.valor === 'sim' ? 'nao' : 'sim';
-    this.saveToCache();
-  }
-
-  getPericiasByAtributo(atributo: string): any[] {
-    if (!Array.isArray(this.jogador?.pericias)) return [];
-    return this.jogador.pericias.filter((p: any) => {
-      if (p.atributo) return p.atributo === atributo;
-      const skill = SKILLS.find(s => s.nome === p.nome);
-      return skill?.atributo === atributo;
-    });
-  }
-
-  adicionarHackDoCatalogo(hack: any) {
-    if (!Array.isArray(this.jogador.ataques)) {
-      this.jogador.ataques = [];
-    }
-    console.log(hack);
-    this.jogador.ataques.push({
-      nome: hack.nome,
-      bonus: `RAM: ${hack.ram}`,
-      dano: hack.recarga,
-      tipoDano: hack.alvo,
-      notas: hack.efeito,
-      dica: hack.dica,
-      descricao: hack.descricao,
-
-
-    });
-    console.log(this.jogador.ataques);
-    this.saveToCache();
-  }
-  getCategoryIcon(categoria: string): string {
-    const icons: { [key: string]: string } = {
-      'cabeca': 'fa-hat-wizard',
-      'arma': 'fa-gun',
-      'armadura': 'fa-vest',
-      'pes': 'fa-socks',
-      'escudo': 'fa-shield-alt',
-      'amuleto': 'fa-gem',
-      'anel': 'fa-ring'
-    };
-    return icons[categoria] || 'fa-shield';
-  }
-
-  getCategoryName(categoria: string): string {
-    const names: { [key: string]: string } = {
-      'cabeca': 'Cabeça',
-      'arma': 'Arma',
-      'armadura': 'Armadura',
-      'pes': 'Pés',
-      'escudo': 'Escudo',
-      'amuleto': 'Amuleto',
-      'anel': 'Anel'
-    };
-    return names[categoria] || categoria;
-  }
-
-  hasEquipment(): boolean {
-    return Object.values(this.jogador.equipamentos).some((arr: any) => arr && arr.length > 0);
-  }
-
-  toggleEditarAtributos() {
-    this.editandoAtributos = !this.editandoAtributos;
-  }
-
-  toggleEditarCombate() {
-    this.editandoCombate = !this.editandoCombate;
-  }
-
   toggleEditarMagia(index: number) {
     this.editandoMagia[index] = !this.editandoMagia[index];
   }
@@ -1230,432 +986,13 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Carrega classes e raças da API DND
-   */
-  loadClassesAndRaces(): void {
-    if (!this.isDnd5e) {
-      return;
-    }
-
-    this.dndApiService.getClasses().subscribe({
-      next: (data) => {
-        this.availableClasses = data.results || [];
-      },
-      error: (error) => {
-        console.error('Erro ao carregar classes:', error);
-      }
-    });
-
-    this.dndApiService.getRaces().subscribe({
-      next: (data) => {
-        this.availableRaces = data.results || [];
-      },
-      error: (error) => {
-        console.error('Erro ao carregar raças:', error);
-      }
-    });
-  }
-
-  /**
-   * Visualiza detalhes de uma classe
-   */
-  viewClassDetails(classIndex: string): void {
-    if (!classIndex) return;
-
-    this.loadingClassDetails = true;
-    this.dndApiService.getClassDetails(classIndex).subscribe({
-      next: (data) => {
-        this.selectedClassDetails = data;
-        this.loadingClassDetails = false;
-        console.log('Detalhes da classe selecionada:', data);
-
-        // Fecha o modal de seleção e abre o modal de detalhes
-        if (typeof window !== 'undefined') {
-          const bootstrap = (window as any).bootstrap;
-          if (bootstrap) {
-            const selectionModal = bootstrap.Modal.getInstance(document.getElementById('classSelectionModal'));
-            if (selectionModal) {
-              selectionModal.hide();
-            }
-
-            // Abre o modal de detalhes após um pequeno delay
-            setTimeout(() => {
-              const detailsModal = new bootstrap.Modal(document.getElementById('classDetailsModal'));
-              detailsModal.show();
-            }, MODAL_TRANSITION_DELAY);
-          }
-        }
-      },
-      error: (error) => {
-        console.error('Erro ao carregar detalhes da classe:', error);
-        this.loadingClassDetails = false;
-      }
-    });
-  }
-
-  /**
-   * Visualiza detalhes de uma raça
-   */
-  viewRaceDetails(raceIndex: string): void {
-    if (!raceIndex) return;
-
-    this.loadingRaceDetails = true;
-    this.dndApiService.getRaceDetails(raceIndex).subscribe({
-      next: (data) => {
-        this.selectedRaceDetails = data;
-        this.loadingRaceDetails = false;
-
-        // Fecha o modal de seleção e abre o modal de detalhes
-        if (typeof window !== 'undefined') {
-          const bootstrap = (window as any).bootstrap;
-          if (bootstrap) {
-            const selectionModal = bootstrap.Modal.getInstance(document.getElementById('raceSelectionModal'));
-            if (selectionModal) {
-              selectionModal.hide();
-            }
-
-            // Abre o modal de detalhes após um pequeno delay
-            setTimeout(() => {
-              const detailsModal = new bootstrap.Modal(document.getElementById('raceDetailsModal'));
-              detailsModal.show();
-            }, MODAL_TRANSITION_DELAY);
-          }
-        }
-      },
-      error: (error) => {
-        console.error('Erro ao carregar detalhes da raça:', error);
-        this.loadingRaceDetails = false;
-      }
-    });
-  }
-
-  /**
-   * Abre modal de seleção de classe, fechando o modal de edição
-   */
-  openClassSelection(): void {
-    if (typeof window !== 'undefined') {
-      const bootstrap = (window as any).bootstrap;
-      if (bootstrap) {
-        // Fecha o modal de edição
-        const editModal = bootstrap.Modal.getInstance(document.getElementById('editarFichaModal'));
-        if (editModal) {
-          editModal.hide();
-        }
-
-        // Abre o modal de seleção após um pequeno delay
-        setTimeout(() => {
-          const selectionModal = new bootstrap.Modal(document.getElementById('classSelectionModal'));
-          selectionModal.show();
-        }, MODAL_TRANSITION_DELAY);
-      }
-    }
-  }
-
-  /**
-   * Fecha modal de detalhes da classe e volta para o modal de seleção
-   */
-  closeClassDetails(): void {
-    this.selectedClassDetails = undefined;
-
-    // Fecha o modal de detalhes e reabre o modal de seleção
-    if (typeof window !== 'undefined') {
-      const bootstrap = (window as any).bootstrap;
-      if (bootstrap) {
-        const detailsModal = bootstrap.Modal.getInstance(document.getElementById('classDetailsModal'));
-        if (detailsModal) {
-          detailsModal.hide();
-        }
-
-        // Reabre o modal de seleção após um pequeno delay
-        setTimeout(() => {
-          const selectionModal = new bootstrap.Modal(document.getElementById('classSelectionModal'));
-          selectionModal.show();
-        }, MODAL_TRANSITION_DELAY);
-      }
-    }
-  }
-
-  /**
-   * Abre modal de seleção de raça, fechando o modal de edição
-   */
-  openRaceSelection(): void {
-    if (typeof window !== 'undefined') {
-      const bootstrap = (window as any).bootstrap;
-      if (bootstrap) {
-        // Fecha o modal de edição
-        const editModal = bootstrap.Modal.getInstance(document.getElementById('editarFichaModal'));
-        if (editModal) {
-          editModal.hide();
-        }
-
-        // Abre o modal de seleção após um pequeno delay
-        setTimeout(() => {
-          const selectionModal = new bootstrap.Modal(document.getElementById('raceSelectionModal'));
-          selectionModal.show();
-        }, MODAL_TRANSITION_DELAY);
-      }
-    }
-  }
-
-  /**
-   * Fecha modal de detalhes da raça e volta para o modal de seleção
-   */
-  closeRaceDetails(): void {
-    this.selectedRaceDetails = undefined;
-
-    // Fecha o modal de detalhes e reabre o modal de seleção
-    if (typeof window !== 'undefined') {
-      const bootstrap = (window as any).bootstrap;
-      if (bootstrap) {
-        const detailsModal = bootstrap.Modal.getInstance(document.getElementById('raceDetailsModal'));
-        if (detailsModal) {
-          detailsModal.hide();
-        }
-
-        // Reabre o modal de seleção após um pequeno delay
-        setTimeout(() => {
-          const selectionModal = new bootstrap.Modal(document.getElementById('raceSelectionModal'));
-          selectionModal.show();
-        }, MODAL_TRANSITION_DELAY);
-      }
-    }
-  }
-
-  /**
-   * Encontra o index da classe pelo nome
-   */
-  getClassIndexByName(className: string): string {
-    const foundClass = this.availableClasses.find(c => c.name.toLowerCase() === className.toLowerCase());
-    return foundClass?.index || '';
-  }
-
-  /**
-   * Encontra o index da raça pelo nome
-   */
-  getRaceIndexByName(raceName: string): string {
-    const foundRace = this.availableRaces.find(r => r.name.toLowerCase() === raceName.toLowerCase());
-    return foundRace?.index || '';
-  }
-
-  /**
-   * Seleciona uma classe e carrega seus traços
-   */
-  selectClass(classRef: ApiReference): void {
-    if (!this.isDnd5e) {
-      return;
-    }
-
-    this.jogador.classe = classRef.name;
-    this.spellClassFilter = classRef.index;
-
-    // Carrega detalhes da classe para obter traços
-    this.dndApiService.getClassDetails(classRef.index).subscribe({
-      next: (classDetails: DndClass) => {
-        // Remove traços antigos da classe
-        if (!this.jogador.tracos) {
-          this.jogador.tracos = [];
-        }
-        this.jogador.tracos = this.jogador.tracos.filter((t: any) => t.origem !== 'classe');
-
-        // Adiciona proficiências como traços
-        if (classDetails.proficiencies && classDetails.proficiencies.length > 0) {
-          const profNames = classDetails.proficiencies.map(p => p.name).join(', ');
-          this.jogador.tracos.push({
-            nome: 'Proficiências da Classe',
-            descricao: profNames,
-            origem: 'classe'
-          });
-        }
-
-        // Adiciona testes de resistência como traços
-        if (classDetails.saving_throws && classDetails.saving_throws.length > 0) {
-          const saveNames = classDetails.saving_throws.map(s => s.name).join(', ');
-          this.jogador.tracos.push({
-            nome: 'Testes de Resistência',
-            descricao: saveNames,
-            origem: 'classe'
-          });
-        }
-
-        // Adiciona dado de vida como traço
-        if (classDetails.hit_die) {
-          this.jogador.tracos.push({
-            nome: 'Dado de Vida',
-            descricao: `d${classDetails.hit_die}`,
-            origem: 'classe'
-          });
-        }
-
-        // Adiciona informação sobre conjuração se disponível
-        if (classDetails.spellcasting) {
-          this.jogador.tracos.push({
-            nome: 'Conjuração',
-            descricao: 'Esta classe possui habilidades de conjuração',
-            origem: 'classe'
-          });
-        }
-
-        this.saveToCache();
-      },
-      error: (error) => {
-        console.error('Erro ao carregar detalhes da classe:', error);
-      }
-    });
-  }
-
-  private getClasseFiltroApi(): string | undefined {
-    if (!this.spellClassFilter) {
-      return undefined;
-    }
-
-    const classeByNome = this.availableClasses.find((classe) =>
-      classe.name.toLowerCase() === this.spellClassFilter.toLowerCase()
-    );
-
-    return (classeByNome?.index || this.spellClassFilter).toLowerCase();
-  }
-
-  /**
-   * Seleciona uma raça e carrega seus traços
-   */
-  selectRace(raceRef: ApiReference): void {
-    if (!this.isDnd5e) {
-      return;
-    }
-
-    this.jogador.raca = raceRef.name;
-
-    // Carrega detalhes da raça para obter traços
-    this.dndApiService.getRaceDetails(raceRef.index).subscribe({
-      next: (raceDetails: DndRace) => {
-        // Remove traços antigos da raça
-        if (!this.jogador.tracos) {
-          this.jogador.tracos = [];
-        }
-        this.jogador.tracos = this.jogador.tracos.filter((t: any) => t.origem !== 'raca');
-
-        // Adiciona velocidade como traço
-        if (raceDetails.speed) {
-          this.jogador.tracos.push({
-            nome: 'Velocidade',
-            descricao: `${raceDetails.speed} pés`,
-            origem: 'raca'
-          });
-        }
-
-        // Adiciona bônus de atributos como traço
-        if (raceDetails.ability_bonuses && raceDetails.ability_bonuses.length > 0) {
-          const bonuses = raceDetails.ability_bonuses.map(b =>
-            `${b.ability_score.name}: +${b.bonus}`
-          ).join(', ');
-          this.jogador.tracos.push({
-            nome: 'Bônus de Atributos',
-            descricao: bonuses,
-            origem: 'raca'
-          });
-        }
-
-        // Adiciona tamanho como traço
-        if (raceDetails.size) {
-          this.jogador.tracos.push({
-            nome: 'Tamanho',
-            descricao: raceDetails.size + (raceDetails.size_description ? ` - ${raceDetails.size_description}` : ''),
-            origem: 'raca'
-          });
-        }
-
-        // Adiciona idiomas como traço
-        if (raceDetails.languages && raceDetails.languages.length > 0) {
-          const langs = raceDetails.languages.map(l => l.name).join(', ');
-          this.jogador.tracos.push({
-            nome: 'Idiomas',
-            descricao: langs + (raceDetails.language_desc ? ` - ${raceDetails.language_desc}` : ''),
-            origem: 'raca'
-          });
-        }
-
-        // Adiciona traços raciais
-        if (raceDetails.traits && raceDetails.traits.length > 0) {
-          const traits = raceDetails.traits.map(t => t.name).join(', ');
-          this.jogador.tracos.push({
-            nome: 'Traços Raciais',
-            descricao: traits,
-            origem: 'raca'
-          });
-        }
-
-        this.saveToCache();
-      },
-      error: (error) => {
-        console.error('Erro ao carregar detalhes da raça:', error);
-      }
-    });
-  }
-
-  /**
-   * Remove um traço
-   */
-  removerTraco(traco: any): void {
-    if (!this.jogador.tracos) return;
-    const index = this.jogador.tracos.indexOf(traco);
-    if (index > -1) {
-      this.jogador.tracos.splice(index, 1);
-      this.saveToCache();
-    }
-  }
-
-  /**
-   * Retorna traços de classe
-   */
-  getTracosClasse(): any[] {
-    if (!this.jogador.tracos) return [];
-    return this.jogador.tracos.filter((t: any) => t.origem === 'classe');
-  }
-
-  /**
-   * Retorna traços de raça
-   */
-  getTracosRaca(): any[] {
-    if (!this.jogador.tracos) return [];
-    return this.jogador.tracos.filter((t: any) => t.origem === 'raca');
-  }
-
-  /**
-   * Verifica se existem traços de classe
-   */
-  hasTracosClasse(): boolean {
-    return this.getTracosClasse().length > 0;
-  }
-
-  /**
-   * Verifica se existem traços de raça
-   */
-  hasTracosRaca(): boolean {
-    return this.getTracosRaca().length > 0;
-  }
-
-  /**
    * Abre modal de busca de magias
    */
   abrirBuscarMagia(): void {
     if (!this.isDnd5e) {
       return;
     }
-
     this.buscarMagiaAberto = true;
-
-    if (!this.spellClassFilter && this.jogador.classe) {
-      const classeSelecionada = this.availableClasses.find((classe) =>
-        classe.name.toLowerCase() === this.jogador.classe.toLowerCase()
-      );
-      if (classeSelecionada) {
-        this.spellClassFilter = classeSelecionada.index;
-      }
-    }
-
-    if (this.availableSpells.length === 0) {
-      this.loadSpells();
-    }
   }
 
   /**
@@ -1663,180 +1000,6 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
    */
   fecharBuscarMagia(): void {
     this.buscarMagiaAberto = false;
-    this.spellSearchTerm = '';
-    this.selectedSpellDetails = null;
-    this.filteredSpells = this.availableSpells;
-  }
-
-  /**
-   * Carrega lista de magias da API
-   */
-  loadSpells(): void {
-    this.loadingSpells = true;
-    this.dndApiService.getSpells().subscribe({
-      next: (data) => {
-        this.availableSpells = data.results || [];
-        this.filteredSpells = this.availableSpells;
-        this.loadingSpells = false;
-      },
-      error: (error) => {
-        console.error('Erro ao carregar magias:', error);
-        this.loadingSpells = false;
-      }
-    });
-  }
-
-  /**
-   * Filtra magias baseado no termo de busca
-   */
-  filtrarMagias(): void {
-    let filtered = this.availableSpells;
-
-    // Filter by search term
-    if (this.spellSearchTerm) {
-      const term = this.spellSearchTerm.toLowerCase();
-      filtered = filtered.filter(spell =>
-        spell.name.toLowerCase().includes(term)
-      );
-    }
-
-    this.filteredSpells = filtered;
-  }
-
-  /**
-   * Aplica filtros de nível e classe nas magias
-   * Tenta usar a API com filtros, se falhar usa filtragem local
-   */
-  aplicarFiltrosMagias(): void {
-    this.loadingSpells = true;
-
-    // Se não há filtros, apenas recarrega a lista completa
-    if (!this.spellLevelFilter && !this.spellClassFilter) {
-      this.loadSpells();
-      return;
-    }
-
-    // Tentar usar o método com filtros da API
-    this.dndApiService.getSpellsWithFilters(
-      this.spellLevelFilter || undefined,
-      this.getClasseFiltroApi()
-    ).subscribe({
-      next: (data: any) => {
-        this.availableSpells = data.results || [];
-        this.filtrarMagias();
-        this.loadingSpells = false;
-      },
-      error: (error) => {
-        console.warn('API não suporta filtros, usando filtragem local:', error);
-        // Se a API não suportar filtros, faz filtragem local
-        this.aplicarFiltrosLocalmente();
-      }
-    });
-  }
-
-  /**
-   * Aplica filtros localmente carregando detalhes das magias
-   */
-  private aplicarFiltrosLocalmente(): void {
-    // Carrega todas as magias primeiro
-    this.dndApiService.getSpells().subscribe({
-      next: (data: any) => {
-        const allSpells = data.results || [];
-
-        // Se não há filtros, retorna tudo
-        if (!this.spellLevelFilter && !this.spellClassFilter) {
-          this.availableSpells = allSpells;
-          this.filtrarMagias();
-          this.loadingSpells = false;
-          return;
-        }
-
-        // Filtragem precisa carregar detalhes - limitando a 100 magias
-        const spellsToCheck = allSpells.slice(0, 100);
-        let checkedCount = 0;
-        const filteredResults: any[] = [];
-
-        for (const spell of spellsToCheck) {
-          this.checkSpellMatchesFilters(spell, filteredResults, () => {
-            checkedCount++;
-            if (checkedCount === spellsToCheck.length) {
-              this.availableSpells = filteredResults;
-              this.filtrarMagias();
-              this.loadingSpells = false;
-            }
-          });
-        }
-      },
-      error: (error) => {
-        console.error('Erro ao carregar magias para filtro local:', error);
-        this.loadingSpells = false;
-      }
-    });
-  }
-
-  /**
-   * Verifica se uma magia atende aos filtros
-   */
-  private checkSpellMatchesFilters(spell: any, results: any[], callback: () => void): void {
-    this.dndApiService.getSpellDetails(spell.index).subscribe({
-      next: (details) => {
-        let matches = true;
-
-        // Filtro de nível
-        if (this.spellLevelFilter) {
-          const filterLevel = Number.parseInt(this.spellLevelFilter, 10);
-          if (details.level !== filterLevel) {
-            matches = false;
-          }
-        }
-
-        // Filtro de classe
-        if (this.spellClassFilter && matches) {
-          const classFilter = this.spellClassFilter.toLowerCase();
-          const hasClass = details.classes?.some((c: any) =>
-            c.name.toLowerCase() === classFilter
-          );
-          if (!hasClass) {
-            matches = false;
-          }
-        }
-
-        if (matches) {
-          results.push(spell);
-        }
-
-        callback();
-      },
-      error: () => {
-        callback();
-      }
-    });
-  }
-
-  /**
-   * Limpa filtros de magias
-   */
-  limparFiltrosMagias(): void {
-    this.spellLevelFilter = '';
-    this.spellClassFilter = '';
-    this.spellSearchTerm = '';
-    this.loadSpells();
-  }
-
-  /**
-   * Visualiza detalhes de uma magia
-   */
-  viewSpellDetails(spellIndex: string): void {
-    if (!spellIndex) return;
-
-    this.dndApiService.getSpellDetails(spellIndex).subscribe({
-      next: (data) => {
-        this.selectedSpellDetails = data;
-      },
-      error: (error) => {
-        console.error('Erro ao carregar detalhes da magia:', error);
-      }
-    });
   }
 
   /**
@@ -1861,53 +1024,8 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
       error: (error) => {
         console.error('Erro ao carregar detalhes da magia:', error);
         this.loadingSpellDetails[index] = false;
-        // Se falhar, tenta buscar na lista de magias disponíveis
-        this.tryFindSpellInAvailableList(index, spellName);
       }
     });
-  }
-
-  /**
-   * Tenta encontrar magia na lista disponível caso a busca direta falhe
-   */
-  private tryFindSpellInAvailableList(index: number, spellName: string): void {
-    // Se a lista de magias ainda não foi carregada, carrega primeiro
-    if (this.availableSpells.length === 0) {
-      this.dndApiService.getSpells().subscribe({
-        next: (data) => {
-          this.availableSpells = data.results || [];
-          this.findAndLoadSpellDetails(index, spellName);
-        },
-        error: () => {
-          this.loadingSpellDetails[index] = false;
-        }
-      });
-    } else {
-      this.findAndLoadSpellDetails(index, spellName);
-    }
-  }
-
-  /**
-   * Encontra e carrega detalhes da magia da lista disponível
-   */
-  private findAndLoadSpellDetails(index: number, spellName: string): void {
-    const spell = this.availableSpells.find(s =>
-      s.name.toLowerCase() === spellName.toLowerCase()
-    );
-
-    if (spell) {
-      this.dndApiService.getSpellDetails(spell.index).subscribe({
-        next: (data) => {
-          this.expandedSpellDetails[index] = data;
-          this.loadingSpellDetails[index] = false;
-        },
-        error: () => {
-          this.loadingSpellDetails[index] = false;
-        }
-      });
-    } else {
-      this.loadingSpellDetails[index] = false;
-    }
   }
 
   /**
@@ -1967,24 +1085,13 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Volta da visualização de detalhes da magia para lista
-   */
-  voltarListaMagias(): void {
-    this.selectedSpellDetails = null;
-  }
-
-  /**
    * Abre modal de busca de talentos
    */
   abrirBuscarTalento(): void {
     if (!this.isDnd5e) {
       return;
     }
-
     this.buscarTalentoAberto = true;
-    if (this.availableFeats.length === 0) {
-      this.loadFeatsFromOpen5e();
-    }
   }
 
   /**
@@ -1992,100 +1099,6 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
    */
   fecharBuscarTalento(): void {
     this.buscarTalentoAberto = false;
-    this.featSearchTerm = '';
-    this.selectedFeatDetails = null;
-    this.filteredFeats = this.availableFeats;
-  }
-
-  /**
-   * Carrega lista de talentos da API Open5e
-   */
-  loadFeatsFromOpen5e(page: number = 1): void {
-    this.loadingFeats = true;
-    this.dndApiService.getFeatsOpen5e(page).subscribe({
-      next: (data) => {
-        this.availableFeats = data.results || [];
-        this.filteredFeats = this.availableFeats;
-        this.loadingFeats = false;
-      },
-      error: (error) => {
-        console.error('Erro ao carregar talentos da Open5e:', error);
-        // Fallback para API dnd5eapi se Open5e falhar
-        this.loadFeats();
-      }
-    });
-  }
-
-  /**
-   * Carrega lista de talentos da API dnd5eapi (fallback)
-   */
-  loadFeats(): void {
-    this.loadingFeats = true;
-    this.dndApiService.getFeats().subscribe({
-      next: (data) => {
-        this.availableFeats = data.results || [];
-        this.filteredFeats = this.availableFeats;
-        this.loadingFeats = false;
-      },
-      error: (error) => {
-        console.error('Erro ao carregar talentos:', error);
-        this.loadingFeats = false;
-      }
-    });
-  }
-
-  /**
-   * Filtra talentos baseado no termo de busca usando Open5e API
-   */
-  filtrarTalentos(): void {
-    if (!this.featSearchTerm || this.featSearchTerm.trim().length < 2) {
-      this.loadFeatsFromOpen5e();
-      return;
-    }
-
-    this.loadingFeats = true;
-    this.dndApiService.searchFeatsOpen5e(this.featSearchTerm).subscribe({
-      next: (data) => {
-        this.availableFeats = data.results || [];
-        this.filteredFeats = this.availableFeats;
-        this.loadingFeats = false;
-      },
-      error: (error) => {
-        console.error('Erro ao buscar talentos:', error);
-        // Fallback para filtro local
-        const term = this.featSearchTerm.toLowerCase();
-        this.filteredFeats = this.availableFeats.filter(feat =>
-          feat.name?.toLowerCase().includes(term) || (feat as any).slug?.toLowerCase().includes(term)
-        );
-        this.loadingFeats = false;
-      }
-    });
-  }
-
-  /**
-   * Visualiza detalhes de um talento
-   * Tenta primeiro Open5e, depois fallback para dnd5eapi
-   */
-  viewFeatDetails(featIndexOrSlug: string): void {
-    if (!featIndexOrSlug) return;
-
-    // Tenta primeiro com Open5e (usa slug)
-    this.dndApiService.getFeatDetailsOpen5e(featIndexOrSlug).subscribe({
-      next: (data) => {
-        this.selectedFeatDetails = data;
-      },
-      error: () => {
-        // Fallback para dnd5eapi
-        this.dndApiService.getFeatDetails(featIndexOrSlug).subscribe({
-          next: (data) => {
-            this.selectedFeatDetails = data;
-          },
-          error: (error) => {
-            console.error('Erro ao carregar detalhes do talento:', error);
-          }
-        });
-      }
-    });
   }
 
   /**
@@ -2104,38 +1117,5 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     this.jogador.talentos.push(newFeat);
     this.saveToCache();
     this.fecharBuscarTalento();
-  }
-
-  /**
-   * Volta da visualização de detalhes do talento para lista
-   */
-  voltarListaTalentos(): void {
-    this.selectedFeatDetails = null;
-  }
-
-  /**
-   * Verifica se a descrição do feat é uma string
-   */
-  isString(value: any): boolean {
-    return typeof value === 'string';
-  }
-
-  /**
-   * Obtém prévia da descrição do feat
-   */
-  getFeatDescPreview(feat: any): string {
-    const desc = feat.desc;
-    if (!desc) return '';
-    if (typeof desc === 'string') {
-      return desc.length > 100 ? desc.substring(0, 100) + '...' : desc;
-    }
-    return '';
-  }
-
-  /**
-   * Obtém o identificador do feat (slug ou index)
-   */
-  getFeatId(feat: any): string {
-    return feat.index || feat.slug || '';
   }
 }

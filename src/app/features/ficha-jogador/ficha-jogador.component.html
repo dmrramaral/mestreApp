@@ -58,7 +58,6 @@
     <app-ficha-equipamentos-section
       [jogador]="jogador"
       [isCyberPun2080]="isCyberPun2080"
-      (abrirGerenciarAcessoriosEquip)="abrirGerenciarAcessoriosEquip($event)"
       (dirty)="saveToCache()"></app-ficha-equipamentos-section>
 
     <app-ficha-pericias-section
@@ -97,44 +96,20 @@
     [jogador]="jogador"
     [isDnd5e]="isDnd5e"
     [caCalculada]="caCalculada"
-    (openClassSelection)="openClassSelection()"
-    (openRaceSelection)="openRaceSelection()"
+    (openClassSelection)="dndModals.openClassSelection()"
+    (openRaceSelection)="dndModals.openRaceSelection()"
     (dirty)="saveToCache()"></app-ficha-edit-modal>
 
   <app-ficha-dnd-modals
+    #dndModals
     [jogador]="jogador"
-    [loadingClassDetails]="loadingClassDetails"
-    [selectedClassDetails]="selectedClassDetails"
-    [loadingRaceDetails]="loadingRaceDetails"
-    [selectedRaceDetails]="selectedRaceDetails"
-    [availableClasses]="availableClasses"
-    [availableRaces]="availableRaces"
-    (closeClassDetails)="closeClassDetails()"
-    (closeRaceDetails)="closeRaceDetails()"
-    (selectClass)="selectClass($event)"
-    (viewClassDetails)="viewClassDetails($event)"
-    (selectRace)="selectRace($event)"
-    (viewRaceDetails)="viewRaceDetails($event)"></app-ficha-dnd-modals>
+    [isDnd5e]="isDnd5e"
+    (dirty)="saveToCache()"></app-ficha-dnd-modals>
 
   <app-ficha-spell-search-modal
     [isOpen]="buscarMagiaAberto"
-    [selectedSpellDetails]="selectedSpellDetails"
-    [spellSearchTerm]="spellSearchTerm"
-    [spellLevelFilter]="spellLevelFilter"
-    [spellClassFilter]="spellClassFilter"
-    [availableSpellLevels]="availableSpellLevels"
-    [availableClasses]="availableClasses"
-    [loadingSpells]="loadingSpells"
-    [filteredSpells]="filteredSpells"
+    [className]="jogador?.classe || ''"
     (close)="fecharBuscarMagia()"
-    (searchTermChange)="spellSearchTerm = $event"
-    (spellLevelFilterChange)="spellLevelFilter = $event"
-    (spellClassFilterChange)="spellClassFilter = $event"
-    (filtrarMagias)="filtrarMagias()"
-    (aplicarFiltrosMagias)="aplicarFiltrosMagias()"
-    (limparFiltrosMagias)="limparFiltrosMagias()"
-    (viewSpellDetails)="viewSpellDetails($event)"
-    (voltarListaMagias)="voltarListaMagias()"
     (adicionarMagia)="adicionarMagiaApi($event)"></app-ficha-spell-search-modal>
 
   <app-feature-search-modal

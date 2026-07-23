@@ -58,7 +58,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeClassDetails.emit()">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeClassDetails()">
           <i class="fas fa-arrow-left me-2"></i>Voltar
         </button>
       </div>
@@ -152,7 +152,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeRaceDetails.emit()">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeRaceDetails()">
           <i class="fas fa-arrow-left me-2"></i>Voltar
         </button>
       </div>
@@ -179,10 +179,10 @@
                   <i class="fas fa-hat-wizard me-2"></i>{{ classe.name }}
                 </h5>
                 <div class="d-flex gap-2 justify-content-center mt-2">
-                  <button class="btn btn-sm btn-outline-primary" type="button" (click)="selectClass.emit(classe)">
+                  <button class="btn btn-sm btn-outline-primary" type="button" (click)="selectClass(classe)">
                     <i class="fas fa-check me-1"></i>Selecionar
                   </button>
-                  <button class="btn btn-sm btn-outline-info" type="button" (click)="viewClassDetails.emit(classe.index)">
+                  <button class="btn btn-sm btn-outline-info" type="button" (click)="viewClassDetails(classe.index)">
                     <i class="fas fa-info-circle me-1"></i>Detalhes
                   </button>
                 </div>
@@ -223,10 +223,10 @@
                   <i class="fas fa-users me-2"></i>{{ raca.name }}
                 </h5>
                 <div class="d-flex gap-2 justify-content-center mt-2">
-                  <button class="btn btn-sm btn-outline-success" type="button" (click)="selectRace.emit(raca)">
+                  <button class="btn btn-sm btn-outline-success" type="button" (click)="selectRace(raca)">
                     <i class="fas fa-check me-1"></i>Selecionar
                   </button>
-                  <button class="btn btn-sm btn-outline-info" type="button" (click)="viewRaceDetails.emit(raca.index)">
+                  <button class="btn btn-sm btn-outline-info" type="button" (click)="viewRaceDetails(raca.index)">
                     <i class="fas fa-info-circle me-1"></i>Detalhes
                   </button>
                 </div>

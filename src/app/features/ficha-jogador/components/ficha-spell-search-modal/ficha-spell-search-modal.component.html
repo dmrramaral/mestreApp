@@ -6,7 +6,7 @@
         <h5 class="modal-title" id="spellSearchModalLabel">
           <i class="fas fa-magic me-2"></i>Buscar Magias - D&D 5e API
         </h5>
-        <button type="button" class="btn-close btn-close-white" (click)="close.emit()" aria-label="Close"></button>
+        <button type="button" class="btn-close btn-close-white" (click)="fechar()" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <div *ngIf="!selectedSpellDetails">
@@ -46,7 +46,7 @@
               </select>
             </div>
             <div class="col-md-2">
-              <button type="button" class="btn btn-outline-secondary w-100" (click)="limparFiltrosMagias.emit()"
+              <button type="button" class="btn btn-outline-secondary w-100" (click)="limparFiltrosMagias()"
                 [disabled]="!spellLevelFilter && !spellClassFilter && !spellSearchTerm">
                 <i class="fas fa-times me-1"></i>Limpar
               </button>
@@ -66,7 +66,7 @@
                     <i class="fas fa-wand-magic text-primary me-2"></i>{{ spell.name }}
                   </h6>
                   <div class="d-flex justify-content-between mt-3">
-                    <button type="button" class="btn btn-sm btn-outline-primary" (click)="viewSpellDetails.emit(spell.index)">
+                    <button type="button" class="btn btn-sm btn-outline-primary" (click)="viewSpellDetails(spell.index)">
                       <i class="fas fa-info-circle me-1"></i>Detalhes
                     </button>
                   </div>
@@ -82,7 +82,7 @@
         </div>
 
         <div *ngIf="selectedSpellDetails">
-          <button type="button" class="btn btn-sm btn-outline-secondary mb-3" (click)="voltarListaMagias.emit()">
+          <button type="button" class="btn btn-sm btn-outline-secondary mb-3" (click)="voltarListaMagias()">
             <i class="fas fa-arrow-left me-1"></i>Voltar
           </button>
 
@@ -147,7 +147,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" (click)="close.emit()">
+        <button type="button" class="btn btn-secondary" (click)="fechar()">
           <i class="fas fa-times me-2"></i>Fechar
         </button>
       </div>

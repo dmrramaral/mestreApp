@@ -32,10 +32,6 @@
                   <span *ngIf="equipamento.restrito" class="badge bg-danger" style="font-size:.65rem">RESTRITO</span>
                 </span>
                 <div class="d-flex gap-1">
-                  <button *ngIf="categoria === 'arma' && isCyberPun2080" type="button" class="btn btn-outline-warning btn-sm"
-                    (click)="abrirGerenciarAcessoriosEquip.emit(i)" title="Acessórios">
-                    <i class="fas fa-wrench"></i>
-                  </button>
                   <button type="button" class="btn btn-outline-info btn-sm"
                     (click)="toggleEditarEquipamento(categoria, i)">
                     <i class="fas fa-edit"></i>
