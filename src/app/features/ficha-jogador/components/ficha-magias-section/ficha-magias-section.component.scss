@@ -51,3 +51,32 @@
   border-radius: 8px;
   padding: 10px;
 }
+
+.detail-label {
+  display: block;
+  margin-bottom: 4px;
+  color: #334155;
+}
+
+.detail-value {
+  display: block;
+  color: #0f172a;
+  line-height: 1.45;
+}
+
+.detail-text {
+  white-space: pre-line;
+}
+
+.edit-form {
+  margin-top: 12px;
+}
+
+.edit-detail-box {
+  height: 100%;
+
+  .form-control,
+  .form-select {
+    font-size: 0.95rem;
+  }
+}

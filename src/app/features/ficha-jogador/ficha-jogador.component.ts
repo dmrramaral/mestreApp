@@ -1074,8 +1074,17 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
 
     const newSpell = {
       nome: spell.name,
-      nivel: spell.level || 0,
+      level: spell.level ?? 0,
+      nivel: spell.level ?? 0,
+      school: spell.school?.name || '',
       escola: spell.school?.name || '',
+      casting_time: spell.casting_time || '',
+      range: spell.range || '',
+      duration: spell.duration || '',
+      components: spell.components || [],
+      material: spell.material || '',
+      classes: spell.classes || [],
+      higher_level: spell.higher_level || [],
       descricao: spell.desc?.join('\n') || spell.description?.join('\n') || ''
     };
 

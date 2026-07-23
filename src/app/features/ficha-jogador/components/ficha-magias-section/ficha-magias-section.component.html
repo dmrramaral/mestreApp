@@ -23,8 +23,8 @@
               <div>
                 <i class="fas fa-wand-magic text-primary"></i>
                 <strong>{{ magia.nome }}</strong>
-                <span *ngIf="magia.level !== undefined" class="badge bg-primary ms-2">
-                  {{ magia.level === 0 ? 'Truque' : 'Nv ' + magia.level }}
+                <span *ngIf="getSpellLevel(magia, expandedSpellDetails[i]) !== undefined" class="badge bg-primary ms-2">
+                  {{ getSpellLevel(magia, expandedSpellDetails[i]) === 0 ? 'Truque' : 'Nv ' + getSpellLevel(magia, expandedSpellDetails[i]) }}
                 </span>
               </div>
               <div>
@@ -36,7 +36,8 @@
                     <i class="fas fa-spinner fa-spin"></i>
                   </span>
                 </button>
-                <button type="button" class="btn btn-sm btn-outline-primary me-1" (click)="toggleEditarMagia.emit(i)">
+                <button type="button" class="btn btn-sm btn-outline-primary me-1"
+                  (click)="startSpellEdit(i, magia, expandedSpellDetails[i])">
                   <i class="fas fa-edit"></i>
                 </button>
                 <button type="button" class="btn btn-sm btn-danger" (click)="removerMagia.emit(i)">
@@ -44,133 +45,195 @@
                 </button>
               </div>
             </div>
-            <p class="spell-description" *ngIf="!expandedSpellDetails[i]">{{ magia.descricao }}</p>
+            <p class="spell-description" *ngIf="!expandedSpellDetails[i]">{{ getSpellDescription(magia, expandedSpellDetails[i]) }}</p>
 
             <div *ngIf="expandedSpellDetails[i]" class="spell-details-expanded mt-3">
               <div class="row g-3">
-                <div class="col-md-6"
-                  *ngIf="magia.level !== undefined || (expandedSpellDetails[i] && expandedSpellDetails[i].level !== undefined)">
+                <div class="col-md-6" *ngIf="getSpellLevel(magia, expandedSpellDetails[i]) !== undefined">
                   <div class="detail-box">
-                    <strong><i class="fas fa-layer-group me-2 text-primary"></i>Nível:</strong>
-                    <span>{{ (magia.level !== undefined ? magia.level : expandedSpellDetails[i]?.level) === 0 ?
-                      'Truque' : 'Nível ' + (magia.level !== undefined ? magia.level : expandedSpellDetails[i]?.level)
-                      }}</span>
+                    <strong class="detail-label"><i class="fas fa-layer-group me-2 text-primary"></i>Nível:</strong>
+                    <span class="detail-value">{{ getSpellLevel(magia, expandedSpellDetails[i]) === 0 ?
+                      'Truque' : 'Nível ' + getSpellLevel(magia, expandedSpellDetails[i]) }}</span>
                   </div>
                 </div>
-                <div class="col-md-6" *ngIf="magia.school || (expandedSpellDetails[i] && expandedSpellDetails[i].school)">
+                <div class="col-md-6" *ngIf="getSpellSchool(magia, expandedSpellDetails[i])">
                   <div class="detail-box">
-                    <strong><i class="fas fa-book me-2 text-primary"></i>Escola:</strong>
-                    <span>{{ magia.school || expandedSpellDetails[i]?.school?.name || expandedSpellDetails[i]?.school }}</span>
+                    <strong class="detail-label"><i class="fas fa-book me-2 text-primary"></i>Escola:</strong>
+                    <span class="detail-value">{{ getSpellSchool(magia, expandedSpellDetails[i]) }}</span>
                   </div>
                 </div>
                 <div class="col-md-6"
                   *ngIf="magia.casting_time || (expandedSpellDetails[i] && expandedSpellDetails[i].casting_time)">
                   <div class="detail-box">
-                    <strong><i class="fas fa-clock me-2 text-primary"></i>Tempo de Conjuração:</strong>
-                    <span>{{ magia.casting_time || expandedSpellDetails[i]?.casting_time }}</span>
+                    <strong class="detail-label"><i class="fas fa-clock me-2 text-primary"></i>Tempo de Conjuração:</strong>
+                    <span class="detail-value">{{ magia.casting_time || expandedSpellDetails[i]?.casting_time }}</span>
                   </div>
                 </div>
                 <div class="col-md-6" *ngIf="magia.range || (expandedSpellDetails[i] && expandedSpellDetails[i].range)">
                   <div class="detail-box">
-                    <strong><i class="fas fa-crosshairs me-2 text-primary"></i>Alcance:</strong>
-                    <span>{{ magia.range || expandedSpellDetails[i]?.range }}</span>
+                    <strong class="detail-label"><i class="fas fa-crosshairs me-2 text-primary"></i>Alcance:</strong>
+                    <span class="detail-value">{{ magia.range || expandedSpellDetails[i]?.range }}</span>
                   </div>
                 </div>
                 <div class="col-md-6"
                   *ngIf="(magia.components && magia.components.length > 0) || (expandedSpellDetails[i] && expandedSpellDetails[i].components && expandedSpellDetails[i].components.length > 0)">
                   <div class="detail-box">
-                    <strong><i class="fas fa-hand-sparkles me-2 text-primary"></i>Componentes:</strong>
-                    <span>{{ getSpellComponents(magia, expandedSpellDetails[i]) }}</span>
-                    <small class="d-block text-muted" *ngIf="magia.material || expandedSpellDetails[i]?.material">{{
-                      magia.material || expandedSpellDetails[i]?.material }}</small>
+                    <strong class="detail-label"><i class="fas fa-hand-sparkles me-2 text-primary"></i>Componentes:</strong>
+                    <span class="detail-value">{{ getSpellComponents(magia, expandedSpellDetails[i]) }}</span>
+                    <small class="d-block text-muted mt-2 detail-value" *ngIf="magia.material || expandedSpellDetails[i]?.material">
+                      Material: {{ magia.material || expandedSpellDetails[i]?.material }}
+                    </small>
                   </div>
                 </div>
                 <div class="col-md-6"
                   *ngIf="magia.duration || (expandedSpellDetails[i] && expandedSpellDetails[i].duration)">
                   <div class="detail-box">
-                    <strong><i class="fas fa-hourglass-half me-2 text-primary"></i>Duração:</strong>
-                    <span>{{ magia.duration || expandedSpellDetails[i]?.duration }}</span>
+                    <strong class="detail-label"><i class="fas fa-hourglass-half me-2 text-primary"></i>Duração:</strong>
+                    <span class="detail-value">{{ magia.duration || expandedSpellDetails[i]?.duration }}</span>
                   </div>
                 </div>
                 <div class="col-12"
                   *ngIf="(magia.classes && magia.classes.length > 0) || (expandedSpellDetails[i] && expandedSpellDetails[i].classes && expandedSpellDetails[i].classes.length > 0)">
                   <div class="detail-box">
-                    <strong><i class="fas fa-user-graduate me-2 text-primary"></i>Classes:</strong>
-                    <span>{{ getSpellClassesFormatted(magia, expandedSpellDetails[i]) }}</span>
+                    <strong class="detail-label"><i class="fas fa-user-graduate me-2 text-primary"></i>Classes:</strong>
+                    <span class="detail-value">{{ getSpellClassesFormatted(magia, expandedSpellDetails[i]) }}</span>
                   </div>
                 </div>
-                <div class="col-12"
-                  *ngIf="expandedSpellDetails[i] && expandedSpellDetails[i].desc && expandedSpellDetails[i].desc.length > 0">
+                <div class="col-12" *ngIf="getSpellDescription(magia, expandedSpellDetails[i])">
                   <div class="detail-box">
-                    <strong><i class="fas fa-scroll me-2 text-primary"></i>Descrição:</strong>
-                    <p *ngFor="let paragraph of expandedSpellDetails[i].desc" class="mb-2">{{ paragraph }}</p>
+                    <strong class="detail-label"><i class="fas fa-scroll me-2 text-primary"></i>Descrição:</strong>
+                    <p class="mb-0 detail-value detail-text">{{ getSpellDescription(magia, expandedSpellDetails[i]) }}</p>
                   </div>
                 </div>
-                <div class="col-12"
-                  *ngIf="expandedSpellDetails[i] && expandedSpellDetails[i].higher_level && expandedSpellDetails[i].higher_level.length > 0">
+                <div class="col-12" *ngIf="getSpellHigherLevel(magia, expandedSpellDetails[i])">
                   <div class="detail-box">
-                    <strong><i class="fas fa-arrow-up me-2 text-primary"></i>Em Níveis Superiores:</strong>
-                    <p *ngFor="let paragraph of expandedSpellDetails[i].higher_level" class="mb-2">{{ paragraph }}</p>
+                    <strong class="detail-label"><i class="fas fa-arrow-up me-2 text-primary"></i>Em Níveis Superiores:</strong>
+                    <p class="mb-0 detail-value detail-text">{{ getSpellHigherLevel(magia, expandedSpellDetails[i]) }}</p>
                   </div>
                 </div>
               </div>
             </div>
           </div>
           <div *ngIf="editandoMagia[i]" class="edit-form">
+            <ng-container *ngIf="spellDraft(i, magia, expandedSpellDetails[i]) as draft">
             <div class="row g-2">
-              <div class="col-md-4">
-                <input type="text" class="form-control form-control-sm" placeholder="Nome" [(ngModel)]="magia.nome"
-                  (change)="saveToCache.emit()">
+              <div class="col-md-8">
+                <div class="detail-box edit-detail-box">
+                  <label class="detail-label"><i class="fas fa-wand-magic me-2 text-primary"></i>Nome:</label>
+                  <input type="text" class="form-control" placeholder="Nome"
+                    [ngModel]="draft.nome" (ngModelChange)="draft.nome = $event">
+                </div>
               </div>
               <div class="col-md-4">
-                <input type="text" class="form-control form-control-sm" placeholder="Descrição"
-                  [(ngModel)]="magia.descricao" (change)="saveToCache.emit()">
+                <div class="detail-box edit-detail-box">
+                  <label class="detail-label"><i class="fas fa-layer-group me-2 text-primary"></i>Nível:</label>
+                  <select class="form-select" [ngModel]="draft.level"
+                    (ngModelChange)="draft.level = $event">
+                    <option [ngValue]="undefined">Nível</option>
+                    <option [ngValue]="0">Truque</option>
+                    <option [ngValue]="1">1</option>
+                    <option [ngValue]="2">2</option>
+                    <option [ngValue]="3">3</option>
+                    <option [ngValue]="4">4</option>
+                    <option [ngValue]="5">5</option>
+                    <option [ngValue]="6">6</option>
+                    <option [ngValue]="7">7</option>
+                    <option [ngValue]="8">8</option>
+                    <option [ngValue]="9">9</option>
+                  </select>
+                </div>
               </div>
-              <div class="col-md-2">
-                <select class="form-select form-select-sm" [(ngModel)]="magia.level" (change)="saveToCache.emit()">
-                  <option [ngValue]="undefined">Nível</option>
-                  <option [ngValue]="0">Truque</option>
-                  <option [ngValue]="1">1</option>
-                  <option [ngValue]="2">2</option>
-                  <option [ngValue]="3">3</option>
-                  <option [ngValue]="4">4</option>
-                  <option [ngValue]="5">5</option>
-                  <option [ngValue]="6">6</option>
-                  <option [ngValue]="7">7</option>
-                  <option [ngValue]="8">8</option>
-                  <option [ngValue]="9">9</option>
-                </select>
+
+              <div class="col-md-6">
+                <div class="detail-box edit-detail-box">
+                  <label class="detail-label"><i class="fas fa-book me-2 text-primary"></i>Escola:</label>
+                  <input type="text" class="form-control" placeholder="Escola (opcional)"
+                    [ngModel]="draft.school"
+                    (ngModelChange)="draft.school = $event">
+                </div>
               </div>
-              <div class="col-md-2">
-                <button type="button" class="btn btn-success btn-sm w-100" (click)="toggleEditarMagia.emit(i)">
-                  <i class="fas fa-check"></i>
+              <div class="col-md-6">
+                <div class="detail-box edit-detail-box">
+                  <label class="detail-label"><i class="fas fa-clock me-2 text-primary"></i>Tempo de Conjuração:</label>
+                  <input type="text" class="form-control" placeholder="Tempo de Conjuração (opcional)"
+                    [ngModel]="draft.casting_time"
+                    (ngModelChange)="draft.casting_time = $event">
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="detail-box edit-detail-box">
+                  <label class="detail-label"><i class="fas fa-crosshairs me-2 text-primary"></i>Alcance:</label>
+                  <input type="text" class="form-control" placeholder="Alcance (opcional)"
+                    [ngModel]="draft.range"
+                    (ngModelChange)="draft.range = $event">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="detail-box edit-detail-box">
+                  <label class="detail-label"><i class="fas fa-hourglass-half me-2 text-primary"></i>Duração:</label>
+                  <input type="text" class="form-control" placeholder="Duração (opcional)"
+                    [ngModel]="draft.duration"
+                    (ngModelChange)="draft.duration = $event">
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="detail-box edit-detail-box">
+                  <label class="detail-label"><i class="fas fa-hand-sparkles me-2 text-primary"></i>Componentes:</label>
+                  <input type="text" class="form-control" placeholder="Componentes (V, S, M)"
+                    [ngModel]="draft.components_text"
+                    (ngModelChange)="draft.components_text = $event">
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="detail-box edit-detail-box">
+                  <label class="detail-label"><i class="fas fa-vial me-2 text-primary"></i>Material:</label>
+                  <input type="text" class="form-control" placeholder="Material (opcional)"
+                    [ngModel]="draft.material"
+                    (ngModelChange)="draft.material = $event">
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="detail-box edit-detail-box">
+                  <label class="detail-label"><i class="fas fa-user-graduate me-2 text-primary"></i>Classes:</label>
+                  <input type="text" class="form-control" placeholder="Classes (separe por vírgula)"
+                    [ngModel]="draft.classes_text"
+                    (ngModelChange)="draft.classes_text = $event">
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="detail-box edit-detail-box">
+                  <label class="detail-label"><i class="fas fa-scroll me-2 text-primary"></i>Descrição:</label>
+                  <textarea class="form-control" rows="5" placeholder="Descrição"
+                    [ngModel]="draft.descricao"
+                    (ngModelChange)="draft.descricao = $event"></textarea>
+                </div>
+              </div>
+
+              <div class="col-12">
+                <div class="detail-box edit-detail-box">
+                  <label class="detail-label"><i class="fas fa-arrow-up me-2 text-primary"></i>Em Níveis Superiores:</label>
+                  <textarea class="form-control" rows="4" placeholder="Em Níveis Superiores (opcional)"
+                    [ngModel]="draft.higher_level_text"
+                    (ngModelChange)="draft.higher_level_text = $event"></textarea>
+                </div>
+              </div>
+
+              <div class="col-md-3 ms-auto">
+                <button type="button" class="btn btn-success w-100" (click)="saveSpellEdit(i, magia)">
+                  <i class="fas fa-check me-1"></i>Salvar
                 </button>
               </div>
               <div class="col-md-3">
-                <input type="text" class="form-control form-control-sm" placeholder="Escola (opcional)"
-                  [(ngModel)]="magia.school" (change)="saveToCache.emit()">
-              </div>
-              <div class="col-md-3">
-                <input type="text" class="form-control form-control-sm" placeholder="Tempo de Conjuração (opcional)"
-                  [(ngModel)]="magia.casting_time" (change)="saveToCache.emit()">
-              </div>
-              <div class="col-md-3">
-                <input type="text" class="form-control form-control-sm" placeholder="Alcance (opcional)"
-                  [(ngModel)]="magia.range" (change)="saveToCache.emit()">
-              </div>
-              <div class="col-md-3">
-                <input type="text" class="form-control form-control-sm" placeholder="Duração (opcional)"
-                  [(ngModel)]="magia.duration" (change)="saveToCache.emit()">
-              </div>
-              <div class="col-md-6">
-                <input type="text" class="form-control form-control-sm" placeholder="Componentes (V, S, M) (opcional)"
-                  [(ngModel)]="magia.components" (change)="saveToCache.emit()">
-              </div>
-              <div class="col-md-6">
-                <input type="text" class="form-control form-control-sm" placeholder="Material (opcional)"
-                  [(ngModel)]="magia.material" (change)="saveToCache.emit()">
+                <button type="button" class="btn btn-outline-secondary w-100" (click)="cancelSpellEdit(i)">
+                  <i class="fas fa-times me-1"></i>Cancelar
+                </button>
               </div>
             </div>
+            </ng-container>
           </div>
         </div>
       </div>
