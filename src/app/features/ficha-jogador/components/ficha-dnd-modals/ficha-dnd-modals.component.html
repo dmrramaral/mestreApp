@@ -1,0 +1,249 @@
+<div class="modal fade" id="classDetailsModal" tabindex="-1" aria-labelledby="classDetailsModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content rpg-modal">
+      <div class="modal-header bg-gradient-primary">
+        <h5 class="modal-title" id="classDetailsModalLabel">
+          <i class="fas fa-hat-wizard me-2"></i>Detalhes da Classe
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="loadingClassDetails" class="text-center py-4">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Carregando...</span>
+          </div>
+          <p class="mt-2 text-muted">Carregando detalhes da classe...</p>
+        </div>
+        <div *ngIf="!loadingClassDetails && selectedClassDetails">
+          <h4 class="mb-3">{{ selectedClassDetails.name }}</h4>
+
+          <div class="detail-section mb-3" *ngIf="selectedClassDetails.hit_die">
+            <h6 class="text-primary"><i class="fas fa-dice-d20 me-2"></i>Dado de Vida</h6>
+            <p>d{{ selectedClassDetails.hit_die }}</p>
+          </div>
+
+          <div class="detail-section mb-3"
+            *ngIf="selectedClassDetails.proficiencies && selectedClassDetails.proficiencies.length > 0">
+            <h6 class="text-primary"><i class="fas fa-check-circle me-2"></i>Proficiências</h6>
+            <ul class="mb-0">
+              <li *ngFor="let prof of selectedClassDetails.proficiencies">{{ prof.name }}</li>
+            </ul>
+          </div>
+
+          <div class="detail-section mb-3"
+            *ngIf="selectedClassDetails.saving_throws && selectedClassDetails.saving_throws.length > 0">
+            <h6 class="text-primary"><i class="fas fa-shield-alt me-2"></i>Testes de Resistência</h6>
+            <ul class="mb-0">
+              <li *ngFor="let save of selectedClassDetails.saving_throws">{{ save.name }}</li>
+            </ul>
+          </div>
+
+          <div class="detail-section mb-3"
+            *ngIf="selectedClassDetails.subclasses && selectedClassDetails.subclasses.length > 0">
+            <h6 class="text-primary"><i class="fas fa-sitemap me-2"></i>Subclasses</h6>
+            <ul class="mb-0">
+              <li *ngFor="let subclass of selectedClassDetails.subclasses">{{ subclass.name }}</li>
+            </ul>
+          </div>
+
+          <div class="detail-section mb-3" *ngIf="selectedClassDetails.spellcasting">
+            <h6 class="text-primary"><i class="fas fa-magic me-2"></i>Conjuração</h6>
+            <p class="mb-0">Esta classe possui habilidades de conjuração</p>
+          </div>
+        </div>
+        <div *ngIf="!loadingClassDetails && !selectedClassDetails" class="text-center py-4 text-muted">
+          <i class="fas fa-exclamation-circle fa-2x mb-2"></i>
+          <p>Nenhuma classe selecionada</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeClassDetails.emit()">
+          <i class="fas fa-arrow-left me-2"></i>Voltar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="raceDetailsModal" tabindex="-1" aria-labelledby="raceDetailsModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content rpg-modal">
+      <div class="modal-header bg-gradient-primary">
+        <h5 class="modal-title" id="raceDetailsModalLabel">
+          <i class="fas fa-users me-2"></i>Detalhes da Raça
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="loadingRaceDetails" class="text-center py-4">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Carregando...</span>
+          </div>
+          <p class="mt-2 text-muted">Carregando detalhes da raça...</p>
+        </div>
+        <div *ngIf="!loadingRaceDetails && selectedRaceDetails">
+          <h4 class="mb-3">{{ selectedRaceDetails.name }}</h4>
+
+          <div class="detail-section mb-3" *ngIf="selectedRaceDetails.speed">
+            <h6 class="text-primary"><i class="fas fa-running me-2"></i>Velocidade</h6>
+            <p>{{ selectedRaceDetails.speed }} pés</p>
+          </div>
+
+          <div class="detail-section mb-3"
+            *ngIf="selectedRaceDetails.ability_bonuses && selectedRaceDetails.ability_bonuses.length > 0">
+            <h6 class="text-primary"><i class="fas fa-arrow-up me-2"></i>Bônus de Atributos</h6>
+            <ul class="mb-0">
+              <li *ngFor="let bonus of selectedRaceDetails.ability_bonuses">
+                {{ bonus.ability_score.name }}: +{{ bonus.bonus }}
+              </li>
+            </ul>
+          </div>
+
+          <div class="detail-section mb-3" *ngIf="selectedRaceDetails.age">
+            <h6 class="text-primary"><i class="fas fa-hourglass-half me-2"></i>Idade</h6>
+            <p>{{ selectedRaceDetails.age }}</p>
+          </div>
+
+          <div class="detail-section mb-3" *ngIf="selectedRaceDetails.alignment">
+            <h6 class="text-primary"><i class="fas fa-balance-scale me-2"></i>Tendência</h6>
+            <p>{{ selectedRaceDetails.alignment }}</p>
+          </div>
+
+          <div class="detail-section mb-3" *ngIf="selectedRaceDetails.size">
+            <h6 class="text-primary"><i class="fas fa-ruler me-2"></i>Tamanho</h6>
+            <p>{{ selectedRaceDetails.size }}</p>
+            <p *ngIf="selectedRaceDetails.size_description" class="text-muted small">
+              {{ selectedRaceDetails.size_description }}
+            </p>
+          </div>
+
+          <div class="detail-section mb-3"
+            *ngIf="selectedRaceDetails.languages && selectedRaceDetails.languages.length > 0">
+            <h6 class="text-primary"><i class="fas fa-language me-2"></i>Idiomas</h6>
+            <ul class="mb-0">
+              <li *ngFor="let lang of selectedRaceDetails.languages">{{ lang.name }}</li>
+            </ul>
+            <p *ngIf="selectedRaceDetails.language_desc" class="text-muted small mt-2">
+              {{ selectedRaceDetails.language_desc }}
+            </p>
+          </div>
+
+          <div class="detail-section mb-3"
+            *ngIf="selectedRaceDetails.traits && selectedRaceDetails.traits.length > 0">
+            <h6 class="text-primary"><i class="fas fa-star me-2"></i>Traços Raciais</h6>
+            <ul class="mb-0">
+              <li *ngFor="let trait of selectedRaceDetails.traits">{{ trait.name }}</li>
+            </ul>
+          </div>
+
+          <div class="detail-section mb-3"
+            *ngIf="selectedRaceDetails.subraces && selectedRaceDetails.subraces.length > 0">
+            <h6 class="text-primary"><i class="fas fa-sitemap me-2"></i>Sub-raças</h6>
+            <ul class="mb-0">
+              <li *ngFor="let subrace of selectedRaceDetails.subraces">{{ subrace.name }}</li>
+            </ul>
+          </div>
+        </div>
+        <div *ngIf="!loadingRaceDetails && !selectedRaceDetails" class="text-center py-4 text-muted">
+          <i class="fas fa-exclamation-circle fa-2x mb-2"></i>
+          <p>Nenhuma raça selecionada</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" (click)="closeRaceDetails.emit()">
+          <i class="fas fa-arrow-left me-2"></i>Voltar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="classSelectionModal" tabindex="-1" aria-labelledby="classSelectionModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content rpg-modal">
+      <div class="modal-header bg-gradient-primary">
+        <h5 class="modal-title" id="classSelectionModalLabel">
+          <i class="fas fa-hat-wizard me-2"></i>Selecionar Classe
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-6 col-lg-4" *ngFor="let classe of availableClasses">
+            <div class="card selection-card h-100" [class.selected]="jogador.classe === classe.name">
+              <div class="card-body text-center">
+                <h5 class="card-title">
+                  <i class="fas fa-hat-wizard me-2"></i>{{ classe.name }}
+                </h5>
+                <div class="d-flex gap-2 justify-content-center mt-2">
+                  <button class="btn btn-sm btn-outline-primary" type="button" (click)="selectClass.emit(classe)">
+                    <i class="fas fa-check me-1"></i>Selecionar
+                  </button>
+                  <button class="btn btn-sm btn-outline-info" type="button" (click)="viewClassDetails.emit(classe.index)">
+                    <i class="fas fa-info-circle me-1"></i>Detalhes
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="availableClasses.length === 0" class="text-center py-4 text-muted">
+          <i class="fas fa-spinner fa-spin fa-2x mb-2"></i>
+          <p>Carregando classes...</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="fas fa-times me-2"></i>Fechar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="raceSelectionModal" tabindex="-1" aria-labelledby="raceSelectionModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content rpg-modal">
+      <div class="modal-header bg-gradient-success">
+        <h5 class="modal-title" id="raceSelectionModalLabel">
+          <i class="fas fa-users me-2"></i>Selecionar Raça
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row g-3">
+          <div class="col-md-6 col-lg-4" *ngFor="let raca of availableRaces">
+            <div class="card selection-card h-100" [class.selected]="jogador.raca === raca.name">
+              <div class="card-body text-center">
+                <h5 class="card-title">
+                  <i class="fas fa-users me-2"></i>{{ raca.name }}
+                </h5>
+                <div class="d-flex gap-2 justify-content-center mt-2">
+                  <button class="btn btn-sm btn-outline-success" type="button" (click)="selectRace.emit(raca)">
+                    <i class="fas fa-check me-1"></i>Selecionar
+                  </button>
+                  <button class="btn btn-sm btn-outline-info" type="button" (click)="viewRaceDetails.emit(raca.index)">
+                    <i class="fas fa-info-circle me-1"></i>Detalhes
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="availableRaces.length === 0" class="text-center py-4 text-muted">
+          <i class="fas fa-spinner fa-spin fa-2x mb-2"></i>
+          <p>Carregando raças...</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="fas fa-times me-2"></i>Fechar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,70 @@
+<div class="collapse" id="collapseTalentos">
+  <div class="card shadow-sm mb-3">
+    <div class="card-header bg-success text-white">
+      <div class="d-flex justify-content-between align-items-center">
+        <h5 class="mb-0"><i class="fas fa-star me-2"></i>Talentos</h5>
+        <div>
+          <button *ngIf="isDnd5e" type="button" class="btn btn-light btn-sm me-2" (click)="abrirBuscarTalento.emit()">
+            <i class="fas fa-search me-1"></i>Buscar API
+          </button>
+          <button type="button" class="btn btn-light btn-sm me-2" (click)="adicionarTalento()">
+            <i class="fas fa-plus me-1"></i>Adicionar Manual
+          </button>
+          <button type="button" class="btn-close btn-close-white ms-1" data-bs-toggle="collapse"
+            data-bs-target="#collapseTalentos" title="Fechar"></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-body">
+      <div class="row g-3 mb-3" *ngIf="adicionandoTalento">
+        <div class="col-md-4">
+          <input type="text" class="form-control" placeholder="Nome do talento" [(ngModel)]="novoTalento.nome">
+        </div>
+        <div class="col-md-6">
+          <input type="text" class="form-control" placeholder="Descrição" [(ngModel)]="novoTalento.descricao">
+        </div>
+        <div class="col-md-2 d-flex gap-2 justify-content-end">
+          <button type="button" class="btn btn-success btn-sm" (click)="confirmarAdicionarTalento()">
+            <i class="fas fa-check"></i>
+          </button>
+          <button type="button" class="btn btn-outline-secondary btn-sm" (click)="cancelarAdicionarTalento()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="talent-list" *ngIf="jogador?.talentos?.length > 0; else semTalentos">
+        <div class="talent-item" *ngFor="let talento of jogador.talentos; let i = index">
+          <div class="talent-header">
+            <div>
+              <i class="fas fa-star text-success"></i>
+              <strong>{{ talento.nome }}</strong>
+            </div>
+            <div>
+              <button type="button" class="btn btn-sm btn-outline-primary" (click)="toggleEditarTalento(i)">
+                <i class="fas" [class.fa-pen]="!editandoTalento[i]" [class.fa-save]="editandoTalento[i]"></i>
+              </button>
+              <button type="button" class="btn btn-sm btn-outline-danger" (click)="removerTalento(talento)">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+
+          <div *ngIf="!editandoTalento[i]">
+            <p class="talent-description">{{ talento.descricao }}</p>
+          </div>
+
+          <div *ngIf="editandoTalento[i]">
+            <input type="text" class="form-control mb-2" [(ngModel)]="talento.nome" placeholder="Nome do talento">
+            <textarea class="form-control" rows="3" [(ngModel)]="talento.descricao" placeholder="Descrição"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #semTalentos>
+        <p class="text-muted mb-0">Nenhum talento adicionado.</p>
+      </ng-template>
+    </div>
+  </div>
+</div>

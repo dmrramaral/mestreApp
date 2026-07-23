@@ -60,7 +60,11 @@
                   title="Marque se tem vantagem na iniciativa">Vantagem</label>
                 <span *ngIf="!editandoCombate" class="text-muted ms-2" title="Vantagem na iniciativa">{{
                   vantagemIniciativa ? 'Vantagem' : '' }}</span>
-                <button *ngIf="!editandoAtributos" class="dice-roll-btn" type="button" title="Rolar 1d20 + FOR"
+                <button *ngIf="!editandoAtributos" class="dice-roll-btn" type="button"
+                  title="Clique: 1d20. Segurar: 2d20 (vantagem). Segurar + Shift/Alt: desvantagem"
+                  (mousedown)="iniciarSegurarRolagem($event)" (mouseup)="finalizarSegurarRolagem('INICIATIVA', jogador.iniciativa || 0)"
+                  (mouseleave)="cancelarSegurarRolagem()" (touchstart)="iniciarSegurarRolagem($event)"
+                  (touchend)="finalizarSegurarRolagem('INICIATIVA', jogador.iniciativa || 0)"
                   (click)="rolarD20('INICIATIVA', jogador.iniciativa || 0, vantagemIniciativa)"><i
                     class="fas fa-dice-d20"></i></button>
               </div>
@@ -130,7 +134,11 @@
                 <span *ngIf="!editandoAtributos" class="attr-value">{{jogador.atributos.forca || 10}}</span>
                 <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.forca) ?? 0) >= 0 ? '+' : '' }}{{
                   calcularModificador(jogador.atributos.forca) ?? 0 }}</span>
-                <button *ngIf="!editandoAtributos" class="dice-roll-btn" type="button" title="Rolar 1d20 + FOR"
+                <button *ngIf="!editandoAtributos" class="dice-roll-btn" type="button"
+                  title="Clique: 1d20. Segurar: 2d20 (vantagem). Segurar + Shift/Alt: desvantagem"
+                  (mousedown)="iniciarSegurarRolagem($event)" (mouseup)="finalizarSegurarRolagem('FOR', calcularModificador(jogador.atributos.forca) ?? 0)"
+                  (mouseleave)="cancelarSegurarRolagem()" (touchstart)="iniciarSegurarRolagem($event)"
+                  (touchend)="finalizarSegurarRolagem('FOR', calcularModificador(jogador.atributos.forca) ?? 0)"
                   (click)="rolarDado('FOR', calcularModificador(jogador.atributos.forca) ?? 0)"><i
                     class="fas fa-dice-d20"></i></button>
               </div>
@@ -161,7 +169,11 @@
                 <span *ngIf="!editandoAtributos" class="attr-value">{{jogador.atributos.destreza || 10}}</span>
                 <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.destreza) ?? 0) >= 0 ? '+' : ''
                   }}{{ calcularModificador(jogador.atributos.destreza) ?? 0 }}</span>
-                <button *ngIf="!editandoAtributos" class="dice-roll-btn" type="button" title="Rolar 1d20 + DES"
+                <button *ngIf="!editandoAtributos" class="dice-roll-btn" type="button"
+                  title="Clique: 1d20. Segurar: 2d20 (vantagem). Segurar + Shift/Alt: desvantagem"
+                  (mousedown)="iniciarSegurarRolagem($event)" (mouseup)="finalizarSegurarRolagem('DES', calcularModificador(jogador.atributos.destreza) ?? 0)"
+                  (mouseleave)="cancelarSegurarRolagem()" (touchstart)="iniciarSegurarRolagem($event)"
+                  (touchend)="finalizarSegurarRolagem('DES', calcularModificador(jogador.atributos.destreza) ?? 0)"
                   (click)="rolarDado('DES', calcularModificador(jogador.atributos.destreza) ?? 0)"><i
                     class="fas fa-dice-d20"></i></button>
               </div>
@@ -192,7 +204,11 @@
                 <span *ngIf="!editandoAtributos" class="attr-value">{{jogador.atributos.constituicao || 10}}</span>
                 <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.constituicao) ?? 0) >= 0 ? '+' :
                   '' }}{{ calcularModificador(jogador.atributos.constituicao) ?? 0 }}</span>
-                <button *ngIf="!editandoAtributos" class="dice-roll-btn" type="button" title="Rolar 1d20 + CON"
+                <button *ngIf="!editandoAtributos" class="dice-roll-btn" type="button"
+                  title="Clique: 1d20. Segurar: 2d20 (vantagem). Segurar + Shift/Alt: desvantagem"
+                  (mousedown)="iniciarSegurarRolagem($event)" (mouseup)="finalizarSegurarRolagem('CON', calcularModificador(jogador.atributos.constituicao) ?? 0)"
+                  (mouseleave)="cancelarSegurarRolagem()" (touchstart)="iniciarSegurarRolagem($event)"
+                  (touchend)="finalizarSegurarRolagem('CON', calcularModificador(jogador.atributos.constituicao) ?? 0)"
                   (click)="rolarDado('CON', calcularModificador(jogador.atributos.constituicao) ?? 0)"><i
                     class="fas fa-dice-d20"></i></button>
               </div>
@@ -222,7 +238,11 @@
                 <span *ngIf="!editandoAtributos" class="attr-value">{{jogador.atributos.inteligencia || 10}}</span>
                 <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.inteligencia) ?? 0) >= 0 ? '+' :
                   '' }}{{ calcularModificador(jogador.atributos.inteligencia) ?? 0 }}</span>
-                <button *ngIf="!editandoAtributos" class="dice-roll-btn" type="button" title="Rolar 1d20 + INT"
+                <button *ngIf="!editandoAtributos" class="dice-roll-btn" type="button"
+                  title="Clique: 1d20. Segurar: 2d20 (vantagem). Segurar + Shift/Alt: desvantagem"
+                  (mousedown)="iniciarSegurarRolagem($event)" (mouseup)="finalizarSegurarRolagem('INT', calcularModificador(jogador.atributos.inteligencia) ?? 0)"
+                  (mouseleave)="cancelarSegurarRolagem()" (touchstart)="iniciarSegurarRolagem($event)"
+                  (touchend)="finalizarSegurarRolagem('INT', calcularModificador(jogador.atributos.inteligencia) ?? 0)"
                   (click)="rolarDado('INT', calcularModificador(jogador.atributos.inteligencia) ?? 0)"><i
                     class="fas fa-dice-d20"></i></button>
               </div>
@@ -252,7 +272,11 @@
                 <span *ngIf="!editandoAtributos" class="attr-value">{{jogador.atributos.sabedoria || 10}}</span>
                 <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.sabedoria) ?? 0) >= 0 ? '+' : ''
                   }}{{ calcularModificador(jogador.atributos.sabedoria) ?? 0 }}</span>
-                <button *ngIf="!editandoAtributos" class="dice-roll-btn" type="button" title="Rolar 1d20 + SAB"
+                <button *ngIf="!editandoAtributos" class="dice-roll-btn" type="button"
+                  title="Clique: 1d20. Segurar: 2d20 (vantagem). Segurar + Shift/Alt: desvantagem"
+                  (mousedown)="iniciarSegurarRolagem($event)" (mouseup)="finalizarSegurarRolagem('SAB', calcularModificador(jogador.atributos.sabedoria) ?? 0)"
+                  (mouseleave)="cancelarSegurarRolagem()" (touchstart)="iniciarSegurarRolagem($event)"
+                  (touchend)="finalizarSegurarRolagem('SAB', calcularModificador(jogador.atributos.sabedoria) ?? 0)"
                   (click)="rolarDado('SAB', calcularModificador(jogador.atributos.sabedoria) ?? 0)"><i
                     class="fas fa-dice-d20"></i></button>
               </div>
@@ -283,7 +307,11 @@
                 <span *ngIf="!editandoAtributos" class="attr-value">{{jogador.atributos.carisma || 10}}</span>
                 <span class="attr-modifier">{{ (calcularModificador(jogador.atributos.carisma) ?? 0) >= 0 ? '+' : ''
                   }}{{ calcularModificador(jogador.atributos.carisma) ?? 0 }}</span>
-                <button *ngIf="!editandoAtributos" class="dice-roll-btn" type="button" title="Rolar 1d20 + CAR"
+                <button *ngIf="!editandoAtributos" class="dice-roll-btn" type="button"
+                  title="Clique: 1d20. Segurar: 2d20 (vantagem). Segurar + Shift/Alt: desvantagem"
+                  (mousedown)="iniciarSegurarRolagem($event)" (mouseup)="finalizarSegurarRolagem('CAR', calcularModificador(jogador.atributos.carisma) ?? 0)"
+                  (mouseleave)="cancelarSegurarRolagem()" (touchstart)="iniciarSegurarRolagem($event)"
+                  (touchend)="finalizarSegurarRolagem('CAR', calcularModificador(jogador.atributos.carisma) ?? 0)"
                   (click)="rolarDado('CAR', calcularModificador(jogador.atributos.carisma) ?? 0)"><i
                     class="fas fa-dice-d20"></i></button>
               </div>

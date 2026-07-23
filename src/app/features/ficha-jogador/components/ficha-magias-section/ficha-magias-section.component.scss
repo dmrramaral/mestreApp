@@ -1,0 +1,53 @@
+.spell-list {
+  display: grid;
+  gap: 15px;
+}
+
+.spell-item {
+  background: #f7fafc;
+  border-radius: 8px;
+  padding: 15px;
+  border-left: 4px solid #667eea;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: #edf2f7;
+    transform: translateX(5px);
+  }
+
+  .spell-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+
+    > div {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    i {
+      font-size: 1.2rem;
+    }
+
+    strong {
+      font-size: 1.1rem;
+      color: #2d3748;
+    }
+  }
+
+  .spell-description {
+    color: #718096;
+    margin: 0;
+    font-size: 0.9rem;
+  }
+}
+
+.detail-box {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px;
+}

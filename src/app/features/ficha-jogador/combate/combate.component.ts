@@ -34,6 +34,11 @@ export class CombateComponent {
   editandoAtributos: boolean = false;
   mostrarDetalheCA = false;
   mostrarDetalheCF = false;
+  private readonly delaySegurarMs = 450;
+  private timerSegurar: ReturnType<typeof setTimeout> | null = null;
+  private rolagemPorSegurarAtiva = false;
+  private ignorarProximoClique = false;
+  private modoSegurar: 'vantagem' | 'desvantagem' = 'vantagem';
 
   emitirMudanca(): void {
     this.action.emit({ type: 'dirty' });
@@ -72,10 +77,11 @@ export class CombateComponent {
   }
 
   rolarDado(campo: string, mod: number): void {
-    let d20 = Math.floor(Math.random() * 20) + 1;
-    if(d20 <=15){
-      d20 = 15;
+    if (this.ignorarProximoClique) {
+      this.ignorarProximoClique = false;
+      return;
     }
+    const d20 = Math.floor(Math.random() * 20) + 1;
     this.action.emit({
       type: 'roll',
       payload: { campo, d20, mod, total: d20 + mod }
@@ -83,6 +89,11 @@ export class CombateComponent {
   }
 
   rolarD20(campo: string, mod: number, vantagem: boolean = false): void {
+    if (this.ignorarProximoClique) {
+      this.ignorarProximoClique = false;
+      return;
+    }
+
     const d20 = Math.floor(Math.random() * 20) + 1;
     if (vantagem) {
       const d20_2 = Math.floor(Math.random() * 20) + 1;
@@ -104,6 +115,65 @@ export class CombateComponent {
       type: 'roll',
       payload: { campo, d20, mod, total: d20 + mod }
     });
+  }
+
+  iniciarSegurarRolagem(event?: MouseEvent | TouchEvent): void {
+    this.limparTimerSegurar();
+    this.rolagemPorSegurarAtiva = false;
+    this.modoSegurar = 'vantagem';
+
+    if (event instanceof MouseEvent && (event.shiftKey || event.altKey)) {
+      this.modoSegurar = 'desvantagem';
+    }
+
+    this.timerSegurar = setTimeout(() => {
+      this.rolagemPorSegurarAtiva = true;
+      this.timerSegurar = null;
+    }, this.delaySegurarMs);
+  }
+
+  cancelarSegurarRolagem(): void {
+    this.limparTimerSegurar();
+  }
+
+  finalizarSegurarRolagem(campo: string, mod: number): void {
+    if (this.timerSegurar) {
+      clearTimeout(this.timerSegurar);
+      this.timerSegurar = null;
+      return;
+    }
+
+    if (!this.rolagemPorSegurarAtiva) {
+      return;
+    }
+
+    this.rolagemPorSegurarAtiva = false;
+    this.ignorarProximoClique = true;
+    this.rolarD20Comparado(campo, mod, this.modoSegurar);
+  }
+
+  private rolarD20Comparado(campo: string, mod: number, modo: 'vantagem' | 'desvantagem'): void {
+    const d20_1 = Math.floor(Math.random() * 20) + 1;
+    const d20_2 = Math.floor(Math.random() * 20) + 1;
+    const escolhido = modo === 'vantagem' ? Math.max(d20_1, d20_2) : Math.min(d20_1, d20_2);
+
+    this.action.emit({
+      type: 'roll',
+      payload: {
+        campo,
+        d20: escolhido,
+        mod,
+        total: escolhido + mod,
+        detalhe: `Rolou ${d20_1} e ${d20_2} com ${modo}`
+      }
+    });
+  }
+
+  private limparTimerSegurar(): void {
+    if (this.timerSegurar) {
+      clearTimeout(this.timerSegurar);
+      this.timerSegurar = null;
+    }
   }
 
   rolarPericia(pericia: any, modAtributo: number): void {

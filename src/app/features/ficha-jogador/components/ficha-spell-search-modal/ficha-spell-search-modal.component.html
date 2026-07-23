@@ -1,0 +1,157 @@
+<div class="modal fade" [class.show]="isOpen" [style.display]="isOpen ? 'block' : 'none'"
+  tabindex="-1" aria-labelledby="spellSearchModalLabel" [attr.aria-hidden]="!isOpen">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content rpg-modal">
+      <div class="modal-header bg-gradient-primary">
+        <h5 class="modal-title" id="spellSearchModalLabel">
+          <i class="fas fa-magic me-2"></i>Buscar Magias - D&D 5e API
+        </h5>
+        <button type="button" class="btn-close btn-close-white" (click)="close.emit()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="!selectedSpellDetails">
+          <div class="row g-3 mb-3">
+            <div class="col-md-4">
+              <div class="input-group">
+                <span class="input-group-text"><i class="fas fa-search"></i></span>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Buscar magia..."
+                  [ngModel]="spellSearchTerm"
+                  (ngModelChange)="onSearchTermInput($event)">
+              </div>
+            </div>
+            <div class="col-md-3">
+              <select
+                class="form-select"
+                [ngModel]="spellLevelFilter"
+                (ngModelChange)="onSpellLevelFilterChange($event)">
+                <option value="">Todos os Níveis</option>
+                <option value="0">Truque (0)</option>
+                <option *ngFor="let level of availableSpellLevels.slice(1)" [value]="level">
+                  Nível {{ level }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-3">
+              <select
+                class="form-select"
+                [ngModel]="spellClassFilter"
+                (ngModelChange)="onSpellClassFilterChange($event)">
+                <option value="">Todas as Classes</option>
+                <option *ngFor="let classType of availableClasses" [value]="classType.index">
+                  {{ classType.name }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <button type="button" class="btn btn-outline-secondary w-100" (click)="limparFiltrosMagias.emit()"
+                [disabled]="!spellLevelFilter && !spellClassFilter && !spellSearchTerm">
+                <i class="fas fa-times me-1"></i>Limpar
+              </button>
+            </div>
+          </div>
+
+          <div *ngIf="loadingSpells" class="text-center py-4">
+            <i class="fas fa-spinner fa-spin fa-2x mb-2"></i>
+            <p>Carregando magias...</p>
+          </div>
+
+          <div *ngIf="!loadingSpells" class="row g-3">
+            <div class="col-md-6 col-lg-4" *ngFor="let spell of filteredSpells">
+              <div class="card h-100 hover-card">
+                <div class="card-body">
+                  <h6 class="card-title">
+                    <i class="fas fa-wand-magic text-primary me-2"></i>{{ spell.name }}
+                  </h6>
+                  <div class="d-flex justify-content-between mt-3">
+                    <button type="button" class="btn btn-sm btn-outline-primary" (click)="viewSpellDetails.emit(spell.index)">
+                      <i class="fas fa-info-circle me-1"></i>Detalhes
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="!loadingSpells && filteredSpells.length === 0" class="text-center py-4 text-muted">
+            <i class="fas fa-search fa-2x mb-2"></i>
+            <p>Nenhuma magia encontrada</p>
+          </div>
+        </div>
+
+        <div *ngIf="selectedSpellDetails">
+          <button type="button" class="btn btn-sm btn-outline-secondary mb-3" (click)="voltarListaMagias.emit()">
+            <i class="fas fa-arrow-left me-1"></i>Voltar
+          </button>
+
+          <h4 class="mb-3">
+            <i class="fas fa-wand-magic text-primary me-2"></i>{{ selectedSpellDetails.name }}
+          </h4>
+
+          <div class="detail-section mb-3" *ngIf="selectedSpellDetails.level !== undefined">
+            <h6 class="text-primary"><i class="fas fa-layer-group me-2"></i>Nível</h6>
+            <p>{{ selectedSpellDetails.level === 0 ? 'Truque' : 'Nível ' + selectedSpellDetails.level }}</p>
+          </div>
+
+          <div class="detail-section mb-3" *ngIf="selectedSpellDetails.school">
+            <h6 class="text-primary"><i class="fas fa-book me-2"></i>Escola</h6>
+            <p>{{ selectedSpellDetails.school.name }}</p>
+          </div>
+
+          <div class="detail-section mb-3" *ngIf="selectedSpellDetails.casting_time">
+            <h6 class="text-primary"><i class="fas fa-clock me-2"></i>Tempo de Conjuração</h6>
+            <p>{{ selectedSpellDetails.casting_time }}</p>
+          </div>
+
+          <div class="detail-section mb-3" *ngIf="selectedSpellDetails.range">
+            <h6 class="text-primary"><i class="fas fa-crosshairs me-2"></i>Alcance</h6>
+            <p>{{ selectedSpellDetails.range }}</p>
+          </div>
+
+          <div class="detail-section mb-3"
+            *ngIf="selectedSpellDetails.components && selectedSpellDetails.components.length > 0">
+            <h6 class="text-primary"><i class="fas fa-hand-sparkles me-2"></i>Componentes</h6>
+            <p>{{ selectedSpellDetails.components.join(', ') }}</p>
+            <p *ngIf="selectedSpellDetails.material" class="text-muted small">{{ selectedSpellDetails.material }}</p>
+          </div>
+
+          <div class="detail-section mb-3" *ngIf="selectedSpellDetails.duration">
+            <h6 class="text-primary"><i class="fas fa-hourglass-half me-2"></i>Duração</h6>
+            <p>{{ selectedSpellDetails.duration }}</p>
+          </div>
+
+          <div class="detail-section mb-3"
+            *ngIf="(selectedSpellDetails.desc && selectedSpellDetails.desc.length > 0) || (selectedSpellDetails.description && selectedSpellDetails.description.length > 0)">
+            <h6 class="text-primary"><i class="fas fa-scroll me-2"></i>Descrição</h6>
+            <p *ngFor="let paragraph of (selectedSpellDetails.desc || selectedSpellDetails.description)">{{ paragraph }}</p>
+          </div>
+
+          <div class="detail-section mb-3"
+            *ngIf="selectedSpellDetails.higher_level && selectedSpellDetails.higher_level.length > 0">
+            <h6 class="text-primary"><i class="fas fa-arrow-up me-2"></i>Em Níveis Superiores</h6>
+            <p *ngFor="let paragraph of selectedSpellDetails.higher_level">{{ paragraph }}</p>
+          </div>
+
+          <div class="detail-section mb-3" *ngIf="selectedSpellDetails.classes && selectedSpellDetails.classes.length > 0">
+            <h6 class="text-primary"><i class="fas fa-hat-wizard me-2"></i>Classes</h6>
+            <ul class="mb-0">
+              <li *ngFor="let cls of selectedSpellDetails.classes">{{ cls.name }}</li>
+            </ul>
+          </div>
+
+          <button type="button" class="btn btn-primary mt-3" (click)="onAddSelectedSpell()">
+            <i class="fas fa-plus me-2"></i>Adicionar à Ficha
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="close.emit()">
+          <i class="fas fa-times me-2"></i>Fechar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade" [class.show]="isOpen" *ngIf="isOpen"></div>

@@ -1,0 +1,42 @@
+:host {
+  display: block;
+}
+
+.talent-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+}
+
+.talent-list {
+  display: grid;
+  gap: 15px;
+}
+
+.talent-item {
+  background: #f0fff4;
+  border-radius: 8px;
+  padding: 15px;
+  border-left: 4px solid #48bb78;
+
+  .talent-header {
+    strong {
+      font-size: 1.1rem;
+      color: #2d3748;
+    }
+  }
+
+  .talent-description {
+    color: #718096;
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+}

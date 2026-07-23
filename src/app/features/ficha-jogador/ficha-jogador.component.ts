@@ -3,12 +3,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
-  AcessorioArma,
-  EQUIPMENT_CATEGORIES,
-  RPG_SYSTEM_OPTIONS,
-  RPG_SYSTEMS,
-  RpgSystemType,
-  SKILLS
+    AcessorioArma,
+    EQUIPMENT_CATEGORIES,
+    RPG_SYSTEM_OPTIONS,
+    RPG_SYSTEMS,
+    RpgSystemType,
+    SKILLS
 } from '../../core/constants/rpg.constants';
 import { ApiReference, DndClass, DndRace } from '../../core/models/dnd-api.model';
 import { DndApiService } from '../../core/services/dnd-api.service';
@@ -17,6 +17,20 @@ import { StorageService } from '../../core/services/storage.service';
 import { RegistroSync } from '../../core/services/sync-backend.service';
 import { calcularModificador, formatarModificador } from '../../core/utils/rpg.utils';
 import { CombateAction, CombateComponent } from './combate/combate.component';
+import { DiceRollToastComponent } from './components/dice-roll-toast/dice-roll-toast.component';
+import { FichaEquipamentosSectionComponent } from './components/ficha-equipamentos-section/ficha-equipamentos-section.component';
+import { FichaAnotacoesSectionComponent } from './components/ficha-anotacoes-section/ficha-anotacoes-section.component';
+import { FichaDndModalsComponent } from './components/ficha-dnd-modals/ficha-dnd-modals.component';
+import { FichaEditModalComponent } from './components/ficha-edit-modal/ficha-edit-modal.component';
+import { FichaCondicoesSectionComponent } from './components/ficha-condicoes-section/ficha-condicoes-section.component';
+import { FichaHeaderComponent } from './components/ficha-header/ficha-header.component';
+import { FichaMagiasSectionComponent } from './components/ficha-magias-section/ficha-magias-section.component';
+import { FichaMochilaSectionComponent } from './components/ficha-mochila-section/ficha-mochila-section.component';
+import { FichaPericiasSectionComponent } from './components/ficha-pericias-section/ficha-pericias-section.component';
+import { FichaSectionNavComponent } from './components/ficha-section-nav/ficha-section-nav.component';
+import { FichaSpellSearchModalComponent } from './components/ficha-spell-search-modal/ficha-spell-search-modal.component';
+import { FichaTalentosSectionComponent } from './components/ficha-talentos-section/ficha-talentos-section.component';
+import { FeatureSearchModalComponent } from './components/feature-search-modal/feature-search-modal.component';
 import { FichaSessionFacade } from './state/ficha-session.facade';
 import { FichaStateFacade } from './state/ficha-state.facade';
 import { FichaContaResumo, SessaoJogador } from './state/ficha-state.models';
@@ -32,7 +46,21 @@ const MODAL_TRANSITION_DELAY = 300;
   imports: [
     CommonModule,
     FormsModule,
-    CombateComponent
+    CombateComponent,
+    FichaHeaderComponent,
+    FichaSectionNavComponent,
+    FichaEditModalComponent,
+    FichaDndModalsComponent,
+    FichaMagiasSectionComponent,
+    FichaTalentosSectionComponent,
+    FichaSpellSearchModalComponent,
+    FichaMochilaSectionComponent,
+    FichaEquipamentosSectionComponent,
+    FichaPericiasSectionComponent,
+    FichaCondicoesSectionComponent,
+    FichaAnotacoesSectionComponent,
+    FeatureSearchModalComponent,
+    DiceRollToastComponent
   ],
   templateUrl: './ficha-jogador.component.html',
   styleUrl: './ficha-jogador.component.scss'
@@ -232,11 +260,6 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
 
     };
 
-  novaCategoria: string = '';
-  novoEquipamento: any = { nome: '', descricao: '', ca: null };
-  adicionandoEquipamento: boolean = false;
-
-
   adicionandoMagia: boolean = false;
   novaMagia: any = {
     nome: '',
@@ -251,9 +274,6 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     classes: []
   };
 
-  adicionandoItem: boolean = false;
-  novoItem: any = { nome: '', descricao: '' };
-
   adicionandoAtaque: boolean = false;
   novoAtaque: any = { nome: '', bonus: '', dano: '', tipoDano: '', notas: '', ca: null, equipado: false, acessorios: [] };
   editandoAtaque: { [key: number]: boolean } = {};
@@ -265,18 +285,10 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   verCatalogoHacks = false;
 
 
-  adicionandoTalento: boolean = false;
-  novoTalento: any = { nome: '', descricao: '' };
-
   editandoAtributos: boolean = false;
-  editandoPericias: boolean = false;
   editandoCombate: boolean = false;
 
   editandoMagia: { [key: number]: boolean } = {};
-  editandoTalento: { [key: number]: boolean } = {};
-  editandoItem: { [key: number]: boolean } = {};
-  editandoEquipamento: { [categoria: string]: { [key: number]: boolean } } = {};
-
   // Spell and Feat search functionality
   buscarMagiaAberto: boolean = false;
   buscarTalentoAberto: boolean = false;
@@ -325,6 +337,12 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   selectedRaceDetails?: DndRace;
   loadingClassDetails = false;
   loadingRaceDetails = false;
+
+  readonly spellComponentsFormatter = (magia: any, expandedDetails: any): string =>
+    this.getSpellComponents(magia, expandedDetails);
+
+  readonly spellClassesFormatter = (magia: any, expandedDetails: any): string =>
+    this.getSpellClassesFormatted(magia, expandedDetails);
 
   constructor(
     private storageService: StorageService,
@@ -682,6 +700,25 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     this.confirmandoLimparCache = false;
   }
 
+  abrirModalEditarFicha(): void {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const bootstrap = (window as any).bootstrap;
+    if (!bootstrap) {
+      return;
+    }
+
+    const modalElement = document.getElementById('editarFichaModal');
+    if (!modalElement) {
+      return;
+    }
+
+    const modal = bootstrap.Modal.getOrCreateInstance(modalElement);
+    modal.show();
+  }
+
   baixarJogador() {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.jogador));
     const downloadAnchorNode = document.createElement('a');
@@ -692,17 +729,13 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     downloadAnchorNode.remove();
   }
 
-  carregarJogador(event: any) {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        const content = e.target.result;
-        this.jogador = this.garantirEstruturaSistema(JSON.parse(content));
-        this.saveToCache();
-      };
-      reader.readAsText(file);
+  onJogadorImportado(payload: unknown): void {
+    if (!payload || typeof payload !== 'object') {
+      return;
     }
+
+    this.jogador = this.garantirEstruturaSistema(payload);
+    this.saveToCache();
   }
 
   onVantagemIniciativaChange(value: boolean): void {
@@ -1004,55 +1037,6 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     return det;
   }
 
-  adicionarItem() {
-    this.adicionandoItem = true;
-  }
-
-  removerItem(item: { nome: string, descricao: string }) {
-    this.fichaService.removerItemMochila(this.jogador, item);
-    this.saveToCache();
-  }
-
-  confirmarAdicionarItem() {
-    if (this.novoItem.nome && this.novoItem.descricao) {
-      this.fichaService.adicionarItemMochila(this.jogador, this.novoItem);
-      this.novoItem = { nome: '', descricao: '' };
-      this.adicionandoItem = false;
-      this.saveToCache();
-    }
-  }
-
-  cancelarAdicionarItem() {
-    this.novoItem = { nome: '', descricao: '' };
-    this.adicionandoItem = false;
-  }
-
-
-
-
-  adicionarTalento() {
-    this.adicionandoTalento = true;
-  }
-
-  removerTalento(talento: { nome: string, descricao: string }) {
-    this.fichaService.removerTalento(this.jogador, talento);
-    this.saveToCache();
-  }
-
-  confirmarAdicionarTalento() {
-    if (this.novoTalento.nome && this.novoTalento.descricao) {
-      this.fichaService.adicionarTalento(this.jogador, this.novoTalento);
-      this.novoTalento = { nome: '', descricao: '' };
-      this.adicionandoTalento = false;
-      this.saveToCache();
-    }
-  }
-
-  cancelarAdicionarTalento() {
-    this.novoTalento = { nome: '', descricao: '' };
-    this.adicionandoTalento = false;
-  }
-
   adicionarAtaque() {
     this.adicionandoAtaque = true;
   }
@@ -1198,39 +1182,6 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     console.log(this.jogador.ataques);
     this.saveToCache();
   }
-
-
-  adicionarEquipamento() {
-    this.adicionandoEquipamento = true;
-  }
-
-  confirmarAdicionarEquipamento() {
-    if (this.novaCategoria && this.novoEquipamento.nome && this.novoEquipamento.descricao) {
-      this.fichaService.adicionarEquipamento(this.jogador, this.novaCategoria, this.novoEquipamento);
-      this.novoEquipamento = { nome: '', descricao: '', ca: null };
-      this.novaCategoria = '';
-      this.adicionandoEquipamento = false;
-      this.saveToCache();
-    }
-  }
-
-  cancelarAdicionarEquipamento() {
-    this.novoEquipamento = { nome: '', descricao: '', ca: null };
-    this.novaCategoria = '';
-    this.adicionandoEquipamento = false;
-  }
-
-  removerEquipamento(categoria: string, equipamento: { nome: string, descricao: string }) {
-    this.fichaService.removerEquipamento(this.jogador, categoria, equipamento);
-    this.saveToCache();
-  }
-
-
-  updatePericiaValor(event: Event, pericia: any) {
-    const input = event.target as HTMLInputElement;
-    pericia.valor = input.checked ? 'sim' : 'nao';
-  }
-
   getCategoryIcon(categoria: string): string {
     const icons: { [key: string]: string } = {
       'cabeca': 'fa-hat-wizard',
@@ -1261,16 +1212,8 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
     return Object.values(this.jogador.equipamentos).some((arr: any) => arr && arr.length > 0);
   }
 
-  hasProficiencies(): boolean {
-    return this.jogador.pericias.some((p: any) => p.valor === 'sim');
-  }
-
   toggleEditarAtributos() {
     this.editandoAtributos = !this.editandoAtributos;
-  }
-
-  toggleEditarPericias() {
-    this.editandoPericias = !this.editandoPericias;
   }
 
   toggleEditarCombate() {
@@ -1284,21 +1227,6 @@ export class FichaJogadorComponent implements OnInit, OnDestroy {
   removerMagia(index: number) {
     this.jogador.magias.splice(index, 1);
     this.saveToCache();
-  }
-
-  toggleEditarTalento(index: number) {
-    this.editandoTalento[index] = !this.editandoTalento[index];
-  }
-
-  toggleEditarItem(index: number) {
-    this.editandoItem[index] = !this.editandoItem[index];
-  }
-
-  toggleEditarEquipamento(categoria: string, index: number) {
-    if (!this.editandoEquipamento[categoria]) {
-      this.editandoEquipamento[categoria] = {};
-    }
-    this.editandoEquipamento[categoria][index] = !this.editandoEquipamento[categoria][index];
   }
 
   /**

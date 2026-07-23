@@ -1,0 +1,11 @@
+.skills-grid {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+
+  .skill-badge .badge {
+    font-size: 0.9rem;
+    padding: 8px 12px;
+    font-weight: 500;
+  }
+}

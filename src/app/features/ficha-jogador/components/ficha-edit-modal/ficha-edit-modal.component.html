@@ -1,0 +1,197 @@
+<div class="modal fade" id="editarFichaModal" tabindex="-1" aria-labelledby="editarFichaModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content rpg-modal">
+      <div class="modal-header bg-gradient-primary">
+        <h5 class="modal-title" id="editarFichaModalLabel">
+          <i class="fas fa-scroll me-2"></i>Editar Ficha do Jogador
+        </h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-section">
+            <h6 class="section-heading">
+              <i class="fas fa-user me-2"></i>Informações Básicas
+            </h6>
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label for="nome" class="form-label">
+                  <i class="fas fa-signature me-1"></i>Nome
+                </label>
+                <input type="text" class="form-control" id="nome" [(ngModel)]="jogador.nome" name="nome"
+                  placeholder="Nome do personagem" (change)="dirty.emit()">
+              </div>
+              <div class="col-md-4" *ngIf="isDnd5e">
+                <label class="form-label">
+                  <i class="fas fa-hat-wizard me-1"></i>Classe
+                </label>
+                <div class="current-selection mb-2" *ngIf="jogador.classe">
+                  <span class="badge bg-primary">{{ jogador.classe }}</span>
+                </div>
+                <button class="btn btn-outline-primary btn-sm w-100" type="button" (click)="openClassSelection.emit()">
+                  <i class="fas fa-search me-1"></i>{{ jogador.classe ? 'Trocar Classe' : 'Selecionar Classe' }}
+                </button>
+              </div>
+              <div class="col-md-4" *ngIf="isDnd5e">
+                <label class="form-label">
+                  <i class="fas fa-users me-1"></i>Raça
+                </label>
+                <div class="current-selection mb-2" *ngIf="jogador.raca">
+                  <span class="badge bg-success">{{ jogador.raca }}</span>
+                </div>
+                <button class="btn btn-outline-success btn-sm w-100" type="button" (click)="openRaceSelection.emit()">
+                  <i class="fas fa-search me-1"></i>{{ jogador.raca ? 'Trocar Raça' : 'Selecionar Raça' }}
+                </button>
+              </div>
+
+              <div class="col-md-6">
+                <label for="proficiencia" class="form-label">
+                  <i class="fas fa-certificate me-1"></i>Bônus de Proficiência
+                </label>
+                <input type="number" class="form-control" id="proficiencia" [(ngModel)]="jogador.proficiencia"
+                  name="proficiencia" placeholder="Ex: 2" (change)="dirty.emit()">
+              </div>
+              <div class="col-md-6">
+                <label for="nivel" class="form-label">
+                  <i class="fas fa-level-up-alt me-1"></i>Nível
+                </label>
+                <input type="number" class="form-control" id="nivel" [(ngModel)]="jogador.nivel" name="nivel"
+                  placeholder="Ex: 1" (change)="dirty.emit()">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h6 class="section-heading">
+              <i class="fas fa-shield-alt me-2"></i>Estatísticas de Combate
+            </h6>
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label for="pv" class="form-label">
+                  <i class="fas fa-heart me-1"></i>Pontos de Vida (PV)
+                </label>
+                <input type="number" class="form-control" id="pv" [(ngModel)]="jogador.pv" name="pv"
+                  placeholder="Ex: 10" (change)="dirty.emit()">
+              </div>
+              <div class="col-md-4">
+                <label for="pva" class="form-label">
+                  <i class="fas fa-heartbeat me-1"></i>PV Atual
+                </label>
+                <input type="number" class="form-control" id="pva" [(ngModel)]="jogador.pva" name="pva"
+                  placeholder="Ex: 10" (change)="dirty.emit()">
+              </div>
+              <div class="col-md-4">
+                <label for="ca" class="form-label">
+                  <i class="fas fa-shield me-1"></i>Classe de Armadura (CA)
+                </label>
+                <div class="form-control theme-display-box text-center fw-bold">{{ caCalculada }}</div>
+                <small class="text-muted">Calculado automaticamente. Use "Bônus manual" no card de combate para itens
+                  não identificados.</small>
+              </div>
+              <div class="col-md-4">
+                <label for="deslocamento" class="form-label">
+                  <i class="fas fa-running me-1"></i>Deslocamento
+                </label>
+                <input type="number" class="form-control" id="deslocamento" [(ngModel)]="jogador.deslocamento"
+                  name="deslocamento" placeholder="Ex: 30" (change)="dirty.emit()">
+              </div>
+              <div class="col-md-4">
+                <label for="iniciativa" class="form-label">
+                  <i class="fas fa-bolt me-1"></i>Iniciativa
+                </label>
+                <input type="number" class="form-control" id="iniciativa" [(ngModel)]="jogador.iniciativa"
+                  name="iniciativa" placeholder="Ex: 2" (change)="dirty.emit()">
+              </div>
+              <div class="col-md-4">
+                <label for="inspiracao" class="form-label">
+                  <i class="fas fa-star me-1"></i>Inspiração
+                </label>
+                <input type="number" class="form-control" id="inspiracao" [(ngModel)]="jogador.inspiracao"
+                  name="inspiracao" placeholder="Ex: 0" (change)="dirty.emit()">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h6 class="section-heading">
+              <i class="fas fa-dumbbell me-2"></i>Atributos
+            </h6>
+            <div class="row g-3">
+              <div class="col-md-4">
+                <label for="forca" class="form-label">
+                  <i class="fas fa-fist-raised me-1"></i>Força
+                </label>
+                <input type="number" inputmode="decimal" class="form-control" id="forca"
+                  [(ngModel)]="jogador.atributos.forca" name="forca" placeholder="Ex: 10" (change)="dirty.emit()">
+              </div>
+              <div class="col-md-4">
+                <label for="destreza" class="form-label">
+                  <i class="fas fa-running me-1"></i>Destreza
+                </label>
+                <input type="number" inputmode="decimal" class="form-control" id="destreza"
+                  [(ngModel)]="jogador.atributos.destreza" name="destreza" placeholder="Ex: 10" (change)="dirty.emit()">
+              </div>
+              <div class="col-md-4">
+                <label for="constituicao" class="form-label">
+                  <i class="fas fa-heart me-1"></i>Constituição
+                </label>
+                <input type="number" inputmode="decimal" class="form-control" id="constituicao"
+                  [(ngModel)]="jogador.atributos.constituicao" name="constituicao" placeholder="Ex: 10" (change)="dirty.emit()">
+              </div>
+              <div class="col-md-4">
+                <label for="inteligencia" class="form-label">
+                  <i class="fas fa-brain me-1"></i>Inteligência
+                </label>
+                <input type="number" inputmode="decimal" class="form-control" id="inteligencia"
+                  [(ngModel)]="jogador.atributos.inteligencia" name="inteligencia" placeholder="Ex: 10" (change)="dirty.emit()">
+              </div>
+              <div class="col-md-4">
+                <label for="sabedoria" class="form-label">
+                  <i class="fas fa-eye me-1"></i>Sabedoria
+                </label>
+                <input type="number" inputmode="decimal" class="form-control" id="sabedoria"
+                  [(ngModel)]="jogador.atributos.sabedoria" name="sabedoria" placeholder="Ex: 10" (change)="dirty.emit()">
+              </div>
+              <div class="col-md-4">
+                <label for="carisma" class="form-label">
+                  <i class="fas fa-comments me-1"></i>Carisma
+                </label>
+                <input type="number" inputmode="decimal" class="form-control" id="carisma"
+                  [(ngModel)]="jogador.atributos.carisma" name="carisma" placeholder="Ex: 10" (change)="dirty.emit()">
+              </div>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <h6 class="section-heading">
+              <i class="fas fa-tasks me-2"></i>Perícias
+            </h6>
+            <div class="skills-checklist">
+              <div class="row g-2">
+                <div class="col-md-6" *ngFor="let pericia of jogador.pericias">
+                  <div class="form-check skill-check">
+                    <input class="form-check-input" type="checkbox" [checked]="pericia.valor === 'sim'"
+                      (change)="onPericiaChange($event, pericia)" [id]="'pericia_' + pericia.nome"
+                      name="pericia_{{pericia.nome}}">
+                    <label class="form-check-label" [for]="'pericia_' + pericia.nome">
+                      <i class="fas fa-check-circle me-1"></i>{{ pericia.nome }}
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+          <i class="fas fa-times me-2"></i>Cancelar
+        </button>
+        <button type="button" class="btn btn-primary" (click)="dirty.emit()" data-bs-dismiss="modal">
+          <i class="fas fa-save me-2"></i>Salvar Alterações
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
