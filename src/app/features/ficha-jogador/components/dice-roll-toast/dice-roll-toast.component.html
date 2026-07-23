@@ -1,0 +1,10 @@
+<div *ngIf="resultado" class="rolagem-toast">
+  <button type="button" class="btn-close btn-close-white me-2" (click)="fechar.emit()" aria-label="Close"></button>
+
+  <div class="rolagem-toast-campo"><i class="fas fa-dice-d20 me-1"></i>{{ resultado.campo }}</div>
+  <div class="rolagem-toast-total">{{ resultado.total }}</div>
+  <div class="rolagem-toast-detalhe">
+    d20: <strong>{{ resultado.d20 }}</strong> {{ resultado.mod >= 0 ? '+' : '' }}<strong>{{ resultado.mod }}</strong>
+  </div>
+  <div class="rolagem-toast-detalhe" *ngIf="resultado.detalhe">{{ resultado.detalhe }}</div>
+</div>

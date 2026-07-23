@@ -1,0 +1,142 @@
+<div class="collapse" id="collapseEquipamentos">
+  <div class="card shadow-sm mb-3">
+    <div class="card-header bg-info text-white">
+      <div class="d-flex justify-content-between align-items-center">
+        <h5 class="mb-0"><i class="fas fa-shield-alt me-2"></i>Equipamentos</h5>
+        <div>
+          <button type="button" class="btn btn-light btn-sm me-2" (click)="adicionarEquipamento()">
+            <i class="fas fa-plus me-1"></i>
+          </button>
+
+          <span class="gold-display">
+            <i class="fas fa-coins me-2"></i>
+            <input type="number" class="gold-input" [(ngModel)]="jogador.ouro" (change)="dirty.emit()"> PO
+          </span>
+          <button type="button" class="btn-close btn-close-white ms-2" data-bs-toggle="collapse"
+            data-bs-target="#collapseEquipamentos" title="Fechar"></button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="equipment-grid" *ngIf="hasEquipment()">
+        <div *ngFor="let categoria of categorias" class="equipment-category">
+          <h6 class="category-title" *ngIf="jogador.equipamentos[categoria]?.length > 0">
+            <i class="fas" [ngClass]="getCategoryIcon(categoria)"></i>
+            {{ getCategoryName(categoria) }}
+          </h6>
+          <div class="equipment-item" *ngFor="let equipamento of jogador.equipamentos[categoria]; let i = index">
+            <div *ngIf="!editandoEquipamento[categoria]?.[i]">
+              <div class="equipment-header">
+                <span class="d-flex align-items-center gap-1 flex-wrap">
+                  <strong>{{ equipamento.nome }}</strong>
+                  <span *ngIf="equipamento.restrito" class="badge bg-danger" style="font-size:.65rem">RESTRITO</span>
+                </span>
+                <div class="d-flex gap-1">
+                  <button *ngIf="categoria === 'arma' && isCyberPun2080" type="button" class="btn btn-outline-warning btn-sm"
+                    (click)="abrirGerenciarAcessoriosEquip.emit(i)" title="Acessórios">
+                    <i class="fas fa-wrench"></i>
+                  </button>
+                  <button type="button" class="btn btn-outline-info btn-sm"
+                    (click)="toggleEditarEquipamento(categoria, i)">
+                    <i class="fas fa-edit"></i>
+                  </button>
+                  <button type="button" class="btn btn-danger btn-sm"
+                    (click)="removerEquipamento(categoria, equipamento)">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
+                </div>
+              </div>
+              <p class="equipment-description" *ngIf="equipamento.descricao">{{ equipamento.descricao }}</p>
+              <div class="d-flex flex-wrap gap-1 mt-1">
+                <span *ngIf="equipamento.ca" class="badge bg-primary">
+                  <i class="fas fa-shield-alt me-1"></i>CA {{ equipamento.ca }}
+                </span>
+                <span *ngIf="equipamento.cf != null" class="badge bg-info text-dark">CF {{ equipamento.cf }}</span>
+                <span *ngIf="equipamento.ct != null" class="badge bg-success">CT {{ equipamento.ct }}</span>
+                <span *ngIf="equipamento.valor != null" class="badge bg-warning text-dark">
+                  <i class="fas fa-coins me-1"></i>{{ equipamento.valor }} ₠
+                </span>
+              </div>
+              <div *ngIf="equipamento.acessorios?.length" class="mt-1">
+                <div *ngFor="let ac of equipamento.acessorios" class="d-flex align-items-start gap-1 mb-1">
+                  <span class="badge"
+                    [ngClass]="{'bg-info text-dark': ac.categoria === 'mira', 'bg-success': ac.categoria === 'carregador', 'bg-secondary': ac.categoria === 'supressor'}">
+                    <i [class]="categoriaAcessorioIcon(ac.categoria)" class="me-1"></i>{{ ac.nome }}
+                  </span>
+                  <small *ngIf="ac.efeito" class="text-warning fw-semibold" style="font-size:.72rem">{{ ac.efeito }}</small>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="editandoEquipamento[categoria]?.[i]" class="edit-form">
+              <div class="row g-2">
+                <div class="col-12">
+                  <input type="text" class="form-control" placeholder="Nome" [(ngModel)]="equipamento.nome"
+                    (change)="dirty.emit()">
+                </div>
+                <div class="col-12">
+                  <textarea class="form-control" placeholder="Descrição" rows="4" [(ngModel)]="equipamento.descricao"
+                    (change)="dirty.emit()"></textarea>
+                </div>
+                <div class="col-4">
+                  <input type="number" class="form-control" placeholder="CA" [(ngModel)]="equipamento.ca"
+                    (change)="dirty.emit()">
+                </div>
+                <div class="col-4">
+                  <input type="number" class="form-control" placeholder="CF" [(ngModel)]="equipamento.cf"
+                    (change)="dirty.emit()">
+                </div>
+                <div class="col-4">
+                  <input type="number" class="form-control" placeholder="CT" [(ngModel)]="equipamento.ct"
+                    (change)="dirty.emit()">
+                </div>
+                <div class="col-12">
+                  <button type="button" class="btn btn-success btn-sm w-100"
+                    (click)="toggleEditarEquipamento(categoria, i)">
+                    <i class="fas fa-check"></i> Salvar
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!hasEquipment()" class="text-muted text-center py-3">
+        <i class="fas fa-shield-alt fa-2x mb-2"></i>
+        <p>Nenhum equipamento adicionado</p>
+      </div>
+      <div *ngIf="adicionandoEquipamento" class="add-form mt-3">
+        <div class="row g-2">
+          <div class="col-md-2">
+            <select class="form-select" [(ngModel)]="novaCategoria">
+              <option value="" disabled selected>Categoria</option>
+              <option value="cabeca">Cabeça</option>
+              <option value="arma">Arma</option>
+              <option value="armadura">Armadura</option>
+              <option value="pes">Pés</option>
+              <option value="escudo">Escudo</option>
+              <option value="amuleto">Amuleto</option>
+              <option value="anel">Anel</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <input type="text" class="form-control" placeholder="Nome" [(ngModel)]="novoEquipamento.nome">
+          </div>
+          <div class="col-md-3">
+            <input type="text" class="form-control" placeholder="Descrição" [(ngModel)]="novoEquipamento.descricao">
+          </div>
+          <div class="col-md-2">
+            <input type="number" class="form-control" placeholder="CA" [(ngModel)]="novoEquipamento.ca">
+          </div>
+          <div class="col-md-3">
+            <button type="button" class="btn btn-success btn-sm w-100" (click)="confirmarAdicionarEquipamento()">
+              <i class="fas fa-check"></i> Confirmar
+            </button>
+            <button type="button" class="btn btn-danger btn-sm w-100 mt-1" (click)="cancelarAdicionarEquipamento()">
+              <i class="fas fa-times"></i> Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

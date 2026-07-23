@@ -1,0 +1,242 @@
+<div class="collapse" id="collapseMagias" *ngIf="isDnd5e">
+  <div class="card shadow-sm mb-3">
+    <div class="card-header bg-primary text-white">
+      <div class="d-flex justify-content-between align-items-center">
+        <h5 class="mb-0"><i class="fas fa-magic me-2"></i>Magias</h5>
+        <div>
+          <button type="button" class="btn btn-light btn-sm me-2" (click)="abrirBuscarMagia.emit()">
+            <i class="fas fa-search me-1"></i>Buscar API
+          </button>
+          <button type="button" class="btn btn-light btn-sm me-2" (click)="adicionarMagia.emit()">
+            <i class="fas fa-plus me-1"></i>Adicionar Manual
+          </button>
+          <button type="button" class="btn-close btn-close-white ms-1" data-bs-toggle="collapse"
+            data-bs-target="#collapseMagias" title="Fechar"></button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="spell-list" *ngIf="jogador?.magias && jogador.magias.length > 0">
+        <div class="spell-item" *ngFor="let magia of jogador.magias; let i = index">
+          <div *ngIf="!editandoMagia[i]">
+            <div class="spell-header">
+              <div>
+                <i class="fas fa-wand-magic text-primary"></i>
+                <strong>{{ magia.nome }}</strong>
+                <span *ngIf="magia.level !== undefined" class="badge bg-primary ms-2">
+                  {{ magia.level === 0 ? 'Truque' : 'Nv ' + magia.level }}
+                </span>
+              </div>
+              <div>
+                <button type="button" class="btn btn-sm btn-outline-info me-1"
+                  (click)="toggleSpellDetailsInList.emit({ index: i, nome: magia.nome })" [disabled]="loadingSpellDetails[i]">
+                  <i class="fas" [ngClass]="expandedSpellDetails[i] ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                  <span *ngIf="!loadingSpellDetails[i]">Detalhes</span>
+                  <span *ngIf="loadingSpellDetails[i]">
+                    <i class="fas fa-spinner fa-spin"></i>
+                  </span>
+                </button>
+                <button type="button" class="btn btn-sm btn-outline-primary me-1" (click)="toggleEditarMagia.emit(i)">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button type="button" class="btn btn-sm btn-danger" (click)="removerMagia.emit(i)">
+                  <i class="fas fa-trash-alt"></i>
+                </button>
+              </div>
+            </div>
+            <p class="spell-description" *ngIf="!expandedSpellDetails[i]">{{ magia.descricao }}</p>
+
+            <div *ngIf="expandedSpellDetails[i]" class="spell-details-expanded mt-3">
+              <div class="row g-3">
+                <div class="col-md-6"
+                  *ngIf="magia.level !== undefined || (expandedSpellDetails[i] && expandedSpellDetails[i].level !== undefined)">
+                  <div class="detail-box">
+                    <strong><i class="fas fa-layer-group me-2 text-primary"></i>Nível:</strong>
+                    <span>{{ (magia.level !== undefined ? magia.level : expandedSpellDetails[i]?.level) === 0 ?
+                      'Truque' : 'Nível ' + (magia.level !== undefined ? magia.level : expandedSpellDetails[i]?.level)
+                      }}</span>
+                  </div>
+                </div>
+                <div class="col-md-6" *ngIf="magia.school || (expandedSpellDetails[i] && expandedSpellDetails[i].school)">
+                  <div class="detail-box">
+                    <strong><i class="fas fa-book me-2 text-primary"></i>Escola:</strong>
+                    <span>{{ magia.school || expandedSpellDetails[i]?.school?.name || expandedSpellDetails[i]?.school }}</span>
+                  </div>
+                </div>
+                <div class="col-md-6"
+                  *ngIf="magia.casting_time || (expandedSpellDetails[i] && expandedSpellDetails[i].casting_time)">
+                  <div class="detail-box">
+                    <strong><i class="fas fa-clock me-2 text-primary"></i>Tempo de Conjuração:</strong>
+                    <span>{{ magia.casting_time || expandedSpellDetails[i]?.casting_time }}</span>
+                  </div>
+                </div>
+                <div class="col-md-6" *ngIf="magia.range || (expandedSpellDetails[i] && expandedSpellDetails[i].range)">
+                  <div class="detail-box">
+                    <strong><i class="fas fa-crosshairs me-2 text-primary"></i>Alcance:</strong>
+                    <span>{{ magia.range || expandedSpellDetails[i]?.range }}</span>
+                  </div>
+                </div>
+                <div class="col-md-6"
+                  *ngIf="(magia.components && magia.components.length > 0) || (expandedSpellDetails[i] && expandedSpellDetails[i].components && expandedSpellDetails[i].components.length > 0)">
+                  <div class="detail-box">
+                    <strong><i class="fas fa-hand-sparkles me-2 text-primary"></i>Componentes:</strong>
+                    <span>{{ getSpellComponents(magia, expandedSpellDetails[i]) }}</span>
+                    <small class="d-block text-muted" *ngIf="magia.material || expandedSpellDetails[i]?.material">{{
+                      magia.material || expandedSpellDetails[i]?.material }}</small>
+                  </div>
+                </div>
+                <div class="col-md-6"
+                  *ngIf="magia.duration || (expandedSpellDetails[i] && expandedSpellDetails[i].duration)">
+                  <div class="detail-box">
+                    <strong><i class="fas fa-hourglass-half me-2 text-primary"></i>Duração:</strong>
+                    <span>{{ magia.duration || expandedSpellDetails[i]?.duration }}</span>
+                  </div>
+                </div>
+                <div class="col-12"
+                  *ngIf="(magia.classes && magia.classes.length > 0) || (expandedSpellDetails[i] && expandedSpellDetails[i].classes && expandedSpellDetails[i].classes.length > 0)">
+                  <div class="detail-box">
+                    <strong><i class="fas fa-user-graduate me-2 text-primary"></i>Classes:</strong>
+                    <span>{{ getSpellClassesFormatted(magia, expandedSpellDetails[i]) }}</span>
+                  </div>
+                </div>
+                <div class="col-12"
+                  *ngIf="expandedSpellDetails[i] && expandedSpellDetails[i].desc && expandedSpellDetails[i].desc.length > 0">
+                  <div class="detail-box">
+                    <strong><i class="fas fa-scroll me-2 text-primary"></i>Descrição:</strong>
+                    <p *ngFor="let paragraph of expandedSpellDetails[i].desc" class="mb-2">{{ paragraph }}</p>
+                  </div>
+                </div>
+                <div class="col-12"
+                  *ngIf="expandedSpellDetails[i] && expandedSpellDetails[i].higher_level && expandedSpellDetails[i].higher_level.length > 0">
+                  <div class="detail-box">
+                    <strong><i class="fas fa-arrow-up me-2 text-primary"></i>Em Níveis Superiores:</strong>
+                    <p *ngFor="let paragraph of expandedSpellDetails[i].higher_level" class="mb-2">{{ paragraph }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="editandoMagia[i]" class="edit-form">
+            <div class="row g-2">
+              <div class="col-md-4">
+                <input type="text" class="form-control form-control-sm" placeholder="Nome" [(ngModel)]="magia.nome"
+                  (change)="saveToCache.emit()">
+              </div>
+              <div class="col-md-4">
+                <input type="text" class="form-control form-control-sm" placeholder="Descrição"
+                  [(ngModel)]="magia.descricao" (change)="saveToCache.emit()">
+              </div>
+              <div class="col-md-2">
+                <select class="form-select form-select-sm" [(ngModel)]="magia.level" (change)="saveToCache.emit()">
+                  <option [ngValue]="undefined">Nível</option>
+                  <option [ngValue]="0">Truque</option>
+                  <option [ngValue]="1">1</option>
+                  <option [ngValue]="2">2</option>
+                  <option [ngValue]="3">3</option>
+                  <option [ngValue]="4">4</option>
+                  <option [ngValue]="5">5</option>
+                  <option [ngValue]="6">6</option>
+                  <option [ngValue]="7">7</option>
+                  <option [ngValue]="8">8</option>
+                  <option [ngValue]="9">9</option>
+                </select>
+              </div>
+              <div class="col-md-2">
+                <button type="button" class="btn btn-success btn-sm w-100" (click)="toggleEditarMagia.emit(i)">
+                  <i class="fas fa-check"></i>
+                </button>
+              </div>
+              <div class="col-md-3">
+                <input type="text" class="form-control form-control-sm" placeholder="Escola (opcional)"
+                  [(ngModel)]="magia.school" (change)="saveToCache.emit()">
+              </div>
+              <div class="col-md-3">
+                <input type="text" class="form-control form-control-sm" placeholder="Tempo de Conjuração (opcional)"
+                  [(ngModel)]="magia.casting_time" (change)="saveToCache.emit()">
+              </div>
+              <div class="col-md-3">
+                <input type="text" class="form-control form-control-sm" placeholder="Alcance (opcional)"
+                  [(ngModel)]="magia.range" (change)="saveToCache.emit()">
+              </div>
+              <div class="col-md-3">
+                <input type="text" class="form-control form-control-sm" placeholder="Duração (opcional)"
+                  [(ngModel)]="magia.duration" (change)="saveToCache.emit()">
+              </div>
+              <div class="col-md-6">
+                <input type="text" class="form-control form-control-sm" placeholder="Componentes (V, S, M) (opcional)"
+                  [(ngModel)]="magia.components" (change)="saveToCache.emit()">
+              </div>
+              <div class="col-md-6">
+                <input type="text" class="form-control form-control-sm" placeholder="Material (opcional)"
+                  [(ngModel)]="magia.material" (change)="saveToCache.emit()">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!jogador?.magias || jogador.magias.length === 0" class="text-muted text-center py-3">
+        <i class="fas fa-magic fa-2x mb-2"></i>
+        <p>Nenhuma magia adicionada ainda</p>
+      </div>
+      <div *ngIf="adicionandoMagia" class="add-form mt-3">
+        <div class="row g-2">
+          <div class="col-md-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Nome da Magia *"
+              [(ngModel)]="novaMagia.nome">
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Descrição *"
+              [(ngModel)]="novaMagia.descricao">
+          </div>
+          <div class="col-md-2">
+            <select class="form-select form-select-sm" [(ngModel)]="novaMagia.level">
+              <option [ngValue]="undefined">Nível</option>
+              <option [ngValue]="0">Truque</option>
+              <option [ngValue]="1">1</option>
+              <option [ngValue]="2">2</option>
+              <option [ngValue]="3">3</option>
+              <option [ngValue]="4">4</option>
+              <option [ngValue]="5">5</option>
+              <option [ngValue]="6">6</option>
+              <option [ngValue]="7">7</option>
+              <option [ngValue]="8">8</option>
+              <option [ngValue]="9">9</option>
+            </select>
+          </div>
+          <div class="col-md-2">
+            <button type="button" class="btn btn-success btn-sm w-100" (click)="confirmarAdicionarMagia.emit()">
+              <i class="fas fa-check"></i>
+            </button>
+            <button type="button" class="btn btn-danger btn-sm w-100 mt-1" (click)="cancelarAdicionarMagia.emit()">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+          <div class="col-md-3">
+            <input type="text" class="form-control form-control-sm" placeholder="Escola (opcional)"
+              [(ngModel)]="novaMagia.school">
+          </div>
+          <div class="col-md-3">
+            <input type="text" class="form-control form-control-sm" placeholder="Tempo de Conjuração (opcional)"
+              [(ngModel)]="novaMagia.casting_time">
+          </div>
+          <div class="col-md-3">
+            <input type="text" class="form-control form-control-sm" placeholder="Alcance (opcional)"
+              [(ngModel)]="novaMagia.range">
+          </div>
+          <div class="col-md-3">
+            <input type="text" class="form-control form-control-sm" placeholder="Duração (opcional)"
+              [(ngModel)]="novaMagia.duration">
+          </div>
+          <div class="col-md-6">
+            <input type="text" class="form-control form-control-sm" placeholder="Componentes (V, S, M) (opcional)"
+              [(ngModel)]="novaMagia.components">
+          </div>
+          <div class="col-md-6">
+            <input type="text" class="form-control form-control-sm" placeholder="Material (opcional)"
+              [(ngModel)]="novaMagia.material">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

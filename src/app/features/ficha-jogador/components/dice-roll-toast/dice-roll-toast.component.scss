@@ -1,0 +1,47 @@
+.rolagem-toast {
+  position: fixed;
+  bottom: 1.2rem;
+  right: 1.2rem;
+  z-index: 9999;
+  background: #1a1a2e;
+  border: 1px solid #f59e0b;
+  border-radius: 10px;
+  padding: 0.75rem 1.1rem;
+  min-width: 150px;
+  text-align: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  animation: rolagemFadeIn 1.1s ease-out;
+}
+
+.rolagem-toast-campo {
+  font-size: 0.78rem;
+  color: #f59e0b;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.15rem;
+}
+
+.rolagem-toast-total {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  margin-bottom: 0.15rem;
+}
+
+.rolagem-toast-detalhe {
+  font-size: 0.75rem;
+  color: #aaa;
+}
+
+@keyframes rolagemFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

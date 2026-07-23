@@ -1,0 +1,101 @@
+<div class="character-header card shadow-lg mb-4">
+  <div class="card-body">
+    <div class="row align-items-center">
+      <div class="col-md-3 text-center mb-3 mb-md-0">
+        <div class="avatar-container">
+          <img [src]="jogador?.avatar" alt="Avatar do jogador" class="avatar-img">
+          <div class="avatar-overlay">
+            <i class="fas fa-user-circle"></i>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="row g-3">
+          <div class="col-md-6">
+            <h2 class="character-name mb-2">
+              <i class="fas fa-user-shield me-2"></i>{{ jogador?.nome || 'Sem Nome' }}
+            </h2>
+            <div class="character-details">
+              <span class="detail-badge">
+                <i class="fas me-1" [ngClass]="isCyberPun2080 ? 'fa-user-ninja' : 'fa-hat-wizard'"></i>
+                {{ isCyberPun2080 ? (jogador?.cyberpun2080?.papel || 'Classe') : (jogador?.classe || 'Classe') }}
+              </span>
+              <span class="detail-badge">
+                <i class="fas me-1" [ngClass]="isCyberPun2080 ? 'fa-city' : 'fa-users'"></i>
+                {{ isCyberPun2080 ? (jogador?.cyberpun2080?.origem || 'Origem') : (jogador?.raca || 'Raça') }}
+              </span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="row g-2">
+              <div class="col-6">
+                <div class="stat-mini">
+                  <i class="fas fa-level-up-alt"></i>
+                  <span class="stat-label">Nível</span>
+                  <span class="stat-value">{{ jogador?.nivel || 0 }}</span>
+                </div>
+              </div>
+              <div class="col-6">
+                <div class="stat-mini">
+                  <i class="fas fa-certificate"></i>
+                  <span class="stat-label">Proficiência</span>
+                  <span class="stat-value">+{{ jogador?.proficiencia || 0 }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="action-buttons-header mt-3">
+      <div class="session-box">
+        <div class="session-badges">
+          <span class="badge" [ngClass]="estaAutenticado ? 'bg-success' : 'bg-secondary'">
+            {{ estaAutenticado ? 'Conta vinculada' : 'Modo convidado' }}
+          </span>
+          <span class="session-identity">{{ descricaoSessao }}</span>
+        </div>
+        <div class="session-actions mt-2">
+          <button *ngIf="estaAutenticado" class="btn btn-light btn-sm me-1" (click)="trocarFichaDaConta.emit()">
+            <i class="fas fa-list me-1"></i>Selecionar Ficha
+          </button>
+          <button *ngIf="estaAutenticado" class="btn btn-light btn-sm me-1" (click)="criarNovaFichaNaConta.emit()">
+            <i class="fas fa-plus me-1"></i>Nova Ficha
+          </button>
+        </div>
+        <small *ngIf="estaAutenticado && fichaSelecionadaId" class="session-message d-block mt-1">
+          Ficha selecionada: {{ fichaSelecionadaId }}
+        </small>
+        <small *ngIf="sincronizandoComServidor" class="session-message d-block mt-1">Sincronizando com servidor...</small>
+        <small *ngIf="erroSincronizacao" class="session-message-error d-block mt-1">{{ erroSincronizacao }}</small>
+        <small *ngIf="mensagemSessao" class="session-message d-block mt-1">{{ mensagemSessao }}</small>
+      </div>
+
+      <button class="btn btn-warning btn-sm" type="button" (click)="abrirEditarFicha.emit()">
+        <i class="fas fa-edit me-1"></i>Editar Ficha
+      </button>
+
+      <div class="d-inline-flex align-items-center ms-2">
+        <label class="text-white small me-2 mb-0">Sistema</label>
+        <select class="form-select form-select-sm" [ngModel]="jogador?.sistema"
+          (ngModelChange)="onSistemaChange($event)">
+          <option *ngFor="let option of systemOptions" [ngValue]="option.id">{{ option.nome }}</option>
+        </select>
+      </div>
+
+      <button class="btn btn-info btn-sm" (click)="baixarJogador.emit()">
+        <i class="fas fa-download me-1"></i>Baixar
+      </button>
+
+      <label class="btn btn-success btn-sm mb-0">
+        <i class="fas fa-upload me-1"></i>Carregar
+        <input type="file" class="d-none" (change)="onFileChange($event)" accept=".json">
+      </label>
+
+      <button class="btn btn-danger btn-sm" (click)="confirmarLimparCache.emit()">
+        <i class="fas fa-trash-alt me-1"></i>Limpar
+      </button>
+    </div>
+  </div>
+</div>

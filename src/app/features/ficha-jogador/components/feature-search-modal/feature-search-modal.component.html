@@ -1,0 +1,100 @@
+<div class="modal fade" [class.show]="isOpen" [style.display]="isOpen ? 'block' : 'none'"
+  tabindex="-1" aria-labelledby="featSearchModalLabel" [attr.aria-hidden]="!isOpen">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content rpg-modal">
+      <div class="modal-header bg-gradient-success">
+        <h5 class="modal-title text-white" id="featSearchModalLabel">
+          <i class="fas fa-star me-2"></i>Buscar Talentos - D&D 5e API
+        </h5>
+        <button type="button" class="btn-close btn-close-white" (click)="fechar()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div *ngIf="!selectedFeatDetails">
+          <div class="mb-3">
+            <div class="input-group">
+              <span class="input-group-text"><i class="fas fa-search"></i></span>
+              <input type="text" class="form-control" placeholder="Buscar talento..." [(ngModel)]="featSearchTerm"
+                (input)="filtrarTalentos()">
+            </div>
+          </div>
+
+          <div *ngIf="loadingFeats" class="text-center py-4">
+            <i class="fas fa-spinner fa-spin fa-2x mb-2"></i>
+            <p>Carregando talentos...</p>
+          </div>
+
+          <div *ngIf="!loadingFeats" class="row g-3">
+            <div class="col-md-6 col-lg-4" *ngFor="let feat of filteredFeats">
+              <div class="card h-100 hover-card">
+                <div class="card-body">
+                  <h6 class="card-title">
+                    <i class="fas fa-certificate text-success me-2"></i>{{ feat.name }}
+                  </h6>
+                  <p class="card-text small text-muted" *ngIf="getFeatDescPreview(feat)">
+                    {{ getFeatDescPreview(feat) }}
+                  </p>
+                  <div class="d-flex justify-content-between mt-3">
+                    <button type="button" class="btn btn-sm btn-outline-success"
+                      (click)="viewFeatDetails(getFeatId(feat))">
+                      <i class="fas fa-info-circle me-1"></i>Detalhes
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="!loadingFeats && filteredFeats.length === 0" class="text-center py-4 text-muted">
+            <i class="fas fa-search fa-2x mb-2"></i>
+            <p>Nenhum talento encontrado</p>
+          </div>
+        </div>
+
+        <div *ngIf="selectedFeatDetails">
+          <button type="button" class="btn btn-sm btn-outline-secondary mb-3" (click)="voltarListaTalentos()">
+            <i class="fas fa-arrow-left me-1"></i>Voltar
+          </button>
+
+          <h4 class="mb-3">
+            <i class="fas fa-certificate text-success me-2"></i>{{ selectedFeatDetails.name }}
+          </h4>
+
+          <div class="detail-section mb-3"
+            *ngIf="selectedFeatDetails.prerequisites && selectedFeatDetails.prerequisites.length > 0">
+            <h6 class="text-success"><i class="fas fa-exclamation-triangle me-2"></i>Pré-requisitos</h6>
+            <ul class="mb-0">
+              <li *ngFor="let prereq of selectedFeatDetails.prerequisites">
+                {{ prereq.ability_score?.name || prereq || 'Pré-requisito' }}: {{ prereq.minimum_score || '' }}
+              </li>
+            </ul>
+          </div>
+
+          <div class="detail-section mb-3" *ngIf="selectedFeatDetails.prerequisite && !selectedFeatDetails.prerequisites">
+            <h6 class="text-success"><i class="fas fa-exclamation-triangle me-2"></i>Pré-requisito</h6>
+            <p>{{ selectedFeatDetails.prerequisite }}</p>
+          </div>
+
+          <div class="detail-section mb-3" *ngIf="selectedFeatDetails.desc && selectedFeatDetails.desc.length > 0">
+            <h6 class="text-success"><i class="fas fa-scroll me-2"></i>Descrição</h6>
+            <p *ngFor="let paragraph of selectedFeatDetails.desc">{{ paragraph }}</p>
+          </div>
+
+          <div class="detail-section mb-3" *ngIf="selectedFeatDetails.desc && isString(selectedFeatDetails.desc)">
+            <h6 class="text-success"><i class="fas fa-scroll me-2"></i>Descrição</h6>
+            <div [innerHTML]="selectedFeatDetails.desc"></div>
+          </div>
+
+          <button type="button" class="btn btn-success mt-3" (click)="adicionarTalentoApi(selectedFeatDetails)">
+            <i class="fas fa-plus me-2"></i>Adicionar à Ficha
+          </button>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="fechar()">
+          <i class="fas fa-times me-2"></i>Fechar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-backdrop fade" [class.show]="isOpen" *ngIf="isOpen"></div>
