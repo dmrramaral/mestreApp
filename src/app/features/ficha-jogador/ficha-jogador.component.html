@@ -1,128 +1,74 @@
 <div class="character-sheet-container">
-  <app-ficha-header
-    [jogador]="jogador"
-    [isCyberPun2080]="isCyberPun2080"
-    [estaAutenticado]="estaAutenticado"
-    [descricaoSessao]="descricaoSessao"
-    [fichaSelecionadaId]="fichaSelecionadaId"
-    [sincronizandoComServidor]="sincronizandoComServidor"
-    [erroSincronizacao]="erroSincronizacao"
-    [mensagemSessao]="mensagemSessao"
-    [systemOptions]="systemOptions"
-    (trocarFichaDaConta)="trocarFichaDaConta()"
-    (criarNovaFichaNaConta)="criarNovaFichaNaConta()"
-    (abrirEditarFicha)="abrirModalEditarFicha()"
-    (selecionarSistema)="selecionarSistema($event)"
-    (baixarJogador)="baixarJogador()"
-    (jogadorImportado)="onJogadorImportado($event)"
-    (confirmarLimparCache)="confirmarLimparCache()"></app-ficha-header>
+  <app-ficha-header [jogador]="jogador" [isCyberPun2080]="isCyberPun2080" [estaAutenticado]="estaAutenticado"
+    [descricaoSessao]="descricaoSessao" [fichaSelecionadaId]="fichaSelecionadaId"
+    [sincronizandoComServidor]="sincronizandoComServidor" [erroSincronizacao]="erroSincronizacao"
+    [mensagemSessao]="mensagemSessao" [systemOptions]="systemOptions" (trocarFichaDaConta)="trocarFichaDaConta()"
+    (criarNovaFichaNaConta)="criarNovaFichaNaConta()" (abrirEditarFicha)="abrirModalEditarFicha()"
+    (selecionarSistema)="selecionarSistema($event)" (baixarJogador)="baixarJogador()"
+    (jogadorImportado)="onJogadorImportado($event)" (confirmarLimparCache)="confirmarLimparCache()"></app-ficha-header>
 
-  <app-combate
-    [jogador]="jogador"
-    [vantagemIniciativa]="vantagemIniciativa"
-    (vantagemIniciativaChange)="onVantagemIniciativaChange($event)"
-    (action)="onCombateAction($event)"></app-combate>
+  <app-combate [jogador]="jogador" [vantagemIniciativa]="vantagemIniciativa"
+    (vantagemIniciativaChange)="onVantagemIniciativaChange($event)" (action)="onCombateAction($event)"></app-combate>
 
   <app-ficha-section-nav [isDnd5e]="isDnd5e"></app-ficha-section-nav>
 
-  <app-ficha-magias-section
-    [isDnd5e]="isDnd5e"
-    [jogador]="jogador"
-    [editandoMagia]="editandoMagia"
-    [expandedSpellDetails]="expandedSpellDetails"
-    [loadingSpellDetails]="loadingSpellDetails"
-    [adicionandoMagia]="adicionandoMagia"
-    [novaMagia]="novaMagia"
-    [getSpellComponents]="spellComponentsFormatter"
-    [getSpellClassesFormatted]="spellClassesFormatter"
-    (abrirBuscarMagia)="abrirBuscarMagia()"
-    (adicionarMagia)="adicionarMagia()"
-    (toggleSpellDetailsInList)="toggleSpellDetailsInList($event.index, $event.nome)"
-    (toggleEditarMagia)="toggleEditarMagia($event)"
-    (removerMagia)="removerMagia($event)"
-    (saveToCache)="saveToCache()"
+  <app-ficha-magias-section [isDnd5e]="isDnd5e" [jogador]="jogador" [editandoMagia]="editandoMagia"
+    [expandedSpellDetails]="expandedSpellDetails" [loadingSpellDetails]="loadingSpellDetails"
+    [adicionandoMagia]="adicionandoMagia" [novaMagia]="novaMagia" [getSpellComponents]="spellComponentsFormatter"
+    [getSpellClassesFormatted]="spellClassesFormatter" (abrirBuscarMagia)="abrirBuscarMagia()"
+    (adicionarMagia)="adicionarMagia()" (toggleSpellDetailsInList)="toggleSpellDetailsInList($event.index, $event.nome)"
+    (toggleEditarMagia)="toggleEditarMagia($event)" (removerMagia)="removerMagia($event)" (saveToCache)="saveToCache()"
     (confirmarAdicionarMagia)="confirmarAdicionarMagia()"
     (cancelarAdicionarMagia)="cancelarAdicionarMagia()"></app-ficha-magias-section>
 
-  <app-ficha-talentos-section
-    [jogador]="jogador"
-    [isDnd5e]="isDnd5e"
-    (abrirBuscarTalento)="abrirBuscarTalento()"
+  <app-ficha-talentos-section [jogador]="jogador" [isDnd5e]="isDnd5e" (abrirBuscarTalento)="abrirBuscarTalento()"
     (dirty)="saveToCache()"></app-ficha-talentos-section>
 
-      <app-ficha-tracos-section
-    [jogador]="jogador"
-    [isDnd5e]="isDnd5e"
-    (abrirBuscarTracos)="abrirBuscarTracos()"
+  <app-ficha-tracos-section [jogador]="jogador" [isDnd5e]="isDnd5e" (abrirBuscarTracos)="abrirBuscarTracos()"
     (dirty)="saveToCache()"></app-ficha-tracos-section>
 
 
-    <app-ficha-mochila-section
-      [jogador]="jogador"
-      (dirty)="saveToCache()"></app-ficha-mochila-section>
+  <app-ficha-mochila-section [jogador]="jogador" (dirty)="saveToCache()"></app-ficha-mochila-section>
 
-    <app-ficha-equipamentos-section
-      [jogador]="jogador"
-      [isCyberPun2080]="isCyberPun2080"
-      (dirty)="saveToCache()"></app-ficha-equipamentos-section>
+  <app-ficha-equipamentos-section [jogador]="jogador" [isCyberPun2080]="isCyberPun2080"
+    (dirty)="saveToCache()"></app-ficha-equipamentos-section>
 
-    <app-ficha-pericias-section
-      [jogador]="jogador"
-      (dirty)="saveToCache()"></app-ficha-pericias-section>
+  <app-ficha-pericias-section [jogador]="jogador" (dirty)="saveToCache()"></app-ficha-pericias-section>
 
-    <app-ficha-condicoes-section
-      [jogador]="jogador"
-      (saveToCache)="saveToCache()"></app-ficha-condicoes-section>
+  <app-ficha-condicoes-section [jogador]="jogador" (saveToCache)="saveToCache()"></app-ficha-condicoes-section>
 
-    <app-ficha-anotacoes-section
-      [jogador]="jogador"
-      (saveToCache)="saveToCache()"></app-ficha-anotacoes-section>
+  <app-ficha-anotacoes-section [jogador]="jogador" (saveToCache)="saveToCache()"></app-ficha-anotacoes-section>
 
-    <!-- Confirmation Dialog -->
-    <div *ngIf="confirmandoLimparCache" class="confirmation-overlay">
-      <div class="confirmation-dialog card shadow-lg">
-        <div class="card-body text-center">
-          <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
-          <h5><strong>Tem certeza que deseja apagar todos os dados do jogador?</strong></h5>
-          <p class="text-muted">Esta ação não pode ser desfeita!</p>
-          <div class="mt-3">
-            <button class="btn btn-success me-2" (click)="limparCache()">
-              <i class="fas fa-check me-1"></i>Sim, apagar
-            </button>
-            <button class="btn btn-secondary" (click)="cancelarLimparCache()">
-              <i class="fas fa-times me-1"></i>Cancelar
-            </button>
-          </div>
+  <!-- Confirmation Dialog -->
+  <div *ngIf="confirmandoLimparCache" class="confirmation-overlay">
+    <div class="confirmation-dialog card shadow-lg">
+      <div class="card-body text-center">
+        <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+        <h5><strong>Tem certeza que deseja apagar todos os dados do jogador?</strong></h5>
+        <p class="text-muted">Esta ação não pode ser desfeita!</p>
+        <div class="mt-3">
+          <button class="btn btn-success me-2" (click)="limparCache()">
+            <i class="fas fa-check me-1"></i>Sim, apagar
+          </button>
+          <button class="btn btn-secondary" (click)="cancelarLimparCache()">
+            <i class="fas fa-times me-1"></i>Cancelar
+          </button>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-  <app-ficha-edit-modal
-    [jogador]="jogador"
-    [isDnd5e]="isDnd5e"
-    [caCalculada]="caCalculada"
-    (openClassSelection)="dndModals.openClassSelection()"
-    (openRaceSelection)="dndModals.openRaceSelection()"
-    (dirty)="saveToCache()"></app-ficha-edit-modal>
+<app-ficha-edit-modal [jogador]="jogador" [isDnd5e]="isDnd5e" [caCalculada]="caCalculada"
+  (openClassSelection)="dndModals.openClassSelection()" (openRaceSelection)="dndModals.openRaceSelection()"
+  (dirty)="saveToCache()"></app-ficha-edit-modal>
 
-  <app-ficha-dnd-modals
-    #dndModals
-    [jogador]="jogador"
-    [isDnd5e]="isDnd5e"
-    (dirty)="saveToCache()"></app-ficha-dnd-modals>
+<app-ficha-dnd-modals #dndModals [jogador]="jogador" [isDnd5e]="isDnd5e" (dirty)="saveToCache()"></app-ficha-dnd-modals>
 
-  <app-ficha-spell-search-modal
-    [isOpen]="buscarMagiaAberto"
-    [className]="jogador?.classe || ''"
-    (close)="fecharBuscarMagia()"
-    (adicionarMagia)="adicionarMagiaApi($event)"></app-ficha-spell-search-modal>
+<app-ficha-spell-search-modal [isOpen]="buscarMagiaAberto" [className]="jogador?.classe || ''"
+  (close)="fecharBuscarMagia()" (adicionarMagia)="adicionarMagiaApi($event)"></app-ficha-spell-search-modal>
 
-  <app-feature-search-modal
-    [isOpen]="buscarTalentoAberto"
-    (closeModal)="fecharBuscarTalento()"
-    (featSelected)="adicionarTalentoApi($event)"></app-feature-search-modal>
+<app-feature-search-modal [isOpen]="buscarTalentoAberto" (closeModal)="fecharBuscarTalento()"
+  (featSelected)="adicionarTalentoApi($event)"></app-feature-search-modal>
 
-  <app-dice-roll-toast
-    [resultado]="resultadoRolagem"
-    (fechar)="resultadoRolagem = null"></app-dice-roll-toast>
+<app-dice-roll-toast [resultado]="resultadoRolagem" (fechar)="resultadoRolagem = null"></app-dice-roll-toast>

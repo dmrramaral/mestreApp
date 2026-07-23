@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './ficha-magias-section.component.scss'
 })
 export class FichaMagiasSectionComponent {
-  @Input() isDnd5e = false;
+  @Input() isDnd5e = true;
   @Input() jogador: any;
   @Input() editandoMagia: { [key: number]: boolean } = {};
   @Input() expandedSpellDetails: { [key: number]: any } = {};
