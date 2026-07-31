@@ -89,6 +89,32 @@ export interface Magia {
   nivel: number;
   escola?: string;
   descricao?: string;
+  preparada?: boolean;
+  damage_at_slot_level?: Record<string, string>;
+  damage_at_character_level?: Record<string, string>;
+  damage_type?: string;
+}
+
+/**
+ * Estado de slots por nivel de magia
+ */
+export interface SpellSlotState {
+  total: number;
+  used: number;
+}
+
+/**
+ * Configuracao e resumo de conjuracao da ficha
+ */
+export interface SpellcastingState {
+  classKey: string;
+  mode: 'known' | 'prepared' | 'all';
+  knownLimit: number | null;
+  preparedLimit: number | null;
+  preparedBonusCustom?: number;
+  preparedBonus?: number;
+  allowedSpellNames?: string[];
+  maxSpellLevel: number;
 }
 
 /**
@@ -195,6 +221,8 @@ export interface FichaJogador {
 
   // Magias
   magias?: Magia[];
+  spellSlots?: Record<number, SpellSlotState>;
+  spellcasting?: SpellcastingState;
 
   // Dados de sistema opcional
   cyberpun2080?: DadosCyberPun2080;
@@ -235,4 +263,6 @@ export interface FichaJogadorLegacy {
 
   [key: string]: any;
   tracos?: Traco[];
+  spellSlots?: Record<number, SpellSlotState>;
+  spellcasting?: SpellcastingState;
 }

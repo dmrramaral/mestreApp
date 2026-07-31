@@ -15,9 +15,11 @@
   <app-ficha-magias-section [isDnd5e]="isDnd5e" [jogador]="jogador" [editandoMagia]="editandoMagia"
     [expandedSpellDetails]="expandedSpellDetails" [loadingSpellDetails]="loadingSpellDetails"
     [adicionandoMagia]="adicionandoMagia" [novaMagia]="novaMagia" [getSpellComponents]="spellComponentsFormatter"
-    [getSpellClassesFormatted]="spellClassesFormatter" (abrirBuscarMagia)="abrirBuscarMagia()"
+    [getSpellClassesFormatted]="spellClassesFormatter" [spellcastingSummary]="spellcastingSummary"
+    [preparedSpellCount]="preparedSpellCount" [spellFeedback]="spellFeedback" (abrirBuscarMagia)="abrirBuscarMagia()"
     (adicionarMagia)="adicionarMagia()" (toggleSpellDetailsInList)="toggleSpellDetailsInList($event.index, $event.nome)"
     (toggleEditarMagia)="toggleEditarMagia($event)" (removerMagia)="removerMagia($event)" (saveToCache)="saveToCache()"
+    (togglePrepararMagia)="togglePrepararMagia($event)" (conjurarMagia)="conjurarMagia($event)"
     (confirmarAdicionarMagia)="confirmarAdicionarMagia()"
     (cancelarAdicionarMagia)="cancelarAdicionarMagia()"></app-ficha-magias-section>
 

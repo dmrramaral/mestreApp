@@ -17,6 +17,9 @@ export class FichaMagiasSectionComponent {
   @Input() loadingSpellDetails: { [key: number]: boolean } = {};
   @Input() adicionandoMagia = false;
   @Input() novaMagia: any;
+  @Input() spellcastingSummary: any;
+  @Input() preparedSpellCount = 0;
+  @Input() spellFeedback = '';
 
   @Input() getSpellComponents!: (magia: any, expandedDetails: any) => string;
   @Input() getSpellClassesFormatted!: (magia: any, expandedDetails: any) => string;
@@ -29,14 +32,18 @@ export class FichaMagiasSectionComponent {
   @Output() saveToCache = new EventEmitter<void>();
   @Output() confirmarAdicionarMagia = new EventEmitter<void>();
   @Output() cancelarAdicionarMagia = new EventEmitter<void>();
+  @Output() togglePrepararMagia = new EventEmitter<number>();
+  @Output() conjurarMagia = new EventEmitter<{ index: number; slotLevel: number }>();
 
   private spellEditDrafts: Record<number, any> = {};
+  castingSlotSelection: Record<number, number> = {};
 
   spellDraft(index: number, magia: any, expandedDetails: any): any {
     if (!this.spellEditDrafts[index]) {
       this.spellEditDrafts[index] = {
         nome: magia?.nome || '',
         level: this.getSpellLevel(magia, expandedDetails),
+        damage_formula: magia?.damage_formula || this.getSpellDamageSummary(magia, expandedDetails),
         school: this.getSpellSchool(magia, expandedDetails),
         casting_time: this.getSpellCastingTime(magia, expandedDetails),
         range: this.getSpellRange(magia, expandedDetails),
@@ -67,6 +74,7 @@ export class FichaMagiasSectionComponent {
     magia.nome = draft.nome || '';
     magia.level = draft.level;
     magia.nivel = draft.level;
+    magia.damage_formula = draft.damage_formula || '';
 
     magia.school = draft.school || '';
     magia.escola = magia.school;
@@ -115,6 +123,128 @@ export class FichaMagiasSectionComponent {
     return undefined;
   }
 
+  getModeLabel(): string {
+    const mode = this.spellcastingSummary?.mode;
+    if (mode === 'prepared') {
+      return 'Conjurador preparado';
+    }
+    if (mode === 'all') {
+      return 'Conjurador de lista completa';
+    }
+    return 'Conjurador por magias conhecidas';
+  }
+
+  isPreparedMode(): boolean {
+    const mode = this.spellcastingSummary?.mode;
+    return mode === 'prepared' || mode === 'all';
+  }
+
+  getPreparedLimit(): number | null {
+    const limit = this.spellcastingSummary?.preparedLimit;
+    return typeof limit === 'number' ? limit : null;
+  }
+
+  getKnownLimit(): number | null {
+    const limit = this.spellcastingSummary?.knownLimit;
+    return typeof limit === 'number' ? limit : null;
+  }
+
+  getPreparedBonus(): number {
+    return Number(this.spellcastingSummary?.preparedBonus || 0);
+  }
+
+  getPreparedBonusCustom(): number {
+    return Number(this.jogador?.spellcasting?.preparedBonusCustom || 0);
+  }
+
+  getAllowedSpellNamesText(): string {
+    const lista = this.jogador?.spellcasting?.allowedSpellNames;
+    if (!Array.isArray(lista) || !lista.length) {
+      return '';
+    }
+    return lista.join(', ');
+  }
+
+  onPreparedBonusCustomChange(value: number | string): void {
+    if (!this.jogador?.spellcasting) {
+      this.jogador.spellcasting = {};
+    }
+    const numero = Number(value || 0);
+    this.jogador.spellcasting.preparedBonusCustom = Number.isFinite(numero) ? Math.max(0, numero) : 0;
+    this.saveToCache.emit();
+  }
+
+  onAllowedSpellNamesChange(value: string): void {
+    if (!this.jogador?.spellcasting) {
+      this.jogador.spellcasting = {};
+    }
+    this.jogador.spellcasting.allowedSpellNames = (value || '')
+      .split(/,|\n/)
+      .map((item: string) => item.trim())
+      .filter((item: string) => item.length > 0);
+    this.saveToCache.emit();
+  }
+
+  getSpellSlotEntries(): Array<{ level: number; total: number; used: number }> {
+    const slots = this.jogador?.spellSlots || {};
+    const levels = Object.keys(slots)
+      .map((key) => Number(key))
+      .filter((level) => Number.isFinite(level))
+      .sort((a, b) => a - b);
+
+    return levels
+      .map((level) => ({
+        level,
+        total: Number(slots[level]?.total || 0),
+        used: Number(slots[level]?.used || 0)
+      }))
+      .filter((slot) => slot.total > 0);
+  }
+
+  isMagiaPreparada(magia: any): boolean {
+    return magia?.preparada === true;
+  }
+
+  getCastingSlotOptions(index: number, magia: any, expandedDetails: any): number[] {
+    const level = Number(this.getSpellLevel(magia, expandedDetails) ?? 0);
+    if (level === 0) {
+      return [0];
+    }
+
+    const slots = this.jogador?.spellSlots || {};
+    const opcoes: number[] = [];
+    for (let slotLevel = level; slotLevel <= 9; slotLevel++) {
+      const total = Number(slots?.[slotLevel]?.total || 0);
+      const used = Number(slots?.[slotLevel]?.used || 0);
+      if (total - used > 0) {
+        opcoes.push(slotLevel);
+      }
+    }
+
+    if (!opcoes.length) {
+      opcoes.push(level);
+    }
+
+    if (!this.castingSlotSelection[index] || !opcoes.includes(this.castingSlotSelection[index])) {
+      this.castingSlotSelection[index] = opcoes[0];
+    }
+
+    return opcoes;
+  }
+
+  getSlotLabel(level: number): string {
+    if (level === 0) {
+      return 'Truque';
+    }
+    return `Slot ${level}`;
+  }
+
+  onConjurar(index: number, magia: any, expandedDetails: any): void {
+    const options = this.getCastingSlotOptions(index, magia, expandedDetails);
+    const slotLevel = this.castingSlotSelection[index] ?? options[0] ?? 0;
+    this.conjurarMagia.emit({ index, slotLevel });
+  }
+
   getSpellSchool(magia: any, expandedDetails: any): string {
     return magia?.school || magia?.escola || expandedDetails?.school?.name || expandedDetails?.school || '';
   }
@@ -136,6 +266,40 @@ export class FichaMagiasSectionComponent {
     if (Array.isArray(expandedDetails?.higher_level) && expandedDetails.higher_level.length > 0) {
       return expandedDetails.higher_level.join('\n\n');
     }
+    return '';
+  }
+
+  getSpellDamageSummary(magia: any, expandedDetails: any): string {
+    if (magia?.damage_formula) {
+      return magia.damage_formula;
+    }
+
+    const mapaCantrip = magia?.damage_at_character_level || expandedDetails?.damage?.damage_at_character_level;
+    if (mapaCantrip && typeof mapaCantrip === 'object') {
+      const nivelPersonagem = Number(this.jogador?.nivel || 1);
+      const niveis = Object.keys(mapaCantrip)
+        .map((item) => Number(item))
+        .filter((item) => Number.isFinite(item))
+        .sort((a, b) => a - b);
+
+      if (niveis.length > 0) {
+        const nivelAplicado = niveis.filter((n) => n <= nivelPersonagem).pop() ?? niveis[0];
+        const dano = mapaCantrip[String(nivelAplicado)];
+        if (dano) {
+          return `${dano} (escala de truque)`;
+        }
+      }
+    }
+
+    const mapaSlot = magia?.damage_at_slot_level || expandedDetails?.damage?.damage_at_slot_level;
+    if (mapaSlot && typeof mapaSlot === 'object') {
+      const nivelMagia = this.getSpellLevel(magia, expandedDetails) ?? 0;
+      const dano = mapaSlot[String(nivelMagia)] || Object.values(mapaSlot)[0];
+      if (typeof dano === 'string' && dano) {
+        return dano;
+      }
+    }
+
     return '';
   }
 

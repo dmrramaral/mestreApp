@@ -16,6 +16,54 @@
       </div>
     </div>
     <div class="card-body">
+      <div class="spellcasting-summary mb-3" *ngIf="spellcastingSummary">
+        <div class="summary-pill">
+          <i class="fas fa-hat-wizard me-2"></i>{{ getModeLabel() }}
+        </div>
+        <div class="summary-pill" *ngIf="getKnownLimit() !== null">
+          Limite conhecidas: {{ getKnownLimit() }}
+        </div>
+        <div class="summary-pill" *ngIf="getPreparedLimit() !== null">
+          Preparadas: {{ preparedSpellCount }}/{{ getPreparedLimit() }}
+        </div>
+        <div class="summary-pill" *ngIf="getPreparedBonus() > 0">
+          Bonus de preparo: +{{ getPreparedBonus() }}
+        </div>
+        <div class="slot-chip" *ngFor="let slot of getSpellSlotEntries()">
+          Slot {{ slot.level }}: {{ slot.total - slot.used }}/{{ slot.total }}
+        </div>
+      </div>
+
+      <div class="spell-exception-config mb-3">
+        <div class="fw-semibold mb-2">
+          <i class="fas fa-sliders-h me-2"></i>Excecoes de Conjuracao
+        </div>
+        <div class="row g-2">
+          <div class="col-md-4">
+            <label class="form-label small mb-1">Bonus customizado de preparo</label>
+            <input
+              type="number"
+              class="form-control form-control-sm"
+              min="0"
+              [ngModel]="getPreparedBonusCustom()"
+              (ngModelChange)="onPreparedBonusCustomChange($event)">
+          </div>
+          <div class="col-md-8">
+            <label class="form-label small mb-1">Magias liberadas por excecao (fora da classe)</label>
+            <input
+              type="text"
+              class="form-control form-control-sm"
+              placeholder="Ex: druidcraft, faerie fire"
+              [ngModel]="getAllowedSpellNamesText()"
+              (ngModelChange)="onAllowedSpellNamesChange($event)">
+          </div>
+        </div>
+      </div>
+
+      <div class="alert alert-info py-2 mb-3" *ngIf="spellFeedback">
+        {{ spellFeedback }}
+      </div>
+
       <div class="spell-list" *ngIf="jogador?.magias && jogador.magias.length > 0">
         <div class="spell-item" *ngFor="let magia of jogador.magias; let i = index">
           <div *ngIf="!editandoMagia[i]">
@@ -26,6 +74,7 @@
                 <span *ngIf="getSpellLevel(magia, expandedSpellDetails[i]) !== undefined" class="badge bg-primary ms-2">
                   {{ getSpellLevel(magia, expandedSpellDetails[i]) === 0 ? 'Truque' : 'Nv ' + getSpellLevel(magia, expandedSpellDetails[i]) }}
                 </span>
+                <span *ngIf="isPreparedMode() && isMagiaPreparada(magia)" class="badge bg-success ms-2">Preparada</span>
               </div>
               <div>
                 <button type="button" class="btn btn-sm btn-outline-info me-1"
@@ -45,6 +94,29 @@
                 </button>
               </div>
             </div>
+
+            <div class="spell-actions-row mt-2">
+              <button *ngIf="isPreparedMode()" type="button" class="btn btn-sm btn-outline-success"
+                (click)="togglePrepararMagia.emit(i)">
+                <i class="fas fa-bookmark me-1"></i>
+                {{ isMagiaPreparada(magia) ? 'Remover preparo' : 'Preparar magia' }}
+              </button>
+
+              <div class="cast-controls">
+                <select class="form-select form-select-sm"
+                  [ngModel]="castingSlotSelection[i]"
+                  (ngModelChange)="castingSlotSelection[i] = $event"
+                  [disabled]="getSpellLevel(magia, expandedSpellDetails[i]) === 0">
+                  <option *ngFor="let slotLevel of getCastingSlotOptions(i, magia, expandedSpellDetails[i])" [ngValue]="slotLevel">
+                    {{ getSlotLabel(slotLevel) }}
+                  </option>
+                </select>
+                <button type="button" class="btn btn-sm btn-primary" (click)="onConjurar(i, magia, expandedSpellDetails[i])">
+                  <i class="fas fa-bolt me-1"></i>Conjurar
+                </button>
+              </div>
+            </div>
+
             <p class="spell-description" *ngIf="!expandedSpellDetails[i]">{{ getSpellDescription(magia, expandedSpellDetails[i]) }}</p>
 
             <div *ngIf="expandedSpellDetails[i]" class="spell-details-expanded mt-3">
@@ -111,6 +183,12 @@
                     <p class="mb-0 detail-value detail-text">{{ getSpellHigherLevel(magia, expandedSpellDetails[i]) }}</p>
                   </div>
                 </div>
+                <div class="col-md-6" *ngIf="getSpellDamageSummary(magia, expandedSpellDetails[i])">
+                  <div class="detail-box">
+                    <strong class="detail-label"><i class="fas fa-bolt me-2 text-primary"></i>Dado de Dano:</strong>
+                    <span class="detail-value">{{ getSpellDamageSummary(magia, expandedSpellDetails[i]) }}</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -141,6 +219,16 @@
                     <option [ngValue]="8">8</option>
                     <option [ngValue]="9">9</option>
                   </select>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="detail-box edit-detail-box">
+                  <label class="detail-label"><i class="fas fa-bolt me-2 text-primary"></i>Dado de Dano:</label>
+                  <input type="text" class="form-control" placeholder="Ex: 1d10 fire"
+                    [ngModel]="draft.damage_formula"
+                    (ngModelChange)="draft.damage_formula = $event">
+                  <small class="text-muted d-block mt-1">Se preenchido, este valor sera usado na conjuracao.</small>
                 </div>
               </div>
 
@@ -273,6 +361,10 @@
             <button type="button" class="btn btn-danger btn-sm w-100 mt-1" (click)="cancelarAdicionarMagia.emit()">
               <i class="fas fa-times"></i>
             </button>
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control form-control-sm" placeholder="Dado de dano (ex: 1d10 fire)"
+              [(ngModel)]="novaMagia.damage_formula">
           </div>
           <div class="col-md-3">
             <input type="text" class="form-control form-control-sm" placeholder="Escola (opcional)"

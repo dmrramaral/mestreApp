@@ -78,6 +78,26 @@ export class FichaJogadorService {
       },
       mochila: [],
       magias: [],
+      spellSlots: {
+        1: { total: 0, used: 0 },
+        2: { total: 0, used: 0 },
+        3: { total: 0, used: 0 },
+        4: { total: 0, used: 0 },
+        5: { total: 0, used: 0 },
+        6: { total: 0, used: 0 },
+        7: { total: 0, used: 0 },
+        8: { total: 0, used: 0 },
+        9: { total: 0, used: 0 }
+      },
+      spellcasting: {
+        classKey: '',
+        mode: 'known',
+        knownLimit: null,
+        preparedLimit: null,
+        preparedBonusCustom: 0,
+        preparedBonus: 0,
+        maxSpellLevel: 0
+      },
 
     };
   }

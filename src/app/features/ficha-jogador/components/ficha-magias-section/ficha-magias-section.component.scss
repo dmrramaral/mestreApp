@@ -3,6 +3,35 @@
   gap: 15px;
 }
 
+.spellcasting-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.summary-pill,
+.slot-chip {
+  font-size: 0.82rem;
+  border-radius: 999px;
+  padding: 6px 10px;
+  border: 1px solid #dbeafe;
+  background: #eff6ff;
+  color: #1e3a8a;
+}
+
+.slot-chip {
+  border-color: #dcfce7;
+  background: #f0fdf4;
+  color: #166534;
+}
+
+.spell-exception-config {
+  border: 1px dashed #cbd5e1;
+  border-radius: 10px;
+  padding: 10px;
+  background: #f8fafc;
+}
+
 .spell-item {
   background: #f7fafc;
   border-radius: 8px;
@@ -42,6 +71,24 @@
     color: #718096;
     margin: 0;
     font-size: 0.9rem;
+  }
+}
+
+.spell-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.cast-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+
+  .form-select {
+    min-width: 110px;
   }
 }
 
