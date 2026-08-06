@@ -24,6 +24,10 @@ export const routes: Routes = [
       loadComponent: () => import('./features/monstros/monstros.component').then(m => m.MonstrosComponent)
     },
     {
+      path: 'cards',
+      loadComponent: () => import('./features/cards/monster-cards.component').then(m => m.MonsterCardsComponent)
+    },
+    {
       path: 'ficha-jogador',
       loadComponent: () => import('./features/ficha-jogador/ficha-jogador.component').then(m => m.FichaJogadorComponent)
     },

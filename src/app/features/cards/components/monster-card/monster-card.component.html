@@ -1,0 +1,79 @@
+<article class="monster-card" [class.monster-card--print]="printMode">
+  <header class="monster-card__head">
+    <label *ngIf="!printMode" class="selector">
+      <input type="checkbox" [checked]="selected" (change)="onSelectionChange($event)" />
+      <span>Selecionar</span>
+    </label>
+
+    <div class="title-wrap">
+      <h3 class="monster-card__title">{{ monster.name }}</h3>
+      <p class="monster-card__meta">
+        {{ monster.size }} • {{ monster.type }} • {{ monster.alignment }} • CR {{ monster.challengeRating }}
+      </p>
+    </div>
+  </header>
+
+  <img *ngIf="monster.imageUrl" class="monster-card__image" [src]="monster.imageUrl" [alt]="monster.name" loading="lazy" />
+
+  <section class="monster-card__block">
+    <div class="combat-grid">
+      <div>
+        <span class="label">HP</span>
+        <strong>{{ monster.hitPoints }}</strong>
+      </div>
+      <div>
+        <span class="label">AC</span>
+        <strong>{{ monster.armorClass }}</strong>
+        <small>{{ monster.armorClassType }}</small>
+      </div>
+      <div>
+        <span class="label">Deslocamento</span>
+        <strong class="speed">{{ monster.speedText }}</strong>
+      </div>
+    </div>
+  </section>
+
+  <section class="monster-card__block">
+    <div class="stats-grid">
+      <div *ngFor="let stat of monster.stats" class="stat-item">
+        <span>{{ stat.label }}</span>
+        <strong>{{ stat.value }}</strong>
+        <small>{{ formatModifier(stat.modifier) }}</small>
+      </div>
+    </div>
+  </section>
+
+  <section class="monster-card__block" *ngIf="monster.savingThrows.length">
+    <h4>Salvaguardas</h4>
+    <p>{{ monster.savingThrows.join(', ') }}</p>
+  </section>
+
+  <section class="monster-card__block" *ngIf="monster.damageResistances.length || monster.damageImmunities.length || monster.damageVulnerabilities.length">
+    <h4>Defesas</h4>
+    <p *ngIf="monster.damageResistances.length"><strong>Resistências:</strong> {{ monster.damageResistances.join(', ') }}</p>
+    <p *ngIf="monster.damageImmunities.length"><strong>Imunidades:</strong> {{ monster.damageImmunities.join(', ') }}</p>
+    <p *ngIf="monster.damageVulnerabilities.length"><strong>Vulnerabilidades:</strong> {{ monster.damageVulnerabilities.join(', ') }}</p>
+  </section>
+
+  <section class="monster-card__block" *ngIf="monster.specialAbilities.length">
+    <h4>Habilidades Especiais</h4>
+    <ul>
+      <li *ngFor="let ability of monster.specialAbilities | slice:0:3">
+        <strong>{{ ability.name }}.</strong> {{ ability.desc }}
+      </li>
+    </ul>
+  </section>
+
+  <section class="monster-card__block" *ngIf="monster.combatActions.length">
+    <h4>Ações de Ataque</h4>
+    <ul>
+      <li *ngFor="let action of monster.combatActions | slice:0:3">
+        <strong>{{ action.name }}.</strong>
+        <span *ngIf="action.rangeText"> Alcance: {{ action.rangeText }}.</span>
+        <span *ngIf="action.attackBonusText"> Ataque: {{ action.attackBonusText }}.</span>
+        <span *ngIf="action.damageText"> Dano: {{ action.damageText }}.</span>
+        <div class="action-desc">{{ action.description }}</div>
+      </li>
+    </ul>
+  </section>
+</article>

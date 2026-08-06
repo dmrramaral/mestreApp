@@ -258,6 +258,28 @@ code {
   }
 }
 
+@media print {
+  @page {
+    size: A4;
+    margin: 8mm;
+  }
+
+  body.cards-print-mode {
+    background: #ffffff !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body.cards-print-mode app-header,
+  body.cards-print-mode .navbar,
+  body.cards-print-mode .offcanvas,
+  body.cards-print-mode app-footer,
+  body.cards-print-mode .footer,
+  body.cards-print-mode .pwa-install-banner {
+    display: none !important;
+  }
+}
+
 .nav-pills {
   .nav-link {
     color: var(--color-text-muted) !important;

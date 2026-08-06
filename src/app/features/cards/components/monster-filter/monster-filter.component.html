@@ -1,0 +1,59 @@
+<section class="filter-panel card shadow-sm">
+  <div class="card-body">
+    <div class="panel-head">
+      <div>
+        <h2 class="h5 mb-1">Filtros de Monster Cards</h2>
+        <p class="mb-0 text-muted">{{ filteredMonsters }} de {{ totalMonsters }} monstros exibidos</p>
+      </div>
+      <button type="button" class="btn btn-outline-warning btn-sm" (click)="clearFilters()">
+        <i class="fas fa-rotate-left me-1"></i>Limpar Filtros
+      </button>
+    </div>
+
+    <form [formGroup]="filterForm" class="row g-3 mt-1" autocomplete="off">
+      <div class="col-12 col-lg-4">
+        <label class="form-label">Busca por Nome</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="query"
+          placeholder="Ex: dragão, goblin, lich"
+        />
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-2">
+        <label class="form-label">CR Mínimo</label>
+        <input type="number" class="form-control" min="0" max="30" formControlName="crMin" />
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-2">
+        <label class="form-label">CR Máximo</label>
+        <input type="number" class="form-control" min="0" max="30" formControlName="crMax" />
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-2">
+        <label class="form-label">HP Mínimo</label>
+        <input type="number" class="form-control" min="0" formControlName="hpMin" placeholder="0" />
+      </div>
+
+      <div class="col-12 col-sm-6 col-lg-2">
+        <label class="form-label">HP Máximo</label>
+        <input type="number" class="form-control" min="0" formControlName="hpMax" placeholder="Sem limite" />
+      </div>
+
+      <div class="col-12">
+        <label class="form-label d-block">Tipos de Monstro</label>
+        <div class="type-chips">
+          <button
+            type="button"
+            *ngFor="let type of monsterTypes"
+            class="chip"
+            [class.chip--active]="isTypeSelected(type)"
+            (click)="toggleType(type)">
+            {{ type }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</section>

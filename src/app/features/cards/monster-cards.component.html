@@ -1,0 +1,58 @@
+<div class="monster-cards-page">
+  <header class="hero">
+    <div>
+      <h1>Monster Cards</h1>
+      <p>Galeria tática de monstros D&D 5e com filtros dinâmicos e impressão em folha A4.</p>
+    </div>
+
+    <div class="hero-actions">
+      <span class="selection" *ngIf="selectedCount > 0">{{ selectedCount }} selecionado(s)</span>
+      <button
+        type="button"
+        class="btn btn-warning"
+        [disabled]="!filteredMonsters.length"
+        (click)="printOrExportPdf()">
+        <i class="fas fa-file-pdf me-2"></i>Imprimir / Exportar PDF
+      </button>
+    </div>
+  </header>
+
+  <app-monster-filter
+    [monsterTypes]="monsterTypes"
+    [totalMonsters]="allMonsters.length"
+    [filteredMonsters]="filteredMonsters.length"
+    (filtersChange)="onFiltersChange($event)"
+    (clearRequested)="onClearRequested()">
+  </app-monster-filter>
+
+  <section *ngIf="isLoading" class="skeleton-grid" aria-label="Carregando monstros">
+    <article class="skeleton-card" *ngFor="let slot of [1,2,3,4,5,6,7,8,9]"></article>
+  </section>
+
+  <section *ngIf="!isLoading && loadError" class="alert alert-danger mt-3">
+    {{ loadError }}
+  </section>
+
+  <section *ngIf="!isLoading && !loadError && !filteredMonsters.length" class="empty-state">
+    <i class="fas fa-dragon"></i>
+    <h2>Nenhum monstro encontrado</h2>
+    <p>Ajuste os filtros para ampliar os resultados.</p>
+  </section>
+
+  <section *ngIf="!isLoading && !loadError && filteredMonsters.length" class="cards-grid screen-only">
+    <app-monster-card
+      *ngFor="let monster of filteredMonsters; trackBy: trackByMonster"
+      [monster]="monster"
+      [selected]="isCardSelected(monster.index)"
+      (selectedChange)="onCardSelectionChange(monster.index, $event)">
+    </app-monster-card>
+  </section>
+
+  <section class="print-area" *ngIf="printMonsters.length">
+    <app-monster-card
+      *ngFor="let monster of printMonsters; trackBy: trackByMonster"
+      [monster]="monster"
+      [printMode]="true">
+    </app-monster-card>
+  </section>
+</div>

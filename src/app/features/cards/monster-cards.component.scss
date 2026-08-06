@@ -1,0 +1,133 @@
+.monster-cards-page {
+  max-width: 1420px;
+  margin: 0 auto;
+  padding: 6.4rem 1rem 2rem;
+}
+
+.hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  border: 1px solid color-mix(in srgb, var(--cp-cyan) 36%, transparent);
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at left top, rgba(34, 211, 238, 0.2), transparent 40%),
+    radial-gradient(circle at right bottom, rgba(168, 85, 247, 0.2), transparent 45%),
+    linear-gradient(165deg, #0f182b, #090f1f);
+  padding: 1rem;
+}
+
+.hero h1 {
+  margin: 0;
+  color: #e8f8ff;
+}
+
+.hero p {
+  margin: 0.25rem 0 0;
+  color: #9ecfe2;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.selection {
+  color: var(--cp-cyan);
+  font-weight: 700;
+}
+
+.cards-grid {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 0.9rem;
+}
+
+.skeleton-grid {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 0.9rem;
+}
+
+.skeleton-card {
+  height: 410px;
+  border-radius: 14px;
+  border: 1px solid rgba(34, 211, 238, 0.18);
+  background: linear-gradient(110deg, rgba(19, 28, 47, 0.9) 8%, rgba(34, 211, 238, 0.16) 18%, rgba(19, 28, 47, 0.9) 33%);
+  background-size: 220% 100%;
+  animation: skeleton 1.2s linear infinite;
+}
+
+@keyframes skeleton {
+  to {
+    background-position-x: -220%;
+  }
+}
+
+.empty-state {
+  margin-top: 1rem;
+  border: 1px dashed rgba(34, 211, 238, 0.4);
+  border-radius: 14px;
+  text-align: center;
+  padding: 2rem 1rem;
+  color: var(--color-text-muted);
+}
+
+.empty-state i {
+  font-size: 2rem;
+  color: var(--cp-cyan);
+  margin-bottom: 0.7rem;
+}
+
+.print-area {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+  }
+
+  .hero-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .hero-actions button {
+    flex: 1;
+  }
+}
+
+@media print {
+  .monster-cards-page {
+    padding: 0;
+    margin: 0;
+    max-width: none;
+  }
+
+  .hero,
+  app-monster-filter,
+  .skeleton-grid,
+  .empty-state,
+  .screen-only,
+  .alert {
+    display: none !important;
+  }
+
+  .print-area {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8mm;
+    padding: 8mm;
+  }
+
+  .print-area app-monster-card {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
