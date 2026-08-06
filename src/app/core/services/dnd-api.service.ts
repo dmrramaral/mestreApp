@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, shareReplay } from 'rxjs';
 
@@ -13,6 +13,7 @@ export class DndApiService {
   private readonly BASE_URL = 'https://www.dnd5eapi.co/api/2024';
   private readonly BASE_URL_2014 = 'https://www.dnd5eapi.co/api/2014';
   private readonly OPEN5E_URL = 'https://api.open5e.com';
+  private readonly lang = 'pt-BR';
 
   // Cache para evitar requisições desnecessárias
   private abilityScoresCache$?: Observable<any>;
@@ -38,8 +39,9 @@ export class DndApiService {
    * Ex: Strength, Dexterity, Constitution, Intelligence, Wisdom, Charisma
    */
   getAbilityScores(): Observable<any> {
+     const params = new HttpParams().set('lang', this.lang);
     if (!this.abilityScoresCache$) {
-      this.abilityScoresCache$ = this.http.get(`${this.BASE_URL}/ability-scores`).pipe(
+      this.abilityScoresCache$ = this.http.get(`${this.BASE_URL}/ability-scores`, { params }).pipe(
         shareReplay(1)
       );
     }
@@ -59,7 +61,8 @@ export class DndApiService {
    */
   getAlignments(): Observable<any> {
     if (!this.alignmentsCache$) {
-      this.alignmentsCache$ = this.http.get(`${this.BASE_URL}/alignments`).pipe(
+      const params = new HttpParams().set('lang', this.lang);
+      this.alignmentsCache$ = this.http.get(`${this.BASE_URL}/alignments`, { params }).pipe(
         shareReplay(1)
       );
     }
@@ -79,7 +82,8 @@ export class DndApiService {
    */
   getConditions(): Observable<any> {
     if (!this.conditionsCache$) {
-      this.conditionsCache$ = this.http.get(`${this.BASE_URL}/conditions`).pipe(
+      const params = new HttpParams().set('lang', this.lang);
+      this.conditionsCache$ = this.http.get(`${this.BASE_URL}/conditions`, { params }).pipe(
         shareReplay(1)
       );
     }
@@ -99,7 +103,8 @@ export class DndApiService {
    */
   getDamageTypes(): Observable<any> {
     if (!this.damageTypesCache$) {
-      this.damageTypesCache$ = this.http.get(`${this.BASE_URL}/damage-types`).pipe(
+      const params = new HttpParams().set('lang', this.lang);
+      this.damageTypesCache$ = this.http.get(`${this.BASE_URL}/damage-types`, { params }).pipe(
         shareReplay(1)
       );
     }
@@ -118,7 +123,8 @@ export class DndApiService {
    */
   getEquipment(): Observable<any> {
     if (!this.equipmentCache$) {
-      this.equipmentCache$ = this.http.get(`${this.BASE_URL}/equipment`).pipe(
+      const params = new HttpParams().set('lang', this.lang);
+      this.equipmentCache$ = this.http.get(`${this.BASE_URL}/equipment`, { params }).pipe(
         shareReplay(1)
       );
     }
@@ -137,7 +143,8 @@ export class DndApiService {
    */
   getEquipmentCategories(): Observable<any> {
     if (!this.equipmentCategoriesCache$) {
-      this.equipmentCategoriesCache$ = this.http.get(`${this.BASE_URL}/equipment-categories`).pipe(
+      const params = new HttpParams().set('lang', this.lang);
+      this.equipmentCategoriesCache$ = this.http.get(`${this.BASE_URL}/equipment-categories`, { params }).pipe(
         shareReplay(1)
       );
     }
@@ -156,7 +163,8 @@ export class DndApiService {
    */
   getLanguages(): Observable<any> {
     if (!this.languagesCache$) {
-      this.languagesCache$ = this.http.get(`${this.BASE_URL}/languages`).pipe(
+      const params = new HttpParams().set('lang', this.lang);
+      this.languagesCache$ = this.http.get(`${this.BASE_URL}/languages`, { params }).pipe(
         shareReplay(1)
       );
     }
@@ -176,7 +184,8 @@ export class DndApiService {
    */
   getMagicSchools(): Observable<any> {
     if (!this.magicSchoolsCache$) {
-      this.magicSchoolsCache$ = this.http.get(`${this.BASE_URL}/magic-schools`).pipe(
+      const params = new HttpParams().set('lang', this.lang);
+      this.magicSchoolsCache$ = this.http.get(`${this.BASE_URL}/magic-schools`, { params }).pipe(
         shareReplay(1)
       );
     }
@@ -196,7 +205,8 @@ export class DndApiService {
    */
   getSkills(): Observable<any> {
     if (!this.skillsCache$) {
-      this.skillsCache$ = this.http.get(`${this.BASE_URL}/skills`).pipe(
+      const params = new HttpParams().set('lang', this.lang);
+      this.skillsCache$ = this.http.get(`${this.BASE_URL}/skills`, { params }).pipe(
         shareReplay(1)
       );
     }
@@ -215,7 +225,8 @@ export class DndApiService {
    */
   getWeaponMasteryProperties(): Observable<any> {
     if (!this.weaponMasteryPropertiesCache$) {
-      this.weaponMasteryPropertiesCache$ = this.http.get(`${this.BASE_URL}/weapon-mastery-properties`).pipe(
+      const params = new HttpParams().set('lang', this.lang);
+      this.weaponMasteryPropertiesCache$ = this.http.get(`${this.BASE_URL}/weapon-mastery-properties`, { params }).pipe(
         shareReplay(1)
       );
     }
@@ -235,7 +246,8 @@ export class DndApiService {
    */
   getWeaponProperties(): Observable<any> {
     if (!this.weaponPropertiesCache$) {
-      this.weaponPropertiesCache$ = this.http.get(`${this.BASE_URL}/weapon-properties`).pipe(
+      const params = new HttpParams().set('lang', this.lang);
+      this.weaponPropertiesCache$ = this.http.get(`${this.BASE_URL}/weapon-properties`, { params }).pipe(
         shareReplay(1)
       );
     }
@@ -246,7 +258,8 @@ export class DndApiService {
    * Obtém detalhes de uma propriedade de arma específica
    */
   getWeaponPropertyDetails(index: string): Observable<any> {
-    return this.http.get(`${this.BASE_URL}/weapon-properties/${index}`);
+    const params = new HttpParams().set('lang', this.lang);
+    return this.http.get(`${this.BASE_URL}/weapon-properties/${index}`, { params });
   }
 
   /**
@@ -254,8 +267,10 @@ export class DndApiService {
    * Ex: Barbarian, Bard, Cleric, etc.
    */
   getClasses(): Observable<any> {
+
     if (!this.classesCache$) {
-      this.classesCache$ = this.http.get(`${this.BASE_URL}/classes`).pipe(
+      const params = new HttpParams().set('lang', this.lang);
+      this.classesCache$ = this.http.get(`${this.BASE_URL}/classes`, { params }).pipe(
         shareReplay(1)
       );
     }
@@ -266,7 +281,8 @@ export class DndApiService {
    * Obtém detalhes de uma classe específica (2024 API)
    */
   getClassDetails(index: string): Observable<any> {
-    return this.http.get(`${this.BASE_URL}/classes/${index}`);
+    const params = new HttpParams().set('lang', this.lang);
+    return this.http.get(`${this.BASE_URL}/classes/${index}`, { params });
   }
 
   /**
@@ -274,8 +290,10 @@ export class DndApiService {
    * Ex: Dragonborn, Dwarf, Elf, etc.
    */
   getRaces(): Observable<any> {
+
     if (!this.racesCache$) {
-      this.racesCache$ = this.http.get(`${this.BASE_URL_2014}/races`).pipe(
+      const params = new HttpParams().set('lang', this.lang);
+      this.racesCache$ = this.http.get(`${this.BASE_URL_2014}/races`, { params }).pipe(
         shareReplay(1)
       );
     }
@@ -286,7 +304,8 @@ export class DndApiService {
    * Obtém detalhes de uma raça específica (2024 API)
    */
   getRaceDetails(index: string): Observable<any> {
-    return this.http.get(`${this.BASE_URL_2014}/races/${index}`);
+    const params = new HttpParams().set('lang', this.lang);
+    return this.http.get(`${this.BASE_URL_2014}/races/${index}`, { params });
   }
 
   /**
@@ -295,7 +314,8 @@ export class DndApiService {
    */
   getSpells(): Observable<any> {
     if (!this.spellsCache$) {
-      this.spellsCache$ = this.http.get(`${this.BASE_URL_2014}/spells`).pipe(
+      const params = new HttpParams().set('lang', this.lang);
+      this.spellsCache$ = this.http.get(`${this.BASE_URL_2014}/spells`, { params }).pipe(
         shareReplay(1)
       );
     }
@@ -309,28 +329,33 @@ export class DndApiService {
    */
   getSpellsWithFilters(level?: string, className?: string): Observable<any> {
     let url = `${this.BASE_URL_2014}/spells`;
-    const params: string[] = [];
+    const queryParams: string[] = [];
 
     if (level) {
-      params.push(`level=${level}`);
+      queryParams.push(`level=${level}`);
     }
 
     if (className) {
-      params.push(`class=${className.toLowerCase()}`);
+      queryParams.push(`class=${className.toLowerCase()}`);
     }
 
-    if (params.length > 0) {
-      url += '?' + params.join('&');
+    if (queryParams.length > 0) {
+      url += '?' + queryParams.join('&');
     }
 
-    return this.http.get(url);
+    const params = new HttpParams()
+      .set('lang', this.lang)
+      .set('level', level ?? '')
+      .set('class', className?.toLowerCase() ?? '');
+    return this.http.get(url, { params });
   }
 
   /**
    * Obtém detalhes de uma magia específica (2014 API)
    */
   getSpellDetails(index: string): Observable<any> {
-    return this.http.get(`${this.BASE_URL_2014}/spells/${index}`);
+    const params = new HttpParams().set('lang', this.lang);
+    return this.http.get(`${this.BASE_URL_2014}/spells/${index}`, { params });
   }
 
   /**
@@ -338,8 +363,10 @@ export class DndApiService {
    * Ex: Grappler, Actor, Alert, etc.
    */
   getFeats(): Observable<any> {
+
     if (!this.featsCache$) {
-      this.featsCache$ = this.http.get(`${this.BASE_URL}/feats`).pipe(
+      const params = new HttpParams().set('lang', this.lang);
+      this.featsCache$ = this.http.get(`${this.BASE_URL}/feats`, { params }).pipe(
         shareReplay(1)
       );
     }
@@ -350,7 +377,8 @@ export class DndApiService {
    * Obtém detalhes de um talento/feat específico (2014 API)
    */
   getFeatDetails(index: string): Observable<any> {
-    return this.http.get(`${this.BASE_URL}/feats/${index}`);
+    const params = new HttpParams().set('lang', this.lang);
+    return this.http.get(`${this.BASE_URL}/feats/${index}`, { params });
   }
 
   /**
@@ -358,26 +386,30 @@ export class DndApiService {
    * Retorna resultados paginados com informações completas
    */
   searchFeatsOpen5e(searchTerm: string = '', page: number = 1): Observable<any> {
-    const params: any = { page };
+    const httpParams = new HttpParams().set('lang', this.lang);
+
+    const queryParams: any = { page };
     if (searchTerm) {
-      params.search = searchTerm;
+      queryParams.search = searchTerm;
     }
-    const queryString = new URLSearchParams(params).toString();
-    return this.http.get(`${this.OPEN5E_URL}/feats/?${queryString}`);
+    const queryString = new URLSearchParams(queryParams).toString();
+    return this.http.get(`${this.OPEN5E_URL}/feats/?${queryString}`, { params: httpParams });
   }
 
   /**
    * Obtém detalhes de um talento específico da Open5e API
    */
   getFeatDetailsOpen5e(slug: string): Observable<any> {
-    return this.http.get(`${this.OPEN5E_URL}/feats/${encodeURIComponent(slug)}/`);
+    const params = new HttpParams().set('lang', this.lang);
+    return this.http.get(`${this.OPEN5E_URL}/feats/${encodeURIComponent(slug)}/`, { params });
   }
 
   /**
    * Obtém todos os talentos da Open5e API (paginado)
    */
   getFeatsOpen5e(page: number = 1): Observable<any> {
-    return this.http.get(`${this.OPEN5E_URL}/feats/?page=${page}`);
+    const httpParams = new HttpParams().set('lang', this.lang);
+    return this.http.get(`${this.OPEN5E_URL}/feats/?page=${page}`, { params: httpParams });
   }
 
   /**
